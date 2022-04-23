@@ -4,11 +4,10 @@ on: [push]
 
 env:
    MIRROR_URL: "$REPO"
-   EXECUTABLES: "$EXECUTABLES"
+   EXECUTABLES: "42sh"
 
 jobs:
   check_repository_cleanliness:
-    name: Checks if the repository is clean and void of any unwanted files (temp files, binary files, etc.)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
