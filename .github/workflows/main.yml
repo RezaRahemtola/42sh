@@ -14,11 +14,10 @@ jobs:
       - uses: actions/checkout@v3
       - run: find -name "#*#" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
       - run: find -name "*~" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
-      - run: find -iname "*pain_au_chocolat*" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
       - run: find -regextype posix-extended -regex '.*\.(o|a|so|gcno|gcda)' -exec echo "::error file={},title="Unwanted file detected"::{}" \;
       - run: find -path "*/tmp/*" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
       - name: Making the job fail if any unwanted file is detected
-        run: find -name "#*#" -o -name "*~" -o -iname "*pain_au_chocolat*" -o -regextype posix-extended -regex '.*\.(o|a|so|gcno|gcda)' -o -path "*/tmp/*" | (! grep -q .)
+        run: find -name "#*#" -o -name "*~" -o -regextype posix-extended -regex '.*\.(o|a|so|gcno|gcda)' -o -path "*/tmp/*" | (! grep -q .)
 
   check_program_compilation:
     runs-on: ubuntu-latest
