@@ -9,3 +9,4 @@ CMakeLists.txt
 *.gcno
 cmake-build-debug/
 .idea/
+.vscode/
