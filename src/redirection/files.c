@@ -72,7 +72,7 @@ bool open_output_redirection(command_t *command)
     } else {
         flags = O_CREAT | O_WRONLY | O_APPEND;
     }
-    fd = open(command->info_out, flags, 0755);
+    fd = open(command->info_out, flags, 0664);
     if (fd == -1) {
         my_dprintf(2, "%s: %s.\n", command->info_out, strerror(errno));
         return (false);
