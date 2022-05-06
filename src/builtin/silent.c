@@ -44,7 +44,7 @@ void silent_setenv(varenv_t **env, char **args, minishell_t *shell)
 {
     int size = my_arraylen(args);
 
-    if (size > 3) {
+    if (size > 3 || (size >= 2 && !my_char_isalpha(args[1][0]))) {
         shell->ret = 1;
     } else if (size == 1) {
         shell->ret = 0;

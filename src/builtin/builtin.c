@@ -13,6 +13,7 @@
 #include "my_arrays.h"
 #include "my_math.h"
 #include "my.h"
+#include "my_string.h"
 #include "varenv.h"
 
 void builtin_exit(varenv_t **env, char **args)
@@ -44,9 +45,14 @@ void builtin_setenv(varenv_t **env, char **args)
 
     if (size > 3) {
         my_dprintf(2, "setenv: Too many arguments.\n");
-    } else if (size == 1) {
-        print_env(*env);
+        return;
     }
+    if (size >= 2 && !my_char_isalpha(args[1][0])) {
+        my_dprintf(2, "setenv: Variable name must begin with a letter.\n");
+        return;
+    }
+    if (size == 1)
+        print_env(*env);
 }
 
 void builtin_unsetenv(varenv_t **env, char **args)

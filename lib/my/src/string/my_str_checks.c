@@ -37,14 +37,11 @@ bool my_str_isnum(char const *str)
     return (true);
 }
 
-bool my_str_isprintable(char const *str)
+bool my_char_isalpha(char c)
 {
-    for (int i = 0; str[i] != '\0'; i++) {
-        if (str[i] < 32 || str[i] == 127) {
-            return (false);
-        }
-    }
-    return (true);
+    if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+        return (true);
+    return (false);
 }
 
 bool my_str_isupper(char const *str)

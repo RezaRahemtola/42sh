@@ -25,7 +25,7 @@ bool my_str_starts(char const *str, char const *pattern);
 bool my_str_isalpha(char const *str);
 bool my_str_islower(char const *str);
 bool my_str_isnum(char const *str);
-bool my_str_isprintable(char const *str);
+bool my_char_isalpha(char c);
 bool my_str_isupper(char const *str);
 
 
