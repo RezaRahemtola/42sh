@@ -58,6 +58,7 @@ jobs:
       - check_program_compilation
 
   push_to_mirror:
+    name: Push to Epitech repository
     runs-on: ubuntu-latest
     if: ${{ github.event_name }} == "push"
     steps:
