@@ -79,6 +79,6 @@ tests_run:
 	./$(TEST)
 
 tests_func: all
-	python tests/tester.py -ad
+			python3 tests/tester.py -ad
 
 .PHONY: all clean fclean re tests_run
