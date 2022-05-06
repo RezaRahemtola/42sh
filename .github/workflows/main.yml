@@ -55,7 +55,7 @@ jobs:
       - run: make tests_func
         timeout-minutes: 2
     needs:
-      - run_unit_tests
+      - check_program_compilation
 
   push_to_mirror:
     runs-on: ubuntu-latest
@@ -71,4 +71,5 @@ jobs:
           ssh_private_key:
             ${{ secrets.GIT_SSH_PRIVATE_KEY }}
     needs:
+      - run_unit_tests
       - run_functional_tests
