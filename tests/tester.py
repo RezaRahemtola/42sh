@@ -26,8 +26,8 @@ if __name__ == "__main__":
         name = test["name"]
         if (tcsh.stdout not in mysh.stdout) or (tcsh.stderr not in mysh.stderr):
             if debug:
-                print(f"TCSH_out:{tcsh.stdout}\nMYSH_out:{mysh.stdout}")
-                print(f"TCSH_err:{tcsh.stderr}\nMYSH_err:{mysh.stderr}")
+                print(f"TCSH_out:{tcsh.stdout}\n42sh_out:{mysh.stdout}")
+                print(f"TCSH_err:{tcsh.stderr}\n42sh_err:{mysh.stderr}")
             failed += 1
             print(colored(f'Test "{name}" failed.', "red"))
         else:
