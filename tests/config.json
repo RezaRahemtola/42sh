@@ -1,0 +1,212 @@
+{
+    "tests" : [
+        {
+            "name": "errors - Unknown command",
+            "command": "nocommand"
+        },
+        {
+            "name": "errors - Permission denied",
+            "command": "tests/samples/perms_denied"
+        },
+        {
+            "name": "errors - Segfault (core dumped)",
+            "command": "tests/samples/segfault_coredumped"
+        },
+        {
+            "name": "errors - Division by 0",
+            "command": "tests/samples/div_zero"
+        },
+        {
+            "name": "ls - simple",
+            "command": "ls"
+        },
+        {
+            "name": "ls - with option",
+            "command": "ls -la"
+        },
+        {
+            "name": "ls - complicated",
+            "command": "ls -la /dev"
+        },
+        {
+            "name": "ls - with spaces",
+            "command": "   ls   -la    /dev            "
+        },
+        {
+            "name": "ls - with spaces and tabs",
+            "command": "\t   ls  \t -la  \t  /dev      \t      "
+        },
+        {
+            "name": "ls - Inexistant file",
+            "command": "ls nofile"
+        },
+        {
+            "name": "cd - simple",
+            "command": "cd /"
+        },
+        {
+            "name": "cd - Too many arguments",
+            "command": "cd / / / / /"
+        },
+        {
+            "name": "cd - Inexistant directory",
+            "command": "cd /nothing"
+        },
+        {
+            "name": "cd - Not a directory",
+            "command": "cd config.json"
+        },
+        {
+            "name": "setenv - simple",
+            "command": "setenv var val"
+        },
+        {
+            "name": "setenv - Too many arguments",
+            "command": "setenv too many arguments"
+        },
+        {
+            "name": "setenv - Var starting with non-letter char",
+            "command": "setenv 1var val"
+        },
+        {
+            "name": "setenv - Var with non-alphanum chars",
+            "command": "setenv va#r val"
+        },
+        {
+            "name": "unsetenv - simple",
+            "command": "unsetenv PATH"
+        },
+        {
+            "name": "unsetenv - No argument",
+            "command": "unsetenv"
+        },
+        {
+            "name": "unsetenv - simple all",
+            "command": "unsetenv *"
+        },
+        {
+            "name": "unsetenv - complex all",
+            "command": "unsetenv PATH * notAvar"
+        },
+        {
+            "name": "exit - simple",
+            "command": "exit"
+        },
+        {
+            "name": "exit - with value",
+            "command": "exit 42"
+        },
+        {
+            "name": "exit - Too many arguments",
+            "command": "exit 42 42"
+        },
+        {
+            "name": "exit - Value > 256",
+            "command": "exit 298"
+        },
+        {
+            "name": "exit - Non integer value",
+            "command": "exit NaN"
+        },
+        {
+            "name": "exit - Badly formed number",
+            "command": "exit 42NaN"
+        },
+        {
+            "name": "semicolon - simple",
+            "command": "ls -la; cat Makefile"
+        },
+        {
+            "name": "semicolon - exit in the middle",
+            "command": "ls -la; exit 42; cat Makefile"
+        },
+        {
+            "name": "semicolon - without first",
+            "command": "; cat Makefile"
+        },
+        {
+            "name": "semicolon - without last",
+            "command": "ls -la; "
+        },
+        {
+            "name": "semicolon - empty",
+            "command": ";; ;    ; \t ;"
+        },
+        {
+            "name": "redir - (>) simple",
+            "command": "ls -la > output.txt ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>) options after",
+            "command": "ls > output.txt -la ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>) beginning of str",
+            "command": "> output.txt ls -la ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>) no filename",
+            "command": "ls -la >"
+        },
+        {
+            "name": "redir - (>) permission denied",
+            "command": "echo test > /etc/sudoers"
+        },
+        {
+            "name": "redir - (>>) simple",
+            "command": "echo lol > output.txt ; ls -la >> output.txt ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>>) options after",
+            "command": "echo test > output.txt ; ls -a >> output.txt --list ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>>) beginning of str",
+            "command": "> output.txt echo test ; >> output.txt ls -la ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>>) no filename",
+            "command": "echo test >>  \t "
+        },
+        {
+            "name": "redir - (>>) permission denied",
+            "command": "echo test >> /etc/sudoers"
+        },
+        {
+            "name": "redir - (<) simple",
+            "command": "grep my < Makefile"
+        },
+        {
+            "name": "redir - (<) options after",
+            "command": "grep my < Makefile -i"
+        },
+        {
+            "name": "redir - (<) beginning of str",
+            "command": "< Makefile grep my -i"
+        },
+        {
+            "name": "redir - (<) no filename",
+            "command": "grep test < \t "
+        },
+        {
+            "name": "redir - (<) permission denied",
+            "command": "grep root < /etc/sudoers"
+        },
+        {
+            "name": "redir - (<<) no string",
+            "command": "grep test <<  \t "
+        },
+        {
+            "name": "pipes - no right",
+            "command": "cat -e Makefile |"
+        },
+        {
+            "name": "pipes - no left",
+            "command": "| grep test"
+        },
+        {
+            "name": "pipes - no commands",
+            "command": "|"
+        }
+    ]
+}

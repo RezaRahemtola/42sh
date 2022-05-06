@@ -1,0 +1,11 @@
+42sh
+unit_tests
+CMakeLists.txt
+#*#
+*~
+*.a
+*.o
+*.gcda
+*.gcno
+cmake-build-debug/
+.idea/
