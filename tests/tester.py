@@ -35,3 +35,4 @@ if __name__ == "__main__":
             if disp_all:
                 print(colored(f'Test "{name}" passed.', "green"))
     print(f"Ran {failed + passed} tests ({passed} passed and {failed} failed).")
+    exit(failed)
