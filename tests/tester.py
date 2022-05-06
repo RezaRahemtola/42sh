@@ -21,7 +21,7 @@ if __name__ == "__main__":
     debug = True if (len(argv) == 2 and "d" in argv[1]) else False
 
     for test in json_data["tests"]:
-        mysh = run_command(test["command"], "./mysh")
+        mysh = run_command(test["command"], "./42sh")
         tcsh = run_command(test["command"], "tcsh")
         name = test["name"]
         if (tcsh.stdout not in mysh.stdout) or (tcsh.stderr not in mysh.stderr):
