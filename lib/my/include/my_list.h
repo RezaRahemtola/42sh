@@ -28,4 +28,3 @@ void my_list_remove_index(list_t **list, int index, free_func free_func);
 
 int my_list_size(list_t *list);
 bool my_list_contains(list_t *list, void *data, equals_func eq_func);
-void my_free_list(list_t *list, free_func free_func);
