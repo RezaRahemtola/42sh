@@ -102,7 +102,7 @@ Test(error, shell_exit, .init=cr_redirect_stderr)
 
 Test(error, segmentation_fault, .init=cr_redirect_stderr)
 {
-    char *input = "./tests/bin/segmentation_fault\n";
+    char *input = "./tests/samples/segfault_coredumped\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
@@ -114,7 +114,7 @@ Test(error, segmentation_fault, .init=cr_redirect_stderr)
 
 Test(error, floating_exception, .init=cr_redirect_stderr)
 {
-    char *input = "./tests/bin/division_zero\n";
+    char *input = "./tests/samples/div_zero\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
@@ -126,14 +126,14 @@ Test(error, floating_exception, .init=cr_redirect_stderr)
 
 Test(error, corrupted, .init=cr_redirect_stderr)
 {
-    char *input = "./tests/bin/corrupted\n";
+    char *input = "./tests/samples/corrupted\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
     env->key = "PATH";
     env->value = "/bin";
     handle_input(input, &env, &shell);
-    cr_assert_stderr_eq_str("./tests/bin/corrupted: Exec format error.\n");
+    cr_assert_stderr_eq_str("./tests/samples/corrupted: Exec format error.\n");
 }
 
 Test(signal, sigquit, .init=cr_redirect_stdout)
