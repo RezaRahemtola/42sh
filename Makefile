@@ -5,35 +5,37 @@
 ## Makefile
 ##
 
-SRC			=	src/minishell.c \
-				src/builtin/builtin.c \
-				src/builtin/directories.c \
-				src/builtin/home.c \
-				src/builtin/silent.c \
-				src/builtin/silent_dirs.c \
-				src/command/errors.c \
-				src/command/execution.c \
-				src/command/executor.c \
-				src/command/input.c \
-				src/command/output.c \
-				src/command/parsing.c \
-				src/command/paths.c \
-				src/command/redirections.c \
-				src/command/signal.c \
-				src/redirection/files.c \
-				src/redirection/pipes.c \
-				src/util/lists.c \
-				src/util/pidlists.c \
-				src/util/splitter.c \
-				src/util/strings.c \
-				src/varenv/environment.c \
-				src/varenv/varenv.c \
-				src/varenv/variables.c
+SRC_DIR		= 	src/
 
-MAIN		=	src/main.c
+SRC			=	minishell.c \
+				builtin/builtin.c \
+				builtin/directories.c \
+				builtin/home.c \
+				builtin/silent.c \
+				builtin/silent_dirs.c \
+				command/errors.c \
+				command/execution.c \
+				command/executor.c \
+				command/input.c \
+				command/output.c \
+				command/parsing.c \
+				command/paths.c \
+				command/redirections.c \
+				command/signal.c \
+				redirection/files.c \
+				redirection/pipes.c \
+				util/lists.c \
+				util/pidlists.c \
+				util/splitter.c \
+				util/strings.c \
+				varenv/environment.c \
+				varenv/varenv.c \
+				varenv/variables.c
 
-OBJ			=	$(SRC:.c=.o) \
-				$(MAIN:.c=.o)
+MAIN		=	main.c
+
+OBJ			=	$(addprefix $(SRC_DIR), $(SRC:.c=.o)) \
+				$(addprefix $(SRC_DIR), $(MAIN:.c=.o))
 
 NAME		=	42sh
 INC			=	include/
@@ -45,38 +47,38 @@ TESTS		=	tests/test_minishell.c \
 				tests/test_redirections.c
 
 CC			=	gcc
-CPPFLAGS	=	-iquote $(INC) -iquote $(LIBINC)
 CFLAGS		=	-Wall -Wextra
+CPPFLAGS	=	-iquote $(INC) -iquote $(LIBINC)
 LDLIBS		=	-lmy
 LDFLAGS		=	-L lib/my/
 TESTFLAGS	=	--coverage -lcriterion
 ALLFLAGS	=	$(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(LDLIBS)
 
-all: $(NAME)
+all: 		$(NAME)
 
-$(NAME): $(OBJ)
-	make -C lib/my/
-	$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(LDLIBS)
+$(NAME): 	$(OBJ)
+			make -C lib/my/
+			$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(LDLIBS)
 
 clean:
-	make clean -C lib/my/
-	$(RM) $(OBJ)
-	$(RM) *.gcda
-	$(RM) *.gcno
+			make clean -C lib/my/
+			$(RM) $(OBJ)
+			$(RM) *.gcda
+			$(RM) *.gcno
 
-fclean:	clean
-	make fclean -C lib/my/
-	$(RM) $(NAME)
-	$(RM) $(TEST)
+fclean:		clean
+			make fclean -C lib/my/
+			$(RM) $(NAME)
+			$(RM) $(TEST)
 
-re:	fclean all
+re:			fclean all
 
 tests_run:
-	$(RM) *.gcda
-	$(RM) *.gcno
-	make -C lib/my/
-	$(CC) -o $(TEST) $(SRC) $(TESTS) $(TESTFLAGS) $(ALLFLAGS)
-	./$(TEST)
+			$(RM) *.gcda
+			$(RM) *.gcno
+			make -C lib/my/
+			$(CC) -o $(TEST) $(SRC) $(TESTS) $(TESTFLAGS) $(ALLFLAGS)
+			./$(TEST)
 
 tests_func: all
 			@python3 -m pip install termcolor
