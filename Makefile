@@ -1,6 +1,6 @@
 ##
-## EPITECH PROJECT, 2021
-## minishell2
+## EPITECH PROJECT, 2022
+## 42sh
 ## File description:
 ## Makefile
 ##
@@ -41,7 +41,8 @@ NAME		=	42sh
 INC			=	include/
 LIBINC		=	lib/my/include/
 
-TEST		=	unit_tests
+TEST_NAME	=	unit_tests
+TESTED		=	$(addprefix $(SRC_DIR), $(SRC))
 TESTS		=	tests/test_minishell.c \
 				tests/test_builtin.c \
 				tests/test_redirections.c
@@ -77,8 +78,8 @@ tests_run:
 			$(RM) *.gcda
 			$(RM) *.gcno
 			make -C lib/my/
-			$(CC) -o $(TEST) $(SRC) $(TESTS) $(TESTFLAGS) $(ALLFLAGS)
-			./$(TEST)
+			$(CC) -o $(TEST_NAME) $(TESTED) $(TESTS) $(TESTFLAGS) $(ALLFLAGS)
+			./$(TEST_NAME)
 
 tests_func: all
 			@python3 -m pip install termcolor
