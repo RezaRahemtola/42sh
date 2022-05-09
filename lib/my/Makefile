@@ -6,9 +6,6 @@
 ##
 
 SRC		=	src/array/my_arrays.c \
-			src/array/my_show_word_array.c \
-			src/array/my_sort_int_array.c \
-			src/array/my_sort_string_array.c \
 			src/list/my_list_add.c \
 			src/list/my_list_operations.c \
 			src/list/my_list_remove.c \
