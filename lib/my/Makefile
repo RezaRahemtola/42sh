@@ -9,16 +9,6 @@ SRC		=	src/array/my_arrays.c \
 			src/array/my_show_word_array.c \
 			src/array/my_sort_int_array.c \
 			src/array/my_sort_string_array.c \
-			src/inf/my_inf_checks.c \
-			src/inf/my_inf_getnbr.c \
-			src/inf/my_inf_getnbr_base.c \
-			src/inf/my_inf_operations.c \
-			src/inf/my_inf_parsenbr_base.c \
-			src/inf/my_infinadd.c \
-			src/inf/my_infindiv.c \
-			src/inf/my_infinmod.c \
-			src/inf/my_infinmult.c \
-			src/inf/my_infinsub.c \
 			src/list/my_list_add.c \
 			src/list/my_list_operations.c \
 			src/list/my_list_remove.c \
@@ -66,13 +56,6 @@ NAME	=	libmy.a
 
 INC		=	include/
 
-TEST	=	unit_tests
-TESTS	=	tests/test_array.c \
-			tests/test_inf.c \
-			tests/test_lib.c \
-			tests/test_math.c \
-			tests/test_printf.c
-
 AR		=	ar rc
 CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Wpedantic
@@ -96,15 +79,8 @@ fclean: clean
 install: fclean
 	$(RM) -r .git/
 	$(RM) -r .idea/
-	$(RM) -r tests
 	$(RM) .gitignore
 
 re:     fclean all
 
-tests_run:
-	$(RM) *.gcda
-	$(RM) *.gcno
-	$(CC) -o $(TEST) $(SRC) $(TESTS) $(CPPFLAGS) $(CFLAGS) $(TESTFLAGS)
-	./$(TEST)
-
-.PHONY: all clean fclean install re tests_run
+.PHONY: all clean fclean install re
