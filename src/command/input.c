@@ -6,6 +6,7 @@
 */
 
 #include <stddef.h>
+#include <string.h>
 #include "messages.h"
 #include "my_string.h"
 #include "my.h"
@@ -13,7 +14,7 @@
 
 static bool check_null_ambiguous(command_t *command, char **array, int index)
 {
-    if (array[index + 1] == NULL || my_strlen(array[index + 1]) == 0) {
+    if (array[index + 1] == NULL || strlen(array[index + 1]) == 0) {
         my_dprintf(2, "%s\n", MISSING_NAME);
         return (false);
     } else if (command->separator_in != NO_IN) {
@@ -35,7 +36,7 @@ varenv_t *env)
     sub = my_strsplit_many(array[index + 1], " \t");
     if (sub == NULL) {
         return (false);
-    } else if (sub[0] == NULL || my_strlen(sub[0]) == 0) {
+    } else if (sub[0] == NULL || strlen(sub[0]) == 0) {
         my_dprintf(2, "%s\n", MISSING_NAME);
         my_free_arrays(1, sub);
         return (false);
@@ -58,7 +59,7 @@ varenv_t *env)
     sub = my_strsplit_many(array[index + 1], " \t");
     if (sub == NULL) {
         return (false);
-    } else if (sub[0] == NULL || my_strlen(sub[0]) == 0) {
+    } else if (sub[0] == NULL || strlen(sub[0]) == 0) {
         my_dprintf(2, "%s\n", MISSING_NAME);
         my_free_arrays(1, sub);
         return (false);

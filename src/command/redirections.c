@@ -27,7 +27,7 @@ static bool check_redirection(command_t *command, varenv_t *env)
             return (false);
         }
     }
-    if ((command->args[0] == NULL || my_strlen(command->args[0]) == 0)) {
+    if ((command->args[0] == NULL || strlen(command->args[0]) == 0)) {
         my_dprintf(2, "%s\n", MISSING_COMMAND);
         return (false);
     }
@@ -41,7 +41,7 @@ bool check_redirections(command_t *list, minishell_t *shell, varenv_t *env)
     command_t *current = list;
 
     while (current != NULL) {
-        empty = (current->args[0] == NULL || my_strlen(current->args[0]) == 0);
+        empty = (current->args[0] == NULL || strlen(current->args[0]) == 0);
         if (!empty && !check_redirection(current, env)) {
             shell->ret = 1;
             return (false);

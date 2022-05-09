@@ -6,13 +6,14 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
 #include "minishell.h"
 #include "my_string.h"
 #include "my.h"
 
 char *extract_key(char const *var)
 {
-    int size = my_strlen(var);
+    int size = strlen(var);
 
     for (int i = 0; i < size; i++) {
         if (var[i] == '=') {
@@ -24,7 +25,7 @@ char *extract_key(char const *var)
 
 char *extract_value(char const *var)
 {
-    int size = my_strlen(var);
+    int size = strlen(var);
 
     for (int i = 0; i < size; i++) {
         if (var[i] == '=') {

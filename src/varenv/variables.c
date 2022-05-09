@@ -6,13 +6,14 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
 #include "my_string.h"
 #include "my.h"
 #include "varenv.h"
 
 static int is_alphanumeric(char *str)
 {
-    int size = my_strlen(str);
+    int size = strlen(str);
     int number = 0;
     int lower = 0;
     int upper = 0;

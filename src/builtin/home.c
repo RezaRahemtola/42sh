@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <string.h>
 #include "builtin.h"
 #include "minishell.h"
 #include "my_string.h"
@@ -21,7 +22,7 @@ void handle_home(varenv_t **env, char *path)
 
     if (home == NULL) {
         my_dprintf(2, "No $home variable set.\n");
-    } else if (my_strlen(path) == 1) {
+    } else if (strlen(path) == 1) {
         change_home(env);
     } else {
         result = my_strrep(path, "~", home->value);
@@ -52,7 +53,7 @@ char *current)
 
     if (home == NULL) {
         shell->ret = 1;
-    } else if (my_strlen(path) == 1) {
+    } else if (strlen(path) == 1) {
         s_change_home(env, shell, current);
     } else {
         result = my_strrep(path, "~", home->value);

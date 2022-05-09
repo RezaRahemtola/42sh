@@ -7,8 +7,8 @@
 
 #include <sys/stat.h>
 #include <unistd.h>
+#include <string.h>
 #include "minishell.h"
-#include "my_string.h"
 #include "my.h"
 #include "varenv.h"
 
@@ -27,7 +27,7 @@ int check_directory(char *path)
 
 void handle_cd(varenv_t **env, char *path)
 {
-    int size = my_strlen(path);
+    int size = strlen(path);
 
     if (size > 0 && path[0] == '-') {
         handle_prev(env, path);
@@ -42,7 +42,7 @@ void handle_prev(varenv_t **env, char *path)
 {
     varenv_t *oldpwd = varenv_get(*env, "OLDPWD");
 
-    if (my_strlen(path) > 1) {
+    if (strlen(path) > 1) {
         my_dprintf(2, "Usage: cd [-plvn][-|<dir>].\n");
     } else if (oldpwd == NULL) {
         my_dprintf(2, ": No such file or directory.\n");

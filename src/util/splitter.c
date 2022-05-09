@@ -6,6 +6,7 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
 #include "minishell.h"
 #include "my_string.h"
 #include "redirections.h"
@@ -31,7 +32,7 @@ static int count_redirections(char *str, int size)
         redirect = get_redirection(str, i);
         if (redirect.type != NULL) {
             count += 2;
-            i += my_strlen(redirect.type) - 1;
+            i += strlen(redirect.type) - 1;
         }
     }
     return (count);
@@ -39,7 +40,7 @@ static int count_redirections(char *str, int size)
 
 static void append_end(char **array, char *input, int pattern, int index)
 {
-    int size = my_strlen(input);
+    int size = strlen(input);
     char *end = my_substr_size(input, pattern, size, size);
 
     array[index] = end;
@@ -50,7 +51,7 @@ char **split_redirections(char *input)
 {
     int index = 0;
     int pattern = 0;
-    int size = my_strlen(input);
+    int size = strlen(input);
     int count = count_redirections(input, size);
     redirection_t redirect = { 0, 0 };
     char **array = malloc(sizeof(char *) * (count + 1));
@@ -60,9 +61,9 @@ char **split_redirections(char *input)
         if (redirect.type != NULL) {
             array[index] = my_substr_size(input, pattern, i, size);
             array[index + 1] = my_strdup(redirect.type);
-            pattern = i + my_strlen(redirect.type);
+            pattern = i + strlen(redirect.type);
             index += 2;
-            i += my_strlen(redirect.type) - 1;
+            i += strlen(redirect.type) - 1;
         }
     }
     append_end(array, input, pattern, index);

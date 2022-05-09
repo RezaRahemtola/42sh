@@ -6,6 +6,7 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
 #include "messages.h"
 #include "minishell.h"
 #include "my_string.h"
@@ -57,7 +58,7 @@ static bool is_command_valid(command_t **list, varenv_t *env, char *str, int i)
 
 static bool parse_command(command_t **list, varenv_t *env, char *input)
 {
-    int size = my_strlen(input);
+    int size = strlen(input);
     char **array = my_strsplit(input, '|');
 
     if (array == NULL) {
@@ -93,7 +94,7 @@ static void pipe_and_exec(command_t *cmd, varenv_t **env, minishell_t *shell)
 void handle_input(char *input, varenv_t **env, minishell_t *shell)
 {
     command_t *list = NULL;
-    int size = my_strlen(input);
+    int size = strlen(input);
     char *line = my_substr_size(input, 0, size - 1, size);
     char **array = my_strsplit(line, ';');
 

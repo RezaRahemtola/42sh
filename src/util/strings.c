@@ -7,6 +7,7 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <string.h>
 #include "minishell.h"
 #include "my_string.h"
 
@@ -14,7 +15,7 @@ char *get_next_argument(char *str, int index)
 {
     bool text = false;
     bool out = false;
-    int size = my_strlen(str);
+    int size = strlen(str);
     int i = index;
 
     for (i = index; i < size && !out; i++) {
@@ -28,8 +29,8 @@ char *get_next_argument(char *str, int index)
 
 bool is_command_empty(command_t *command)
 {
-    int input = my_strlen(command->input);
+    int input = strlen(command->input);
     char *first = command->args[0];
 
-    return (input == 0 || first == NULL || my_strlen(first) == 0);
+    return (input == 0 || first == NULL || strlen(first) == 0);
 }

@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include "my_arrays.h"
 #include "my_string.h"
 #include "my.h"
@@ -19,7 +20,7 @@ static char *explore_path(varenv_t *path, char *bin)
     char *line = NULL;
 
     for (int i = 0; i < size; i++) {
-        line = (array[i][my_strlen(array[i]) - 1] == '/' ? "" : "/");
+        line = (array[i][strlen(array[i]) - 1] == '/' ? "" : "/");
         line = my_stringf("%s%s%s", array[i], line, bin);
         if (access(line, F_OK) == 0) {
             my_free_arrays(1, array);
