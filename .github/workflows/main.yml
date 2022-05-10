@@ -8,6 +8,7 @@ env:
 
 jobs:
   check_repository_cleanliness:
+    name: Check repository cleanliness
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -19,6 +20,7 @@ jobs:
         run: find -name "#*#" -o -name "*~" -o -regextype posix-extended -regex '.*\.(o|a|so|gcno|gcda)' -o -path "*/tmp/*" | (! grep -q .)
 
   check_program_compilation:
+    name: Check compilation
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     steps:
@@ -33,7 +35,8 @@ jobs:
     needs:
       - check_repository_cleanliness
 
-  run_tests:
+  run_unit_tests:
+    name: Run unit tests
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     steps:
@@ -43,7 +46,19 @@ jobs:
     needs:
       - check_program_compilation
 
+  run_functional_tests:
+    name: Run functional tests
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - uses: actions/checkout@v3
+      - run: make tests_func
+        timeout-minutes: 2
+    needs:
+      - check_program_compilation
+
   push_to_mirror:
+    name: Push to Epitech repository
     runs-on: ubuntu-latest
     if: ${{ github.event_name }} == "push"
     steps:
@@ -57,4 +72,5 @@ jobs:
           ssh_private_key:
             ${{ secrets.GIT_SSH_PRIVATE_KEY }}
     needs:
-      - run_tests
+      - run_unit_tests
+      - run_functional_tests

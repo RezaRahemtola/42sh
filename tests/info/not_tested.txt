@@ -1,0 +1,19 @@
+No tests on:
+
+src/builtin/builtin.c: L89-90-91-92 (1 branch 3 lines)
+Cannot simulate getcwd error
+
+src/builtin/home.c: L44 (1 branch)
+Cannot simulate chdir error
+
+src/command/execution.c: L38 (1 branch)
+Cannot simulate open error when creating file
+
+src/command/execution.c: L58-59-60-61 (1 branch 3 lines)
+Cannot simulate fork error
+
+src/command/execution.c: L79-80 (1 branch 1 lines)
+Cannot simulate malloc error
+
+src/command/handler.c: L18 (1 branch)
+A command cannot be both builtin and system

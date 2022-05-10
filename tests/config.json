@@ -17,6 +17,10 @@
             "command": "tests/samples/div_zero"
         },
         {
+            "name": "errors - Corrupted file",
+            "command": "tests/samples/corrupted"
+        },
+        {
             "name": "ls - simple",
             "command": "ls"
         },
@@ -207,6 +211,30 @@
         {
             "name": "pipes - no commands",
             "command": "|"
+        },
+        {
+            "name": "pipes - simple",
+            "command": "cat Makefile | grep test"
+        },
+        {
+            "name": "pipes - simple with builtin",
+            "command": "env | grep HOME"
+        },
+        {
+            "name": "pipes - complex",
+            "command": "cat Makefile | grep test | wc -l"
+        },
+        {
+            "name": "pipes - complex with builtin",
+            "command": "env | grep HOME | wc -l"
+        },
+        {
+            "name": "mysh2 - subject example",
+            "command": "ls -l; ls -l | wc -l"
+        },
+        {
+            "name": "mysh2 - subject example 2",
+            "command": "mkdir folder ; cd folder ; ls -a ; ls | cat | wc -c > tutu ; cat tutu ; rm -f tutu ; cd .. ; rm -rf folder"
         }
     ]
 }
