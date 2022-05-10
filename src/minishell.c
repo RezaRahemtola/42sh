@@ -12,13 +12,11 @@
 #include "my.h"
 #include "varenv.h"
 
-int minishell(int argc, char **argv, char **env)
+int minishell(char **env)
 {
     minishell_t minishell = { 0, 0 };
     varenv_t *list = NULL;
 
-    (void) argc;
-    (void) argv;
     if (env == NULL) {
         my_dprintf(2, "Error: Invalid environment.\n");
         return (EXIT_USAGE);
