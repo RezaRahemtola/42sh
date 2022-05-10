@@ -1,0 +1,76 @@
+name: Main workflow
+
+on: [push]
+
+env:
+   MIRROR_URL: "git@github.com:EpitechPromo2026/B-PSU-210-PAR-2-1-42sh-florian.lauch.git"
+   EXECUTABLES: "42sh"
+
+jobs:
+  check_repository_cleanliness:
+    name: Check repository cleanliness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: find -name "#*#" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
+      - run: find -name "*~" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
+      - run: find -regextype posix-extended -regex '.*\.(o|a|so|gcno|gcda)' -exec echo "::error file={},title="Unwanted file detected"::{}" \;
+      - run: find -path "*/tmp/*" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
+      - name: Making the job fail if any unwanted file is detected
+        run: find -name "#*#" -o -name "*~" -o -regextype posix-extended -regex '.*\.(o|a|so|gcno|gcda)' -o -path "*/tmp/*" | (! grep -q .)
+
+  check_program_compilation:
+    name: Check compilation
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - uses: actions/checkout@v3
+      - name: Building
+        run: make
+        timeout-minutes: 2
+      - name: Cleaning the repo
+        run: make clean
+      - name: Check executables
+        run: IFS=',' ; read -a strarr <<< ${{ env.EXECUTABLES }} ; for val in ${strarr[@]} ; do if ! test -x $val; then exit 1; fi ; done
+    needs:
+      - check_repository_cleanliness
+
+  run_unit_tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - uses: actions/checkout@v3
+      - run: make tests_run
+        timeout-minutes: 2
+    needs:
+      - check_program_compilation
+
+  run_functional_tests:
+    name: Run functional tests
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - uses: actions/checkout@v3
+      - run: make tests_func
+        timeout-minutes: 2
+    needs:
+      - check_program_compilation
+
+  push_to_mirror:
+    name: Push to Epitech repository
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name }} == "push"
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            ${{ env.MIRROR_URL }}
+          ssh_private_key:
+            ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+    needs:
+      - run_unit_tests
+      - run_functional_tests
