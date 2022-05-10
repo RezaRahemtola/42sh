@@ -133,7 +133,7 @@ Test(error, corrupted, .init=cr_redirect_stderr)
     env->key = "PATH";
     env->value = "/bin";
     handle_input(input, &env, &shell);
-    cr_assert_stderr_eq_str("./tests/samples/corrupted: Exec format error.\n");
+    cr_assert_stderr_eq_str("./tests/samples/corrupted: Exec format error. Wrong Architecture.\n");
 }
 
 Test(signal, sigquit, .init=cr_redirect_stdout)
