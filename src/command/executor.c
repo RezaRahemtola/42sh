@@ -15,7 +15,6 @@
 #include "messages.h"
 #include "redirections.h"
 #include "varenv.h"
-#include "my_string.h"
 
 static void execute_builtin(command_t *command, varenv_t **env)
 {

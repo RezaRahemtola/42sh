@@ -19,5 +19,3 @@ static const char * const HEXA_LOWER_BASE = "0123456789abcdef";
 static const char * const HEXA_UPPER_BASE = "0123456789ABCDEF";
 
 void my_free(int size, ...);
-void *my_free_null(int size, ...);
-void my_free_arrays(int size, ...);

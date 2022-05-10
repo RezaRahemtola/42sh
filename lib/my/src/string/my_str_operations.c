@@ -29,11 +29,3 @@ char *my_strdup(char const *str)
     new[size] = '\0';
     return (new);
 }
-
-void my_strfill(char *array, int size, char def)
-{
-    for (int i = 0; i < size - 1; i++) {
-        array[i] = def;
-    }
-    array[size - 1] = '\0';
-}

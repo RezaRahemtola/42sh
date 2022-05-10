@@ -11,6 +11,7 @@
 #include "messages.h"
 #include "minishell.h"
 #include "my_string.h"
+#include "my_arrays.h"
 #include "my.h"
 #include "redirections.h"
 
