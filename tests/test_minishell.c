@@ -93,8 +93,7 @@ Test(error, no_env)
 
 Test(error, shell_exit, .init=cr_redirect_stderr)
 {
-    char *argv[2] = { "ls", NULL };
-    int out = minishell(1, argv, NULL);
+    int out = minishell(NULL);
 
     cr_assert_stderr_eq_str("Error: Invalid environment.\n");
     cr_assert_eq(out, 84);
