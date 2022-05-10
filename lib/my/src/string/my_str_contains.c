@@ -7,15 +7,6 @@
 
 #include "my_string.h"
 
-static bool check_character(char c, char const *list, int list_size)
-{
-    for (int i = 0; i < list_size; i++) {
-        if (c == list[i])
-            return (true);
-    }
-    return (false);
-}
-
 bool my_str_contains(char const *str, char const *to_find)
 {
     int size_2 = my_strlen(to_find);
