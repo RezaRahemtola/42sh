@@ -22,19 +22,16 @@ SRC		=	array/my_arrays.c \
             math/my_parsenbr.c \
 			math/my_power.c \
 			string/my_revstr.c \
-			string/my_str_cases.c \
 			string/my_str_checks.c \
 			string/my_str_contains.c \
 			string/my_str_operations.c \
 			string/my_str_starts.c \
-			string/my_strcapitalize.c \
 			string/my_strcat.c \
 			string/my_strcmp.c \
 			string/my_strcpy.c \
 			string/my_strrep.c \
 			string/my_strsplit.c \
 			string/my_strsplit_many.c \
-			string/my_strtoi.c \
 			string/my_substr.c \
 			my_free.c
 
