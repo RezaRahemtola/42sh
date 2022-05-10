@@ -24,7 +24,7 @@ minishell_t *shell)
     }
     for (int i = 0; BUILTIN[i].command != NULL; i++) {
         if (my_strcmp(command->args[0], BUILTIN[i].command) == 0) {
-            BUILTIN[i].silent(env, command->args, shell);
+            command->ret = BUILTIN[i].silent(env, command->args, shell);
             return;
         }
     }
@@ -39,6 +39,9 @@ static void wait_commands(command_t *command, minishell_t *shell)
         waitpid(current->pid, &status, WUNTRACED | WCONTINUED);
         handle_errors(status);
         shell->ret = (status > 255 ? status / 256 : status);
+        if (command->ret != -1) {
+            shell->ret = command->ret;
+        }
         current = current->next;
     }
 }

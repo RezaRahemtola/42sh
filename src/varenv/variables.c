@@ -40,16 +40,16 @@ void add_variable(varenv_t **env, char *key, char *value)
     }
 }
 
-void set_variable(varenv_t **env, char *key, char *value, minishell_t *shell)
+int set_variable(varenv_t **env, char *key, char *value)
 {
     char *alpha = "alphanumeric characters";
 
     if (is_alphanumeric(key)) {
         add_variable(env, key, value);
-        shell->ret = 0;
+        return (0);
     } else {
         my_dprintf(2, "setenv: Variable name must contain %s.\n", alpha);
-        shell->ret = 1;
+        return (1);
     }
 }
 
