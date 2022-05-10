@@ -121,4 +121,5 @@ func_tests:	re
 			@python3 -m pip install termcolor > /dev/null
 			python3 tests/tester.py -adc
 
-.PHONY: all clean fclean re tests_run
+.PHONY:	all	clean fclean clean_coverage re debug_run tests_run unit_tests \
+		func_tests
