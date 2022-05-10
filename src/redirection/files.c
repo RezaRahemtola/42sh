@@ -21,6 +21,7 @@ static void read_input(command_t *command)
     char *cat = NULL;
     char *content = NULL;
     size_t size = 0;
+    size_t len = 0;
 
     while (!out) {
         printf("? ");
@@ -28,7 +29,9 @@ static void read_input(command_t *command)
         if ((int) size == -1 || strcmp(content, command->info_in) == '\n') {
             out = true;
         } else {
-            cat = my_strcat(str, content);
+            len = strlen(str) + strlen(content) + 1;
+            cat = malloc(sizeof(char) * len);
+            sprintf(cat, "%s%s", str, content);
             free(str);
             str = cat;
         }

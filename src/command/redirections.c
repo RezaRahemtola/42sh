@@ -55,13 +55,16 @@ bool check_redirections(command_t *list, minishell_t *shell, varenv_t *env)
 static char *get_redirect_argument_sum(char *str, char *redirect, char *input)
 {
     char *target = get_next_argument(str, 0);
+    size_t total_len = 0;
     char *sum = NULL;
     char *rep = NULL;
 
     if (target == NULL) {
         return (NULL);
     }
-    sum = my_strcat(redirect, target);
+    total_len = strlen(redirect) + strlen(target) + 1;
+    sum = malloc(sizeof(char) * (total_len));
+    sprintf(sum, "%s%s", redirect, target);
     if (sum == NULL) {
         free(target);
         return (NULL);

@@ -23,7 +23,6 @@ bool my_char_isalpha(char c);
 char **my_strsplit_many(char const *str, char const *list);
 
 char *my_revstr(char const *str);
-char *my_strcat(char const *, char const *);
 char *my_strrep(char *, char const *, char const *);
 char **my_strsplit(char const *, char);
 char *my_substr(char const *, int, int);
