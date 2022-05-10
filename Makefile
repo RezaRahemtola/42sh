@@ -102,13 +102,17 @@ clean_coverage:	fclean
 
 re:			fclean all
 
-tests_run:	clean_coverage $(TEST_BINARY)
-			./$(TEST_BINARY)
-
 debug_run:	fclean $(DEBUG_BINARY)
 			./$(DEBUG_BINARY) $(ARGS)
 
-tests_func: all
+tests_run:
+			$(MAKE) unit_tests
+			$(MAKE) func_tests
+
+unit_tests:	clean_coverage $(TEST_BINARY)
+			./$(TEST_BINARY)
+
+func_tests:	re
 			@python3 -m pip install termcolor > /dev/null
 			python3 tests/tester.py -adc
 
