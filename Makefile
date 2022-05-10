@@ -99,7 +99,7 @@ $(DEBUG_BINARY):	$(OBJ)
 clean:
 			$(RM) $(OBJ)
 
-fclean:		clean
+fclean:	clean
 			$(RM) $(BINARY) $(TEST_BINARY) $(DEBUG_BINARY)
 
 clean_coverage:	fclean
