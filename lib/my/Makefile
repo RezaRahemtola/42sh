@@ -37,8 +37,7 @@ SRC		=	array/my_arrays.c \
 			string/my_strsplit_many.c \
 			string/my_strtoi.c \
 			string/my_substr.c \
-			my_free.c \
-			my_print.c
+			my_free.c
 
 OBJ		=	$(addprefix $(SRC_DIR), $(SRC:.c=.o))
 
