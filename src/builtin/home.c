@@ -86,7 +86,7 @@ bool is_builtin(char *command)
         return (false);
     }
     for (int i = 0; BUILTIN[i].command != NULL; i++) {
-        if (my_strcmp(command, BUILTIN[i].command) == 0) {
+        if (strcmp(command, BUILTIN[i].command) == 0) {
             return (true);
         }
     }

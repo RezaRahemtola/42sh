@@ -12,9 +12,6 @@
 int my_strlen(char const *str);
 char *my_strdup(char const *str);
 
-int my_strcmp(char const *str1, char const *str2);
-int my_strncmp(char const *str1, char const *str2, int nbr);
-
 bool my_str_contains(char const *str, char const *pattern);
 bool my_str_containschar(char const *str, char c);
 bool my_str_starts(char const *str, char const *pattern);

@@ -25,7 +25,7 @@ static void read_input(command_t *command)
     while (!out) {
         printf("? ");
         size = getline(&content, &size, stdin);
-        if ((int) size == -1 || my_strcmp(content, command->info_in) == '\n') {
+        if ((int) size == -1 || strcmp(content, command->info_in) == '\n') {
             out = true;
         } else {
             cat = my_strcat(str, content);
