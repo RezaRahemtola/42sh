@@ -46,22 +46,27 @@ BASE_SRC	=	minishell.c \
 				$(addprefix $(UTIL_DIR)/, $(UTIL_SRC)) \
 				$(addprefix $(VARENV_DIR)/, $(VARENV_SRC))
 
+TESTS_DIR	=	tests
+TESTS_SRC	=	test_minishell.c \
+				test_builtin.c \
+				test_redirections.c
+
 MAIN		=	main.c
 
 SRC			=	$(addprefix $(BASE_DIR)/, $(BASE_SRC)) \
 				$(addprefix $(BASE_DIR)/, $(MAIN))
 
+TEST		=	$(addprefix $(BASE_DIR)/, $(BASE_SRC)))\
+				$(addprefix $(TESTS_DIR)/, $(TESTS_SRC))
+
 OBJ			=	$(SRC:.c=.o)
+TEST_OBJ	=	$(TEST:.c=.o)
 
 NAME		=	42sh
 INC			=	include/
 LIBINC		=	lib/my/include/
 
 TEST_NAME	=	unit_tests
-TESTED		=	$(addprefix $(SRC_DIR), $(SRC))
-TESTS		=	tests/test_minishell.c \
-				tests/test_builtin.c \
-				tests/test_redirections.c
 
 CC			=	gcc
 CFLAGS		=	-Wall -Wextra
@@ -74,17 +79,14 @@ ALLFLAGS	=	$(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(LDLIBS)
 all: 		$(NAME)
 
 $(NAME): 	$(OBJ)
-			make -C lib/my/
 			$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(LDLIBS)
 
 clean:
-			make clean -C lib/my/
 			$(RM) $(OBJ)
 			$(RM) *.gcda
 			$(RM) *.gcno
 
 fclean:		clean
-			make fclean -C lib/my/
 			$(RM) $(NAME)
 			$(RM) $(TEST)
 
@@ -93,7 +95,6 @@ re:			fclean all
 tests_run:
 			$(RM) *.gcda
 			$(RM) *.gcno
-			make -C lib/my/
 			$(CC) -o $(TEST_NAME) $(TESTED) $(TESTS) $(TESTFLAGS) $(ALLFLAGS)
 			./$(TEST_NAME)
 
