@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdio.h>
 #include "builtin.h"
 #include "minishell.h"
 #include "my.h"
@@ -18,7 +19,7 @@
 static void execute_builtin(command_t *command, varenv_t **env)
 {
     for (int i = 0; BUILTIN[i].command != NULL; i++) {
-        if (my_strcmp(command->args[0], BUILTIN[i].command) == 0) {
+        if (strcmp(command->args[0], BUILTIN[i].command) == 0) {
             BUILTIN[i].function(env, command->args);
             return;
         }
@@ -33,7 +34,7 @@ static void execute_binary(command_t *command, varenv_t **env)
         return;
     }
     execve(command->path, command->args, array);
-    my_dprintf(2, "%s: %s.\n", command->args[0], strerror(errno));
+    fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
 }
 
 void execute_forked(command_t *cmd, varenv_t **env)
@@ -48,7 +49,7 @@ void execute_forked(command_t *cmd, varenv_t **env)
         return;
     }
     if (cmd->path == NULL && !builtin) {
-        my_dprintf(2, "%s: Command not found.\n", cmd->args[0]);
+        fprintf(stderr, "%s: Command not found.\n", cmd->args[0]);
         return;
     }
     if (builtin) {

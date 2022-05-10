@@ -18,13 +18,13 @@
 static void read_input(command_t *command)
 {
     bool out = false;
-    char *str = my_strdup("");
+    char *str = strdup("");
     char *cat = NULL;
     char *content = NULL;
     size_t size = 0;
 
     while (!out) {
-        my_printf("? ");
+        printf("? ");
         size = getline(&content, &size, stdin);
         if ((int) size == -1 || my_strcmp(content, command->info_in) == '\n') {
             out = true;
@@ -50,7 +50,7 @@ bool open_input_redirection(command_t *command)
     }
     fd = open(command->info_in, O_RDONLY);
     if (fd == -1) {
-        my_dprintf(2, "%s: %s.\n", command->info_in, strerror(errno));
+        fprintf(stderr, "%s: %s.\n", command->info_in, strerror(errno));
         return (false);
     }
     command->fd_in = fd;
@@ -74,7 +74,7 @@ bool open_output_redirection(command_t *command)
     }
     fd = open(command->info_out, flags, 0664);
     if (fd == -1) {
-        my_dprintf(2, "%s: %s.\n", command->info_out, strerror(errno));
+        fprintf(stderr, "%s: %s.\n", command->info_out, strerror(errno));
         return (false);
     }
     command->fd_out = fd;

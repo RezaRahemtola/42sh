@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "minishell.h"
 #include "my_string.h"
 #include "my.h"
@@ -40,7 +41,7 @@ void print_env(varenv_t *env)
     varenv_t *current = env;
 
     while (current != NULL) {
-        my_printf("%s=%s\n", current->key, current->value);
+        printf("%s=%s\n", current->key, current->value);
         current = current->next;
     }
 }

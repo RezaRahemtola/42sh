@@ -7,13 +7,14 @@
 
 #include <sys/stat.h>
 #include <unistd.h>
+#include <string.h>
 #include "minishell.h"
 #include "my_string.h"
 #include "varenv.h"
 
 void s_handle_cd(varenv_t **env, char *path, minishell_t *shell, char *current)
 {
-    int size = my_strlen(path);
+    int size = strlen(path);
 
     if (size > 0 && path[0] == '-') {
         s_handle_prev(env, path, shell, current);

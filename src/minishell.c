@@ -20,7 +20,7 @@ int minishell(int argc, char **argv, char **env)
     (void) argc;
     (void) argv;
     if (env == NULL) {
-        my_dprintf(2, "Error: Invalid environment.\n");
+        fprintf(stderr, "Error: Invalid environment.\n");
         return (EXIT_USAGE);
     }
     list = convert_env(env);
@@ -38,7 +38,7 @@ void shell_heartbeat(varenv_t **env, minishell_t *shell)
 
     while (shell->exit == 0) {
         if (isatty(0)) {
-            my_printf("$> ");
+            printf("$> ");
         }
         size = getline(&line, &size, stdin);
         if ((int) size == -1) {
@@ -51,6 +51,6 @@ void shell_heartbeat(varenv_t **env, minishell_t *shell)
         line = NULL;
     }
     if (isatty(0)) {
-        my_printf("exit\n");
+        printf("exit\n");
     }
 }

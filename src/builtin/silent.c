@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include "minishell.h"
 #include "my_arrays.h"
 #include "my_math.h"
@@ -61,7 +62,7 @@ void silent_unsetenv(varenv_t **env, char **args, minishell_t *shell)
     if (size == 1) {
         shell->ret = 1;
         return;
-    } else if (size == 2 && my_strcmp(args[1], "*") == 0) {
+    } else if (size == 2 && strcmp(args[1], "*") == 0) {
         destroy_env(*env);
         *env = NULL;
         shell->ret = 0;

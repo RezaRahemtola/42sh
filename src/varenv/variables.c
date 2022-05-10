@@ -48,7 +48,7 @@ void set_variable(varenv_t **env, char *key, char *value, minishell_t *shell)
         add_variable(env, key, value);
         shell->ret = 0;
     } else {
-        my_dprintf(2, "setenv: Variable name must contain %s.\n", alpha);
+        fprintf(stderr, "setenv: Variable name must contain %s.\n", alpha);
         shell->ret = 1;
     }
 }

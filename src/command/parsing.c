@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "messages.h"
 #include "minishell.h"
 #include "my_string.h"
@@ -25,7 +26,7 @@ static command_t *init_command(varenv_t *env, char *input)
     command->fd_out = 0;
     command->info_in = NULL;
     command->info_out = NULL;
-    command->input = my_strdup(input);
+    command->input = strdup(input);
     command->args = my_strsplit_many(input, " \t");
     if (command->args == NULL) {
         my_free(2, command->input, command);
@@ -47,7 +48,7 @@ static bool is_command_valid(command_t **list, varenv_t *env, char *str, int i)
     list_append(list, command);
     if (i > 0) {
         if (is_command_empty(command) || is_command_empty(command->prev)) {
-            my_dprintf(2, "%s\n", MISSING_COMMAND);
+            fprintf(stderr, "%s\n", MISSING_COMMAND);
             return (false);
         }
         command->prev->separator_out = PIPE_OUT;
@@ -64,7 +65,7 @@ static bool parse_command(command_t **list, varenv_t *env, char *input)
     if (array == NULL) {
         return (false);
     } else if (input[size - 1] == '|' || input[0] == '|') {
-        my_dprintf(2, "%s\n", MISSING_COMMAND);
+        fprintf(stderr, "%s\n", MISSING_COMMAND);
         my_free_arrays(1, array);
         return (false);
     }
