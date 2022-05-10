@@ -67,11 +67,11 @@ BINARY			=	42sh
 TEST_BINARY		=	$(BINARY).test
 DEBUG_BINARY	=	$(BINARY).debug
 
-INC			=	include/
-LIBINC		=	lib/my/include/
+HEADERS_DIRS 	=	include/ \
+					$(LIBS:%=lib/%/include/)
 
 CFLAGS		=	-Wall -Wextra
-CPPFLAGS	=	-iquote $(INC) -iquote $(LIBINC)
+CPPFLAGS	=	$(HEADERS_DIRS:%=-iquote %)
 LDLIBS		=	$(addprefix -l, $(LIBS))
 LDFLAGS		=	$(LIBS:%=-L lib/%/)
 
@@ -87,13 +87,13 @@ $(BINARY):	$(OBJ)
 			$(MAKE) -C lib/my
 			$(CC) -o $(BINARY) $(OBJ) $(LDFLAGS) $(LDLIBS)
 
-$(TEST_BINARY): LDLIBS += -lcriterion -lgcov
-$(TEST_BINARY): CFLAGS += -ftest-coverage -fprofile-arcs
+$(TEST_BINARY): LDLIBS	+=	-lcriterion -lgcov
+$(TEST_BINARY): CFLAGS	+=	-ftest-coverage -fprofile-arcs
 $(TEST_BINARY):	$(TEST_OBJ)
 			$(MAKE) -C lib/my
 			$(CC) -o $(TEST_BINARY) $(TEST_OBJ) $(LDFLAGS) $(LDLIBS)
 
-$(DEBUG_BINARY):	CFLAGS += -g
+$(DEBUG_BINARY):	CFLAGS	+=	-g
 $(DEBUG_BINARY):	$(OBJ)
 			$(MAKE) -C lib/my
 			$(CC) -o $(DEBUG_BINARY) $(OBJ) $(LDFLAGS) $(LDLIBS)
