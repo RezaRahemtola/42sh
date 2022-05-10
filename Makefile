@@ -83,18 +83,13 @@ $(NAME): 	$(OBJ)
 
 clean:
 			$(RM) $(OBJ)
-			$(RM) *.gcda
-			$(RM) *.gcno
 
 fclean:		clean
-			$(RM) $(NAME)
-			$(RM) $(TEST)
+			$(RM) $(NAME) $(TEST)
 
 re:			fclean all
 
 tests_run:
-			$(RM) *.gcda
-			$(RM) *.gcno
 			$(CC) -o $(TEST_NAME) $(TESTED) $(TESTS) $(TESTFLAGS) $(ALLFLAGS)
 			./$(TEST_NAME)
 
