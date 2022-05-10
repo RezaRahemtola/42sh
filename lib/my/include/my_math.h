@@ -24,5 +24,3 @@ int my_log(int nbr, int log);
 int my_llog(long lnbr, int log);
 int my_power(int nbr, int power);
 int my_square_root(int nbr);
-bool my_is_prime(int nbr);
-int my_find_prime_sup(int nbr);

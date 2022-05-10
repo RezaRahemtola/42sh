@@ -21,7 +21,6 @@ SRC		=	array/my_arrays.c \
             math/my_parsenbr_long.c \
             math/my_parsenbr.c \
 			math/my_power.c \
-			math/my_prime.c \
 			string/my_revstr.c \
 			string/my_str_cases.c \
 			string/my_str_checks.c \
