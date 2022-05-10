@@ -6,7 +6,7 @@
 */
 
 #include <stdlib.h>
-#include "my.h"
+#include "my_arrays.h"
 #include "types.h"
 
 void list_append(command_t **list, command_t *node)

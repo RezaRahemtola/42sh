@@ -8,9 +8,9 @@
 #include <stddef.h>
 #include <string.h>
 #include <stdio.h>
-#include "messages.h"
 #include "my_string.h"
-#include "my.h"
+#include "my_arrays.h"
+#include "messages.h"
 #include "redirections.h"
 
 static bool check_null_ambiguous(command_t *command, char **array, int index)
