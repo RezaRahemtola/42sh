@@ -62,7 +62,9 @@ TEST		=	$(addprefix $(BASE_DIR)/, $(BASE_SRC))\
 OBJ			=	$(SRC:.c=.o)
 TEST_OBJ	=	$(TEST:.c=.o)
 
-NAME		=	42sh
+BINARY			=	42sh
+TEST_BINARY		=	$(BINARY).test
+
 INC			=	include/
 LIBINC		=	lib/my/include/
 
@@ -76,22 +78,28 @@ LDFLAGS		=	-L lib/my/
 TESTFLAGS	=	--coverage -lcriterion
 ALLFLAGS	=	$(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(LDLIBS)
 
-all: 		$(NAME)
+all: 		$(BINARY)
 
-$(NAME): 	$(OBJ)
-			$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(LDLIBS)
+$(BINARY):	$(OBJ)
+			$(MAKE) -C lib/my
+			$(CC) -o $(BINARY) $(OBJ) $(LDFLAGS) $(LDLIBS)
+
+$(TEST_BINARY): LDLIBS += -lcriterion -lgcov
+$(TEST_BINARY): CFLAGS += -ftest-coverage -fprofile-arcs
+$(TEST_BINARY):	$(TEST_OBJ)
+			$(MAKE) -C lib/my
+			$(CC) -o $(TEST_BINARY) $(TEST_OBJ) $(LDFLAGS) $(LDLIBS)
 
 clean:
 			$(RM) $(OBJ)
 
 fclean:		clean
-			$(RM) $(NAME) $(TEST)
+			$(RM) $(BINARY) $(TEST_BINARY)
 
 re:			fclean all
 
-tests_run:
-			$(CC) -o $(TEST_NAME) $(TESTED) $(TESTS) $(TESTFLAGS) $(ALLFLAGS)
-			./$(TEST_NAME)
+tests_run:	$(TEST_BINARY)
+			./$(TEST_BINARY)
 
 tests_func: all
 			@python3 -m pip install termcolor
