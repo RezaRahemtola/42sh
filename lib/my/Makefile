@@ -12,7 +12,6 @@ SRC		=	array/my_arrays.c \
 			list/my_list_operations.c \
 			list/my_list_remove.c \
 			math/my_getnbr.c \
-            math/my_getnbr_base.c \
             math/my_is_number.c \
 			string/my_revstr.c \
 			string/my_str_checks.c \

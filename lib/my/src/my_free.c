@@ -20,17 +20,3 @@ void my_free(int number, ...)
     }
     va_end(list);
 }
-
-void *my_free_null(int number, ...)
-{
-    va_list list;
-    void *element = NULL;
-
-    va_start(list, number);
-    for (int i = 0; i < number; i++) {
-        element = va_arg(list, void *);
-        free(element);
-    }
-    va_end(list);
-    return (NULL);
-}

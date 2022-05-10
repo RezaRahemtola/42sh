@@ -27,4 +27,3 @@ char *my_strrep(char *, char const *, char const *);
 char **my_strsplit(char const *, char);
 char *my_substr(char const *, int, int);
 char *my_substr_size(char const *, int, int, int);
-void my_strfill(char *, int, char);
