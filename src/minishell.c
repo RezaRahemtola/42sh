@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "minishell.h"
-#include "my.h"
 #include "varenv.h"
 
 int minishell(int argc, char **argv, char **env)

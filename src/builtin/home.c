@@ -9,10 +9,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdio.h>
 #include "builtin.h"
 #include "minishell.h"
 #include "my_string.h"
-#include "my.h"
 #include "varenv.h"
 
 void handle_home(varenv_t **env, char *path)

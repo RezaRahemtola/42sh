@@ -13,7 +13,6 @@
 #include "minishell.h"
 #include "my_arrays.h"
 #include "my_math.h"
-#include "my.h"
 #include "my_string.h"
 #include "varenv.h"
 

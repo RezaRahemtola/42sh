@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include "minishell.h"
 #include "my_string.h"
-#include "my.h"
 
 char *extract_key(char const *var)
 {

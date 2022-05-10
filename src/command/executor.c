@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include "builtin.h"
 #include "minishell.h"
-#include "my.h"
 #include "redirections.h"
 #include "varenv.h"
 #include "my_string.h"

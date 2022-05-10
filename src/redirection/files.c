@@ -13,7 +13,6 @@
 #include <unistd.h>
 #include "minishell.h"
 #include "my_string.h"
-#include "my.h"
 
 static void read_input(command_t *command)
 {

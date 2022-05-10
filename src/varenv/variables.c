@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "my_string.h"
+#include <stdio.h>
 #include "my.h"
 #include "varenv.h"
 
@@ -34,9 +34,9 @@ void add_variable(varenv_t **env, char *key, char *value)
     varenv_t *var = varenv_get(*env, key);
 
     if (var == NULL) {
-        varenv_put(env, my_strdup(key), my_strdup(value));
+        varenv_put(env, strdup(key), strdup(value));
     } else {
-        varenv_replace(*env, key, my_strdup(value));
+        varenv_replace(*env, key, strdup(value));
     }
 }
 

@@ -9,7 +9,6 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <stdio.h>
-#include "my.h"
 
 void handle_errors(int status)
 {

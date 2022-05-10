@@ -13,8 +13,6 @@
 #include <stdio.h>
 #include "builtin.h"
 #include "minishell.h"
-#include "my_string.h"
-#include "my.h"
 #include "redirections.h"
 
 static void execute_silent(command_t *command, varenv_t **env, \

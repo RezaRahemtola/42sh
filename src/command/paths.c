@@ -41,7 +41,7 @@ char *find_command(varenv_t *env, char *bin)
         return (NULL);
     }
     if (my_str_contains(bin, "/") == 0) {
-        return (access(bin, F_OK) == -1 ? NULL : my_strdup(bin));
+        return (access(bin, F_OK) == -1 ? NULL : strdup(bin));
     } else if (path == NULL) {
         return (NULL);
     } else {

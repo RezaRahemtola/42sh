@@ -60,7 +60,7 @@ char **split_redirections(char *input)
         redirect = get_redirection(input, i);
         if (redirect.type != NULL) {
             array[index] = my_substr_size(input, pattern, i, size);
-            array[index + 1] = my_strdup(redirect.type);
+            array[index + 1] = strdup(redirect.type);
             pattern = i + strlen(redirect.type);
             index += 2;
             i += strlen(redirect.type) - 1;

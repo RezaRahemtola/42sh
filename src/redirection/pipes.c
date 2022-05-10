@@ -10,7 +10,6 @@
 #include <unistd.h>
 #include <stdio.h>
 #include "minishell.h"
-#include "my.h"
 
 static bool open_redirection(command_t *command)
 {
