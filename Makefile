@@ -68,8 +68,6 @@ TEST_BINARY		=	$(BINARY).test
 INC			=	include/
 LIBINC		=	lib/my/include/
 
-TEST_NAME	=	unit_tests
-
 CC			=	gcc
 CFLAGS		=	-Wall -Wextra
 CPPFLAGS	=	-iquote $(INC) -iquote $(LIBINC)
