@@ -105,7 +105,7 @@ fclean:		clean
 clean_coverage:	fclean
 			@find \( -name '*.gcno' -o -name '*.gcda' \) -delete
 
-re:			fclean all
+re:	fclean all
 
 debug_run:	fclean $(DEBUG_BINARY)
 			$(VG) ./$(DEBUG_BINARY) $(ARGS)
