@@ -101,6 +101,7 @@ Test(builtin, env, .init=cr_redirect_stdout)
     char *args[3] = { "env", NULL };
     minishell_t shell = { 0, 0 };
 
+    setbuf(stdout, NULL);
     builtin_env(env, args);
     cr_assert_stdout_eq_str("PATH=/usr/bin:/bin\n");
     cr_assert_eq(shell.ret, 0);
@@ -125,6 +126,7 @@ Test(builtin, setenv_print, .init=cr_redirect_stdout)
     char *args[2] = { "setenv", NULL };
     minishell_t shell = { 0, 0 };
 
+    setbuf(stdout, NULL);
     builtin_setenv(env, args);
     silent_setenv(env, args, &shell);
     cr_assert_str_eq(path.value, "/usr/bin:/bin");

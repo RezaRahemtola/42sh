@@ -138,6 +138,7 @@ Test(error, corrupted, .init=cr_redirect_stderr)
 
 Test(signal, sigquit, .init=cr_redirect_stdout)
 {
+    setbuf(stdout, NULL);
     handle_quit(SIGINT);
     cr_assert_stdout_eq_str("\n$> ");
 }

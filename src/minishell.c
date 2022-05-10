@@ -18,6 +18,8 @@ int minishell(int argc, char **argv, char **env)
 
     (void) argc;
     (void) argv;
+    setbuf(stdout, NULL);
+    setbuf(stderr, NULL);
     if (env == NULL) {
         fprintf(stderr, "Error: Invalid environment.\n");
         return (EXIT_USAGE);
