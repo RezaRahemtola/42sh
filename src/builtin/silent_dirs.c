@@ -12,45 +12,40 @@
 #include "my_string.h"
 #include "varenv.h"
 
-void s_handle_cd(varenv_t **env, char *path, minishell_t *shell, char *current)
+int s_handle_cd(varenv_t **env, char *path, char *current)
 {
     size_t size = strlen(path);
 
     if (size > 0 && path[0] == '-') {
-        s_handle_prev(env, path, shell, current);
+        return (s_handle_prev(env, path, current));
     } else if (size > 0 && path[0] == '~') {
-        s_handle_home(env, path, shell, current);
+        return (s_handle_home(env, path, current));
     } else {
-        s_change_dir(env, shell, path, current);
+        return (s_change_dir(env, path, current));
     }
 }
 
-void s_handle_prev(varenv_t **env, char *path, minishell_t *shell, \
-char *current)
+int s_handle_prev(varenv_t **env, char *path, char *current)
 {
     varenv_t *oldpwd = varenv_get(*env, "OLDPWD");
 
-    if (my_strlen(path) > 1) {
-        shell->ret = 1;
-    } else if (oldpwd == NULL) {
-        shell->ret = 1;
+    if (my_strlen(path) > 1 || oldpwd == NULL) {
+        return (1);
     } else {
-        s_change_dir(env, shell, oldpwd->value, current);
+        return (s_change_dir(env, oldpwd->value, current));
     }
 }
 
-void s_change_dir(varenv_t **env, minishell_t *shell, char *dir, char *current)
+int s_change_dir(varenv_t **env, char *dir, char *current)
 {
     struct stat stats;
     int st = stat(dir, &stats);
 
-    if (st != -1 && !S_ISDIR(stats.st_mode)) {
-        shell->ret = 1;
-    } else if (chdir(dir) == -1) {
-        shell->ret = 1;
+    if (st == -1 || !S_ISDIR(stats.st_mode) || chdir(dir) == -1) {
+        return (1);
     } else {
-        shell->ret = 0;
         add_variable(env, "PWD", dir);
         add_variable(env, "OLDPWD", current);
+        return (0);
     }
 }

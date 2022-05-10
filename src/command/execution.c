@@ -23,21 +23,24 @@ minishell_t *shell)
     }
     for (int i = 0; BUILTIN[i].command != NULL; i++) {
         if (strcmp(command->args[0], BUILTIN[i].command) == 0) {
-            BUILTIN[i].silent(env, command->args, shell);
+            command->ret = BUILTIN[i].silent(env, command->args, shell);
             return;
         }
     }
 }
 
-static void wait_commands(pidlist_t *pidlist, minishell_t *shell)
+static void wait_commands(command_t *command, minishell_t *shell)
 {
     int status = 0;
-    pidlist_t *current = pidlist;
+    command_t *current = command;
 
-    while (current != NULL) {
+    while (current != NULL && current->state == RUNNING) {
         waitpid(current->pid, &status, WUNTRACED | WCONTINUED);
         handle_errors(status);
         shell->ret = (status > 255 ? status / 256 : status);
+        if (command->ret != -1) {
+            shell->ret = command->ret;
+        }
         current = current->next;
     }
 }
@@ -52,7 +55,7 @@ minishell_t *shell)
         return (-1);
     } else if (pid == 0) {
         execute_forked(command, env);
-        exit(!is_command_empty(command) && !is_builtin(command->args[0]));
+        exit(!is_command_empty(command));
     }
     execute_silent(command, env, shell);
     return (pid);
@@ -63,20 +66,19 @@ minishell_t *shell)
 {
     int total = 0;
     pid_t pid = 0;
-    pidlist_t *pids = NULL;
     command_t *current = command;
 
     do {
         pid = execute_single(current, env, shell);
         if (pid > 0) {
-            pidlist_append(&pids, create_pidlist(pid));
+            command->pid = pid;
+            command->state = RUNNING;
         }
         total++;
         close_output_redirection(current);
         current = current->next;
     } while (current != NULL && current->separator_in == PIPE_IN);
-    wait_commands(pids, shell);
-    pidlist_free(pids);
+    wait_commands(command, shell);
     return (total);
 }
 

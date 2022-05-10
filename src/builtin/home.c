@@ -45,38 +45,37 @@ void change_home(varenv_t **env)
     }
 }
 
-void s_handle_home(varenv_t **env, char *path, minishell_t *shell, \
-char *current)
+int s_handle_home(varenv_t **env, char *path, char *current)
 {
+    int ret = 0;
     char *result = NULL;
     varenv_t *home = varenv_get(*env, "HOME");
 
     if (home == NULL) {
-        shell->ret = 1;
+        return (1);
     } else if (strlen(path) == 1) {
-        s_change_home(env, shell, current);
+        return (s_change_home(env, current));
     } else {
         result = my_strrep(path, "~", home->value);
-        s_change_dir(env, shell, result, current);
+        ret = s_change_dir(env, result, current);
         free(result);
+        return (ret);
     }
 }
 
-void s_change_home(varenv_t **env, minishell_t *shell, char *current)
+int s_change_home(varenv_t **env, char *current)
 {
     varenv_t *home = varenv_get(*env, "HOME");
     struct stat stats;
     int st = stat((home == NULL ? "" : home->value), &stats);
     int file = (st != -1 && !S_ISDIR(stats.st_mode));
 
-    if (home == NULL) {
-        shell->ret = 1;
-    } else if (chdir(home->value) == -1 || file) {
-        shell->ret = 1;
+    if (home == NULL || chdir(home->value) == -1 || file) {
+        return (1);
     } else {
-        shell->ret = 0;
         add_variable(env, "PWD", home->value);
         add_variable(env, "OLDPWD", current);
+        return (0);
     }
 }
 

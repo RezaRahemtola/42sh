@@ -25,7 +25,6 @@ SRC			=	minishell.c \
 				redirection/files.c \
 				redirection/pipes.c \
 				util/lists.c \
-				util/pidlists.c \
 				util/splitter.c \
 				util/strings.c \
 				varenv/environment.c \

@@ -14,14 +14,13 @@
 #include "my.h"
 #include "redirections.h"
 
-static command_t *init_command(varenv_t *env, char *input)
+static bool init_command(command_t *command, varenv_t *env, char *input)
 {
-    command_t *command = malloc(sizeof(command_t));
-
-    if (command == NULL)
-        return (NULL);
     command->separator_in = NO_IN;
     command->separator_out = NO_OUT;
+    command->state = IDLE;
+    command->pid = 0;
+    command->ret = -1;
     command->fd_in = 0;
     command->fd_out = 0;
     command->info_in = NULL;
@@ -30,19 +29,19 @@ static command_t *init_command(varenv_t *env, char *input)
     command->args = my_strsplit_many(input, " \t");
     if (command->args == NULL) {
         my_free(2, command->input, command);
-        return (NULL);
+        return (false);
     }
     command->path = find_command(env, command->args[0]);
     command->prev = NULL;
     command->next = NULL;
-    return (command);
+    return (true);
 }
 
 static bool is_command_valid(command_t **list, varenv_t *env, char *str, int i)
 {
-    command_t *command = init_command(env, str);
+    command_t *command = malloc(sizeof(command_t));
 
-    if (command == NULL) {
+    if (command == NULL || !init_command(command, env, str)) {
         return (false);
     }
     list_append(list, command);
