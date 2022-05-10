@@ -56,7 +56,7 @@ MAIN		=	main.c
 SRC			=	$(addprefix $(BASE_DIR)/, $(BASE_SRC)) \
 				$(addprefix $(BASE_DIR)/, $(MAIN))
 
-TEST		=	$(addprefix $(BASE_DIR)/, $(BASE_SRC)))\
+TEST		=	$(addprefix $(BASE_DIR)/, $(BASE_SRC))\
 				$(addprefix $(TESTS_DIR)/, $(TESTS_SRC))
 
 OBJ			=	$(SRC:.c=.o)
