@@ -97,9 +97,12 @@ clean:
 fclean:		clean
 			$(RM) $(BINARY) $(TEST_BINARY) $(DEBUG_BINARY)
 
+clean_coverage:	fclean
+			@find \( -name '*.gcno' -o -name '*.gcda' \) -delete
+
 re:			fclean all
 
-tests_run:	fclean $(TEST_BINARY)
+tests_run:	clean_coverage $(TEST_BINARY)
 			./$(TEST_BINARY)
 
 debug_run:	fclean $(DEBUG_BINARY)
