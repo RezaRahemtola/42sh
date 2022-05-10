@@ -29,7 +29,6 @@ REDIRECTION_SRC	=	files.c \
 
 UTIL_DIR	=	util
 UTIL_SRC	=	lists.c \
-				pidlists.c \
 				splitter.c \
 				strings.c
 
