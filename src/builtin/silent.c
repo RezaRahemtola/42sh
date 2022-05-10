@@ -31,7 +31,7 @@ void silent_exit(varenv_t **env, char **args, minishell_t *shell)
         return;
     }
     shell->exit = 1;
-    shell->ret = my_getnbr(args[1]) % 256;
+    shell->ret = atoi(args[1]) % 256;
 }
 
 void silent_env(varenv_t **env, char **args, minishell_t *shell)
