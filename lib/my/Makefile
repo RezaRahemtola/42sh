@@ -14,10 +14,6 @@ SRC		=	array/my_arrays.c \
 			math/my_getnbr.c \
             math/my_getnbr_base.c \
             math/my_is_number.c \
-        	math/my_nbrlen.c \
-            math/my_number.c \
-            math/my_parsenbr_long.c \
-            math/my_parsenbr.c \
 			string/my_revstr.c \
 			string/my_str_checks.c \
 			string/my_str_contains.c \
