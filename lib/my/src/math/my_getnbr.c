@@ -15,11 +15,10 @@ static int get_number(char c)
 {
     int digit = -1;
 
-    if (c == '+' || c == '-') {
+    if (c == '+' || c == '-')
         digit = (c == '-' ? 11 : 12);
-    } else if (c >= '0' && c <= '9') {
+    else if (c >= '0' && c <= '9')
         digit = c - '0';
-    }
     return (digit);
 }
 
@@ -27,11 +26,10 @@ static int finish_number(long number, int less)
 {
     int final = (int) number;
 
-    if (number > 0 && final < 0 && (final % 10 != -8 || less % 2 == 0)) {
+    if (number > 0 && final < 0 && (final % 10 != -8 || less % 2 == 0))
         final = 0;
-    } else if (less % 2 == 1) {
+    else if (less % 2 == 1)
         final = -final;
-    }
     return (final);
 }
 
@@ -45,9 +43,8 @@ int my_getnbr(char const *str)
 
     for (int i = 0; str[i] != '\0' && out == 0; i++) {
         digit = get_number(str[i]);
-        if (number != 0 && (int) number * 10 / number != 10) {
+        if (number != 0 && (int) number * 10 / number != 10)
             return (0);
-        }
         check_digit(digit, &out, &less, count);
         if (digit > -1 && digit < 10) {
             number = number * 10 + digit;

@@ -35,9 +35,8 @@ static int is_same_char(char *str, char const *to_find, int index)
 {
     int result = 0;
 
-    if (str[index] == to_find[0]) {
+    if (str[index] == to_find[0])
         result = 1;
-    }
     return (result);
 }
 
@@ -46,9 +45,8 @@ char *my_strrep(char *str, char const *pattern, char const *new)
     int size = my_strlen(pattern);
     int same = 0;
 
-    if (size == 0) {
+    if (size == 0)
         return (str);
-    }
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] == pattern[same] && same + 1 == size) {
             str = replace(str, size, new, i - size + 1);
@@ -60,24 +58,4 @@ char *my_strrep(char *str, char const *pattern, char const *new)
         }
     }
     return (str);
-}
-
-char *my_strstr(char *str, char const *to_find)
-{
-    int size = my_strlen(to_find);
-    int same = 0;
-    char *first = NULL;
-
-    if (size == 0)
-        first = &str[0];
-    for (int i = 0; str[i] != '\0' && first == NULL; i++) {
-        if (str[i] == to_find[same] && same + 1 == size) {
-            first = &str[i - same];
-        } else if (str[i] == to_find[same]) {
-            same++;
-        } else {
-            same = is_same_char(str, to_find, i);
-        }
-    }
-    return (first);
 }

@@ -82,6 +82,6 @@ tests_run:
 
 tests_func: all
 			@python3 -m pip install termcolor
-			python3 tests/tester.py -ad
+			python3 tests/tester.py -adc
 
 .PHONY: all clean fclean re tests_run

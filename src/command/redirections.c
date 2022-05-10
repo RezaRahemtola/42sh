@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "messages.h"
 #include "minishell.h"
 #include "my_arrays.h"
@@ -28,7 +29,7 @@ static bool check_redirection(command_t *command, varenv_t *env)
         }
     }
     if ((command->args[0] == NULL || strlen(command->args[0]) == 0)) {
-        my_dprintf(2, "%s\n", MISSING_COMMAND);
+        fprintf(stderr, "%s\n", MISSING_COMMAND);
         return (false);
     }
     my_free_arrays(1, array);
@@ -54,13 +55,16 @@ bool check_redirections(command_t *list, minishell_t *shell, varenv_t *env)
 static char *get_redirect_argument_sum(char *str, char *redirect, char *input)
 {
     char *target = get_next_argument(str, 0);
+    size_t total_len = 0;
     char *sum = NULL;
     char *rep = NULL;
 
     if (target == NULL) {
         return (NULL);
     }
-    sum = my_strcat(redirect, target);
+    total_len = strlen(redirect) + strlen(target) + 1;
+    sum = malloc(sizeof(char) * (total_len));
+    sprintf(sum, "%s%s", redirect, target);
     if (sum == NULL) {
         free(target);
         return (NULL);

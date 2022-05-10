@@ -6,8 +6,8 @@
 */
 
 #include <signal.h>
+#include <stdio.h>
 #include "minishell.h"
-#include "my.h"
 
 void init_signals(void)
 {
@@ -17,5 +17,5 @@ void init_signals(void)
 void handle_quit(int sig)
 {
     (void) sig;
-    my_printf("\n$> ");
+    printf("\n$> ");
 }

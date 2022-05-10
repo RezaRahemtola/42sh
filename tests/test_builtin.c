@@ -106,6 +106,7 @@ Test(builtin, env, .init=cr_redirect_stdout)
     char *args[3] = { "env", NULL };
     minishell_t shell = { 0, 0 };
 
+    setbuf(stdout, NULL);
     builtin_env(env, args);
     cr_assert_stdout_eq_str("PATH=/usr/bin:/bin\n");
     cr_assert_eq(shell.ret, 0);
@@ -113,7 +114,7 @@ Test(builtin, env, .init=cr_redirect_stdout)
 
 Test(builtin, setenv_set)
 {
-    varenv_t path = { "PATH", my_strdup("/usr/bin:/bin"), NULL };
+    varenv_t path = { "PATH", strdup("/usr/bin:/bin"), NULL };
     varenv_t *env[2] = { &path, NULL };
     char *args[4] = { "setenv", "PATH", "/etc", NULL };
     minishell_t shell = { 0, 0 };
@@ -125,11 +126,12 @@ Test(builtin, setenv_set)
 
 Test(builtin, setenv_print, .init=cr_redirect_stdout)
 {
-    varenv_t path = { "PATH", my_strdup("/usr/bin:/bin"), NULL };
+    varenv_t path = { "PATH", strdup("/usr/bin:/bin"), NULL };
     varenv_t *env[2] = { &path, NULL };
     char *args[2] = { "setenv", NULL };
     minishell_t shell = { 0, 0 };
 
+    setbuf(stdout, NULL);
     builtin_setenv(env, args);
     silent_setenv(env, args, &shell);
     cr_assert_str_eq(path.value, "/usr/bin:/bin");
@@ -177,8 +179,8 @@ Test(builtin, unsetenv, .init=cr_redirect_stderr)
     env->key = "HOME";
     env->value = "/home";
     env->next = path;
-    path->key = my_strdup("PATH");
-    path->value = my_strdup("/usr");
+    path->key = strdup("PATH");
+    path->value = strdup("/usr");
     path->next = NULL;
     builtin_unsetenv(&env, args);
     builtin_unsetenv(&env, args2);
@@ -197,11 +199,11 @@ Test(builtin, unsetenv_all, .init=cr_redirect_stderr)
     char *args[3] = { "unsetenv", "*", NULL };
     minishell_t shell = { 0, 0 };
 
-    env->key = my_strdup("HOME");
-    env->value = my_strdup("/home");
+    env->key = strdup("HOME");
+    env->value = strdup("/home");
     env->next = path;
-    path->key = my_strdup("PATH");
-    path->value = my_strdup("/usr");
+    path->key = strdup("PATH");
+    path->value = strdup("/usr");
     path->next = NULL;
     builtin_unsetenv(&env, args);
     silent_unsetenv(&env, args, &shell);
@@ -216,11 +218,11 @@ Test(builtin, unsetenv_all_error, .init=cr_redirect_stderr)
     char *args[4] = { "unsetenv", "*", "bonsoir", NULL };
     minishell_t shell = { 0, 0 };
 
-    env->key = my_strdup("HOME");
-    env->value = my_strdup("/home");
+    env->key = strdup("HOME");
+    env->value = strdup("/home");
     env->next = path;
-    path->key = my_strdup("PATH");
-    path->value = my_strdup("/usr");
+    path->key = strdup("PATH");
+    path->value = strdup("/usr");
     path->next = NULL;
     builtin_unsetenv(&env, args);
     silent_unsetenv(&env, args, &shell);

@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include "minishell.h"
 #include "my_arrays.h"
 #include "my_math.h"
@@ -28,7 +29,7 @@ int silent_exit(varenv_t **env, char **args, minishell_t *shell)
         return (1);
     }
     shell->exit = 1;
-    return (my_getnbr(args[1]) % 256);
+    return (atoi(args[1]) % 256);
 }
 
 int silent_env(varenv_t **env, char **args, minishell_t *shell)
@@ -59,7 +60,7 @@ int silent_unsetenv(varenv_t **env, char **args, minishell_t *shell)
     (void) shell;
     if (size == 1) {
         return (1);
-    } else if (size == 2 && my_strcmp(args[1], "*") == 0) {
+    } else if (size == 2 && strcmp(args[1], "*") == 0) {
         destroy_env(*env);
         *env = NULL;
         return (0);

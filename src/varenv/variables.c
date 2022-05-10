@@ -7,18 +7,17 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "my_string.h"
-#include "my.h"
+#include <stdio.h>
 #include "varenv.h"
 
 static int is_alphanumeric(char *str)
 {
-    int size = strlen(str);
+    size_t size = strlen(str);
     int number = 0;
     int lower = 0;
     int upper = 0;
 
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         number = (str[i] >= '0' && str[i] <= '9');
         lower = (str[i] >= 'a' && str[i] <= 'z');
         upper = (str[i] >= 'A' && str[i] <= 'Z');
@@ -34,9 +33,9 @@ void add_variable(varenv_t **env, char *key, char *value)
     varenv_t *var = varenv_get(*env, key);
 
     if (var == NULL) {
-        varenv_put(env, my_strdup(key), my_strdup(value));
+        varenv_put(env, strdup(key), strdup(value));
     } else {
-        varenv_replace(*env, key, my_strdup(value));
+        varenv_replace(*env, key, strdup(value));
     }
 }
 
@@ -48,7 +47,7 @@ int set_variable(varenv_t **env, char *key, char *value)
         add_variable(env, key, value);
         return (0);
     } else {
-        my_dprintf(2, "setenv: Variable name must contain %s.\n", alpha);
+        fprintf(stderr, "setenv: Variable name must contain %s.\n", alpha);
         return (1);
     }
 }
@@ -76,11 +75,12 @@ char **convert_varenv(varenv_t *list)
     char **array = malloc(sizeof(char *) * (size + 1));
     varenv_t *current = list;
 
-    if (array == NULL) {
+    if (array == NULL)
         return NULL;
-    }
     while (current != NULL) {
-        array[index] = my_stringf("%s=%s", current->key, current->value);
+        array[index] = malloc(sizeof(char) * (strlen(current->key) +
+        strlen(current->value) + 2));
+        sprintf(array[index], "%s=%s", current->key, current->value);
         index++;
         current = current->next;
     }

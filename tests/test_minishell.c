@@ -93,8 +93,7 @@ Test(error, no_env)
 
 Test(error, shell_exit, .init=cr_redirect_stderr)
 {
-    char *argv[2] = { "ls", NULL };
-    int out = minishell(1, argv, NULL);
+    int out = minishell(NULL);
 
     cr_assert_stderr_eq_str("Error: Invalid environment.\n");
     cr_assert_eq(out, 84);
@@ -138,6 +137,7 @@ Test(error, corrupted, .init=cr_redirect_stderr)
 
 Test(signal, sigquit, .init=cr_redirect_stdout)
 {
+    setbuf(stdout, NULL);
     handle_quit(SIGINT);
     cr_assert_stdout_eq_str("\n$> ");
 }
@@ -175,8 +175,8 @@ Test(varenv, remove_first)
     varenv_t *env = malloc(sizeof(varenv_t));
     varenv_t *path = malloc(sizeof(varenv_t));
 
-    env->key = my_strdup("HOME");
-    env->value = my_strdup("/home");
+    env->key = strdup("HOME");
+    env->value = strdup("/home");
     env->next = path;
     path->key = "PATH";
     path->value = "/path";

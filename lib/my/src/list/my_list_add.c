@@ -12,9 +12,8 @@ static list_t *init_node(void *data)
 {
     list_t *node = malloc(sizeof(list_t));
 
-    if (node == NULL) {
+    if (node == NULL)
         return (NULL);
-    }
     node->data = data;
     node->prev = NULL;
     node->next = NULL;
@@ -37,9 +36,8 @@ static void move_in(list_t *current, list_t *node)
     current->next = node;
     node->prev = current;
     node->next = tmp;
-    if (tmp != NULL) {
+    if (tmp != NULL)
         tmp->prev = node;
-    }
 }
 
 void my_list_add(list_t **list, void *data)
@@ -49,13 +47,12 @@ void my_list_add(list_t **list, void *data)
 
     if (node == NULL) {
         return;
-    }else if (*list == NULL) {
+    } else if (*list == NULL) {
         *list = node;
         return;
     }
-    while (current->next != NULL) {
+    while (current->next != NULL)
         current = current->next;
-    }
     current->next = node;
     node->prev = current;
 }
@@ -76,8 +73,7 @@ void my_list_add_index(list_t **list, void *data, int index)
         move_start(list, node);
         return;
     }
-    for (int i = 1; i < index; i++) {
+    for (int i = 1; i < index; i++)
         current = current->next;
-    }
     move_in(current, node);
 }

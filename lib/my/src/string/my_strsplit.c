@@ -16,9 +16,8 @@ static int get_occurences(char const *str, char separator)
 
     for (int i = 0; str[i] != '\0'; i++) {
         new = (str[i] == separator);
-        if (new == 1 && old == 0) {
+        if (new == 1 && old == 0)
             count++;
-        }
         old = new;
     }
     return (count);
