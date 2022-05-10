@@ -68,11 +68,16 @@ DEBUG_BINARY	=	$(BINARY).debug
 INC			=	include/
 LIBINC		=	lib/my/include/
 
-CC			=	gcc
 CFLAGS		=	-Wall -Wextra
 CPPFLAGS	=	-iquote $(INC) -iquote $(LIBINC)
 LDLIBS		=	-lmy
 LDFLAGS		=	-L lib/my/
+
+VG_FLAGS	=	--leak-check=full --track-origins=yes --show-leak-kinds=all \
+				--error-limit=no
+
+CC			=	gcc
+VG			=	valgrind $(VG_FLAGS)
 
 all: 		$(BINARY)
 
@@ -103,7 +108,7 @@ clean_coverage:	fclean
 re:			fclean all
 
 debug_run:	fclean $(DEBUG_BINARY)
-			./$(DEBUG_BINARY) $(ARGS)
+			$(VG) ./$(DEBUG_BINARY) $(ARGS)
 
 tests_run:
 			$(MAKE) unit_tests
