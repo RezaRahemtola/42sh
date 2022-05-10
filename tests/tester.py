@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-import subprocess
-import json
+from json import load as load_json
+from subprocess import run
 from sys import argv
 from termcolor import colored
 from os import path
@@ -8,11 +8,11 @@ from os import path
 
 def get_json_data(filepath: str) -> None:
     with open(filepath) as json_file:
-        return json.load(json_file)
+        return load_json(json_file)
 
 
 def run_command(command: str, piped_path: str) -> None:
-    return subprocess.run(f'echo "{command}" | {piped_path}', shell=True, capture_output=True, text=True)
+    return run(f'echo "{command}" | {piped_path}', shell=True, capture_output=True, text=True)
 
 
 def run_test(debug: bool, disp_all: bool) -> None:
