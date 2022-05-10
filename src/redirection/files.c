@@ -13,23 +13,25 @@
 #include <unistd.h>
 #include "minishell.h"
 #include "my_string.h"
-#include "my.h"
 
 static void read_input(command_t *command)
 {
     bool out = false;
-    char *str = my_strdup("");
+    char *str = strdup("");
     char *cat = NULL;
     char *content = NULL;
     size_t size = 0;
+    size_t len = 0;
 
     while (!out) {
-        my_printf("? ");
+        printf("? ");
         size = getline(&content, &size, stdin);
-        if ((int) size == -1 || my_strcmp(content, command->info_in) == '\n') {
+        if ((int) size == -1 || strcmp(content, command->info_in) == '\n') {
             out = true;
         } else {
-            cat = my_strcat(str, content);
+            len = strlen(str) + strlen(content) + 1;
+            cat = malloc(sizeof(char) * len);
+            sprintf(cat, "%s%s", str, content);
             free(str);
             str = cat;
         }
@@ -50,7 +52,7 @@ bool open_input_redirection(command_t *command)
     }
     fd = open(command->info_in, O_RDONLY);
     if (fd == -1) {
-        my_dprintf(2, "%s: %s.\n", command->info_in, strerror(errno));
+        fprintf(stderr, "%s: %s.\n", command->info_in, strerror(errno));
         return (false);
     }
     command->fd_in = fd;
@@ -74,7 +76,7 @@ bool open_output_redirection(command_t *command)
     }
     fd = open(command->info_out, flags, 0664);
     if (fd == -1) {
-        my_dprintf(2, "%s: %s.\n", command->info_out, strerror(errno));
+        fprintf(stderr, "%s: %s.\n", command->info_out, strerror(errno));
         return (false);
     }
     command->fd_out = fd;

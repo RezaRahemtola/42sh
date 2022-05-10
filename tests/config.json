@@ -231,10 +231,6 @@
         {
             "name": "mysh2 - subject example",
             "command": "ls -l; ls -l | wc -l"
-        },
-        {
-            "name": "mysh2 - subject example 2",
-            "command": "mkdir folder ; cd folder ; ls -a ; ls | cat | wc -c > tutu ; cat tutu ; rm tutu ; cd .. ; rm -r folder"
         }
     ]
 }

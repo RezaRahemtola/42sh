@@ -6,6 +6,7 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
 #include "minishell.h"
 #include "my_string.h"
 #include "my.h"
@@ -15,7 +16,7 @@ varenv_t *varenv_get(varenv_t *list, char const *key)
     varenv_t *current = list;
 
     while (current != NULL) {
-        if (my_strcmp(current->key, key) == 0) {
+        if (strcmp(current->key, key) == 0) {
             return (current);
         }
         current = current->next;
@@ -49,7 +50,7 @@ void varenv_replace(varenv_t *list, char *key, char *value)
     varenv_t *current = list;
 
     while (current != NULL) {
-        if (my_strcmp(current->key, key) == 0) {
+        if (strcmp(current->key, key) == 0) {
             free(current->value);
             current->value = value;
             return;
@@ -63,13 +64,13 @@ void varenv_remove(varenv_t **list, char *key)
     varenv_t *current = *list;
     varenv_t *prev = *list;
 
-    if (my_strcmp(current->key, key) == 0) {
+    if (strcmp(current->key, key) == 0) {
         *list = current->next;
         my_free(3, current->key, current->value, current);
         return;
     }
     while (current != NULL) {
-        if (my_strcmp(current->key, key) == 0) {
+        if (strcmp(current->key, key) == 0) {
             prev->next = current->next;
             my_free(3, current->key, current->value, current);
             return;

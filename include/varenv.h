@@ -19,7 +19,7 @@ void print_env(varenv_t *env);
 void destroy_env(varenv_t *env);
 
 void add_variable(varenv_t **env, char *key, char *value);
-void set_variable(varenv_t **env, char *key, char *value, minishell_t *shell);
+int set_variable(varenv_t **env, char *key, char *value);
 
 char *extract_key(char const *var);
 char *extract_value(char const *var);

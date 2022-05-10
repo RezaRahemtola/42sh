@@ -7,6 +7,7 @@
 
 #include <stddef.h>
 #include <string.h>
+#include <stdio.h>
 #include "messages.h"
 #include "my_string.h"
 #include "my.h"
@@ -15,10 +16,10 @@
 static bool check_null_ambiguous(command_t *command, char **array, int index)
 {
     if (array[index + 1] == NULL || strlen(array[index + 1]) == 0) {
-        my_dprintf(2, "%s\n", MISSING_NAME);
+        fprintf(stderr, "%s\n", MISSING_NAME);
         return (false);
     } else if (command->separator_out != NO_OUT) {
-        my_dprintf(2, "%s\n", AMBIGUOUS_OUTPUT);
+        fprintf(stderr, "%s\n", AMBIGUOUS_OUTPUT);
         return (false);
     }
     return (true);
@@ -37,11 +38,11 @@ varenv_t *env)
     if (sub == NULL) {
         return (false);
     } else if (sub[0] == NULL || strlen(sub[0]) == 0) {
-        my_dprintf(2, "%s\n", MISSING_NAME);
+        fprintf(stderr, "%s\n", MISSING_NAME);
         my_free_arrays(1, sub);
         return (false);
     }
-    command->info_out = my_strdup(sub[0]);
+    command->info_out = strdup(sub[0]);
     replace_args(command, array[index], array[index + 1], env);
     my_free_arrays(1, sub);
     return (true);
@@ -60,11 +61,11 @@ varenv_t *env)
     if (sub == NULL) {
         return (false);
     } else if (sub[0] == NULL || strlen(sub[0]) == 0) {
-        my_dprintf(2, "%s\n", MISSING_NAME);
+        fprintf(stderr, "%s\n", MISSING_NAME);
         my_free_arrays(1, sub);
         return (false);
     }
-    command->info_out = my_strdup(sub[0]);
+    command->info_out = strdup(sub[0]);
     replace_args(command, array[index], array[index + 1], env);
     my_free_arrays(1, sub);
     return (true);

@@ -11,11 +11,11 @@
 #include "my_string.h"
 #include "redirections.h"
 
-redirection_t get_redirection(char *str, int index)
+redirection_t get_redirection(char *str, size_t index)
 {
     redirection_t empty = { NULL, NULL };
 
-    for (int i = 0; REDIRECTIONS[i].type != NULL; i++) {
+    for (size_t i = 0; REDIRECTIONS[i].type != NULL; i++) {
         if (my_str_starts(&str[index], REDIRECTIONS[i].type) == 0) {
             return (REDIRECTIONS[i]);
         }
@@ -23,12 +23,12 @@ redirection_t get_redirection(char *str, int index)
     return (empty);
 }
 
-static int count_redirections(char *str, int size)
+static size_t count_redirections(char *str, size_t size)
 {
-    int count = 1;
+    size_t count = 1;
     redirection_t redirect = { 0, 0 };
 
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         redirect = get_redirection(str, i);
         if (redirect.type != NULL) {
             count += 2;
@@ -38,10 +38,10 @@ static int count_redirections(char *str, int size)
     return (count);
 }
 
-static void append_end(char **array, char *input, int pattern, int index)
+static void append_end(char **array, char *input, size_t pattern, int index)
 {
-    int size = strlen(input);
-    char *end = my_substr_size(input, pattern, size, size);
+    size_t size = strlen(input);
+    char *end = my_substr_size(input, (int) pattern, (int) size, (int) size);
 
     array[index] = end;
     array[index + 1] = NULL;
@@ -50,17 +50,18 @@ static void append_end(char **array, char *input, int pattern, int index)
 char **split_redirections(char *input)
 {
     int index = 0;
-    int pattern = 0;
-    int size = strlen(input);
-    int count = count_redirections(input, size);
+    size_t pattern = 0;
+    size_t size = strlen(input);
+    size_t count = count_redirections(input, size);
     redirection_t redirect = { 0, 0 };
     char **array = malloc(sizeof(char *) * (count + 1));
 
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         redirect = get_redirection(input, i);
         if (redirect.type != NULL) {
-            array[index] = my_substr_size(input, pattern, i, size);
-            array[index + 1] = my_strdup(redirect.type);
+            array[index] = my_substr_size(input, (int) pattern, (int) i,
+                (int) size);
+            array[index + 1] = strdup(redirect.type);
             pattern = i + strlen(redirect.type);
             index += 2;
             i += strlen(redirect.type) - 1;

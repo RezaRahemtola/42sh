@@ -16,9 +16,8 @@ static int get_occurences(char const *str, char const *list)
 
     for (int i = 0; str[i] != '\0'; i++) {
         new = (my_str_containschar(list, str[i]));
-        if (new && !old) {
+        if (new && !old)
             count++;
-        }
         old = new;
     }
     return (count);

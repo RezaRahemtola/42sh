@@ -25,9 +25,8 @@ char *my_substr_size(char const *str, int start, int end, int size)
     end = MIN(size, end);
     sub = end - start;
     new = malloc(sizeof(char) * (sub + 1));
-    for (int i = 0; i < sub; i++) {
+    for (int i = 0; i < sub; i++)
         new[i] = str[i + start];
-    }
     new[sub] = '\0';
     return (new);
 }
