@@ -8,7 +8,7 @@
 #include <stddef.h>
 #include "my_string.h"
 
-char *my_revxstr(char *str)
+static char *my_revxstr(char *str)
 {
     int size = my_strlen(str);
     char arr[size];
@@ -18,9 +18,8 @@ char *my_revxstr(char *str)
         arr[a] = str[size - i - 1];
         a++;
     }
-    for (int i = 0; str[i] != '\0'; i++) {
+    for (int i = 0; str[i] != '\0'; i++)
         str[i] = arr[i];
-    }
     return (str);
 }
 
@@ -28,8 +27,7 @@ char *my_revstr(char const *str)
 {
     char *dup = my_strdup(str);
 
-    if (dup != NULL) {
+    if (dup != NULL)
         dup = my_revxstr(dup);
-    }
     return (dup);
 }

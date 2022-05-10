@@ -24,14 +24,23 @@ typedef enum separator_out_e {
     FILE_APPEND,
 } separator_out_t;
 
+typedef enum state_e {
+    IDLE,
+    RUNNING,
+    IGNORED
+} state_t;
+
 typedef struct minishell_s {
     int exit;
     int ret;
 } minishell_t;
 
 typedef struct command_s {
-    enum separator_in_e separator_in;
-    enum separator_out_e separator_out;
+    separator_in_t separator_in;
+    separator_out_t separator_out;
+    state_t state;
+    pid_t pid;
+    int ret;
     int fd_in;
     int fd_out;
     char *info_in;
@@ -42,11 +51,6 @@ typedef struct command_s {
     struct command_s *prev;
     struct command_s *next;
 } command_t;
-
-typedef struct pidlist_s {
-    pid_t pid;
-    struct pidlist_s *next;
-} pidlist_t;
 
 typedef struct varenv_s {
     char *key;
@@ -62,5 +66,5 @@ typedef struct redirection_s {
 typedef struct builtin_s {
     char *command;
     void (*function)(varenv_t **env, char **args);
-    void (*silent)(varenv_t **env, char **args, minishell_t *shell);
+    int (*silent)(varenv_t **env, char **args, minishell_t *shell);
 } builtin_t;

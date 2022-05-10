@@ -29,23 +29,3 @@ char *my_strdup(char const *str)
     new[size] = '\0';
     return (new);
 }
-
-char *my_stringify(char c)
-{
-    char *str = malloc(sizeof(char) * 2);
-
-    if (str == NULL) {
-        return (NULL);
-    }
-    str[0] = c;
-    str[1] = '\0';
-    return (str);
-}
-
-void my_strfill(char *array, int size, char def)
-{
-    for (int i = 0; i < size - 1; i++) {
-        array[i] = def;
-    }
-    array[size - 1] = '\0';
-}

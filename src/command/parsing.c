@@ -7,47 +7,48 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "messages.h"
 #include "minishell.h"
 #include "my_string.h"
+#include "my_arrays.h"
 #include "my.h"
 #include "redirections.h"
 
-static command_t *init_command(varenv_t *env, char *input)
+static bool init_command(command_t *command, varenv_t *env, char *input)
 {
-    command_t *command = malloc(sizeof(command_t));
-
-    if (command == NULL)
-        return (NULL);
     command->separator_in = NO_IN;
     command->separator_out = NO_OUT;
+    command->state = IDLE;
+    command->pid = 0;
+    command->ret = -1;
     command->fd_in = 0;
     command->fd_out = 0;
     command->info_in = NULL;
     command->info_out = NULL;
-    command->input = my_strdup(input);
+    command->input = strdup(input);
     command->args = my_strsplit_many(input, " \t");
     if (command->args == NULL) {
         my_free(2, command->input, command);
-        return (NULL);
+        return (false);
     }
     command->path = find_command(env, command->args[0]);
     command->prev = NULL;
     command->next = NULL;
-    return (command);
+    return (true);
 }
 
 static bool is_command_valid(command_t **list, varenv_t *env, char *str, int i)
 {
-    command_t *command = init_command(env, str);
+    command_t *command = malloc(sizeof(command_t));
 
-    if (command == NULL) {
+    if (command == NULL || !init_command(command, env, str)) {
         return (false);
     }
     list_append(list, command);
     if (i > 0) {
         if (is_command_empty(command) || is_command_empty(command->prev)) {
-            my_dprintf(2, "%s\n", MISSING_COMMAND);
+            fprintf(stderr, "%s\n", MISSING_COMMAND);
             return (false);
         }
         command->prev->separator_out = PIPE_OUT;
@@ -58,13 +59,13 @@ static bool is_command_valid(command_t **list, varenv_t *env, char *str, int i)
 
 static bool parse_command(command_t **list, varenv_t *env, char *input)
 {
-    int size = strlen(input);
+    size_t size = strlen(input);
     char **array = my_strsplit(input, '|');
 
     if (array == NULL) {
         return (false);
     } else if (input[size - 1] == '|' || input[0] == '|') {
-        my_dprintf(2, "%s\n", MISSING_COMMAND);
+        fprintf(stderr, "%s\n", MISSING_COMMAND);
         my_free_arrays(1, array);
         return (false);
     }
@@ -94,11 +95,11 @@ static void pipe_and_exec(command_t *cmd, varenv_t **env, minishell_t *shell)
 void handle_input(char *input, varenv_t **env, minishell_t *shell)
 {
     command_t *list = NULL;
-    int size = strlen(input);
-    char *line = my_substr_size(input, 0, size - 1, size);
+    size_t size = strlen(input);
+    char *line = my_substr_size(input, 0, (int) size - 1, (int) size);
     char **array = my_strsplit(line, ';');
 
-    for (int i = 0; array[i] != NULL; i++) {
+    for (size_t i = 0; array[i] != NULL; i++) {
         if (!parse_command(&list, *env, array[i])) {
             free(line);
             my_free_arrays(1, array);

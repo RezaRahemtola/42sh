@@ -9,18 +9,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdio.h>
 #include "builtin.h"
 #include "minishell.h"
-#include "my.h"
 #include "messages.h"
 #include "redirections.h"
 #include "varenv.h"
-#include "my_string.h"
 
 static void execute_builtin(command_t *command, varenv_t **env)
 {
     for (int i = 0; BUILTIN[i].command != NULL; i++) {
-        if (my_strcmp(command->args[0], BUILTIN[i].command) == 0) {
+        if (strcmp(command->args[0], BUILTIN[i].command) == 0) {
             BUILTIN[i].function(env, command->args);
             return;
         }
@@ -54,7 +53,7 @@ void execute_forked(command_t *cmd, varenv_t **env)
         return;
     }
     if (cmd->path == NULL && !builtin) {
-        my_dprintf(2, "%s: Command not found.\n", cmd->args[0]);
+        fprintf(stderr, "%s: Command not found.\n", cmd->args[0]);
         return;
     }
     if (builtin) {

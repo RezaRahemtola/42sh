@@ -29,7 +29,6 @@ REDIRECTION_SRC	=	files.c \
 
 UTIL_DIR	=	util
 UTIL_SRC	=	lists.c \
-				pidlists.c \
 				splitter.c \
 				strings.c
 
@@ -107,7 +106,7 @@ debug_run:	fclean $(DEBUG_BINARY)
 			./$(DEBUG_BINARY) $(ARGS)
 
 tests_func: all
-			@python3 -m pip install termcolor
+			@python3 -m pip install termcolor > /dev/null
 			python3 tests/tester.py -adc
 
 .PHONY: all clean fclean re tests_run

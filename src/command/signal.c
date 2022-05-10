@@ -6,16 +6,15 @@
 */
 
 #include <signal.h>
-#include "minishell.h"
-#include "my.h"
-
-void init_signals(void)
-{
-    signal(SIGINT, &handle_quit);
-}
+#include <stdio.h>
 
 void handle_quit(int sig)
 {
     (void) sig;
-    my_printf("\n$> ");
+    printf("\n$> ");
+}
+
+void init_signals(void)
+{
+    signal(SIGINT, &handle_quit);
 }

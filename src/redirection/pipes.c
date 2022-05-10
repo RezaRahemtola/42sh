@@ -8,8 +8,8 @@
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdio.h>
 #include "minishell.h"
-#include "my.h"
 
 static bool open_redirection(command_t *command)
 {
@@ -21,7 +21,7 @@ static bool open_redirection(command_t *command)
     }
     status = pipe(fd);
     if (status == -1) {
-        my_dprintf(2, "%s: %s.\n", command->args[0], strerror(errno));
+        fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
         return (false);
     }
     command->fd_out = fd[1];
