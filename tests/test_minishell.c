@@ -20,7 +20,7 @@ Test(input, empty)
     minishell_t shell = { 0, 0 };
 
     handle_input(input, &env, &shell);
-    cr_assert_eq(shell.ret, 0);
+    cr_assert_eq(shell.ret % 256, 0);
 }
 
 Test(input, command, .init=cr_redirect_stderr)
@@ -47,7 +47,6 @@ Test(input, builtin, .init=cr_redirect_stdout)
     env->value = "/bin";
     handle_input(input, &env, &shell);
     cr_assert_stdout_eq_str("PATH=/bin\n");
-    cr_assert_eq(shell.ret, 0);
 }
 
 Test(input, folder, .init=cr_redirect_stderr)
