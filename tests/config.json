@@ -17,6 +17,10 @@
             "command": "tests/samples/div_zero"
         },
         {
+            "name": "errors - Corrupted file",
+            "command": "tests/samples/corrupted"
+        },
+        {
             "name": "ls - simple",
             "command": "ls"
         },
