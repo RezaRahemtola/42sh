@@ -12,6 +12,7 @@
 #include "builtin.h"
 #include "minishell.h"
 #include "my.h"
+#include "messages.h"
 #include "redirections.h"
 #include "varenv.h"
 #include "my_string.h"
@@ -35,8 +36,7 @@ static void execute_binary(command_t *command, varenv_t **env)
     }
     execve(command->path, command->args, array);
     if (errno == ENOEXEC) {
-        fprintf(stderr, "%s: Exec format error. Wrong Architecture.\n",
-        command->args[0]);
+        fprintf(stderr, "%s: %s\n", command->args[0], WRONG_ARCH);
     } else {
         fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
     }
