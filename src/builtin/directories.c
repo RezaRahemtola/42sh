@@ -8,8 +8,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdio.h>
 #include "minishell.h"
-#include "my.h"
 #include "varenv.h"
 
 int check_directory(char *path)
@@ -18,7 +18,7 @@ int check_directory(char *path)
     int st = stat(path, &stats);
 
     if (st != -1 && S_ISDIR(stats.st_mode)) {
-        my_dprintf(2, "%s: Permission denied.\n", path);
+        fprintf(stderr, "%s: Permission denied.\n", path);
         return (1);
     } else {
         return (0);
@@ -27,7 +27,7 @@ int check_directory(char *path)
 
 void handle_cd(varenv_t **env, char *path)
 {
-    int size = strlen(path);
+    size_t size = strlen(path);
 
     if (size > 0 && path[0] == '-') {
         handle_prev(env, path);
@@ -43,9 +43,9 @@ void handle_prev(varenv_t **env, char *path)
     varenv_t *oldpwd = varenv_get(*env, "OLDPWD");
 
     if (strlen(path) > 1) {
-        my_dprintf(2, "Usage: cd [-plvn][-|<dir>].\n");
+        fprintf(stderr, "Usage: cd [-plvn][-|<dir>].\n");
     } else if (oldpwd == NULL) {
-        my_dprintf(2, ": No such file or directory.\n");
+        fprintf(stderr, ": No such file or directory.\n");
     } else {
         change_dir(oldpwd->value);
     }
@@ -57,8 +57,8 @@ void change_dir(char *dir)
     int st = stat(dir, &stats);
 
     if (st != -1 && !S_ISDIR(stats.st_mode)) {
-        my_dprintf(2, "%s: Not a directory.\n", dir);
+        fprintf(stderr, "%s: Not a directory.\n", dir);
     } else if (chdir(dir) == -1) {
-        my_dprintf(2, "%s: No such file or directory.\n", dir);
+        fprintf(stderr, "%s: No such file or directory.\n", dir);
     }
 }

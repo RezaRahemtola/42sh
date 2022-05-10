@@ -7,17 +7,17 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "minishell.h"
 #include "my_string.h"
-#include "my.h"
 
 char *extract_key(char const *var)
 {
-    int size = strlen(var);
+    size_t size = strlen(var);
 
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         if (var[i] == '=') {
-            return (my_substr_size(var, 0, i, size));
+            return (my_substr_size(var, 0, (int) i, (int) size));
         }
     }
     return (NULL);
@@ -25,11 +25,11 @@ char *extract_key(char const *var)
 
 char *extract_value(char const *var)
 {
-    int size = strlen(var);
+    size_t size = strlen(var);
 
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         if (var[i] == '=') {
-            return (my_substr_size(var, i + 1, size, size));
+            return (my_substr_size(var, (int) i + 1, (int) size, (int) size));
         }
     }
     return (NULL);
@@ -40,7 +40,7 @@ void print_env(varenv_t *env)
     varenv_t *current = env;
 
     while (current != NULL) {
-        my_printf("%s=%s\n", current->key, current->value);
+        printf("%s=%s\n", current->key, current->value);
         current = current->next;
     }
 }

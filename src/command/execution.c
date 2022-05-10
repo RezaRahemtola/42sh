@@ -10,10 +10,9 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <stdio.h>
 #include "builtin.h"
 #include "minishell.h"
-#include "my_string.h"
-#include "my.h"
 #include "redirections.h"
 
 static void execute_silent(command_t *command, varenv_t **env, \
@@ -23,7 +22,7 @@ minishell_t *shell)
         return;
     }
     for (int i = 0; BUILTIN[i].command != NULL; i++) {
-        if (my_strcmp(command->args[0], BUILTIN[i].command) == 0) {
+        if (strcmp(command->args[0], BUILTIN[i].command) == 0) {
             BUILTIN[i].silent(env, command->args, shell);
             return;
         }
@@ -49,7 +48,7 @@ minishell_t *shell)
     pid_t pid = fork();
 
     if (pid == -1) {
-        my_dprintf(2, "%s: %s.\n", command->args[0], strerror(errno));
+        fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
         return (-1);
     } else if (pid == 0) {
         execute_forked(command, env);

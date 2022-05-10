@@ -22,7 +22,7 @@ void handle_errors(int status);
 void execute_commands(command_t *commands, varenv_t **env, minishell_t *shell);
 void execute_forked(command_t *command, varenv_t **env);
 char *find_command(varenv_t *env, char *bin);
-char *get_next_argument(char *str, int index);
+char *get_next_argument(char *str, size_t index);
 bool is_command_empty(command_t *command);
 
 // Command linked lists

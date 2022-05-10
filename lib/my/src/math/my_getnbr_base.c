@@ -11,11 +11,10 @@ static int check_digit(int digit, int count, int *less)
 {
     int out = 0;
 
-    if (digit < -2 || (digit < 0 && count > 0)) {
+    if (digit < -2 || (digit < 0 && count > 0))
         out = 1;
-    } else if (digit == -1) {
+    else if (digit == -1)
         *less += 1;
-    }
     return (out);
 }
 
@@ -24,14 +23,11 @@ static int get_number(char c, char const *base)
     int size = my_strlen(base);
     int digit = -3;
 
-    if (c == '+' || c == '-') {
+    if (c == '+' || c == '-')
         digit = (c == '-' ? -1 : -2);
-    }
-    for (int i = 0; i < size; i++) {
-        if (base[i] == c) {
+    for (int i = 0; i < size; i++)
+        if (base[i] == c)
             digit = i;
-        }
-    }
     return (digit);
 }
 
@@ -39,12 +35,10 @@ static int finish_number(long number, int less)
 {
     int final = (int) number;
 
-    if (number > 0 && final < 0 && (final % 10 != -8 || less % 2 == 0)) {
+    if (number > 0 && final < 0 && (final % 10 != -8 || less % 2 == 0))
         final = 0;
-    }
-    if (less % 2 == 1) {
+    if (less % 2 == 1)
         final = -final;
-    }
     return (final);
 }
 

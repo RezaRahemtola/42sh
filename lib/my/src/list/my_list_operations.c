@@ -13,9 +13,8 @@ int my_list_size(list_t *list)
     list_t *current = list;
     int size = 0;
 
-    if (list == NULL) {
+    if (list == NULL)
         return (0);
-    }
     while (current != NULL) {
         size++;
         current = current->next;
@@ -28,9 +27,8 @@ bool my_list_contains(list_t *list, void *data, equals_func eq_func)
     list_t *current = list;
 
     while (current != NULL) {
-        if (eq_func(current->data, data) == true) {
+        if (eq_func(current->data, data) == true)
             return (true);
-        }
         current = current->next;
     }
     return (false);

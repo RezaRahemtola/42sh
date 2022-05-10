@@ -13,17 +13,14 @@ static void remove_data(list_t *node, list_t **list, free_func free_func)
     list_t *prev = node->prev;
     list_t *next = node->next;
 
-    if (prev == NULL) {
+    if (prev == NULL)
         *list = next;
-    } else {
+    else
         prev->next = next;
-    }
-    if (next != NULL) {
+    if (next != NULL)
         next->prev = prev;
-    }
-    if (free_func != NULL) {
+    if (free_func != NULL)
         free_func(node->data);
-    }
     free(node);
 }
 
@@ -46,12 +43,10 @@ void my_list_remove_index(list_t **list, int index, free_func free_func)
     list_t *current = *list;
     int size = my_list_size(*list);
 
-    if (index < 0 || index >= size) {
+    if (index < 0 || index >= size)
         return;
-    }
-    for (int i = 0; i < index - 1; i++) {
+    for (int i = 0; i < index - 1; i++)
         current = current->next;
-    }
     remove_data(current, list, free_func);
 }
 
@@ -69,8 +64,7 @@ free_func free_func)
             remove_data(current, list, free_func);
             current = tmp;
         }
-        if (!equals) {
+        if (!equals)
             current = current->next;
-        }
     }
 }
