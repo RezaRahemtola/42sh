@@ -61,6 +61,8 @@ TEST		=	$(addprefix $(BASE_DIR)/, $(BASE_SRC))\
 OBJ			=	$(SRC:.c=.o)
 TEST_OBJ	=	$(TEST:.c=.o)
 
+LIBS		=	my
+
 BINARY			=	42sh
 TEST_BINARY		=	$(BINARY).test
 DEBUG_BINARY	=	$(BINARY).debug
@@ -70,8 +72,8 @@ LIBINC		=	lib/my/include/
 
 CFLAGS		=	-Wall -Wextra
 CPPFLAGS	=	-iquote $(INC) -iquote $(LIBINC)
-LDLIBS		=	-lmy
-LDFLAGS		=	-L lib/my/
+LDLIBS		=	$(addprefix -l, $(LIBS))
+LDFLAGS		=	$(LIBS:%=-L lib/%/)
 
 VG_FLAGS	=	--leak-check=full --track-origins=yes --show-leak-kinds=all \
 				--error-limit=no
