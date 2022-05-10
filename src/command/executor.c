@@ -6,6 +6,7 @@
 */
 
 #include <errno.h>
+#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 #include "builtin.h"
@@ -33,7 +34,12 @@ static void execute_binary(command_t *command, varenv_t **env)
         return;
     }
     execve(command->path, command->args, array);
-    my_dprintf(2, "%s: %s.\n", command->args[0], strerror(errno));
+    if (errno == ENOEXEC) {
+        fprintf(stderr, "%s: Exec format error. Wrong Architecture.\n",
+        command->args[0]);
+    } else {
+        fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
+    }
 }
 
 void execute_forked(command_t *cmd, varenv_t **env)
