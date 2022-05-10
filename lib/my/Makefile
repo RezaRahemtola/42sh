@@ -5,49 +5,51 @@
 ## Makefile
 ##
 
-SRC		=	src/array/my_arrays.c \
-			src/list/my_list_add.c \
-			src/list/my_list_operations.c \
-			src/list/my_list_remove.c \
-			src/math/my_getnbr.c \
-            src/math/my_getnbr_base.c \
-            src/math/my_is_number.c \
-        	src/math/my_nbrlen.c \
-            src/math/my_number.c \
-            src/math/my_operations.c \
-            src/math/my_parsenbr_base.c \
-            src/math/my_parsenbr_long.c \
-            src/math/my_parsenbr.c \
-			src/math/my_power.c \
-			src/math/my_prime.c \
-			src/printf/my_printf.c \
-			src/printf/my_printf_bases.c \
-			src/printf/my_printf_core.c \
-			src/printf/my_printf_formats.c \
-			src/printf/my_printf_formatter.c \
-			src/printf/my_printf_info.c \
-			src/printf/my_printf_numbers.c \
-			src/printf/my_printf_parser.c \
-			src/printf/my_printf_strings.c \
-			src/string/my_revstr.c \
-			src/string/my_str_cases.c \
-			src/string/my_str_checks.c \
-			src/string/my_str_contains.c \
-			src/string/my_str_operations.c \
-			src/string/my_str_starts.c \
-			src/string/my_strcapitalize.c \
-			src/string/my_strcat.c \
-			src/string/my_strcmp.c \
-			src/string/my_strcpy.c \
-			src/string/my_strrep.c \
-			src/string/my_strsplit.c \
-			src/string/my_strsplit_many.c \
-			src/string/my_strtoi.c \
-			src/string/my_substr.c \
-			src/my_free.c \
-			src/my_print.c
+SRC_DIR =	src/
 
-OBJ		=	$(SRC:.c=.o)
+SRC		=	array/my_arrays.c \
+			list/my_list_add.c \
+			list/my_list_operations.c \
+			list/my_list_remove.c \
+			math/my_getnbr.c \
+            math/my_getnbr_base.c \
+            math/my_is_number.c \
+        	math/my_nbrlen.c \
+            math/my_number.c \
+            math/my_operations.c \
+            math/my_parsenbr_base.c \
+            math/my_parsenbr_long.c \
+            math/my_parsenbr.c \
+			math/my_power.c \
+			math/my_prime.c \
+			printf/my_printf.c \
+			printf/my_printf_bases.c \
+			printf/my_printf_core.c \
+			printf/my_printf_formats.c \
+			printf/my_printf_formatter.c \
+			printf/my_printf_info.c \
+			printf/my_printf_numbers.c \
+			printf/my_printf_parser.c \
+			printf/my_printf_strings.c \
+			string/my_revstr.c \
+			string/my_str_cases.c \
+			string/my_str_checks.c \
+			string/my_str_contains.c \
+			string/my_str_operations.c \
+			string/my_str_starts.c \
+			string/my_strcapitalize.c \
+			string/my_strcat.c \
+			string/my_strcmp.c \
+			string/my_strcpy.c \
+			string/my_strrep.c \
+			string/my_strsplit.c \
+			string/my_strsplit_many.c \
+			string/my_strtoi.c \
+			string/my_substr.c \
+			my_free.c \
+			my_print.c
+
+OBJ		=	$(addprefix $(SRC_DIR), $(SRC:.c=.o))
 
 NAME	=	libmy.a
 
@@ -57,7 +59,6 @@ AR		=	ar rc
 CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Wpedantic
 CPPFLAGS =	-iquote $(INC)
-TESTFLAGS	=	--coverage -lcriterion
 
 all: $(NAME)
 
@@ -66,12 +67,9 @@ $(NAME): $(OBJ)
 
 clean:
 	$(RM) $(OBJ)
-	$(RM) *.gcda
-	$(RM) *.gcno
 
 fclean: clean
 	$(RM) $(NAME)
-	$(RM) $(TEST)
 
 install: fclean
 	$(RM) -r .git/
