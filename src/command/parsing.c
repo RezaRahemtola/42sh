@@ -18,6 +18,7 @@ static bool init_command(command_t *command, varenv_t *env, char *input)
     command->separator_in = NO_IN;
     command->separator_out = NO_OUT;
     command->state = IDLE;
+    command->pid = 0;
     command->fd_in = 0;
     command->fd_out = 0;
     command->info_in = NULL;

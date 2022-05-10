@@ -39,6 +39,7 @@ typedef struct command_s {
     separator_in_t separator_in;
     separator_out_t separator_out;
     state_t state;
+    pid_t pid;
     int fd_in;
     int fd_out;
     char *info_in;
