@@ -13,12 +13,12 @@
 
 static int is_alphanumeric(char *str)
 {
-    int size = strlen(str);
+    size_t size = strlen(str);
     int number = 0;
     int lower = 0;
     int upper = 0;
 
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         number = (str[i] >= '0' && str[i] <= '9');
         lower = (str[i] >= 'a' && str[i] <= 'z');
         upper = (str[i] >= 'A' && str[i] <= 'Z');

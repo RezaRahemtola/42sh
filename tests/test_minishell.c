@@ -175,8 +175,8 @@ Test(varenv, remove_first)
     varenv_t *env = malloc(sizeof(varenv_t));
     varenv_t *path = malloc(sizeof(varenv_t));
 
-    env->key = my_strdup("HOME");
-    env->value = my_strdup("/home");
+    env->key = strdup("HOME");
+    env->value = strdup("/home");
     env->next = path;
     path->key = "PATH";
     path->value = "/path";

@@ -27,7 +27,7 @@ int check_directory(char *path)
 
 void handle_cd(varenv_t **env, char *path)
 {
-    int size = strlen(path);
+    size_t size = strlen(path);
 
     if (size > 0 && path[0] == '-') {
         handle_prev(env, path);

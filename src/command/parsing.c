@@ -59,7 +59,7 @@ static bool is_command_valid(command_t **list, varenv_t *env, char *str, int i)
 
 static bool parse_command(command_t **list, varenv_t *env, char *input)
 {
-    int size = strlen(input);
+    size_t size = strlen(input);
     char **array = my_strsplit(input, '|');
 
     if (array == NULL) {
@@ -95,11 +95,11 @@ static void pipe_and_exec(command_t *cmd, varenv_t **env, minishell_t *shell)
 void handle_input(char *input, varenv_t **env, minishell_t *shell)
 {
     command_t *list = NULL;
-    int size = strlen(input);
-    char *line = my_substr_size(input, 0, size - 1, size);
+    size_t size = strlen(input);
+    char *line = my_substr_size(input, 0, (int) size - 1, (int) size);
     char **array = my_strsplit(line, ';');
 
-    for (int i = 0; array[i] != NULL; i++) {
+    for (size_t i = 0; array[i] != NULL; i++) {
         if (!parse_command(&list, *env, array[i])) {
             free(line);
             my_free_arrays(1, array);

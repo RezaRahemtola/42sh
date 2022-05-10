@@ -14,7 +14,7 @@
 
 void s_handle_cd(varenv_t **env, char *path, minishell_t *shell, char *current)
 {
-    int size = strlen(path);
+    size_t size = strlen(path);
 
     if (size > 0 && path[0] == '-') {
         s_handle_prev(env, path, shell, current);
