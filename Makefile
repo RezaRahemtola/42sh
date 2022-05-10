@@ -64,6 +64,7 @@ TEST_OBJ	=	$(TEST:.c=.o)
 
 BINARY			=	42sh
 TEST_BINARY		=	$(BINARY).test
+DEBUG_BINARY	=	$(BINARY).debug
 
 INC			=	include/
 LIBINC		=	lib/my/include/
@@ -86,6 +87,11 @@ $(TEST_BINARY):	$(TEST_OBJ)
 			$(MAKE) -C lib/my
 			$(CC) -o $(TEST_BINARY) $(TEST_OBJ) $(LDFLAGS) $(LDLIBS)
 
+$(DEBUG_BINARY):	CFLAGS += -g
+$(DEBUG_BINARY):	$(OBJ)
+			$(MAKE) -C lib/my
+			$(CC) -o $(DEBUG_BINARY) $(OBJ) $(LDFLAGS) $(LDLIBS)
+
 clean:
 			$(RM) $(OBJ)
 
@@ -94,8 +100,11 @@ fclean:		clean
 
 re:			fclean all
 
-tests_run:	$(TEST_BINARY)
+tests_run:	fclean $(TEST_BINARY)
 			./$(TEST_BINARY)
+
+debug_run:	fclean $(DEBUG_BINARY)
+			./$(DEBUG_BINARY) $(ARGS)
 
 tests_func: all
 			@python3 -m pip install termcolor
