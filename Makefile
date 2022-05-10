@@ -95,7 +95,7 @@ clean:
 			$(RM) $(OBJ)
 
 fclean:		clean
-			$(RM) $(BINARY) $(TEST_BINARY)
+			$(RM) $(BINARY) $(TEST_BINARY) $(DEBUG_BINARY)
 
 re:			fclean all
 
