@@ -30,12 +30,6 @@ void list_append(command_t **list, command_t *node);
 void list_free(command_t *list);
 void free_command(command_t *command);
 
-// PID lists
-void pidlist_append(pidlist_t **list, pidlist_t *node);
-void pidlist_free(pidlist_t *list);
-int pidlist_size(pidlist_t *list);
-pidlist_t *create_pidlist(pid_t pid);
-
 // Directories
 void handle_cd(varenv_t **env, char *path);
 void change_dir(char *dir);

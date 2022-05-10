@@ -51,11 +51,6 @@ typedef struct command_s {
     struct command_s *next;
 } command_t;
 
-typedef struct pidlist_s {
-    pid_t pid;
-    struct pidlist_s *next;
-} pidlist_t;
-
 typedef struct varenv_s {
     char *key;
     char *value;
