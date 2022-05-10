@@ -24,14 +24,21 @@ typedef enum separator_out_e {
     FILE_APPEND,
 } separator_out_t;
 
+typedef enum state_e {
+    IDLE,
+    RUNNING,
+    IGNORED
+} state_t;
+
 typedef struct minishell_s {
     int exit;
     int ret;
 } minishell_t;
 
 typedef struct command_s {
-    enum separator_in_e separator_in;
-    enum separator_out_e separator_out;
+    separator_in_t separator_in;
+    separator_out_t separator_out;
+    state_t state;
     int fd_in;
     int fd_out;
     char *info_in;
