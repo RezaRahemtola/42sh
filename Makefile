@@ -79,7 +79,7 @@ VG_FLAGS	=	--leak-check=full --track-origins=yes --show-leak-kinds=all \
 CC			=	gcc
 VG			=	valgrind $(VG_FLAGS)
 
-all: 		$(BINARY)
+all:	$(BINARY)
 
 $(BINARY):	$(OBJ)
 			$(MAKE) -C lib/my
