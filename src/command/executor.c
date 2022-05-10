@@ -6,11 +6,13 @@
 */
 
 #include <errno.h>
+#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
 #include "builtin.h"
 #include "minishell.h"
+#include "messages.h"
 #include "redirections.h"
 #include "varenv.h"
 #include "my_string.h"
@@ -33,7 +35,11 @@ static void execute_binary(command_t *command, varenv_t **env)
         return;
     }
     execve(command->path, command->args, array);
-    fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
+    if (errno == ENOEXEC) {
+        fprintf(stderr, "%s: %s\n", command->args[0], WRONG_ARCH);
+    } else {
+        fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
+    }
 }
 
 void execute_forked(command_t *cmd, varenv_t **env)

@@ -37,7 +37,7 @@ static void wait_commands(pidlist_t *pidlist, minishell_t *shell)
     while (current != NULL) {
         waitpid(current->pid, &status, WUNTRACED | WCONTINUED);
         handle_errors(status);
-        shell->ret = status;
+        shell->ret = (status > 255 ? status / 256 : status);
         current = current->next;
     }
 }
@@ -52,7 +52,7 @@ minishell_t *shell)
         return (-1);
     } else if (pid == 0) {
         execute_forked(command, env);
-        exit(1);
+        exit(!is_command_empty(command) && !is_builtin(command->args[0]));
     }
     execute_silent(command, env, shell);
     return (pid);
