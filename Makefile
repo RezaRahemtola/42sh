@@ -74,7 +74,6 @@ CFLAGS		=	-Wall -Wextra
 CPPFLAGS	=	-iquote $(INC) -iquote $(LIBINC)
 LDLIBS		=	-lmy
 LDFLAGS		=	-L lib/my/
-TESTFLAGS	=	--coverage -lcriterion
 ALLFLAGS	=	$(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(LDLIBS)
 
 all: 		$(BINARY)
@@ -86,8 +85,8 @@ $(BINARY):	$(OBJ)
 $(TEST_BINARY): LDLIBS += -lcriterion -lgcov
 $(TEST_BINARY): CFLAGS += -ftest-coverage -fprofile-arcs
 $(TEST_BINARY):	$(TEST_OBJ)
-			$(MAKE) -C lib/my
-			$(CC) -o $(TEST_BINARY) $(TEST_OBJ) $(LDFLAGS) $(LDLIBS)
+				$(MAKE) -C lib/my
+				$(CC) -o $(TEST_BINARY) $(TEST_OBJ) $(LDFLAGS) $(LDLIBS)
 
 clean:
 			$(RM) $(OBJ)
@@ -101,7 +100,7 @@ tests_run:	$(TEST_BINARY)
 			./$(TEST_BINARY)
 
 tests_func: all
-			@python3 -m pip install termcolor
+			@python3 -m pip install termcolor > /dev/null
 			python3 tests/tester.py -adc
 
 .PHONY: all clean fclean re tests_run
