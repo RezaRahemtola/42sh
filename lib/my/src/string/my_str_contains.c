@@ -44,29 +44,3 @@ bool my_str_containschar(char const *str, char c)
     }
     return (false);
 }
-
-bool my_str_containsany(char const *str, char const *list)
-{
-    int size = my_strlen(str);
-    int pattern = my_strlen(list);
-
-    for (int i = 0; i < size; i++) {
-        if (check_character(str[i], list, pattern)) {
-            return (true);
-        }
-    }
-    return (false);
-}
-
-bool my_str_containsonly(char const *str, char const *list)
-{
-    int size = my_strlen(str);
-    int pattern = my_strlen(list);
-
-    for (int i = 0; i < size; i++) {
-        if (!check_character(str[i], list, pattern)) {
-            return (false);
-        }
-    }
-    return (true);
-}
