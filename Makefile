@@ -75,8 +75,6 @@ CFLAGS		=	-Wall -Wextra
 CPPFLAGS	=	-iquote $(INC) -iquote $(LIBINC)
 LDLIBS		=	-lmy
 LDFLAGS		=	-L lib/my/
-TESTFLAGS	=	--coverage -lcriterion
-ALLFLAGS	=	$(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(LDLIBS)
 
 all: 		$(BINARY)
 
