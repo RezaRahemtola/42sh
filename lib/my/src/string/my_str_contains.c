@@ -28,7 +28,7 @@ bool my_str_containschar(char const *str, char c)
     int size = my_strlen(str);
 
     for (int i = 0; i < size; i++)
-        if (str[i] == c) {
+        if (str[i] == c)
             return (true);
     return (false);
 }
