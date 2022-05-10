@@ -7,7 +7,9 @@
 
 #include "minishell.h"
 
-int main(int argc, char **argv, char **env)
+int main(int argc, char const *argv[], char **env)
 {
-    return (minishell(argc, argv, env));
+    (void) argc;
+    (void) argv;
+    return (minishell(env));
 }

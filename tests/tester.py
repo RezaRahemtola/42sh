@@ -40,7 +40,7 @@ if __name__ == "__main__":
     nb_tests = len(json_data["tests"])
     disp_all = True if (len(argv) == 2 and "a" in argv[1]) else False
     debug = True if (len(argv) == 2 and "d" in argv[1]) else False
-    color = len(argv) == 2 and "c" in argv[1]
+    color = (len(argv) == 2 and "c" in argv[1])
 
     for test in json_data["tests"]:
         result = run_test(debug, disp_all, color)

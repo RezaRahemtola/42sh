@@ -12,7 +12,7 @@
 static const int EXIT_USAGE = 84;
 
 // Core
-int minishell(int argc, char **argv, char **env);
+int minishell(char **env);
 void shell_heartbeat(varenv_t **env, minishell_t *shell);
 
 // Command handling

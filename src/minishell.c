@@ -11,13 +11,11 @@
 #include "minishell.h"
 #include "varenv.h"
 
-int minishell(int argc, char **argv, char **env)
+int minishell(char **env)
 {
     minishell_t minishell = { 0, 0 };
     varenv_t *list = NULL;
 
-    (void) argc;
-    (void) argv;
     setbuf(stdout, NULL);
     setbuf(stderr, NULL);
     if (env == NULL) {
