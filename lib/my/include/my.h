@@ -22,12 +22,6 @@ void my_putchar(char c);
 void my_putnbr(int nbr);
 void my_putstr(char const *str);
 
-int my_dprintf(int fd, char const *format, ...);
-int my_printf(char const *format, ...);
-void my_debugf(char const *format, ...) \
-__attribute__ ((deprecated("Use of a debug function")));
-char *my_stringf(char const *format, ...);
-
 void my_free(int size, ...);
 void *my_free_null(int size, ...);
 void my_free_arrays(int size, ...);

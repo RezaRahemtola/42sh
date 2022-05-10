@@ -22,15 +22,6 @@ SRC		=	array/my_arrays.c \
             math/my_parsenbr.c \
 			math/my_power.c \
 			math/my_prime.c \
-			printf/my_printf.c \
-			printf/my_printf_bases.c \
-			printf/my_printf_core.c \
-			printf/my_printf_formats.c \
-			printf/my_printf_formatter.c \
-			printf/my_printf_info.c \
-			printf/my_printf_numbers.c \
-			printf/my_printf_parser.c \
-			printf/my_printf_strings.c \
 			string/my_revstr.c \
 			string/my_str_cases.c \
 			string/my_str_checks.c \

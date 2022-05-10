@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "my.h"
 #include "varenv.h"
 
 static int is_alphanumeric(char *str)
@@ -76,11 +75,12 @@ char **convert_varenv(varenv_t *list)
     char **array = malloc(sizeof(char *) * (size + 1));
     varenv_t *current = list;
 
-    if (array == NULL) {
+    if (array == NULL)
         return NULL;
-    }
     while (current != NULL) {
-        array[index] = my_stringf("%s=%s", current->key, current->value);
+        array[index] = malloc(sizeof(char) * (strlen(current->key) +
+        strlen(current->value) + 2));
+        sprintf(array[index], "%s=%s", current->key, current->value);
         index++;
         current = current->next;
     }
