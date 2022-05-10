@@ -11,7 +11,6 @@
 
 int my_strlen(char const *str);
 char *my_strdup(char const *str);
-char *my_stringify(char c);
 
 int my_strcmp(char const *str1, char const *str2);
 int my_strncmp(char const *str1, char const *str2, int nbr);
@@ -27,7 +26,6 @@ bool my_char_isalpha(char c);
 char **my_strsplit_many(char const *str, char const *list);
 
 char *my_revstr(char const *str);
-char *my_revxstr(char *str);
 char *my_strcat(char const *, char const *);
 char *my_strrep(char *, char const *, char const *);
 char **my_strsplit(char const *, char);

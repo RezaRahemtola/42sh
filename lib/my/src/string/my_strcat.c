@@ -16,11 +16,10 @@ char *my_strcat(char const *src, char const *src2)
     char *new = malloc(size + size2 + 1);
 
     for (int i = 0; i < size + size2; i++) {
-        if (i < size) {
+        if (i < size)
             new[i] = src[i];
-        } else {
+        else
             new[i] = src2[i - size];
-        }
     }
     new[size + size2] = '\0';
     return (new);
