@@ -103,7 +103,7 @@ $(LIBS):
 		$(MAKE) -C $(@:%=lib/%)
 
 clean:
-		$(RM) $(OBJ)
+		$(RM) $(OBJ) $(TEST_OBJ)
 
 fclean:	clean
 		$(RM) $(BINARY) $(TEST_BINARY) $(DEBUG_BINARY)
