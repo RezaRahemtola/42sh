@@ -11,10 +11,9 @@
 #include <stdio.h>
 #include "my_arrays.h"
 #include "my_string.h"
-#include "my.h"
 #include "varenv.h"
 
-static char *explore_path(varenv_t *path, char *bin)
+static char *explore_path(varenv_t *path, char const *bin)
 {
     char **array = my_strsplit(path->value, ':');
     int size = my_arraylen(array);
@@ -23,8 +22,8 @@ static char *explore_path(varenv_t *path, char *bin)
 
     for (int i = 0; i < size; i++) {
         separator = (array[i][strlen(array[i]) - 1] == '/' ? "" : "/");
-        line = malloc(sizeof(char) * (strlen(array[i]) + strlen(bin) +
-        strlen(separator) + 1));
+        line = malloc(sizeof(char) * (strlen(array[i]) + strlen(bin)
+                                      + strlen(separator) + 1));
         sprintf(line, "%s%s%s", array[i], separator, bin);
         if (access(line, F_OK) == 0) {
             my_free_arrays(1, array);
@@ -41,14 +40,10 @@ char *find_command(varenv_t *env, char *bin)
 {
     varenv_t *path = varenv_get(env, "PATH");
 
-    if (bin == NULL) {
+    if (bin == NULL || path == NULL)
         return (NULL);
-    }
-    if (my_str_contains(bin, "/") == 0) {
+    if (my_str_contains(bin, "/") == 0)
         return (access(bin, F_OK) == -1 ? NULL : strdup(bin));
-    } else if (path == NULL) {
-        return (NULL);
-    } else {
+    else
         return (explore_path(path, bin));
-    }
 }
