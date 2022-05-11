@@ -16,14 +16,13 @@
 #include "my_string.h"
 #include "varenv.h"
 
-void builtin_exit(varenv_t **env, char **args)
+void builtin_exit(__attribute__ ((unused)) varenv_t **env, char **args)
 {
     int size = my_arraylen(args);
 
-    (void) env;
-    if (size == 1) {
+    if (size == 1)
         return;
-    } else if (size > 2 || args[1][0] <= '0' || args[1][0] >= '9') {
+    if (size > 2 || args[1][0] <= '0' || args[1][0] >= '9') {
         fprintf(stderr, "exit: Expression Syntax.\n");
         return;
     }
@@ -33,9 +32,8 @@ void builtin_exit(varenv_t **env, char **args)
     }
 }
 
-void builtin_env(varenv_t **env, char **args)
+void builtin_env(varenv_t **env, __attribute__ ((unused)) char **args)
 {
-    (void) args;
     print_env(*env);
 }
 
@@ -55,15 +53,10 @@ void builtin_setenv(varenv_t **env, char **args)
         print_env(*env);
 }
 
-void builtin_unsetenv(varenv_t **env, char **args)
+void builtin_unsetenv(__attribute__ ((unused)) varenv_t **env, char **args)
 {
-    int size = my_arraylen(args);
-
-    (void) env;
-    if (size == 1) {
+    if (my_arraylen(args) == 1)
         fprintf(stderr, "unsetenv: Too few arguments.\n");
-        return;
-    }
 }
 
 void builtin_cd(varenv_t **env, char **args)
@@ -75,12 +68,11 @@ void builtin_cd(varenv_t **env, char **args)
         fprintf(stderr, "cd: %s.\n", strerror(errno));
         return;
     }
-    if (size == 1) {
+    if (size == 1)
         change_home(env);
-    } else if (size == 2) {
+    else if (size == 2)
         handle_cd(env, args[1]);
-    } else {
+    else
         fprintf(stderr, "cd: Too many arguments.\n");
-    }
     free(path);
 }
