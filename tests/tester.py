@@ -7,9 +7,9 @@ from os import path
 from difflib import unified_diff as diff
 
 
-def get_json_data(filepath: str):
+def get_tests(filepath: str):
     with open(filepath) as json_file:
-        return load_json(json_file)
+        return load_json(json_file)["tests"]
 
 
 def run_command(command: str, piped_path: str):
@@ -19,13 +19,13 @@ def run_command(command: str, piped_path: str):
 def disp_err(tcsh, mysh) -> None:
     if tcsh.stdout not in mysh.stdout:
         print("stdout:")
-        delta = diff(tcsh.stdout.split('\n'), mysh.stdout.split('\n'), "tcsh", "42sh")
+        delta = diff(tcsh.stdout.split(), mysh.stdout.split(), "tcsh", "42sh")
         for line in delta:
             print(line, end="")
         print()
     if tcsh.stderr not in mysh.stderr:
         print("stderr:")
-        delta = diff(tcsh.stderr.split('\n'), mysh.stderr.split('\n'), "tcsh", "42sh")
+        delta = diff(tcsh.stderr.split(), mysh.stderr.split(), "tcsh", "42sh")
         for line in delta:
             print(line, end="")
         print()
@@ -41,23 +41,21 @@ def run_test(isDebug: bool, isFullLog: bool, hasColor: bool) -> bool:
             disp_err(tcsh, mysh)
         print(colored(f'Test "{name}" failed.', "red") if hasColor else f'Test "{name}" failed.')
         return (False)
-    else:
-        if isFullLog:
-            print(colored(f'Test "{name}" passed.', "green") if hasColor else f'Test "{name}" passed.')
-        return (True)
+    if isFullLog:
+        print(colored(f'Test "{name}" passed.', "green") if hasColor else f'Test "{name}" passed.')
+    return (True)
 
 
 if __name__ == "__main__":
-    nb_passed = 0
-    nb_failed = 0
+    nb_passed, nb_failed = 0, 0
     current_path = path.dirname(path.realpath(__file__))
-    json_data = get_json_data(current_path + "/config.json")
-    nb_tests = len(json_data["tests"])
-    isFullLog = True if (len(argv) == 2 and "a" in argv[1]) else False
-    isDebug = True if (len(argv) == 2 and "d" in argv[1]) else False
+    tests = get_tests(current_path + "/config.json")
+    nb_tests = len(tests)
+    isFullLog = (len(argv) == 2 and "a" in argv[1])
+    isDebug = (len(argv) == 2 and "d" in argv[1])
     hasColor = (len(argv) == 2 and "c" in argv[1])
 
-    for test in json_data["tests"]:
+    for test in tests:
         hasPassed = run_test(isDebug, isFullLog, hasColor)
         nb_passed += 1 if hasPassed else 0
         nb_failed += 1 if not hasPassed else 0
