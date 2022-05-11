@@ -6,13 +6,21 @@ from termcolor import colored
 from os import path
 
 
-def get_json_data(filepath: str) -> None:
+def get_json_data(filepath: str):
     with open(filepath) as json_file:
         return load_json(json_file)
 
 
-def run_command(command: str, piped_path: str) -> None:
+def run_command(command: str, piped_path: str):
     return run(f'echo "{command}" | {piped_path}', shell=True, capture_output=True, text=True)
+
+
+def disp_err(tcsh, mysh, name: str, debug: bool) -> None:
+    if debug and tcsh.stdout not in mysh.stdout:
+        print(f"TCSH_out:{tcsh.stdout}\n42sh_out:{mysh.stdout}")
+    if debug and tcsh.stderr not in mysh.stderr:
+        print(f"TCSH_err:{tcsh.stderr}\n42sh_err:{mysh.stderr}")
+    print(colored(f'Test "{name}" failed.', "red") if color else f'Test "{name}" failed.')
 
 
 def run_test(debug: bool, disp_all: bool, color: bool) -> None:
@@ -21,10 +29,7 @@ def run_test(debug: bool, disp_all: bool, color: bool) -> None:
     name = test["name"]
 
     if (tcsh.stdout not in mysh.stdout) or (tcsh.stderr not in mysh.stderr):
-        if debug:
-            print(f"TCSH_out:{tcsh.stdout}\n42sh_out:{mysh.stdout}")
-            print(f"TCSH_err:{tcsh.stderr}\n42sh_err:{mysh.stderr}")
-        print(colored(f'Test "{name}" failed.', "red") if color else f'Test "{name}" failed.')
+        disp_err(tcsh, mysh, name, debug)
         return (-1)
     else:
         if disp_all:
