@@ -87,7 +87,7 @@ Test(error, no_env)
     varenv_t **env = NULL;
     minishell_t shell = {1, 0};
 
-    shell_heartbeat(env, &shell);
+    do_heartbeat(env, &shell);
     cr_assert_eq(shell.ret, 0);
 }
 
@@ -187,7 +187,5 @@ Test(varenv, remove_first)
 
 Test(directories, unexisting_file)
 {
-    int out = check_directory("./bonsoir");
-
-    cr_assert_eq(out, false);
+    cr_assert(!is_directory("./bonsoir"));
 }

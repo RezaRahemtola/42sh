@@ -26,7 +26,7 @@ void handle_home(varenv_t **env, char *path)
         change_home(env);
     } else {
         result = my_strrep(path, "~", home->value);
-        change_dir(result);
+        change_current_path(result);
         free(result);
     }
 }

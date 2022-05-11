@@ -49,7 +49,7 @@ void execute_forked(command_t *cmd, varenv_t **env)
     handle_pipe_redirections(cmd);
     if (!open_input_redirection(cmd) || !open_output_redirection(cmd)) {
         return;
-    } else if (is_command_empty(cmd) || check_directory(cmd->path)) {
+    } else if (is_command_empty(cmd) || is_directory(cmd->path)) {
         return;
     }
     if (cmd->path == NULL && !builtin) {

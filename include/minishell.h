@@ -16,7 +16,7 @@ int start_minishell(char **env);
 void do_heartbeat(varenv_t **env, minishell_t *shell);
 
 // Command handling
-int check_directory(char *path);
+bool is_directory(const char *path);
 void handle_input(char *input, varenv_t **env, minishell_t *shell);
 void handle_errors(int status);
 void execute_commands(command_t *commands, varenv_t **env, minishell_t *shell);
@@ -32,8 +32,8 @@ void free_command(command_t *command);
 
 // Directories
 void handle_cd(varenv_t **env, char *path);
-void change_dir(char *dir);
-void handle_prev(varenv_t **env, char *path);
+void change_current_path(const char *dir);
+void handle_prev(varenv_t **env, const char *path);
 void handle_home(varenv_t **env, char *path);
 void change_home(varenv_t **env);
 int s_handle_cd(varenv_t **env, char *path, char *current);
