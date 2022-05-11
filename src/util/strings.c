@@ -13,13 +13,16 @@
 
 char *get_next_argument(char *str, size_t index)
 {
+    bool text = false;
     size_t size = strlen(str);
     size_t i;
 
-    for (i = index; i < size; i++)
-        if ((str[i] == ' ' || str[i] == '\t') &&
-            (str[i] != ' ' && str[i] != '\t'))
+    for (i = index; i < size; i++) {
+        if (str[i] != ' ' && str[i] != '\t')
+            text = true;
+        if ((str[i] == ' ' || str[i] == '\t') && text)
             break;
+    }
     return (my_substr_size(str, (int) index, (int) (index + i), (int) size));
 }
 
