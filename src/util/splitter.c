@@ -13,20 +13,16 @@
 
 redirection_t get_redirection(char *str, size_t index)
 {
-    redirection_t empty = { NULL, NULL };
-
-    for (size_t i = 0; REDIRECTIONS[i].type != NULL; i++) {
-        if (my_str_starts(&str[index], REDIRECTIONS[i].type) == 0) {
+    for (size_t i = 0; REDIRECTIONS[i].type != NULL; i++)
+        if (my_str_starts(&str[index], REDIRECTIONS[i].type) == 0)
             return (REDIRECTIONS[i]);
-        }
-    }
-    return (empty);
+    return (redirection_t) {NULL, NULL};
 }
 
 static size_t count_redirections(char *str, size_t size)
 {
     size_t count = 1;
-    redirection_t redirect = { 0, 0 };
+    redirection_t redirect;
 
     for (size_t i = 0; i < size; i++) {
         redirect = get_redirection(str, i);
@@ -53,7 +49,7 @@ char **split_redirections(char *input)
     size_t pattern = 0;
     size_t size = strlen(input);
     size_t count = count_redirections(input, size);
-    redirection_t redirect = { 0, 0 };
+    redirection_t redirect;
     char **array = malloc(sizeof(char *) * (count + 1));
 
     for (size_t i = 0; i < size; i++) {
