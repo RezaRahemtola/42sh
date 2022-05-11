@@ -79,7 +79,7 @@ int silent_cd(varenv_t **env, char **args, minishell_t *shell)
     if (size == 1)
         return_value = change_home_silently(env, path);
     else if (size == 2)
-        return_value = s_handle_cd(env, args[1], path);
+        return_value = handle_cd_silently(env, args[1], path);
     else
         return_value = 1;
     free(path);

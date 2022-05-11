@@ -36,9 +36,9 @@ void change_current_path(const char *dir);
 void handle_prev(varenv_t **env, const char *path);
 void handle_home(varenv_t **env, char *path);
 void change_home(varenv_t **env);
-int s_handle_cd(varenv_t **env, char *path, char *current);
-int s_change_dir(varenv_t **env, char *dir, char *current);
-int s_handle_prev(varenv_t **env, char *path,char *current);
+int handle_cd_silently(varenv_t **env, char *path, char *current);
+int change_dir_silently(varenv_t **env, char *dir, char *current);
+int handle_prev_silently(varenv_t **env, char *path,char *current);
 int handle_home_silently(varenv_t **env, char *path, char *current);
 int change_home_silently(varenv_t **env, char *current);
 

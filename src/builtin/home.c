@@ -56,7 +56,7 @@ int handle_home_silently(varenv_t **env, char *path, char *current)
         return (change_home_silently(env, current));
     else {
         result = my_strrep(path, "~", home->value);
-        return_value = s_change_dir(env, result, current);
+        return_value = change_dir_silently(env, result, current);
         free(result);
         return (return_value);
     }
