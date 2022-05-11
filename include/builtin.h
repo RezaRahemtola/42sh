@@ -21,7 +21,7 @@ int silent_exit(varenv_t **env, char **args, minishell_t *shell);
 int silent_setenv(varenv_t **env, char **args, minishell_t *shell);
 int silent_unsetenv(varenv_t **env, char **args, minishell_t *shell);
 
-bool is_builtin(char *command);
+bool is_builtin(char const *command);
 
 static const builtin_t BUILTIN[6] = {
         { "exit", &builtin_exit, &silent_exit },

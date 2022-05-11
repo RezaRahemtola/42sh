@@ -20,11 +20,11 @@ void handle_home(varenv_t **env, char *path)
     char *result = NULL;
     varenv_t *home = varenv_get(*env, "HOME");
 
-    if (home == NULL) {
+    if (home == NULL)
         fprintf(stderr, "No $home variable set.\n");
-    } else if (strlen(path) == 1) {
+    else if (strlen(path) == 1)
         change_home(env);
-    } else {
+    else {
         result = my_strrep(path, "~", home->value);
         change_current_path(result);
         free(result);
@@ -35,59 +35,55 @@ void change_home(varenv_t **env)
 {
     varenv_t *home = varenv_get(*env, "HOME");
     struct stat stats;
-    int st = stat((home == NULL ? "" : home->value), &stats);
-    int file = (st != -1 && !S_ISDIR(stats.st_mode));
+    int stat_status = stat((home == NULL ? "" : home->value), &stats);
+    bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);
 
-    if (home == NULL) {
+    if (home == NULL)
         fprintf(stderr, "cd: No home directory.\n");
-    } else if (chdir(home->value) == -1 || file) {
+    else if (chdir(home->value) == -1 || file)
         fprintf(stderr, "cd: Can't change to home directory.\n");
-    }
 }
 
-int s_handle_home(varenv_t **env, char *path, char *current)
+int handle_home_silently(varenv_t **env, char *path, char *current)
 {
-    int ret = 0;
+    int return_value;
     char *result = NULL;
     varenv_t *home = varenv_get(*env, "HOME");
 
-    if (home == NULL) {
+    if (home == NULL)
         return (1);
-    } else if (strlen(path) == 1) {
-        return (s_change_home(env, current));
-    } else {
+    else if (strlen(path) == 1)
+        return (change_home_silently(env, current));
+    else {
         result = my_strrep(path, "~", home->value);
-        ret = s_change_dir(env, result, current);
+        return_value = s_change_dir(env, result, current);
         free(result);
-        return (ret);
+        return (return_value);
     }
 }
 
-int s_change_home(varenv_t **env, char *current)
+int change_home_silently(varenv_t **env, char *current)
 {
     varenv_t *home = varenv_get(*env, "HOME");
     struct stat stats;
-    int st = stat((home == NULL ? "" : home->value), &stats);
-    int file = (st != -1 && !S_ISDIR(stats.st_mode));
+    int stat_status = stat((home == NULL ? "" : home->value), &stats);
+    bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);
 
-    if (home == NULL || chdir(home->value) == -1 || file) {
+    if (home == NULL || chdir(home->value) == -1 || file)
         return (1);
-    } else {
+    else {
         add_variable(env, "PWD", home->value);
         add_variable(env, "OLDPWD", current);
         return (0);
     }
 }
 
-bool is_builtin(char *command)
+bool is_builtin(char const *command)
 {
-    if (command == NULL) {
+    if (command == NULL)
         return (false);
-    }
-    for (int i = 0; BUILTIN[i].command != NULL; i++) {
-        if (strcmp(command, BUILTIN[i].command) == 0) {
+    for (int i = 0; BUILTIN[i].command != NULL; i++)
+        if (strcmp(command, BUILTIN[i].command) == 0)
             return (true);
-        }
-    }
     return (false);
 }

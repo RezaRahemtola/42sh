@@ -19,7 +19,7 @@ int s_handle_cd(varenv_t **env, char *path, char *current)
     if (size > 0 && path[0] == '-') {
         return (s_handle_prev(env, path, current));
     } else if (size > 0 && path[0] == '~') {
-        return (s_handle_home(env, path, current));
+        return (handle_home_silently(env, path, current));
     } else {
         return (s_change_dir(env, path, current));
     }
