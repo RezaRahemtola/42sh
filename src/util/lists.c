@@ -17,9 +17,8 @@ void list_append(command_t **list, command_t *node)
         *list = node;
         return;
     }
-    while (current->next != NULL) {
+    while (current->next != NULL)
         current = current->next;
-    }
     node->prev = current;
     current->next = node;
 }
