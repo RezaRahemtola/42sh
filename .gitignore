@@ -1,5 +1,6 @@
 42sh
-unit_tests
+42sh.test
+42sh.debug
 CMakeLists.txt
 #*#
 *~
