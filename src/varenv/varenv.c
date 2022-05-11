@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "minishell.h"
-#include "my_string.h"
 #include "my.h"
 
 varenv_t *varenv_get(varenv_t *list, char const *key)
@@ -16,9 +15,8 @@ varenv_t *varenv_get(varenv_t *list, char const *key)
     varenv_t *current = list;
 
     while (current != NULL) {
-        if (strcmp(current->key, key) == 0) {
+        if (strcmp(current->key, key) == 0)
             return (current);
-        }
         current = current->next;
     }
     return (NULL);
@@ -29,18 +27,16 @@ void varenv_put(varenv_t **list, char *key, char *value)
     varenv_t *env = malloc(sizeof(varenv_t));
     varenv_t *current = *list;
 
-    if (env == NULL) {
+    if (env == NULL)
         return;
-    }
     env->key = key;
     env->value = value;
     env->next = NULL;
-    if (*list == NULL) {
+    if (*list == NULL)
         *list = env;
-    } else {
-        while (current->next != NULL) {
+    else {
+        while (current->next != NULL)
             current = current->next;
-        }
         current->next = env;
     }
 }
