@@ -91,25 +91,25 @@ $(BINARY):	$(OBJ)
 $(TEST_BINARY):	LDLIBS	+=	-lcriterion -lgcov
 $(TEST_BINARY):	CFLAGS	+=	-ftest-coverage -fprofile-arcs
 $(TEST_BINARY):	$(TEST_OBJ)
-			$(MAKE) $(LIBS)
-			$(CC) -o $(TEST_BINARY) $(TEST_OBJ) $(LDFLAGS) $(LDLIBS)
+				$(MAKE) $(LIBS)
+				$(CC) -o $(TEST_BINARY) $(TEST_OBJ) $(LDFLAGS) $(LDLIBS)
 
 $(DEBUG_BINARY):	CFLAGS	+=	-g
 $(DEBUG_BINARY):	$(OBJ) $(LIBS)
-			$(MAKE) $(LIBS)
-			$(CC) -o $(DEBUG_BINARY) $(OBJ) $(LDFLAGS) $(LDLIBS)
+					$(MAKE) $(LIBS)
+					$(CC) -o $(DEBUG_BINARY) $(OBJ) $(LDFLAGS) $(LDLIBS)
 
 $(LIBS):
 		$(MAKE) -C $(@:%=lib/%)
 
 clean:
-			$(RM) $(OBJ)
+		$(RM) $(OBJ)
 
 fclean:	clean
-			$(RM) $(BINARY) $(TEST_BINARY) $(DEBUG_BINARY)
+		$(RM) $(BINARY) $(TEST_BINARY) $(DEBUG_BINARY)
 
 clean_coverage:	fclean
-			@find \( -name '*.gcno' -o -name '*.gcda' \) -delete
+				@find \( -name '*.gcno' -o -name '*.gcda' \) -delete
 
 re:	fclean all
 
