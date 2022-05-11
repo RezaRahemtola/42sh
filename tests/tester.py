@@ -4,6 +4,7 @@ from subprocess import run
 from sys import argv
 from termcolor import colored
 from os import path
+from difflib import unified_diff as diff
 
 
 def get_json_data(filepath: str):
@@ -17,9 +18,17 @@ def run_command(command: str, piped_path: str):
 
 def disp_err(tcsh, mysh) -> None:
     if tcsh.stdout not in mysh.stdout:
-        print(f"TCSH_out:{tcsh.stdout}\n42sh_out:{mysh.stdout}")
+        print("stdout:")
+        delta = diff(tcsh.stdout.split('\n'), mysh.stdout.split('\n'), "tcsh", "42sh")
+        for line in delta:
+            print(line, end="")
+        print()
     if tcsh.stderr not in mysh.stderr:
-        print(f"TCSH_err:{tcsh.stderr}\n42sh_err:{mysh.stderr}")
+        print("stderr:")
+        delta = diff(tcsh.stderr.split('\n'), mysh.stderr.split('\n'), "tcsh", "42sh")
+        for line in delta:
+            print(line, end="")
+        print()
 
 
 def run_test(isDebug: bool, isFullLog: bool, hasColor: bool) -> bool:
