@@ -25,19 +25,17 @@ static bool check_null_ambiguous(command_t *command, char **array, int index)
     return (true);
 }
 
-bool check_in_file(command_t *command, char **array, int index, \
-varenv_t *env)
+bool check_in_file(command_t *command, char **array, int index, varenv_t *env)
 {
     char **sub = NULL;
 
-    if (!check_null_ambiguous(command, array, index)) {
+    if (!check_null_ambiguous(command, array, index))
         return (false);
-    }
     command->separator_in = FILE_READ;
     sub = my_strsplit_many(array[index + 1], " \t");
-    if (sub == NULL) {
+    if (sub == NULL)
         return (false);
-    } else if (sub[0] == NULL || strlen(sub[0]) == 0) {
+    else if (sub[0] == NULL || strlen(sub[0]) == 0) {
         fprintf(stderr, "%s\n", MISSING_NAME);
         my_free_arrays(1, sub);
         return (false);
@@ -48,19 +46,17 @@ varenv_t *env)
     return (true);
 }
 
-bool check_in_input(command_t *command, char **array, int index, \
-varenv_t *env)
+bool check_in_input(command_t *command, char **array, int index, varenv_t *env)
 {
     char **sub = NULL;
 
-    if (!check_null_ambiguous(command, array, index)) {
+    if (!check_null_ambiguous(command, array, index))
         return (false);
-    }
     command->separator_in = INPUT_READ;
     sub = my_strsplit_many(array[index + 1], " \t");
-    if (sub == NULL) {
+    if (sub == NULL)
         return (false);
-    } else if (sub[0] == NULL || strlen(sub[0]) == 0) {
+    else if (sub[0] == NULL || strlen(sub[0]) == 0) {
         fprintf(stderr, "%s\n", MISSING_NAME);
         my_free_arrays(1, sub);
         return (false);
