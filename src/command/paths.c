@@ -40,10 +40,12 @@ char *find_command(varenv_t *env, char *bin)
 {
     varenv_t *path = varenv_get(env, "PATH");
 
-    if (bin == NULL || path == NULL)
+    if (bin == NULL)
         return (NULL);
     if (my_str_contains(bin, "/") == 0)
         return (access(bin, F_OK) == -1 ? NULL : strdup(bin));
+    else if (path == NULL)
+        return NULL;
     else
         return (explore_path(path, bin));
 }
