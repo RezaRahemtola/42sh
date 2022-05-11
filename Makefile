@@ -87,8 +87,8 @@ $(BINARY):	$(OBJ)
 			$(MAKE) -C lib/my
 			$(CC) -o $(BINARY) $(OBJ) $(LDFLAGS) $(LDLIBS)
 
-$(TEST_BINARY): LDLIBS	+=	-lcriterion -lgcov
-$(TEST_BINARY): CFLAGS	+=	-ftest-coverage -fprofile-arcs
+$(TEST_BINARY):	LDLIBS	+=	-lcriterion -lgcov
+$(TEST_BINARY):	CFLAGS	+=	-ftest-coverage -fprofile-arcs
 $(TEST_BINARY):	$(TEST_OBJ)
 			$(MAKE) -C lib/my
 			$(CC) -o $(TEST_BINARY) $(TEST_OBJ) $(LDFLAGS) $(LDLIBS)
