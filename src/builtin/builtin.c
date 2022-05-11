@@ -18,7 +18,7 @@
 
 void builtin_exit(__attribute__ ((unused)) varenv_t **env, char **args)
 {
-    int size = my_arraylen(args);
+    size_t size = my_arraylen(args);
 
     if (size == 1)
         return;
@@ -39,7 +39,7 @@ void builtin_env(varenv_t **env, __attribute__ ((unused)) char **args)
 
 void builtin_setenv(varenv_t **env, char **args)
 {
-    int size = my_arraylen(args);
+    size_t size = my_arraylen(args);
 
     if (size > 3) {
         fprintf(stderr, "setenv: Too many arguments.\n");
@@ -61,7 +61,7 @@ void builtin_unsetenv(__attribute__ ((unused)) varenv_t **env, char **args)
 
 void builtin_cd(varenv_t **env, char **args)
 {
-    int size = my_arraylen(args);
+    size_t size = my_arraylen(args);
     char *path = getcwd(NULL, 0);
 
     if (path == NULL) {

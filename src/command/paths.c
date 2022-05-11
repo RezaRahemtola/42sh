@@ -16,11 +16,11 @@
 static char *explore_path(varenv_t *path, char const *bin)
 {
     char **array = my_strsplit(path->value, ':');
-    int size = my_arraylen(array);
+    size_t size = my_arraylen(array);
     char *line = NULL;
     char *separator = NULL;
 
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         separator = (array[i][strlen(array[i]) - 1] == '/' ? "" : "/");
         line = malloc(sizeof(char) * (strlen(array[i]) + strlen(bin)
                                       + strlen(separator) + 1));

@@ -60,7 +60,7 @@ typedef struct varenv_s {
 
 typedef struct redirection_s {
     char *type;
-    bool (*check)(command_t *command, char **array, int index, varenv_t *env);
+    bool (*check)(command_t *cmd, char **array, size_t index, varenv_t *env);
 } redirection_t;
 
 typedef struct builtin_s {

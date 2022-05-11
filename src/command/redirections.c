@@ -18,10 +18,10 @@
 static bool check_redirection(command_t *command, varenv_t *env)
 {
     char **array = split_redirections(command->input);
-    int size = my_arraylen(array);
+    size_t size = my_arraylen(array);
     redirection_t redir;
 
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         redir = get_redirection(array[i], 0);
         if (redir.check != NULL && !redir.check(command, array, i, env)) {
             my_free_arrays(1, array);

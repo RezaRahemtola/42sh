@@ -10,11 +10,11 @@
 #include "my_arrays.h"
 #include "my_string.h"
 
-int my_arraylen(char * const *array)
+size_t my_arraylen(char * const *array)
 {
-    int size = 0;
+    size_t size = 0;
 
-    for (size = 0; array[size] != NULL; size++);
+    for (; array[size] != NULL; size++);
     return (size);
 }
 
