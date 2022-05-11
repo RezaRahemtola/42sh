@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <stdio.h>
 #include "builtin.h"
 #include "minishell.h"
 #include "messages.h"
@@ -18,27 +17,24 @@
 
 static void execute_builtin(command_t *command, varenv_t **env)
 {
-    for (int i = 0; BUILTIN[i].command != NULL; i++) {
+    for (int i = 0; BUILTIN[i].command != NULL; i++)
         if (strcmp(command->args[0], BUILTIN[i].command) == 0) {
             BUILTIN[i].function(env, command->args);
             return;
         }
-    }
 }
 
 static void execute_binary(command_t *command, varenv_t **env)
 {
-    char **array = convert_varenv(*env);
+    char **environment_array = convert_varenv(*env);
 
-    if (array == NULL) {
+    if (environment_array == NULL)
         return;
-    }
-    execve(command->path, command->args, array);
-    if (errno == ENOEXEC) {
+    execve(command->path, command->args, environment_array);
+    if (errno == ENOEXEC)
         fprintf(stderr, "%s: %s\n", command->args[0], WRONG_ARCH);
-    } else {
+    else
         fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
-    }
 }
 
 void execute_forked(command_t *cmd, varenv_t **env)
@@ -47,20 +43,17 @@ void execute_forked(command_t *cmd, varenv_t **env)
 
     init_signals();
     handle_pipe_redirections(cmd);
-    if (!open_input_redirection(cmd) || !open_output_redirection(cmd)) {
+    if (!open_input_redirection(cmd) || !open_output_redirection(cmd) ||
+        is_command_empty(cmd) || is_directory(cmd->path))
         return;
-    } else if (is_command_empty(cmd) || is_directory(cmd->path)) {
-        return;
-    }
     if (cmd->path == NULL && !builtin) {
         fprintf(stderr, "%s: Command not found.\n", cmd->args[0]);
         return;
     }
-    if (builtin) {
+    if (builtin)
         execute_builtin(cmd, env);
-    } else {
+    else
         execute_binary(cmd, env);
-    }
     close_input_redirection(cmd);
     close_output_redirection(cmd);
 }
