@@ -13,15 +13,14 @@
 
 void handle_errors(int status)
 {
-    int sig = 0;
-    const char *core = (WCOREDUMP(status) ? CORE_DUMPED : "");
+    int sig;
+    char const *core = (WCOREDUMP(status) ? CORE_DUMPED : "");
 
     if (WIFSIGNALED(status)) {
         sig = WTERMSIG(status);
-        if (sig == SIGFPE) {
+        if (sig == SIGFPE)
             fprintf(stderr, "%s%s\n", FLOATING_EX, core);
-        } else {
+        else
             fprintf(stderr, "%s%s\n", strsignal(sig), core);
-        }
     }
 }
