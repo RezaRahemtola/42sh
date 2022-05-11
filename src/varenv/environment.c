@@ -15,11 +15,9 @@ char *extract_key(char const *var)
 {
     size_t size = strlen(var);
 
-    for (size_t i = 0; i < size; i++) {
-        if (var[i] == '=') {
+    for (size_t i = 0; i < size; i++)
+        if (var[i] == '=')
             return (my_substr_size(var, 0, (int) i, (int) size));
-        }
-    }
     return (NULL);
 }
 
@@ -27,11 +25,9 @@ char *extract_value(char const *var)
 {
     size_t size = strlen(var);
 
-    for (size_t i = 0; i < size; i++) {
-        if (var[i] == '=') {
+    for (size_t i = 0; i < size; i++)
+        if (var[i] == '=')
             return (my_substr_size(var, (int) i + 1, (int) size, (int) size));
-        }
-    }
     return (NULL);
 }
 
