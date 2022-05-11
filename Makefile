@@ -61,19 +61,20 @@ TEST		=	$(addprefix $(BASE_DIR)/, $(BASE_SRC))\
 OBJ			=	$(SRC:.c=.o)
 TEST_OBJ	=	$(TEST:.c=.o)
 
-LIBS		=	my
+LIBS			=	my
+LIB_DIRS		=	$(addprefix lib/, $(LIBS))
 
 BINARY			=	42sh
 TEST_BINARY		=	$(BINARY).test
 DEBUG_BINARY	=	$(BINARY).debug
 
 HEADERS_DIRS 	=	include/ \
-					$(LIBS:%=lib/%/include/)
+					$(LIB_DIRS:%=%/include/)
 
 CFLAGS		=	-Wall -Wextra
 CPPFLAGS	=	$(HEADERS_DIRS:%=-iquote %)
 LDLIBS		=	$(addprefix -l, $(LIBS))
-LDFLAGS		=	$(LIBS:%=-L lib/%/)
+LDFLAGS		=	$(addprefix -L, $(LIB_DIRS))
 
 VG_FLAGS	=	--leak-check=full --track-origins=yes --show-leak-kinds=all \
 				--error-limit=no
@@ -84,19 +85,22 @@ VG			=	valgrind $(VG_FLAGS)
 all:	$(BINARY)
 
 $(BINARY):	$(OBJ)
-			$(MAKE) -C lib/my
+			$(MAKE) $(LIBS)
 			$(CC) -o $(BINARY) $(OBJ) $(LDFLAGS) $(LDLIBS)
 
 $(TEST_BINARY):	LDLIBS	+=	-lcriterion -lgcov
 $(TEST_BINARY):	CFLAGS	+=	-ftest-coverage -fprofile-arcs
 $(TEST_BINARY):	$(TEST_OBJ)
-			$(MAKE) -C lib/my
+			$(MAKE) $(LIBS)
 			$(CC) -o $(TEST_BINARY) $(TEST_OBJ) $(LDFLAGS) $(LDLIBS)
 
 $(DEBUG_BINARY):	CFLAGS	+=	-g
-$(DEBUG_BINARY):	$(OBJ)
-			$(MAKE) -C lib/my
+$(DEBUG_BINARY):	$(OBJ) $(LIBS)
+			$(MAKE) $(LIBS)
 			$(CC) -o $(DEBUG_BINARY) $(OBJ) $(LDFLAGS) $(LDLIBS)
+
+$(LIBS):
+		$(MAKE) -C $(@:%=lib/%)
 
 clean:
 			$(RM) $(OBJ)
