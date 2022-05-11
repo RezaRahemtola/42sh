@@ -5,12 +5,13 @@
 ** Pattern matching strings
 */
 
-#include "my_string.h"
+#include <stdbool.h>
+#include <string.h>
 
 bool my_str_contains(char const *str, char const *to_find)
 {
-    int size_2 = my_strlen(to_find);
-    int same = 0;
+    size_t size_2 = strlen(to_find);
+    size_t same = 0;
 
     if (size_2 == 0)
         return (0);
@@ -25,9 +26,9 @@ bool my_str_contains(char const *str, char const *to_find)
 
 bool my_str_containschar(char const *str, char c)
 {
-    int size = my_strlen(str);
+    size_t size = strlen(str);
 
-    for (int i = 0; i < size; i++)
+    for (size_t i = 0; i < size; i++)
         if (str[i] == c)
             return (true);
     return (false);

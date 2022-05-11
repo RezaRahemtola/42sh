@@ -6,15 +6,8 @@
 */
 
 #include <stdlib.h>
-#include "my_string.h"
+#include <string.h>
 #include "my.h"
-
-char *my_substr(char const *str, int start, int end)
-{
-    int size = my_strlen(str);
-
-    return (my_substr_size(str, start, end, size));
-}
 
 char *my_substr_size(char const *str, int start, int end, int size)
 {
@@ -29,4 +22,11 @@ char *my_substr_size(char const *str, int start, int end, int size)
         new[i] = str[i + start];
     new[sub] = '\0';
     return (new);
+}
+
+char *my_substr(char const *str, int start, int end)
+{
+    size_t size = strlen(str);
+
+    return (my_substr_size(str, start, end, size));
 }

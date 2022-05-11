@@ -6,6 +6,7 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
 #include "my_string.h"
 
 static int get_occurences(char const *str, char const *list)
@@ -25,7 +26,7 @@ static int get_occurences(char const *str, char const *list)
 
 static void append_end(char const *str, char **arr, int *nbr, char const *list)
 {
-    int length = my_strlen(str);
+    size_t length = strlen(str);
     char *array = NULL;
 
     if (!my_str_containschar(list, str[length - 1])) {
@@ -40,7 +41,7 @@ static void append_end(char const *str, char **arr, int *nbr, char const *list)
 char **my_strsplit_many(char const *str, char const *list)
 {
     int size = get_occurences(str, list);
-    int length = my_strlen(str);
+    size_t length = strlen(str);
     int info[2] = { 0, 0 };
     char **arr = malloc(sizeof(char *) * (size + 1));
     char *array = NULL;

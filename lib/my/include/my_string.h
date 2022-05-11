@@ -9,15 +9,10 @@
 
 #include <stdbool.h>
 
-int my_strlen(char const *str);
-char *my_strdup(char const *str);
-
 bool my_str_contains(char const *str, char const *pattern);
 bool my_str_containschar(char const *str, char c);
 bool my_str_starts(char const *str, char const *pattern);
 
-bool my_str_isalpha(char const *str);
-bool my_str_isnum(char const *str);
 bool my_char_isalpha(char c);
 
 char **my_strsplit_many(char const *str, char const *list);

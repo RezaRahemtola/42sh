@@ -6,11 +6,11 @@
 */
 
 #include <stddef.h>
-#include "my_string.h"
+#include <string.h>
 
 static char *my_revxstr(char *str)
 {
-    int size = my_strlen(str);
+    int size = strlen(str);
     char arr[size];
     int a = 0;
 
@@ -25,7 +25,7 @@ static char *my_revxstr(char *str)
 
 char *my_revstr(char const *str)
 {
-    char *dup = my_strdup(str);
+    char *dup = strdup(str);
 
     if (dup != NULL)
         dup = my_revxstr(dup);

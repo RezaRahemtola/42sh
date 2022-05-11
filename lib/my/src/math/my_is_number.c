@@ -6,9 +6,9 @@
 */
 
 #include <stdbool.h>
-#include "my_string.h"
+#include <string.h>
 
-static int validate_char(char const *str, int i, int *count, int *num)
+static bool validate_char(char const *str, size_t i, int *count, int *num)
 {
     if ((str[i] == '+' || str[i] == '-') && *num == 0) {
         *count += 1;
@@ -16,18 +16,18 @@ static int validate_char(char const *str, int i, int *count, int *num)
         *count += 1;
         *num += 1;
     } else {
-        return (1);
+        return (true);
     }
-    return (0);
+    return (false);
 }
 
 bool my_is_number(char *str)
 {
-    int size = my_strlen(str);
+    size_t size = strlen(str);
     int count = 0;
     int num = 0;
 
-    for (int i = 0; i < size; i++)
+    for (size_t i = 0; i < size; i++)
         if (validate_char(str, i, &count, &num))
             return (false);
     return (true);
