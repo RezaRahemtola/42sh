@@ -11,9 +11,9 @@
 #include "minishell.h"
 #include "varenv.h"
 
-int minishell(char **env)
+int start_minishell(char **env)
 {
-    minishell_t minishell = { 0, 0 };
+    minishell_t minishell = {0, 0};
     varenv_t *list = NULL;
 
     setbuf(stdout, NULL);
@@ -25,31 +25,28 @@ int minishell(char **env)
     list = convert_env(env);
     varenv_remove(&list, "OLDPWD");
     init_signals();
-    shell_heartbeat(&list, &minishell);
+    do_heartbeat(&list, &minishell);
     destroy_env(list);
     return (minishell.ret);
 }
 
-void shell_heartbeat(varenv_t **env, minishell_t *shell)
+void do_heartbeat(varenv_t **env, minishell_t *shell)
 {
     size_t size = 0;
+    ssize_t read_size;
     char *line = NULL;
 
     while (shell->exit == 0) {
-        if (isatty(0)) {
+        if (isatty(0))
             printf("$> ");
-        }
-        size = getline(&line, &size, stdin);
-        if ((int) size == -1) {
+        read_size = getline(&line, &size, stdin);
+        if (read_size == -1)
             shell->exit = 1;
-        }
-        if ((int) size > 1) {
+        if (read_size > 1)
             handle_input(line, env, shell);
-        }
         free(line);
         line = NULL;
     }
-    if (isatty(0)) {
+    if (isatty(0))
         printf("exit\n");
-    }
 }

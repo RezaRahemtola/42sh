@@ -11,5 +11,5 @@ int main(int argc, char const *argv[], char **env)
 {
     (void) argc;
     (void) argv;
-    return (minishell(env));
+    return (start_minishell(env));
 }

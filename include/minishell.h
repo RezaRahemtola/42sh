@@ -12,8 +12,8 @@
 static const int EXIT_USAGE = 84;
 
 // Core
-int minishell(char **env);
-void shell_heartbeat(varenv_t **env, minishell_t *shell);
+int start_minishell(char **env);
+void do_heartbeat(varenv_t **env, minishell_t *shell);
 
 // Command handling
 int check_directory(char *path);
