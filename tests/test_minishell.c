@@ -11,12 +11,12 @@
 #include "builtin.h"
 #include "minishell.h"
 #include "my_string.h"
-#include "varenv.h"
+#include "environment.h"
 
 Test(input, empty)
 {
     const char *input = " \t\t  \n";
-    varenv_t *env = NULL;
+    environment_t *env = NULL;
     minishell_t shell = {0, 0};
 
     handle_input(input, &env, &shell);
@@ -26,7 +26,7 @@ Test(input, empty)
 Test(input, command, .init=cr_redirect_stderr)
 {
     const char *input = "ls\n";
-    varenv_t *env = malloc(sizeof(varenv_t));
+    environment_t *env = malloc(sizeof(environment_t));
     minishell_t shell = {0, 0};
 
     cr_redirect_stdout();
@@ -40,7 +40,7 @@ Test(input, command, .init=cr_redirect_stderr)
 Test(input, builtin, .init=cr_redirect_stdout)
 {
     const char *input = "env\n";
-    varenv_t *env = malloc(sizeof(varenv_t));
+    environment_t *env = malloc(sizeof(environment_t));
     minishell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -53,7 +53,7 @@ Test(input, builtin, .init=cr_redirect_stdout)
 Test(input, folder, .init=cr_redirect_stderr)
 {
     const char *input = "/etc\n";
-    varenv_t *env = NULL;
+    environment_t *env = NULL;
     minishell_t shell = {0, 0};
 
     handle_input(input, &env, &shell);
@@ -63,7 +63,7 @@ Test(input, folder, .init=cr_redirect_stderr)
 Test(input, no_path, .init=cr_redirect_stderr)
 {
     const char *input = "ls\n";
-    varenv_t *env = malloc(sizeof(varenv_t));
+    environment_t *env = malloc(sizeof(environment_t));
     minishell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -75,7 +75,7 @@ Test(input, no_path, .init=cr_redirect_stderr)
 Test(input, not_found, .init=cr_redirect_stderr)
 {
     const char *input = "lsa\n";
-    varenv_t *env = NULL;
+    environment_t *env = NULL;
     minishell_t shell = {0, 0};
 
     handle_input(input, &env, &shell);
@@ -84,7 +84,7 @@ Test(input, not_found, .init=cr_redirect_stderr)
 
 Test(error, no_env)
 {
-    varenv_t **env = NULL;
+    environment_t **env = NULL;
     minishell_t shell = {1, 0};
 
     do_heartbeat(env, &shell);
@@ -102,7 +102,7 @@ Test(error, shell_exit, .init=cr_redirect_stderr)
 Test(error, segmentation_fault, .init=cr_redirect_stderr)
 {
     const char *input = "./tests/samples/segfault_coredumped\n";
-    varenv_t *env = malloc(sizeof(varenv_t));
+    environment_t *env = malloc(sizeof(environment_t));
     minishell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -114,7 +114,7 @@ Test(error, segmentation_fault, .init=cr_redirect_stderr)
 Test(error, floating_exception, .init=cr_redirect_stderr)
 {
     const char *input = "./tests/samples/div_zero\n";
-    varenv_t *env = malloc(sizeof(varenv_t));
+    environment_t *env = malloc(sizeof(environment_t));
     minishell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -126,7 +126,7 @@ Test(error, floating_exception, .init=cr_redirect_stderr)
 Test(error, corrupted, .init=cr_redirect_stderr)
 {
     const char *input = "./tests/samples/corrupted\n";
-    varenv_t *env = malloc(sizeof(varenv_t));
+    environment_t *env = malloc(sizeof(environment_t));
     minishell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -143,15 +143,15 @@ Test(signal, sigquit, .init=cr_redirect_stdout)
     cr_assert_stdout_eq_str("\n$> ");
 }
 
-Test(varenv, convert)
+Test(environment, convert)
 {
     char **env = malloc(sizeof(char *) * 3);
-    varenv_t *list = convert_env(env);
+    environment_t *list = get_env_from_array(env);
 
     env[0] = "PATH=/bin";
     env[1] = "HOME=/home";
     env[2] = NULL;
-    list = convert_env(env);
+    list = get_env_from_array(env);
     cr_assert_str_eq(list->key, "PATH");
     cr_assert_str_eq(list->value, "/bin");
     cr_assert_not_null(list->next);
@@ -161,27 +161,27 @@ Test(varenv, convert)
     destroy_env(list);
 }
 
-Test(varenv, error_handling)
+Test(environment, error_handling)
 {
     char *str = "salut";
-    char *key = extract_key(str);
-    char *value = extract_value(str);
+    char *key = extract_env_key(str);
+    char *value = extract_env_value(str);
 
     cr_assert_null(key);
     cr_assert_null(value);
 }
 
-Test(varenv, remove_first)
+Test(environment, remove_first)
 {
-    varenv_t *env = malloc(sizeof(varenv_t));
-    varenv_t *path = malloc(sizeof(varenv_t));
+    environment_t *env = malloc(sizeof(environment_t));
+    environment_t *path = malloc(sizeof(environment_t));
 
     env->key = strdup("HOME");
     env->value = strdup("/home");
     env->next = path;
     path->key = "PATH";
     path->value = "/path";
-    varenv_remove(&env, "HOME");
+    remove_env_property(&env, "HOME");
     cr_assert_str_eq(env->key, "PATH");
 }
 

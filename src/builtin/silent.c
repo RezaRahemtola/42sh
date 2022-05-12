@@ -12,9 +12,9 @@
 #include "my_arrays.h"
 #include "my_math.h"
 #include "my_string.h"
-#include "varenv.h"
+#include "environment.h"
 
-int silent_exit(varenv_t **env, char * const *args, minishell_t *shell)
+int silent_exit(environment_t **env, char *const *args, minishell_t *shell)
 {
     size_t size = my_arraylen(args);
 
@@ -30,7 +30,7 @@ int silent_exit(varenv_t **env, char * const *args, minishell_t *shell)
     return (atoi(args[1]) % 256);
 }
 
-int silent_env(varenv_t **env, char * const *args, minishell_t *shell)
+int silent_env(environment_t **env, char *const *args, minishell_t *shell)
 {
     (void) env;
     (void) args;
@@ -38,7 +38,7 @@ int silent_env(varenv_t **env, char * const *args, minishell_t *shell)
     return (0);
 }
 
-int silent_setenv(varenv_t **env, char * const *args, minishell_t *shell)
+int silent_setenv(environment_t **env, char *const *args, minishell_t *shell)
 {
     size_t size = my_arraylen(args);
 
@@ -50,7 +50,7 @@ int silent_setenv(varenv_t **env, char * const *args, minishell_t *shell)
     return (0);
 }
 
-int silent_unsetenv(varenv_t **env, char * const *args, minishell_t *shell)
+int silent_unsetenv(environment_t **env, char *const *args, minishell_t *shell)
 {
     size_t size = my_arraylen(args);
 
@@ -63,11 +63,11 @@ int silent_unsetenv(varenv_t **env, char * const *args, minishell_t *shell)
         return (0);
     }
     for (size_t i = 1; i < size; i++)
-        varenv_remove(env, args[i]);
+        remove_env_property(env, args[i]);
     return (0);
 }
 
-int silent_cd(varenv_t **env, char * const *args, minishell_t *shell)
+int silent_cd(environment_t **env, char *const *args, minishell_t *shell)
 {
     int return_value = 1;
     size_t size = my_arraylen(args);

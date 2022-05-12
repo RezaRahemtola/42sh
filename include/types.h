@@ -52,19 +52,19 @@ typedef struct command_s {
     struct command_s *next;
 } command_t;
 
-typedef struct varenv_s {
+typedef struct environment {
     char *key;
     char *value;
-    struct varenv_s *next;
-} varenv_t;
+    struct environment *next;
+} environment_t;
 
 typedef struct redirection_s {
     char *type;
-    bool (*check)(command_t *cmd, char **array, size_t index, varenv_t *env);
+    bool (*check)(command_t *cmd, char **array, size_t index, environment_t *env);
 } redirection_t;
 
 typedef struct builtin_s {
     char *command;
-    void (*function)(varenv_t **env, char * const *args);
-    int (*silent)(varenv_t **env, char * const *args, minishell_t *shell);
+    void (*function)(environment_t **env, char * const *args);
+    int (*silent)(environment_t **env, char * const *args, minishell_t *shell);
 } builtin_t;

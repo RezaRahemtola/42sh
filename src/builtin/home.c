@@ -13,12 +13,12 @@
 #include "builtin.h"
 #include "minishell.h"
 #include "my_string.h"
-#include "varenv.h"
+#include "environment.h"
 
-void handle_home(varenv_t **env, const char *path)
+void handle_home(environment_t **env, const char *path)
 {
     char *result = NULL;
-    varenv_t *home = varenv_get(*env, "HOME");
+    environment_t *home = get_env_value(*env, "HOME");
 
     if (home == NULL)
         fprintf(stderr, "No $home variable set.\n");
@@ -31,9 +31,9 @@ void handle_home(varenv_t **env, const char *path)
     }
 }
 
-void change_home(varenv_t **env)
+void change_home(environment_t **env)
 {
-    varenv_t *home = varenv_get(*env, "HOME");
+    environment_t *home = get_env_value(*env, "HOME");
     struct stat stats;
     int stat_status = stat((home == NULL ? "" : home->value), &stats);
     bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);
@@ -44,11 +44,12 @@ void change_home(varenv_t **env)
         fprintf(stderr, "cd: Can't change to home directory.\n");
 }
 
-int handle_home_silently(varenv_t **env, const char *path, const char *current)
+int handle_home_silently(environment_t **env, const char *path,
+    const char *current)
 {
     int return_value;
     char *result = NULL;
-    varenv_t *home = varenv_get(*env, "HOME");
+    environment_t *home = get_env_value(*env, "HOME");
 
     if (home == NULL)
         return (1);
@@ -62,9 +63,9 @@ int handle_home_silently(varenv_t **env, const char *path, const char *current)
     }
 }
 
-int change_home_silently(varenv_t **env, const char *current)
+int change_home_silently(environment_t **env, const char *current)
 {
-    varenv_t *home = varenv_get(*env, "HOME");
+    environment_t *home = get_env_value(*env, "HOME");
     struct stat stats;
     int stat_status = stat((home == NULL ? "" : home->value), &stats);
     bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);

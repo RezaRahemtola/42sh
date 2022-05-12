@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "minishell.h"
-#include "varenv.h"
+#include "environment.h"
 
 bool is_directory(const char *path)
 {
@@ -24,7 +24,7 @@ bool is_directory(const char *path)
     return false;
 }
 
-void handle_cd(varenv_t **env, const char *path)
+void handle_cd(environment_t **env, const char *path)
 {
     size_t size = strlen(path);
 
@@ -36,9 +36,9 @@ void handle_cd(varenv_t **env, const char *path)
         change_current_path(path);
 }
 
-void handle_prev(varenv_t **env, const char *path)
+void handle_prev(environment_t **env, const char *path)
 {
-    varenv_t *oldpwd = varenv_get(*env, "OLDPWD");
+    environment_t *oldpwd = get_env_value(*env, "OLDPWD");
 
     if (strlen(path) > 1)
         fprintf(stderr, "Usage: cd [-plvn][-|<dir>].\n");

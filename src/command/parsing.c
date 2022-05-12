@@ -15,7 +15,7 @@
 #include "my.h"
 #include "redirections.h"
 
-static bool init_command(command_t *command, varenv_t *env, char *input)
+static bool init_command(command_t *command, environment_t *env, char *input)
 {
     command->separator_in = NO_IN;
     command->separator_out = NO_OUT;
@@ -38,7 +38,8 @@ static bool init_command(command_t *command, varenv_t *env, char *input)
     return (true);
 }
 
-static bool is_command_valid(command_t **list, varenv_t *env, char *str, int i)
+static bool is_command_valid(command_t **list, environment_t *env, char *str,
+    int i)
 {
     command_t *command = malloc(sizeof(command_t));
 
@@ -56,7 +57,7 @@ static bool is_command_valid(command_t **list, varenv_t *env, char *str, int i)
     return (true);
 }
 
-static bool parse_command(command_t **list, varenv_t *env, char *input)
+static bool parse_command(command_t **list, environment_t *env, char *input)
 {
     size_t size = strlen(input);
     char **array = my_strsplit(input, '|');
@@ -77,7 +78,8 @@ static bool parse_command(command_t **list, varenv_t *env, char *input)
     return (true);
 }
 
-static void pipe_and_exec(command_t *cmd, varenv_t **env, minishell_t *shell)
+static void
+pipe_and_exec(command_t *cmd, environment_t **env, minishell_t *shell)
 {
     if (!check_redirections(cmd, shell, *env) || !open_pipe_redirections(cmd))
         shell->ret = 1;
@@ -85,7 +87,7 @@ static void pipe_and_exec(command_t *cmd, varenv_t **env, minishell_t *shell)
         execute_commands(cmd, env, shell);
 }
 
-void handle_input(const char *input, varenv_t **env, minishell_t *shell)
+void handle_input(const char *input, environment_t **env, minishell_t *shell)
 {
     command_t *list = NULL;
     size_t size = strlen(input);

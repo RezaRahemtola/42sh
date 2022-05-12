@@ -11,7 +11,7 @@
 #include "minishell.h"
 #include "my_string.h"
 
-char *extract_key(const char *var)
+char *extract_env_key(const char *var)
 {
     size_t size = strlen(var);
 
@@ -21,7 +21,7 @@ char *extract_key(const char *var)
     return (NULL);
 }
 
-char *extract_value(const char *var)
+char *extract_env_value(const char *var)
 {
     size_t size = strlen(var);
 
@@ -31,9 +31,9 @@ char *extract_value(const char *var)
     return (NULL);
 }
 
-void print_env(varenv_t *env)
+void print_env(environment_t *env)
 {
-    varenv_t *current = env;
+    environment_t *current = env;
 
     while (current != NULL) {
         printf("%s=%s\n", current->key, current->value);
@@ -41,10 +41,10 @@ void print_env(varenv_t *env)
     }
 }
 
-void destroy_env(varenv_t *env)
+void destroy_env(environment_t *env)
 {
-    varenv_t *current = env;
-    varenv_t *tmp = NULL;
+    environment_t *current = env;
+    environment_t *tmp = NULL;
 
     while (current != NULL) {
         tmp = current->next;

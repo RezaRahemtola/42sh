@@ -10,9 +10,9 @@
 #include "minishell.h"
 #include "my.h"
 
-varenv_t *varenv_get(varenv_t *list, const char *key)
+environment_t *get_env_value(environment_t *list, const char *key)
 {
-    varenv_t *current = list;
+    environment_t *current = list;
 
     while (current != NULL) {
         if (strcmp(current->key, key) == 0)
@@ -22,10 +22,10 @@ varenv_t *varenv_get(varenv_t *list, const char *key)
     return (NULL);
 }
 
-void varenv_put(varenv_t **list, const char *key, const char *value)
+void put_env_property(environment_t **list, const char *key, const char *value)
 {
-    varenv_t *env = malloc(sizeof(varenv_t));
-    varenv_t *current = *list;
+    environment_t *env = malloc(sizeof(environment_t));
+    environment_t *current = *list;
 
     if (env == NULL)
         return;
@@ -41,9 +41,9 @@ void varenv_put(varenv_t **list, const char *key, const char *value)
     }
 }
 
-void varenv_replace(varenv_t *list, const char *key, const char *value)
+void replace_env_value(environment_t *list, const char *key, const char *value)
 {
-    varenv_t *current = list;
+    environment_t *current = list;
 
     while (current != NULL) {
         if (strcmp(current->key, key) == 0) {
@@ -55,10 +55,10 @@ void varenv_replace(varenv_t *list, const char *key, const char *value)
     }
 }
 
-void varenv_remove(varenv_t **list, const char *key)
+void remove_env_property(environment_t **list, const char *key)
 {
-    varenv_t *current = *list;
-    varenv_t *prev = *list;
+    environment_t *current = *list;
+    environment_t *prev = *list;
 
     if (strcmp(current->key, key) == 0) {
         *list = current->next;
@@ -76,10 +76,10 @@ void varenv_remove(varenv_t **list, const char *key)
     }
 }
 
-int varenv_size(varenv_t *list)
+int get_env_size(environment_t *list)
 {
     int size = 0;
-    varenv_t *current = list;
+    environment_t *current = list;
 
     while (current != NULL) {
         size++;

@@ -9,9 +9,10 @@
 #include <unistd.h>
 #include <string.h>
 #include "minishell.h"
-#include "varenv.h"
+#include "environment.h"
 
-int handle_cd_silently(varenv_t **env, const char *path, const char *current)
+int handle_cd_silently(environment_t **env, const char *path,
+    const char *current)
 {
     size_t size = strlen(path);
 
@@ -23,9 +24,10 @@ int handle_cd_silently(varenv_t **env, const char *path, const char *current)
         return (change_dir_silently(env, path, current));
 }
 
-int handle_prev_silently(varenv_t **env, const char *path, const char *current)
+int handle_prev_silently(environment_t **env, const char *path,
+    const char *current)
 {
-    varenv_t *oldpwd = varenv_get(*env, "OLDPWD");
+    environment_t *oldpwd = get_env_value(*env, "OLDPWD");
 
     if (strlen(path) > 1 || oldpwd == NULL)
         return (1);
@@ -33,7 +35,8 @@ int handle_prev_silently(varenv_t **env, const char *path, const char *current)
         return (change_dir_silently(env, oldpwd->value, current));
 }
 
-int change_dir_silently(varenv_t **env, const char *dir, const char *current)
+int change_dir_silently(environment_t **env, const char *dir,
+    const char *current)
 {
     struct stat stats;
     int st = stat(dir, &stats);

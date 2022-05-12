@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "varenv.h"
+#include "environment.h"
 
 static int is_alphanumeric(const char *str)
 {
@@ -27,17 +27,17 @@ static int is_alphanumeric(const char *str)
     return (1);
 }
 
-void add_variable(varenv_t **env, const char *key, const char *value)
+void add_variable(environment_t **env, const char *key, const char *value)
 {
-    varenv_t *var = varenv_get(*env, key);
+    environment_t *var = get_env_value(*env, key);
 
     if (var == NULL)
-        varenv_put(env, strdup(key), strdup(value));
+        put_env_property(env, strdup(key), strdup(value));
     else
-        varenv_replace(*env, key, value);
+        replace_env_value(*env, key, value);
 }
 
-int set_variable(varenv_t **env, const char *key, const char *value)
+int set_variable(environment_t **env, const char *key, const char *value)
 {
     char *alpha = "alphanumeric characters";
 
@@ -50,29 +50,29 @@ int set_variable(varenv_t **env, const char *key, const char *value)
     }
 }
 
-varenv_t *convert_env(char **env)
+environment_t *get_env_from_array(char **env)
 {
-    varenv_t *list = NULL;
+    environment_t *list = NULL;
     char *key = NULL;
     char *value = NULL;
 
     for (size_t i = 0; env[i] != NULL; i++) {
-        key = extract_key(env[i]);
-        value = extract_value(env[i]);
+        key = extract_env_key(env[i]);
+        value = extract_env_value(env[i]);
         if (key != NULL && value != NULL)
-            varenv_put(&list, key, value);
+            put_env_property(&list, key, value);
         free(key);
         free(value);
     }
     return (list);
 }
 
-char **convert_varenv(varenv_t *list)
+char **get_array_from_env(environment_t *list)
 {
-    int size = varenv_size(list);
+    int size = get_env_size(list);
     int index = 0;
     char **array = malloc(sizeof(char *) * (size + 1));
-    varenv_t *current = list;
+    environment_t *current = list;
 
     if (array == NULL)
         return NULL;

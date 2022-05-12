@@ -11,9 +11,9 @@
 #include <stdio.h>
 #include "my_arrays.h"
 #include "my_string.h"
-#include "varenv.h"
+#include "environment.h"
 
-static char *explore_path(varenv_t *path, const char *bin)
+static char *explore_path(environment_t *path, const char *bin)
 {
     char **array = my_strsplit(path->value, ':');
     size_t size = my_arraylen(array);
@@ -36,9 +36,9 @@ static char *explore_path(varenv_t *path, const char *bin)
     return (NULL);
 }
 
-char *find_command(varenv_t *env, const char *bin)
+char *find_command(environment_t *env, const char *bin)
 {
-    varenv_t *path = varenv_get(env, "PATH");
+    environment_t *path = get_env_value(env, "PATH");
 
     if (bin == NULL)
         return (NULL);

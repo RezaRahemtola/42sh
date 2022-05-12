@@ -27,9 +27,9 @@ SRC			=	minishell.c \
 				util/lists.c \
 				util/splitter.c \
 				util/strings.c \
-				varenv/environment.c \
-				varenv/varenv.c \
-				varenv/variables.c
+				environment/environment.c \
+				environment/environment_utils.c \
+				environment/variables.c
 
 MAIN		=	main.c
 

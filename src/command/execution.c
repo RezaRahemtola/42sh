@@ -15,7 +15,7 @@
 #include "minishell.h"
 #include "redirections.h"
 
-static void execute_silent(command_t *command, varenv_t **env,
+static void execute_silent(command_t *command, environment_t **env,
     minishell_t *shell)
 {
     if (is_command_empty(command))
@@ -42,7 +42,7 @@ static void wait_commands(command_t *command, minishell_t *shell)
     }
 }
 
-static pid_t execute_single(command_t *command, varenv_t **env,
+static pid_t execute_single(command_t *command, environment_t **env,
     minishell_t *shell)
 {
     pid_t pid = fork();
@@ -58,7 +58,7 @@ static pid_t execute_single(command_t *command, varenv_t **env,
     return (pid);
 }
 
-static int execute_command_line(command_t *command, varenv_t **env,
+static int execute_command_line(command_t *command, environment_t **env,
     minishell_t *shell)
 {
     int total_executed = 0;
@@ -79,7 +79,8 @@ static int execute_command_line(command_t *command, varenv_t **env,
     return (total_executed);
 }
 
-void execute_commands(command_t *command, varenv_t **env, minishell_t *shell)
+void execute_commands(command_t *command, environment_t **env,
+    minishell_t *shell)
 {
     size_t executed_number = 0;
     command_t *current = command;
