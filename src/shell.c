@@ -1,19 +1,19 @@
 /*
 ** EPITECH PROJECT, 2021
-** minishell2
+** 42sh
 ** File description:
-** Minishell
+** Shell
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "minishell.h"
+#include "shell.h"
 #include "environment.h"
 
-int start_minishell(char **env)
+int start_shell(char **env)
 {
-    minishell_t minishell = {0, 0};
+    shell_t shell = {0, 0};
     environment_t *list = NULL;
 
     setbuf(stdout, NULL);
@@ -25,23 +25,23 @@ int start_minishell(char **env)
     list = get_env_from_array(env);
     remove_env_property(&list, "OLDPWD");
     init_signals();
-    do_heartbeat(&list, &minishell);
+    do_heartbeat(&list, &shell);
     destroy_env(list);
-    return (minishell.ret);
+    return (shell.ret);
 }
 
-void do_heartbeat(environment_t **env, minishell_t *shell)
+void do_heartbeat(environment_t **env, shell_t *shell)
 {
     size_t size = 0;
     ssize_t read_size;
     char *line = NULL;
 
-    while (shell->exit == 0) {
+    while (!shell->exit) {
         if (isatty(0))
             printf("$> ");
         read_size = getline(&line, &size, stdin);
         if (read_size == -1)
-            shell->exit = 1;
+            shell->exit = true;
         if (read_size > 1)
             handle_input(line, env, shell);
         free(line);

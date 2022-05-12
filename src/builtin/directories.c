@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2021
-** minishell2
+** 42sh
 ** File description:
 ** Directory manipulations
 */
@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
-#include "minishell.h"
+#include "shell.h"
 #include "environment.h"
 
 bool is_directory(const char *path)

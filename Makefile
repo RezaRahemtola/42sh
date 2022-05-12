@@ -38,7 +38,7 @@ ENV_SRC	=	environment.c \
 				variables.c
 
 BASE_DIR	= 	src
-BASE_SRC	=	minishell.c \
+BASE_SRC	=	shell.c \
 				$(addprefix $(BUILTIN_DIR)/, $(BUILTIN_SRC)) \
 				$(addprefix $(COMMAND_DIR)/, $(COMMAND_SRC)) \
 				$(addprefix $(REDIRECTION_DIR)/, $(REDIRECTION_SRC)) \
@@ -46,7 +46,7 @@ BASE_SRC	=	minishell.c \
 				$(addprefix $(ENV_DIR)/, $(ENV_SRC))
 
 TESTS_DIR	=	tests
-TESTS_SRC	=	test_minishell.c \
+TESTS_SRC	=	test_shell.c \
 				test_builtin.c \
 				test_redirections.c
 

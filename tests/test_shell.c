@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2021
-** minishell2
+** 42sh
 ** File description:
 ** Unit tests
 */
@@ -9,15 +9,14 @@
 #include <criterion/redirect.h>
 #include <signal.h>
 #include "builtin.h"
-#include "minishell.h"
-#include "my_string.h"
+#include "shell.h"
 #include "environment.h"
 
 Test(input, empty)
 {
     const char *input = " \t\t  \n";
     environment_t *env = NULL;
-    minishell_t shell = {0, 0};
+    shell_t shell = {0, 0};
 
     handle_input(input, &env, &shell);
     cr_assert_eq(shell.ret, 0);
@@ -27,7 +26,7 @@ Test(input, command, .init=cr_redirect_stderr)
 {
     const char *input = "ls\n";
     environment_t *env = malloc(sizeof(environment_t));
-    minishell_t shell = {0, 0};
+    shell_t shell = {0, 0};
 
     cr_redirect_stdout();
     env->key = "PATH";
@@ -41,7 +40,7 @@ Test(input, builtin, .init=cr_redirect_stdout)
 {
     const char *input = "env\n";
     environment_t *env = malloc(sizeof(environment_t));
-    minishell_t shell = {0, 0};
+    shell_t shell = {0, 0};
 
     env->key = "PATH";
     env->value = "/bin";
@@ -54,7 +53,7 @@ Test(input, folder, .init=cr_redirect_stderr)
 {
     const char *input = "/etc\n";
     environment_t *env = NULL;
-    minishell_t shell = {0, 0};
+    shell_t shell = {0, 0};
 
     handle_input(input, &env, &shell);
     cr_assert_stderr_eq_str("/etc: Permission denied.\n");
@@ -64,7 +63,7 @@ Test(input, no_path, .init=cr_redirect_stderr)
 {
     const char *input = "ls\n";
     environment_t *env = malloc(sizeof(environment_t));
-    minishell_t shell = {0, 0};
+    shell_t shell = {0, 0};
 
     env->key = "PATH";
     env->value = "/";
@@ -76,7 +75,7 @@ Test(input, not_found, .init=cr_redirect_stderr)
 {
     const char *input = "lsa\n";
     environment_t *env = NULL;
-    minishell_t shell = {0, 0};
+    shell_t shell = {0, 0};
 
     handle_input(input, &env, &shell);
     cr_assert_stderr_eq_str("lsa: Command not found.\n");
@@ -85,7 +84,7 @@ Test(input, not_found, .init=cr_redirect_stderr)
 Test(error, no_env)
 {
     environment_t **env = NULL;
-    minishell_t shell = {1, 0};
+    shell_t shell = {1, 0};
 
     do_heartbeat(env, &shell);
     cr_assert_eq(shell.ret, 0);
@@ -93,7 +92,7 @@ Test(error, no_env)
 
 Test(error, shell_exit, .init=cr_redirect_stderr)
 {
-    int out = start_minishell(NULL);
+    int out = start_shell(NULL);
 
     cr_assert_stderr_eq_str("Error: Invalid environment.\n");
     cr_assert_eq(out, 84);
@@ -103,7 +102,7 @@ Test(error, segmentation_fault, .init=cr_redirect_stderr)
 {
     const char *input = "./tests/samples/segfault_coredumped\n";
     environment_t *env = malloc(sizeof(environment_t));
-    minishell_t shell = {0, 0};
+    shell_t shell = {0, 0};
 
     env->key = "PATH";
     env->value = "/bin";
@@ -115,7 +114,7 @@ Test(error, floating_exception, .init=cr_redirect_stderr)
 {
     const char *input = "./tests/samples/div_zero\n";
     environment_t *env = malloc(sizeof(environment_t));
-    minishell_t shell = {0, 0};
+    shell_t shell = {0, 0};
 
     env->key = "PATH";
     env->value = "/bin";
@@ -127,13 +126,12 @@ Test(error, corrupted, .init=cr_redirect_stderr)
 {
     const char *input = "./tests/samples/corrupted\n";
     environment_t *env = malloc(sizeof(environment_t));
-    minishell_t shell = {0, 0};
+    shell_t shell = {0, 0};
 
     env->key = "PATH";
     env->value = "/bin";
     handle_input(input, &env, &shell);
-    cr_assert_stderr_eq_str(
-        "./tests/samples/corrupted: Exec format error. Wrong Architecture.\n");
+    cr_assert_stderr_eq_str("./tests/samples/corrupted: Exec format error. Wrong Architecture.\n");
 }
 
 Test(signal, sigquit, .init=cr_redirect_stdout)

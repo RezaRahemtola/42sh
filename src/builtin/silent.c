@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Silent builtins
 */
@@ -8,29 +8,29 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include "minishell.h"
+#include "shell.h"
 #include "my_arrays.h"
 #include "my_math.h"
 #include "my_string.h"
 #include "environment.h"
 
-int silent_exit(environment_t **env, char *const *args, minishell_t *shell)
+int silent_exit(environment_t **env, char *const *args, shell_t *shell)
 {
     size_t size = my_arraylen(args);
 
     (void) env;
     if (size == 1) {
-        shell->exit = 1;
+        shell->exit = true;
         return (-1);
     } else if (size > 2 || args[1][0] <= '0' || args[1][0] >= '9')
         return (1);
     if (!my_is_number(args[1]))
         return (1);
-    shell->exit = 1;
+    shell->exit = true;
     return (atoi(args[1]) % 256);
 }
 
-int silent_env(environment_t **env, char *const *args, minishell_t *shell)
+int silent_env(environment_t **env, char *const *args, shell_t *shell)
 {
     (void) env;
     (void) args;
@@ -38,7 +38,7 @@ int silent_env(environment_t **env, char *const *args, minishell_t *shell)
     return (0);
 }
 
-int silent_setenv(environment_t **env, char *const *args, minishell_t *shell)
+int silent_setenv(environment_t **env, char *const *args, shell_t *shell)
 {
     size_t size = my_arraylen(args);
 
@@ -50,7 +50,7 @@ int silent_setenv(environment_t **env, char *const *args, minishell_t *shell)
     return (0);
 }
 
-int silent_unsetenv(environment_t **env, char *const *args, minishell_t *shell)
+int silent_unsetenv(environment_t **env, char *const *args, shell_t *shell)
 {
     size_t size = my_arraylen(args);
 
@@ -67,7 +67,7 @@ int silent_unsetenv(environment_t **env, char *const *args, minishell_t *shell)
     return (0);
 }
 
-int silent_cd(environment_t **env, char *const *args, minishell_t *shell)
+int silent_cd(environment_t **env, char *const *args, shell_t *shell)
 {
     int return_value = 1;
     size_t size = my_arraylen(args);

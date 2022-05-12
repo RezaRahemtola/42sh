@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Types header
 */
@@ -30,10 +30,10 @@ typedef enum state_e {
     IGNORED
 } state_t;
 
-typedef struct minishell_s {
-    int exit;
+typedef struct shell_s {
+    bool exit;
     int ret;
-} minishell_t;
+} shell_t;
 
 typedef struct command_s {
     separator_in_t separator_in;
@@ -66,5 +66,5 @@ typedef struct redirection_s {
 typedef struct builtin_s {
     char *command;
     void (*function)(environment_t **env, char * const *args);
-    int (*silent)(environment_t **env, char * const *args, minishell_t *shell);
+    int (*silent)(environment_t **env, char * const *args, shell_t *shell);
 } builtin_t;

@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Redirections check
 */
@@ -9,7 +9,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "messages.h"
-#include "minishell.h"
+#include "shell.h"
 #include "my_arrays.h"
 #include "my_string.h"
 #include "my.h"
@@ -36,7 +36,7 @@ static bool check_redirection(command_t *command, environment_t *env)
     return (true);
 }
 
-bool check_redirections(command_t *list, minishell_t *shell, environment_t *env)
+bool check_redirections(command_t *list, shell_t *shell, environment_t *env)
 {
     bool empty = false;
     command_t *current = list;

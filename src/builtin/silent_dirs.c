@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Silent directory checks
 */
@@ -8,7 +8,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
-#include "minishell.h"
+#include "shell.h"
 #include "environment.h"
 
 int handle_cd_silently(environment_t **env, const char *path,

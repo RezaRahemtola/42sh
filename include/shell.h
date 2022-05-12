@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2021
-** minishell2
+** 42sh
 ** File description:
 ** Header
 */
@@ -12,14 +12,14 @@
 static const int EXIT_USAGE = 84;
 
 // Core
-int start_minishell(char **env);
-void do_heartbeat(environment_t **env, minishell_t *shell);
+int start_shell(char **env);
+void do_heartbeat(environment_t **env, shell_t *shell);
 
 // Command handling
 bool is_directory(const char *path);
-void handle_input(const char *input, environment_t **env, minishell_t *shell);
+void handle_input(const char *input, environment_t **env, shell_t *shell);
 void handle_errors(int status);
-void execute_commands(command_t *commands, environment_t **env, minishell_t *shell);
+void execute_commands(command_t *commands, environment_t **env, shell_t *shell);
 void execute_forked(command_t *command, environment_t **env);
 char *find_command(environment_t *env, const char *bin);
 char *get_next_argument(const char *str, size_t index);

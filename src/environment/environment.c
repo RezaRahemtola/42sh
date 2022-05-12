@@ -1,13 +1,13 @@
 /*
 ** EPITECH PROJECT, 2021
-** minishell2
+** 42sh
 ** File description:
 ** Map management
 */
 
 #include <stdlib.h>
 #include <string.h>
-#include "minishell.h"
+#include "shell.h"
 #include "my.h"
 
 environment_t *get_env_value(environment_t *list, const char *key)

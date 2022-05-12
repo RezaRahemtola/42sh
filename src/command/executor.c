@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Command executor
 */
@@ -10,7 +10,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "builtin.h"
-#include "minishell.h"
+#include "shell.h"
 #include "messages.h"
 #include "redirections.h"
 #include "environment.h"

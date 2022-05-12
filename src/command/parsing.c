@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Command parsing
 */
@@ -9,7 +9,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "messages.h"
-#include "minishell.h"
+#include "shell.h"
 #include "my_string.h"
 #include "my_arrays.h"
 #include "my.h"
@@ -78,8 +78,7 @@ static bool parse_command(command_t **list, environment_t *env, char *input)
     return (true);
 }
 
-static void
-pipe_and_exec(command_t *cmd, environment_t **env, minishell_t *shell)
+static void pipe_and_exec(command_t *cmd, environment_t **env, shell_t *shell)
 {
     if (!check_redirections(cmd, shell, *env) || !open_pipe_redirections(cmd))
         shell->ret = 1;
@@ -87,7 +86,7 @@ pipe_and_exec(command_t *cmd, environment_t **env, minishell_t *shell)
         execute_commands(cmd, env, shell);
 }
 
-void handle_input(const char *input, environment_t **env, minishell_t *shell)
+void handle_input(const char *input, environment_t **env, shell_t *shell)
 {
     command_t *list = NULL;
     size_t size = strlen(input);

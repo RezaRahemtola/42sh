@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** String checks
 */
@@ -8,7 +8,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <string.h>
-#include "minishell.h"
+#include "shell.h"
 #include "my_string.h"
 
 char *get_next_argument(const char *str, size_t index)

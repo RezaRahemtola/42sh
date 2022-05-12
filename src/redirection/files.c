@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** File redirections
 */
@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "minishell.h"
+#include "shell.h"
 #include "my_string.h"
 
 static void read_input(command_t *command)
@@ -20,7 +20,7 @@ static void read_input(command_t *command)
     char *cat = NULL;
     char *content = NULL;
     size_t size = 0;
-    ssize_t read_size;
+    ssize_t read_size = 0;
 
     while (true) {
         printf("? ");

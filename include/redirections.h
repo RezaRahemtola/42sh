@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Redirections array
 */
@@ -25,7 +25,7 @@ void close_output_redirection(command_t *command);
 bool open_pipe_redirections(command_t *command);
 void handle_pipe_redirections(command_t *command);
 
-bool check_redirections(command_t *list, minishell_t *shell, environment_t *env);
+bool check_redirections(command_t *list, shell_t *shell, environment_t *env);
 redirection_t get_redirection(const char *str, size_t index);
 char **split_redirections(const char *input);
 

@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Home alias functions
 */
@@ -11,7 +11,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "builtin.h"
-#include "minishell.h"
+#include "shell.h"
 #include "my_string.h"
 #include "environment.h"
 

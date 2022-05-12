@@ -1,15 +1,15 @@
 /*
 ** EPITECH PROJECT, 2021
-** minishell2
+** 42sh
 ** File description:
 ** Main
 */
 
-#include "minishell.h"
+#include "shell.h"
 
 int main(int argc, const char *argv[], char **env)
 {
     (void) argc;
     (void) argv;
-    return (start_minishell(env));
+    return (start_shell(env));
 }

@@ -1,13 +1,13 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Custom redirections splitter
 */
 
 #include <stdlib.h>
 #include <string.h>
-#include "minishell.h"
+#include "shell.h"
 #include "my_string.h"
 #include "redirections.h"
 

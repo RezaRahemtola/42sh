@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2021
-** minishell2
+** 42sh
 ** File description:
 ** Environment variables
 */
@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "minishell.h"
+#include "shell.h"
 #include "my_string.h"
 
 char *extract_env_key(const char *var)

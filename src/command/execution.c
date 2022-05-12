@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Command execution
 */
@@ -12,11 +12,11 @@
 #include <unistd.h>
 #include <stdio.h>
 #include "builtin.h"
-#include "minishell.h"
+#include "shell.h"
 #include "redirections.h"
 
 static void execute_silent(command_t *command, environment_t **env,
-    minishell_t *shell)
+    shell_t *shell)
 {
     if (is_command_empty(command))
         return;
@@ -27,7 +27,7 @@ static void execute_silent(command_t *command, environment_t **env,
         }
 }
 
-static void wait_commands(command_t *command, minishell_t *shell)
+static void wait_commands(command_t *command, shell_t *shell)
 {
     int status = 0;
     command_t *current = command;
@@ -43,7 +43,7 @@ static void wait_commands(command_t *command, minishell_t *shell)
 }
 
 static pid_t execute_single(command_t *command, environment_t **env,
-    minishell_t *shell)
+    shell_t *shell)
 {
     pid_t pid = fork();
 
@@ -59,7 +59,7 @@ static pid_t execute_single(command_t *command, environment_t **env,
 }
 
 static int execute_command_line(command_t *command, environment_t **env,
-    minishell_t *shell)
+    shell_t *shell)
 {
     int total_executed = 0;
     pid_t pid;
@@ -80,7 +80,7 @@ static int execute_command_line(command_t *command, environment_t **env,
 }
 
 void execute_commands(command_t *command, environment_t **env,
-    minishell_t *shell)
+    shell_t *shell)
 {
     size_t executed_number = 0;
     command_t *current = command;

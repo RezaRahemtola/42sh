@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2021
-** minishell2
+** 42sh
 ** File description:
 ** Builtin commands
 */
@@ -10,7 +10,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
-#include "minishell.h"
+#include "shell.h"
 #include "my_arrays.h"
 #include "my_math.h"
 #include "my_string.h"

@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Builtin header
 */
@@ -15,11 +15,11 @@ void builtin_exit(environment_t **env, char * const *args);
 void builtin_setenv(environment_t **env, char * const *args);
 void builtin_unsetenv(environment_t **env, char * const *args);
 
-int silent_cd(environment_t **env, char * const *args, minishell_t *shell);
-int silent_env(environment_t **env, char * const *args, minishell_t *shell);
-int silent_exit(environment_t **env, char * const *args, minishell_t *shell);
-int silent_setenv(environment_t **env, char * const *args, minishell_t *shell);
-int silent_unsetenv(environment_t **env, char * const *args, minishell_t *shell);
+int silent_cd(environment_t **env, char * const *args, shell_t *shell);
+int silent_env(environment_t **env, char * const *args, shell_t *shell);
+int silent_exit(environment_t **env, char * const *args, shell_t *shell);
+int silent_setenv(environment_t **env, char * const *args, shell_t *shell);
+int silent_unsetenv(environment_t **env, char * const *args, shell_t *shell);
 
 bool is_builtin(const char *command);
 

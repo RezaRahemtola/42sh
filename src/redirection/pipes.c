@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Pipe redirections
 */
@@ -9,7 +9,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
-#include "minishell.h"
+#include "shell.h"
 
 static bool open_redirection(command_t *command)
 {
