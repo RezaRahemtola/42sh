@@ -21,7 +21,8 @@ static void execute_silent(command_t *command, env_t **env, shell_t *shell)
         return;
     for (size_t i = 0; BUILTIN[i].command != NULL; i++)
         if (strcmp(command->args[0], BUILTIN[i].command) == 0) {
-            command->ret = BUILTIN[i].silent(env, command->args, shell);
+            command->ret = BUILTIN[i].silent_function(env, command->args,
+                shell);
             return;
         }
 }

@@ -10,10 +10,10 @@
 #include <stddef.h>
 #include "types.h"
 
-bool check_out_append(command_t *cmd, char **arr, size_t index, env_t *env);
-bool check_out_write(command_t *cmd, char **arr, size_t index, env_t *env);
-bool check_in_file(command_t *cmd, char **arr, size_t index, env_t *env);
-bool check_in_input(command_t *cmd, char **arr, size_t index, env_t *env);
+bool check_out_append(command_t *cmd, char **array, env_t *env);
+bool check_out_write(command_t *cmd, char **array, env_t *env);
+bool check_in_file(command_t *cmd, char **array, env_t *env);
+bool check_in_input(command_t *cmd, char **array, env_t *env);
 
 // Input and output
 bool open_input_redirection(command_t *command);
@@ -30,12 +30,14 @@ redirection_t get_redirection(const char *str, size_t index);
 char **split_redirections(const char *input);
 
 void replace_args(command_t *cmd, const char *redir, const char *str,
-env_t *env);
+    env_t *env);
+
+bool is_valid_redirection(command_t *command, char **array, bool is_input);
 
 static const redirection_t REDIRECTIONS[5] = {
         { ">>", &check_out_append },
         { ">", &check_out_write },
         { "<<", &check_in_input },
         { "<", &check_in_file },
-        { 0, 0}
+        {0, 0}
 };

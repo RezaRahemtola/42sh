@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2022
 ** 42sh
 ** File description:
-** Redirections check
+** Redirections checker
 */
 
 #include <stdlib.h>
@@ -23,7 +23,7 @@ static bool check_redirection(command_t *command, env_t *env)
 
     for (size_t i = 0; i < size; i++) {
         redir = get_redirection(array[i], 0);
-        if (redir.check != NULL && !redir.check(command, array, i, env)) {
+        if (redir.checker != NULL && !redir.checker(command, &array[i], env)) {
             my_free_arrays(1, array);
             return (false);
         }
