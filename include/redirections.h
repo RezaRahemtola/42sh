@@ -26,10 +26,11 @@ bool open_pipe_redirections(command_t *command);
 void handle_pipe_redirections(command_t *command);
 
 bool check_redirections(command_t *list, minishell_t *shell, varenv_t *env);
-redirection_t get_redirection(char *str, size_t index);
-char **split_redirections(char *input);
+redirection_t get_redirection(const char *str, size_t index);
+char **split_redirections(const char *input);
 
-void replace_args(command_t *cmd, char const *redir, char *str, varenv_t *env);
+void replace_args(command_t *cmd, const char *redir, const char *str,
+varenv_t *env);
 
 static const redirection_t REDIRECTIONS[5] = {
         { ">>", &check_out_append },

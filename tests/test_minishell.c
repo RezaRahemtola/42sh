@@ -15,7 +15,7 @@
 
 Test(input, empty)
 {
-    char *input = " \t\t  \n";
+    const char *input = " \t\t  \n";
     varenv_t *env = NULL;
     minishell_t shell = {0, 0};
 
@@ -25,7 +25,7 @@ Test(input, empty)
 
 Test(input, command, .init=cr_redirect_stderr)
 {
-    char *input = "ls\n";
+    const char *input = "ls\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = {0, 0};
 
@@ -39,7 +39,7 @@ Test(input, command, .init=cr_redirect_stderr)
 
 Test(input, builtin, .init=cr_redirect_stdout)
 {
-    char *input = "env\n";
+    const char *input = "env\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = {0, 0};
 
@@ -52,7 +52,7 @@ Test(input, builtin, .init=cr_redirect_stdout)
 
 Test(input, folder, .init=cr_redirect_stderr)
 {
-    char *input = "/etc\n";
+    const char *input = "/etc\n";
     varenv_t *env = NULL;
     minishell_t shell = {0, 0};
 
@@ -62,7 +62,7 @@ Test(input, folder, .init=cr_redirect_stderr)
 
 Test(input, no_path, .init=cr_redirect_stderr)
 {
-    char *input = "ls\n";
+    const char *input = "ls\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = {0, 0};
 
@@ -74,7 +74,7 @@ Test(input, no_path, .init=cr_redirect_stderr)
 
 Test(input, not_found, .init=cr_redirect_stderr)
 {
-    char *input = "lsa\n";
+    const char *input = "lsa\n";
     varenv_t *env = NULL;
     minishell_t shell = {0, 0};
 
@@ -101,7 +101,7 @@ Test(error, shell_exit, .init=cr_redirect_stderr)
 
 Test(error, segmentation_fault, .init=cr_redirect_stderr)
 {
-    char *input = "./tests/samples/segfault_coredumped\n";
+    const char *input = "./tests/samples/segfault_coredumped\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = {0, 0};
 
@@ -113,7 +113,7 @@ Test(error, segmentation_fault, .init=cr_redirect_stderr)
 
 Test(error, floating_exception, .init=cr_redirect_stderr)
 {
-    char *input = "./tests/samples/div_zero\n";
+    const char *input = "./tests/samples/div_zero\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = {0, 0};
 
@@ -125,7 +125,7 @@ Test(error, floating_exception, .init=cr_redirect_stderr)
 
 Test(error, corrupted, .init=cr_redirect_stderr)
 {
-    char *input = "./tests/samples/corrupted\n";
+    const char *input = "./tests/samples/corrupted\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = {0, 0};
 

@@ -10,7 +10,7 @@
 #include "minishell.h"
 #include "my.h"
 
-varenv_t *varenv_get(varenv_t *list, char const *key)
+varenv_t *varenv_get(varenv_t *list, const char *key)
 {
     varenv_t *current = list;
 
@@ -22,15 +22,15 @@ varenv_t *varenv_get(varenv_t *list, char const *key)
     return (NULL);
 }
 
-void varenv_put(varenv_t **list, char *key, char *value)
+void varenv_put(varenv_t **list, const char *key, const char *value)
 {
     varenv_t *env = malloc(sizeof(varenv_t));
     varenv_t *current = *list;
 
     if (env == NULL)
         return;
-    env->key = key;
-    env->value = value;
+    env->key = strdup(key);
+    env->value = strdup(value);
     env->next = NULL;
     if (*list == NULL)
         *list = env;
@@ -41,21 +41,21 @@ void varenv_put(varenv_t **list, char *key, char *value)
     }
 }
 
-void varenv_replace(varenv_t *list, char *key, char *value)
+void varenv_replace(varenv_t *list, const char *key, const char *value)
 {
     varenv_t *current = list;
 
     while (current != NULL) {
         if (strcmp(current->key, key) == 0) {
             free(current->value);
-            current->value = value;
+            current->value = strdup(value);
             return;
         }
         current = current->next;
     }
 }
 
-void varenv_remove(varenv_t **list, char *key)
+void varenv_remove(varenv_t **list, const char *key)
 {
     varenv_t *current = *list;
     varenv_t *prev = *list;

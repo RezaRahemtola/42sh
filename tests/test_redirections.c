@@ -13,7 +13,7 @@
 Test(redirections, valid_redirection, .init=cr_redirect_stdout)
 {
     int fd = 0;
-    char *input = "ls > a\n";
+    const char *input = "ls > a\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
@@ -29,7 +29,7 @@ Test(redirections, valid_redirection, .init=cr_redirect_stdout)
 Test(redirections, argument_after_redirection, .init=cr_redirect_stderr)
 {
     int fd = 0;
-    char *input = "ls >> b -l\n";
+    const char *input = "ls >> b -l\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
@@ -44,7 +44,7 @@ Test(redirections, argument_after_redirection, .init=cr_redirect_stderr)
 Test(redirections, command_after_redirection, .init=cr_redirect_stdout)
 {
     int fd = 0;
-    char *input = ">c ls\n";
+    const char *input = ">c ls\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
@@ -59,7 +59,7 @@ Test(redirections, command_after_redirection, .init=cr_redirect_stdout)
 
 Test(redirections, redirection_without_command, .init=cr_redirect_stderr)
 {
-    char *input = "> a\n";
+    const char *input = "> a\n";
     varenv_t *env = NULL;
     minishell_t shell = { 0, 0 };
 
@@ -70,7 +70,7 @@ Test(redirections, redirection_without_command, .init=cr_redirect_stderr)
 
 Test(redirections, command_without_redirection, .init=cr_redirect_stderr)
 {
-    char *input = "ls >\n";
+    const char *input = "ls >\n";
     varenv_t *env = NULL;
     minishell_t shell = { 0, 0 };
 
@@ -81,7 +81,7 @@ Test(redirections, command_without_redirection, .init=cr_redirect_stderr)
 
 Test(redirections, unexisting_file, .init=cr_redirect_stderr)
 {
-    char *input = "cat < a\n";
+    const char *input = "cat < a\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
@@ -93,7 +93,7 @@ Test(redirections, unexisting_file, .init=cr_redirect_stderr)
 
 Test(redirections, valid_pipe, .init=cr_redirect_stdout)
 {
-    char *input = "cat src/main.c | grep Main\n";
+    const char *input = "cat src/main.c | grep Main\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
@@ -106,7 +106,7 @@ Test(redirections, valid_pipe, .init=cr_redirect_stdout)
 
 Test(redirections, invalid_pipe_left, .init=cr_redirect_stderr)
 {
-    char *input = "   \t  | cat\n";
+    const char *input = "   \t  | cat\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
@@ -119,7 +119,7 @@ Test(redirections, invalid_pipe_left, .init=cr_redirect_stderr)
 
 Test(redirections, invalid_pipe_start, .init=cr_redirect_stderr)
 {
-    char *input = "| cat\n";
+    const char *input = "| cat\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
@@ -132,7 +132,7 @@ Test(redirections, invalid_pipe_start, .init=cr_redirect_stderr)
 
 Test(redirections, invalid_pipe_right, .init=cr_redirect_stderr)
 {
-    char *input = "cat src/main.c | \t\n";
+    const char *input = "cat src/main.c | \t\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
@@ -145,7 +145,7 @@ Test(redirections, invalid_pipe_right, .init=cr_redirect_stderr)
 
 Test(redirections, invalid_pipe_end, .init=cr_redirect_stderr)
 {
-    char *input = "cat src/main.c |\n";
+    const char *input = "cat src/main.c |\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
@@ -158,7 +158,7 @@ Test(redirections, invalid_pipe_end, .init=cr_redirect_stderr)
 
 Test(redirections, double_input, .init=cr_redirect_stderr)
 {
-    char *input = "cat src/main.c | cat < a\n";
+    const char *input = "cat src/main.c | cat < a\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
@@ -171,7 +171,7 @@ Test(redirections, double_input, .init=cr_redirect_stderr)
 
 Test(redirections, double_output, .init=cr_redirect_stderr)
 {
-    char *input = "cat src/main.c >> a | cat\n";
+    const char *input = "cat src/main.c >> a | cat\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
@@ -184,7 +184,7 @@ Test(redirections, double_output, .init=cr_redirect_stderr)
 
 Test(redirections, missing_name_input, .init=cr_redirect_stderr)
 {
-    char *input = "cat src/main.c < \t  \n";
+    const char *input = "cat src/main.c < \t  \n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 
@@ -197,7 +197,7 @@ Test(redirections, missing_name_input, .init=cr_redirect_stderr)
 
 Test(redirections, missing_name_input_end, .init=cr_redirect_stderr)
 {
-    char *input = "cat src/main.c <<\n";
+    const char *input = "cat src/main.c <<\n";
     varenv_t *env = malloc(sizeof(varenv_t));
     minishell_t shell = { 0, 0 };
 

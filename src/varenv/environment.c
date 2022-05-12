@@ -11,23 +11,23 @@
 #include "minishell.h"
 #include "my_string.h"
 
-char *extract_key(char const *var)
+char *extract_key(const char *var)
 {
     size_t size = strlen(var);
 
     for (size_t i = 0; i < size; i++)
         if (var[i] == '=')
-            return (my_substr_size(var, 0, (int) i, (int) size));
+            return (my_substr_size(var, 0, i, size));
     return (NULL);
 }
 
-char *extract_value(char const *var)
+char *extract_value(const char *var)
 {
     size_t size = strlen(var);
 
     for (size_t i = 0; i < size; i++)
         if (var[i] == '=')
-            return (my_substr_size(var, (int) i + 1, (int) size, (int) size));
+            return (my_substr_size(var, i + 1, size, size));
     return (NULL);
 }
 

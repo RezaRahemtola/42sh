@@ -15,7 +15,7 @@
 #include "my_string.h"
 #include "varenv.h"
 
-void handle_home(varenv_t **env, char *path)
+void handle_home(varenv_t **env, const char *path)
 {
     char *result = NULL;
     varenv_t *home = varenv_get(*env, "HOME");
@@ -44,7 +44,7 @@ void change_home(varenv_t **env)
         fprintf(stderr, "cd: Can't change to home directory.\n");
 }
 
-int handle_home_silently(varenv_t **env, char *path, char *current)
+int handle_home_silently(varenv_t **env, const char *path, const char *current)
 {
     int return_value;
     char *result = NULL;
@@ -62,7 +62,7 @@ int handle_home_silently(varenv_t **env, char *path, char *current)
     }
 }
 
-int change_home_silently(varenv_t **env, char *current)
+int change_home_silently(varenv_t **env, const char *current)
 {
     varenv_t *home = varenv_get(*env, "HOME");
     struct stat stats;
@@ -78,11 +78,11 @@ int change_home_silently(varenv_t **env, char *current)
     }
 }
 
-bool is_builtin(char const *command)
+bool is_builtin(const char *command)
 {
     if (command == NULL)
         return (false);
-    for (int i = 0; BUILTIN[i].command != NULL; i++)
+    for (size_t i = 0; BUILTIN[i].command != NULL; i++)
         if (strcmp(command, BUILTIN[i].command) == 0)
             return (true);
     return (false);

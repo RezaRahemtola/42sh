@@ -47,7 +47,7 @@ typedef struct command_s {
     char *info_out;
     char *input;
     char *path;
-    char **args;
+    char * const *args;
     struct command_s *prev;
     struct command_s *next;
 } command_t;
@@ -65,6 +65,6 @@ typedef struct redirection_s {
 
 typedef struct builtin_s {
     char *command;
-    void (*function)(varenv_t **env, char **args);
-    int (*silent)(varenv_t **env, char **args, minishell_t *shell);
+    void (*function)(varenv_t **env, char * const *args);
+    int (*silent)(varenv_t **env, char * const *args, minishell_t *shell);
 } builtin_t;

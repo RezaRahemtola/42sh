@@ -20,17 +20,17 @@ size_t my_arraylen(char * const *array)
 
 static void free_array(void **array)
 {
-    for (int i = 0; array[i] != NULL; i++)
+    for (size_t i = 0; array[i] != NULL; i++)
         free(array[i]);
 }
 
-void my_free_arrays(int number, ...)
+void my_free_arrays(size_t number, ...)
 {
     va_list list;
     void **element;
 
     va_start(list, number);
-    for (int i = 0; i < number; i++) {
+    for (size_t i = 0; i < number; i++) {
         element = va_arg(list, void **);
         if (element != NULL)
             free_array(element);

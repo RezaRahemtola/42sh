@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <stddef.h>
+
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 #define CTOI(x) ((x) - '0')
 #define ITOC(x) ((x) + '0')
@@ -18,4 +20,4 @@ static const char * const OCTAL_BASE = "01234567";
 static const char * const HEXA_LOWER_BASE = "0123456789abcdef";
 static const char * const HEXA_UPPER_BASE = "0123456789ABCDEF";
 
-void my_free(int size, ...);
+void my_free(size_t size, ...);

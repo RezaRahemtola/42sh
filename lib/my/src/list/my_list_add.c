@@ -57,13 +57,13 @@ void my_list_add(list_t **list, void *data)
     node->prev = current;
 }
 
-void my_list_add_index(list_t **list, void *data, int index)
+void my_list_add_index(list_t **list, void *data, size_t index)
 {
     list_t *node = init_node(data);
     list_t *current = *list;
-    int size = my_list_size(*list);
+    size_t size = my_list_size(*list);
 
-    if (node == NULL || index < 0 || index > size) {
+    if (node == NULL || index > size) {
         return;
     } else if (index == size) {
         my_list_add(list, data);
@@ -73,7 +73,7 @@ void my_list_add_index(list_t **list, void *data, int index)
         move_start(list, node);
         return;
     }
-    for (int i = 1; i < index; i++)
+    for (size_t i = 1; i < index; i++)
         current = current->next;
     move_in(current, node);
 }

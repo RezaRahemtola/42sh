@@ -20,7 +20,7 @@ static void execute_silent(command_t *command, varenv_t **env,
 {
     if (is_command_empty(command))
         return;
-    for (int i = 0; BUILTIN[i].command != NULL; i++)
+    for (size_t i = 0; BUILTIN[i].command != NULL; i++)
         if (strcmp(command->args[0], BUILTIN[i].command) == 0) {
             command->ret = BUILTIN[i].silent(env, command->args, shell);
             return;
@@ -81,12 +81,12 @@ static int execute_command_line(command_t *command, varenv_t **env,
 
 void execute_commands(command_t *command, varenv_t **env, minishell_t *shell)
 {
-    int executed_number;
+    size_t executed_number = 0;
     command_t *current = command;
 
     while (current != NULL) {
         executed_number = execute_command_line(current, env, shell);
-        for (int i = 0; i < executed_number && current != NULL; i++)
+        for (size_t i = 0; i < executed_number && current != NULL; i++)
             current = current->next;
     }
 }

@@ -8,7 +8,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-static bool validate_char(char const *str, size_t i, int *count, int *num)
+static bool validate_char(const char *str, size_t i, int *count, int *num)
 {
     if ((str[i] == '+' || str[i] == '-') && *num == 0) {
         *count += 1;
@@ -21,7 +21,7 @@ static bool validate_char(char const *str, size_t i, int *count, int *num)
     return (false);
 }
 
-bool my_is_number(char *str)
+bool my_is_number(const char *str)
 {
     size_t size = strlen(str);
     int count = 0;

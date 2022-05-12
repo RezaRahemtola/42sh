@@ -13,7 +13,7 @@
 #include "my_string.h"
 #include "varenv.h"
 
-static char *explore_path(varenv_t *path, char const *bin)
+static char *explore_path(varenv_t *path, const char *bin)
 {
     char **array = my_strsplit(path->value, ':');
     size_t size = my_arraylen(array);
@@ -36,7 +36,7 @@ static char *explore_path(varenv_t *path, char const *bin)
     return (NULL);
 }
 
-char *find_command(varenv_t *env, char *bin)
+char *find_command(varenv_t *env, const char *bin)
 {
     varenv_t *path = varenv_get(env, "PATH");
 

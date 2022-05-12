@@ -8,7 +8,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-bool my_str_starts(char const *str, char const *to_find)
+bool my_str_starts(const char *str, const char *to_find)
 {
     size_t size = strlen(str);
     size_t size_2 = strlen(to_find);

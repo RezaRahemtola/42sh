@@ -16,7 +16,7 @@
 #include "my_string.h"
 #include "varenv.h"
 
-void builtin_exit(__attribute__ ((unused)) varenv_t **env, char **args)
+void builtin_exit(__attribute__ ((unused)) varenv_t **env, char * const *args)
 {
     size_t size = my_arraylen(args);
 
@@ -32,12 +32,12 @@ void builtin_exit(__attribute__ ((unused)) varenv_t **env, char **args)
     }
 }
 
-void builtin_env(varenv_t **env, __attribute__ ((unused)) char **args)
+void builtin_env(varenv_t **env, __attribute__ ((unused)) char * const *args)
 {
     print_env(*env);
 }
 
-void builtin_setenv(varenv_t **env, char **args)
+void builtin_setenv(varenv_t **env, char * const *args)
 {
     size_t size = my_arraylen(args);
 
@@ -53,13 +53,13 @@ void builtin_setenv(varenv_t **env, char **args)
         print_env(*env);
 }
 
-void builtin_unsetenv(__attribute__ ((unused)) varenv_t **env, char **args)
+void builtin_unsetenv(__attribute__ ((unused)) varenv_t **env, char * const *args)
 {
     if (my_arraylen(args) == 1)
         fprintf(stderr, "unsetenv: Too few arguments.\n");
 }
 
-void builtin_cd(varenv_t **env, char **args)
+void builtin_cd(varenv_t **env, char * const *args)
 {
     size_t size = my_arraylen(args);
     char *path = getcwd(NULL, 0);

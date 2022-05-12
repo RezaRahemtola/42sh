@@ -14,7 +14,7 @@
 void handle_errors(int status)
 {
     int sig;
-    char const *core = (WCOREDUMP(status) ? CORE_DUMPED : "");
+    const char *core = (WCOREDUMP(status) ? CORE_DUMPED : "");
 
     if (WIFSIGNALED(status)) {
         sig = WTERMSIG(status);

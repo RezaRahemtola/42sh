@@ -52,8 +52,8 @@ bool check_redirections(command_t *list, minishell_t *shell, varenv_t *env)
     return (true);
 }
 
-static char *get_redirect_argument_sum(char *str, char const *redirect,
-    char *input)
+static char *get_redirect_argument_sum(const char *str, const char *redirect,
+    const char *input)
 {
     char *target = get_next_argument(str, 0);
     size_t total_len;
@@ -74,7 +74,7 @@ static char *get_redirect_argument_sum(char *str, char const *redirect,
     return (rep);
 }
 
-void replace_args(command_t *command, char const *redir, char *str,
+void replace_args(command_t *command, const char *redir, const char *str,
     varenv_t *env)
 {
     char *rep = get_redirect_argument_sum(str, redir, command->input);

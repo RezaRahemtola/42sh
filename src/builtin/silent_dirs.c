@@ -11,7 +11,7 @@
 #include "minishell.h"
 #include "varenv.h"
 
-int handle_cd_silently(varenv_t **env, char *path, char *current)
+int handle_cd_silently(varenv_t **env, const char *path, const char *current)
 {
     size_t size = strlen(path);
 
@@ -23,7 +23,7 @@ int handle_cd_silently(varenv_t **env, char *path, char *current)
         return (change_dir_silently(env, path, current));
 }
 
-int handle_prev_silently(varenv_t **env, char *path, char *current)
+int handle_prev_silently(varenv_t **env, const char *path, const char *current)
 {
     varenv_t *oldpwd = varenv_get(*env, "OLDPWD");
 
@@ -33,7 +33,7 @@ int handle_prev_silently(varenv_t **env, char *path, char *current)
         return (change_dir_silently(env, oldpwd->value, current));
 }
 
-int change_dir_silently(varenv_t **env, char *dir, char *current)
+int change_dir_silently(varenv_t **env, const char *dir, const char *current)
 {
     struct stat stats;
     int st = stat(dir, &stats);

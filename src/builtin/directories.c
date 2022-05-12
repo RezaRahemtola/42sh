@@ -12,7 +12,7 @@
 #include "minishell.h"
 #include "varenv.h"
 
-bool is_directory(char const *path)
+bool is_directory(const char *path)
 {
     struct stat stats;
     int st = stat(path, &stats);
@@ -24,7 +24,7 @@ bool is_directory(char const *path)
     return false;
 }
 
-void handle_cd(varenv_t **env, char *path)
+void handle_cd(varenv_t **env, const char *path)
 {
     size_t size = strlen(path);
 
@@ -36,7 +36,7 @@ void handle_cd(varenv_t **env, char *path)
         change_current_path(path);
 }
 
-void handle_prev(varenv_t **env, char const *path)
+void handle_prev(varenv_t **env, const char *path)
 {
     varenv_t *oldpwd = varenv_get(*env, "OLDPWD");
 
@@ -48,7 +48,7 @@ void handle_prev(varenv_t **env, char const *path)
         change_current_path(oldpwd->value);
 }
 
-void change_current_path(char const *dir)
+void change_current_path(const char *dir)
 {
     struct stat stats;
     int st = stat(dir, &stats);

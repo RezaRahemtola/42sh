@@ -68,7 +68,7 @@ static bool parse_command(command_t **list, varenv_t *env, char *input)
         my_free_arrays(1, array);
         return (false);
     }
-    for (int i = 0; array[i] != NULL; i++)
+    for (size_t i = 0; array[i] != NULL; i++)
         if (!is_command_valid(list, env, array[i], i)) {
             my_free_arrays(1, array);
             return (false);
@@ -85,11 +85,11 @@ static void pipe_and_exec(command_t *cmd, varenv_t **env, minishell_t *shell)
         execute_commands(cmd, env, shell);
 }
 
-void handle_input(char *input, varenv_t **env, minishell_t *shell)
+void handle_input(const char *input, varenv_t **env, minishell_t *shell)
 {
     command_t *list = NULL;
     size_t size = strlen(input);
-    char *line = my_substr_size(input, 0, (int) size - 1, (int) size);
+    char *line = my_substr_size(input, 0, size - 1, size);
     char **array = my_strsplit(line, ';');
 
     for (size_t i = 0; array[i] != NULL; i++)

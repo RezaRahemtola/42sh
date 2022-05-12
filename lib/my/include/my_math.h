@@ -9,5 +9,5 @@
 
 #include <stdbool.h>
 
-int my_getnbr(char const *str);
-bool my_is_number(char *str);
+int my_getnbr(const char *str);
+bool my_is_number(const char *str);

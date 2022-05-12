@@ -14,16 +14,16 @@ static char *my_revxstr(char *str)
     char arr[size];
     int a = 0;
 
-    for (int i = 0; str[i] != '\0'; i++) {
+    for (size_t i = 0; str[i] != '\0'; i++) {
         arr[a] = str[size - i - 1];
         a++;
     }
-    for (int i = 0; str[i] != '\0'; i++)
+    for (size_t i = 0; str[i] != '\0'; i++)
         str[i] = arr[i];
     return (str);
 }
 
-char *my_revstr(char const *str)
+char *my_revstr(const char *str)
 {
     char *dup = strdup(str);
 

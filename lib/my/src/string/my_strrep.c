@@ -8,11 +8,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-static char *replace(char *str, size_t old_size, char const *new, size_t index)
+static char *replace(const char *str, size_t old, const char *new, size_t index)
 {
     size_t size = strlen(str);
     size_t size_n = strlen(new);
-    size_t total = size - old_size + size_n + 1;
+    size_t total = size - old + size_n + 1;
     int j = 0;
     int k = 0;
     char *string = malloc(sizeof(char) * (total + 1));
@@ -24,29 +24,27 @@ static char *replace(char *str, size_t old_size, char const *new, size_t index)
             string[i] = new[j];
             j++;
         } else {
-            string[i] = str[index + old_size + k];
+            string[i] = str[index + old + k];
             k++;
         }
     }
     return (string);
 }
 
-char *my_strrep(char *str, char const *pattern, char const *new)
+char *my_strrep(const char *str, const char *pattern, const char *new)
 {
     size_t size = strlen(pattern);
     size_t same = 0;
 
     if (size == 0)
-        return (str);
-    for (int i = 0; str[i] != '\0'; i++) {
-        if (str[i] == pattern[same] && same + 1 == size) {
-            str = replace(str, size, new, i - size + 1);
-            return (str);
-        } else if (str[i] == pattern[same]) {
+        return (strdup(str));
+    for (size_t i = 0; str[i] != '\0'; i++) {
+        if (str[i] == pattern[same] && same + 1 == size)
+            return (replace(str, size, new, i - size + 1));
+        if (str[i] == pattern[same])
             same++;
-        } else {
+        else
             same = (str[i] == pattern[0]) ? 1 : 0;
-        }
     }
-    return (str);
+    return (strdup(str));
 }

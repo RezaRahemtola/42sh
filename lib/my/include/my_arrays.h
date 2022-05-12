@@ -7,5 +7,7 @@
 
 #pragma once
 
+#include <stddef.h>
+
 size_t my_arraylen(char * const *array);
-void my_free_arrays(int size, ...);
+void my_free_arrays(size_t size, ...);

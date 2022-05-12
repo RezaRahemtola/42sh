@@ -17,7 +17,7 @@
 
 static void execute_builtin(command_t *command, varenv_t **env)
 {
-    for (int i = 0; BUILTIN[i].command != NULL; i++)
+    for (size_t i = 0; BUILTIN[i].command != NULL; i++)
         if (strcmp(command->args[0], BUILTIN[i].command) == 0) {
             BUILTIN[i].function(env, command->args);
             return;

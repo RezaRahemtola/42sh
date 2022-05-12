@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include "varenv.h"
 
-static int is_alphanumeric(char *str)
+static int is_alphanumeric(const char *str)
 {
     size_t size = strlen(str);
     int number;
@@ -27,17 +27,17 @@ static int is_alphanumeric(char *str)
     return (1);
 }
 
-void add_variable(varenv_t **env, char *key, char *value)
+void add_variable(varenv_t **env, const char *key, const char *value)
 {
     varenv_t *var = varenv_get(*env, key);
 
     if (var == NULL)
         varenv_put(env, strdup(key), strdup(value));
     else
-        varenv_replace(*env, key, strdup(value));
+        varenv_replace(*env, key, value);
 }
 
-int set_variable(varenv_t **env, char *key, char *value)
+int set_variable(varenv_t **env, const char *key, const char *value)
 {
     char *alpha = "alphanumeric characters";
 
@@ -56,11 +56,13 @@ varenv_t *convert_env(char **env)
     char *key = NULL;
     char *value = NULL;
 
-    for (int i = 0; env[i] != NULL; i++) {
+    for (size_t i = 0; env[i] != NULL; i++) {
         key = extract_key(env[i]);
         value = extract_value(env[i]);
         if (key != NULL && value != NULL)
             varenv_put(&list, key, value);
+        free(key);
+        free(value);
     }
     return (list);
 }
