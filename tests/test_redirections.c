@@ -14,7 +14,7 @@ Test(redirections, valid_redirection, .init=cr_redirect_stdout)
 {
     int fd = 0;
     const char *input = "ls > a\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -30,7 +30,7 @@ Test(redirections, argument_after_redirection, .init=cr_redirect_stderr)
 {
     int fd = 0;
     const char *input = "ls >> b -l\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -45,7 +45,7 @@ Test(redirections, command_after_redirection, .init=cr_redirect_stdout)
 {
     int fd = 0;
     const char *input = ">c ls\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -60,7 +60,7 @@ Test(redirections, command_after_redirection, .init=cr_redirect_stdout)
 Test(redirections, redirection_without_command, .init=cr_redirect_stderr)
 {
     const char *input = "> a\n";
-    environment_t *env = NULL;
+    env_t *env = NULL;
     shell_t shell = {0, 0};
 
     handle_input(input, &env, &shell);
@@ -71,7 +71,7 @@ Test(redirections, redirection_without_command, .init=cr_redirect_stderr)
 Test(redirections, command_without_redirection, .init=cr_redirect_stderr)
 {
     const char *input = "ls >\n";
-    environment_t *env = NULL;
+    env_t *env = NULL;
     shell_t shell = {0, 0};
 
     handle_input(input, &env, &shell);
@@ -82,7 +82,7 @@ Test(redirections, command_without_redirection, .init=cr_redirect_stderr)
 Test(redirections, unexisting_file, .init=cr_redirect_stderr)
 {
     const char *input = "cat < a\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     cr_redirect_stdout();
@@ -94,7 +94,7 @@ Test(redirections, unexisting_file, .init=cr_redirect_stderr)
 Test(redirections, valid_pipe, .init=cr_redirect_stdout)
 {
     const char *input = "cat src/main.c | grep Main\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -107,7 +107,7 @@ Test(redirections, valid_pipe, .init=cr_redirect_stdout)
 Test(redirections, invalid_pipe_left, .init=cr_redirect_stderr)
 {
     const char *input = "   \t  | cat\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -120,7 +120,7 @@ Test(redirections, invalid_pipe_left, .init=cr_redirect_stderr)
 Test(redirections, invalid_pipe_start, .init=cr_redirect_stderr)
 {
     const char *input = "| cat\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -133,7 +133,7 @@ Test(redirections, invalid_pipe_start, .init=cr_redirect_stderr)
 Test(redirections, invalid_pipe_right, .init=cr_redirect_stderr)
 {
     const char *input = "cat src/main.c | \t\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -146,7 +146,7 @@ Test(redirections, invalid_pipe_right, .init=cr_redirect_stderr)
 Test(redirections, invalid_pipe_end, .init=cr_redirect_stderr)
 {
     const char *input = "cat src/main.c |\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -159,7 +159,7 @@ Test(redirections, invalid_pipe_end, .init=cr_redirect_stderr)
 Test(redirections, double_input, .init=cr_redirect_stderr)
 {
     const char *input = "cat src/main.c | cat < a\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -172,7 +172,7 @@ Test(redirections, double_input, .init=cr_redirect_stderr)
 Test(redirections, double_output, .init=cr_redirect_stderr)
 {
     const char *input = "cat src/main.c >> a | cat\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -185,7 +185,7 @@ Test(redirections, double_output, .init=cr_redirect_stderr)
 Test(redirections, missing_name_input, .init=cr_redirect_stderr)
 {
     const char *input = "cat src/main.c < \t  \n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -198,7 +198,7 @@ Test(redirections, missing_name_input, .init=cr_redirect_stderr)
 Test(redirections, missing_name_input_end, .init=cr_redirect_stderr)
 {
     const char *input = "cat src/main.c <<\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";

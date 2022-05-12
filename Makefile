@@ -27,22 +27,22 @@ REDIRECTION_DIR	=	redirection
 REDIRECTION_SRC	=	files.c \
 					pipes.c
 
-UTIL_DIR	=	util
-UTIL_SRC	=	lists.c \
+UTILS_DIR	=	utils
+UTILS_SRC	=	lists.c \
 				splitter.c \
 				strings.c
 
 ENV_DIR	=	environment
 ENV_SRC	=	environment.c \
-				environment_utils.c \
-				variables.c
+			environment_utils.c \
+			variables.c
 
 BASE_DIR	= 	src
 BASE_SRC	=	shell.c \
 				$(addprefix $(BUILTIN_DIR)/, $(BUILTIN_SRC)) \
 				$(addprefix $(COMMAND_DIR)/, $(COMMAND_SRC)) \
 				$(addprefix $(REDIRECTION_DIR)/, $(REDIRECTION_SRC)) \
-				$(addprefix $(UTIL_DIR)/, $(UTIL_SRC)) \
+				$(addprefix $(UTILS_DIR)/, $(UTILS_SRC)) \
 				$(addprefix $(ENV_DIR)/, $(ENV_SRC))
 
 TESTS_DIR	=	tests

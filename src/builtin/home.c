@@ -15,10 +15,10 @@
 #include "my_string.h"
 #include "environment.h"
 
-void handle_home(environment_t **env, const char *path)
+void handle_home(env_t **env, const char *path)
 {
     char *result = NULL;
-    environment_t *home = get_env_value(*env, "HOME");
+    env_t *home = get_env_value(*env, "HOME");
 
     if (home == NULL)
         fprintf(stderr, "No $home variable set.\n");
@@ -31,9 +31,9 @@ void handle_home(environment_t **env, const char *path)
     }
 }
 
-void change_home(environment_t **env)
+void change_home(env_t **env)
 {
-    environment_t *home = get_env_value(*env, "HOME");
+    env_t *home = get_env_value(*env, "HOME");
     struct stat stats;
     int stat_status = stat((home == NULL ? "" : home->value), &stats);
     bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);
@@ -44,12 +44,11 @@ void change_home(environment_t **env)
         fprintf(stderr, "cd: Can't change to home directory.\n");
 }
 
-int handle_home_silently(environment_t **env, const char *path,
-    const char *current)
+int handle_home_silently(env_t **env, const char *path, const char *current)
 {
     int return_value;
     char *result = NULL;
-    environment_t *home = get_env_value(*env, "HOME");
+    env_t *home = get_env_value(*env, "HOME");
 
     if (home == NULL)
         return (1);
@@ -63,9 +62,9 @@ int handle_home_silently(environment_t **env, const char *path,
     }
 }
 
-int change_home_silently(environment_t **env, const char *current)
+int change_home_silently(env_t **env, const char *current)
 {
-    environment_t *home = get_env_value(*env, "HOME");
+    env_t *home = get_env_value(*env, "HOME");
     struct stat stats;
     int stat_status = stat((home == NULL ? "" : home->value), &stats);
     bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);

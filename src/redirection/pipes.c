@@ -14,7 +14,7 @@
 static bool open_redirection(command_t *command)
 {
     int fd[2];
-    int status;
+    int status = -1;
 
     if (command->separator_out != PIPE_OUT)
         return (true);

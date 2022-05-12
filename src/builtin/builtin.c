@@ -16,8 +16,7 @@
 #include "my_string.h"
 #include "environment.h"
 
-void builtin_exit(__attribute__ ((unused)) environment_t **env,
-    char *const *args)
+void builtin_exit(__attribute__ ((unused)) env_t **env, char *const *args)
 {
     size_t size = my_arraylen(args);
 
@@ -33,13 +32,12 @@ void builtin_exit(__attribute__ ((unused)) environment_t **env,
     }
 }
 
-void builtin_env(environment_t **env,
-    __attribute__ ((unused)) char *const *args)
+void builtin_env(env_t **env, __attribute__ ((unused)) char *const *args)
 {
     print_env(*env);
 }
 
-void builtin_setenv(environment_t **env, char *const *args)
+void builtin_setenv(env_t **env, char *const *args)
 {
     size_t size = my_arraylen(args);
 
@@ -55,14 +53,13 @@ void builtin_setenv(environment_t **env, char *const *args)
         print_env(*env);
 }
 
-void builtin_unsetenv(__attribute__ ((unused)) environment_t **env,
-    char *const *args)
+void builtin_unsetenv(__attribute__ ((unused)) env_t **env, char *const *args)
 {
     if (my_arraylen(args) == 1)
         fprintf(stderr, "unsetenv: Too few arguments.\n");
 }
 
-void builtin_cd(environment_t **env, char *const *args)
+void builtin_cd(env_t **env, char *const *args)
 {
     size_t size = my_arraylen(args);
     char *path = getcwd(NULL, 0);

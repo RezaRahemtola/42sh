@@ -9,17 +9,17 @@
 
 #include "types.h"
 
-void builtin_cd(environment_t **env, char * const *args);
-void builtin_env(environment_t **env, char * const *args);
-void builtin_exit(environment_t **env, char * const *args);
-void builtin_setenv(environment_t **env, char * const *args);
-void builtin_unsetenv(environment_t **env, char * const *args);
+void builtin_cd(env_t **env, char * const *args);
+void builtin_env(env_t **env, char * const *args);
+void builtin_exit(env_t **env, char * const *args);
+void builtin_setenv(env_t **env, char * const *args);
+void builtin_unsetenv(env_t **env, char * const *args);
 
-int silent_cd(environment_t **env, char * const *args, shell_t *shell);
-int silent_env(environment_t **env, char * const *args, shell_t *shell);
-int silent_exit(environment_t **env, char * const *args, shell_t *shell);
-int silent_setenv(environment_t **env, char * const *args, shell_t *shell);
-int silent_unsetenv(environment_t **env, char * const *args, shell_t *shell);
+int silent_cd(env_t **env, char * const *args, shell_t *shell);
+int silent_env(env_t **env, char * const *args, shell_t *shell);
+int silent_exit(env_t **env, char * const *args, shell_t *shell);
+int silent_setenv(env_t **env, char * const *args, shell_t *shell);
+int silent_unsetenv(env_t **env, char * const *args, shell_t *shell);
 
 bool is_builtin(const char *command);
 

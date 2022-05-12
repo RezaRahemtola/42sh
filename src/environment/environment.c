@@ -10,9 +10,9 @@
 #include "shell.h"
 #include "my.h"
 
-environment_t *get_env_value(environment_t *list, const char *key)
+env_t *get_env_value(env_t *list, const char *key)
 {
-    environment_t *current = list;
+    env_t *current = list;
 
     while (current != NULL) {
         if (strcmp(current->key, key) == 0)
@@ -22,10 +22,10 @@ environment_t *get_env_value(environment_t *list, const char *key)
     return (NULL);
 }
 
-void put_env_property(environment_t **list, const char *key, const char *value)
+void put_env_property(env_t **list, const char *key, const char *value)
 {
-    environment_t *env = malloc(sizeof(environment_t));
-    environment_t *current = *list;
+    env_t *env = malloc(sizeof(env_t));
+    env_t *current = *list;
 
     if (env == NULL)
         return;
@@ -41,9 +41,9 @@ void put_env_property(environment_t **list, const char *key, const char *value)
     }
 }
 
-void replace_env_value(environment_t *list, const char *key, const char *value)
+void replace_env_value(env_t *list, const char *key, const char *value)
 {
-    environment_t *current = list;
+    env_t *current = list;
 
     while (current != NULL) {
         if (strcmp(current->key, key) == 0) {
@@ -55,10 +55,10 @@ void replace_env_value(environment_t *list, const char *key, const char *value)
     }
 }
 
-void remove_env_property(environment_t **list, const char *key)
+void remove_env_property(env_t **list, const char *key)
 {
-    environment_t *current = *list;
-    environment_t *prev = *list;
+    env_t *current = *list;
+    env_t *prev = *list;
 
     if (strcmp(current->key, key) == 0) {
         *list = current->next;
@@ -76,10 +76,10 @@ void remove_env_property(environment_t **list, const char *key)
     }
 }
 
-int get_env_size(environment_t *list)
+int get_env_size(env_t *list)
 {
     int size = 0;
-    environment_t *current = list;
+    env_t *current = list;
 
     while (current != NULL) {
         size++;

@@ -56,15 +56,15 @@ typedef struct environment {
     char *key;
     char *value;
     struct environment *next;
-} environment_t;
+} env_t;
 
 typedef struct redirection_s {
     char *type;
-    bool (*check)(command_t *cmd, char **array, size_t index, environment_t *env);
+    bool (*check)(command_t *cmd, char **array, size_t index, env_t *env);
 } redirection_t;
 
 typedef struct builtin_s {
     char *command;
-    void (*function)(environment_t **env, char * const *args);
-    int (*silent)(environment_t **env, char * const *args, shell_t *shell);
+    void (*function)(env_t **env, char * const *args);
+    int (*silent)(env_t **env, char * const *args, shell_t *shell);
 } builtin_t;

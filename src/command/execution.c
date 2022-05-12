@@ -15,8 +15,7 @@
 #include "shell.h"
 #include "redirections.h"
 
-static void execute_silent(command_t *command, environment_t **env,
-    shell_t *shell)
+static void execute_silent(command_t *command, env_t **env, shell_t *shell)
 {
     if (is_command_empty(command))
         return;
@@ -42,8 +41,7 @@ static void wait_commands(command_t *command, shell_t *shell)
     }
 }
 
-static pid_t execute_single(command_t *command, environment_t **env,
-    shell_t *shell)
+static pid_t execute_single(command_t *command, env_t **env, shell_t *shell)
 {
     pid_t pid = fork();
 
@@ -58,11 +56,11 @@ static pid_t execute_single(command_t *command, environment_t **env,
     return (pid);
 }
 
-static int execute_command_line(command_t *command, environment_t **env,
+static int execute_command_line(command_t *command, env_t **env,
     shell_t *shell)
 {
     int total_executed = 0;
-    pid_t pid;
+    pid_t pid = 0;
     command_t *current = command;
 
     do {
@@ -79,8 +77,7 @@ static int execute_command_line(command_t *command, environment_t **env,
     return (total_executed);
 }
 
-void execute_commands(command_t *command, environment_t **env,
-    shell_t *shell)
+void execute_commands(command_t *command, env_t **env, shell_t *shell)
 {
     size_t executed_number = 0;
     command_t *current = command;

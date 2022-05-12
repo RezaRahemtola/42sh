@@ -26,8 +26,7 @@ static bool check_null_ambiguous(command_t *command, char **array, size_t index)
     return (true);
 }
 
-bool check_in_file(command_t *cmd, char **array, size_t index,
-    environment_t *env)
+bool check_in_file(command_t *cmd, char **array, size_t index, env_t *env)
 {
     char **sub = NULL;
 
@@ -48,8 +47,7 @@ bool check_in_file(command_t *cmd, char **array, size_t index,
     return (true);
 }
 
-bool check_in_input(command_t *cmd, char **array, size_t index,
-    environment_t *env)
+bool check_in_input(command_t *cmd, char **array, size_t index, env_t *env)
 {
     char **sub = NULL;
 

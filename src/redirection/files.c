@@ -36,7 +36,7 @@ static void read_input(command_t *command)
 
 bool open_input_redirection(command_t *command)
 {
-    int fd;
+    int fd = -1;
     separator_in_t separator = command->separator_in;
 
     if (separator != FILE_READ && separator != INPUT_READ)
@@ -57,8 +57,8 @@ bool open_input_redirection(command_t *command)
 
 bool open_output_redirection(command_t *command)
 {
-    int fd;
-    int flags;
+    int fd = -1;
+    int flags = 0;
     separator_out_t separator = command->separator_out;
 
     if (separator != FILE_WRITE && separator != FILE_APPEND)

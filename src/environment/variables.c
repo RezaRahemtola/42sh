@@ -10,26 +10,26 @@
 #include <stdio.h>
 #include "environment.h"
 
-static int is_alphanumeric(const char *str)
+static bool is_alphanumeric(const char *str)
 {
     size_t size = strlen(str);
-    int number;
-    int lower;
-    int upper;
+    int number = 0;
+    int lower = 0;
+    int upper = 0;
 
     for (size_t i = 0; i < size; i++) {
         number = (str[i] >= '0' && str[i] <= '9');
         lower = (str[i] >= 'a' && str[i] <= 'z');
         upper = (str[i] >= 'A' && str[i] <= 'Z');
         if (!number && !lower && !upper && str[i] != '_')
-            return (0);
+            return (false);
     }
-    return (1);
+    return (true);
 }
 
-void add_variable(environment_t **env, const char *key, const char *value)
+void add_variable(env_t **env, const char *key, const char *value)
 {
-    environment_t *var = get_env_value(*env, key);
+    env_t *var = get_env_value(*env, key);
 
     if (var == NULL)
         put_env_property(env, strdup(key), strdup(value));
@@ -37,7 +37,7 @@ void add_variable(environment_t **env, const char *key, const char *value)
         replace_env_value(*env, key, value);
 }
 
-int set_variable(environment_t **env, const char *key, const char *value)
+int set_variable(env_t **env, const char *key, const char *value)
 {
     char *alpha = "alphanumeric characters";
 
@@ -50,9 +50,9 @@ int set_variable(environment_t **env, const char *key, const char *value)
     }
 }
 
-environment_t *get_env_from_array(char **env)
+env_t *get_env_from_array(const char *const *env)
 {
-    environment_t *list = NULL;
+    env_t *list = NULL;
     char *key = NULL;
     char *value = NULL;
 
@@ -67,12 +67,12 @@ environment_t *get_env_from_array(char **env)
     return (list);
 }
 
-char **get_array_from_env(environment_t *list)
+char **get_array_from_env(env_t *list)
 {
     int size = get_env_size(list);
     int index = 0;
     char **array = malloc(sizeof(char *) * (size + 1));
-    environment_t *current = list;
+    env_t *current = list;
 
     if (array == NULL)
         return NULL;

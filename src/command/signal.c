@@ -8,9 +8,8 @@
 #include <signal.h>
 #include <stdio.h>
 
-void handle_quit(int sig)
+void handle_quit(__attribute__ ((unused)) int sig)
 {
-    (void) sig;
     printf("\n$> ");
 }
 

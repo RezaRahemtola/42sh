@@ -22,7 +22,7 @@ Test(builtin, command_check)
 
 Test(builtin, exit)
 {
-    environment_t *env = NULL;
+    env_t *env = NULL;
     char *args[2] = {"exit", NULL};
     shell_t shell = {0, 0};
 
@@ -34,7 +34,7 @@ Test(builtin, exit)
 Test(builtin, exit_modulo)
 {
     int ret = 0;
-    environment_t *env = NULL;
+    env_t *env = NULL;
     char *args[3] = {"exit", "258", NULL};
     shell_t shell = {0, 0};
 
@@ -46,7 +46,7 @@ Test(builtin, exit_modulo)
 Test(builtin, exit_wrong_arg, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    environment_t *env = NULL;
+    env_t *env = NULL;
     char *args[3] = {"exit", "salut", NULL};
     shell_t shell = {0, 0};
 
@@ -60,7 +60,7 @@ Test(builtin, exit_wrong_arg, .init=cr_redirect_stderr)
 Test(builtin, exit_wrong_arg_2, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    environment_t *env = NULL;
+    env_t *env = NULL;
     char *args[3] = {"exit", "!17", NULL};
     shell_t shell = {0, 0};
 
@@ -74,7 +74,7 @@ Test(builtin, exit_wrong_arg_2, .init=cr_redirect_stderr)
 Test(builtin, exit_not_a_number, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    environment_t *env = NULL;
+    env_t *env = NULL;
     char *args[3] = {"exit", "1a"};
     shell_t shell = {0, 0};
 
@@ -88,7 +88,7 @@ Test(builtin, exit_not_a_number, .init=cr_redirect_stderr)
 Test(builtin, exit_too_many_args, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    environment_t *env = NULL;
+    env_t *env = NULL;
     char *args[4] = {"exit", "salut", "bonsoir", NULL};
     shell_t shell = {0, 0};
 
@@ -101,8 +101,8 @@ Test(builtin, exit_too_many_args, .init=cr_redirect_stderr)
 
 Test(builtin, env, .init=cr_redirect_stdout)
 {
-    environment_t path = {"PATH", "/usr/bin:/bin", NULL};
-    environment_t *env[2] = {&path, NULL};
+    env_t path = {"PATH", "/usr/bin:/bin", NULL};
+    env_t *env[2] = {&path, NULL};
     char *args[3] = {"env", NULL};
     shell_t shell = {0, 0};
 
@@ -114,8 +114,8 @@ Test(builtin, env, .init=cr_redirect_stdout)
 
 Test(builtin, setenv_set)
 {
-    environment_t path = {"PATH", strdup("/usr/bin:/bin"), NULL};
-    environment_t *env[2] = {&path, NULL};
+    env_t path = {"PATH", strdup("/usr/bin:/bin"), NULL};
+    env_t *env[2] = {&path, NULL};
     char *args[4] = {"setenv", "PATH", "/etc", NULL};
     shell_t shell = {0, 0};
 
@@ -126,8 +126,8 @@ Test(builtin, setenv_set)
 
 Test(builtin, setenv_print, .init=cr_redirect_stdout)
 {
-    environment_t path = {"PATH", strdup("/usr/bin:/bin"), NULL};
-    environment_t *env[2] = {&path, NULL};
+    env_t path = {"PATH", strdup("/usr/bin:/bin"), NULL};
+    env_t *env[2] = {&path, NULL};
     char *args[2] = {"setenv", NULL};
     shell_t shell = {0, 0};
 
@@ -141,7 +141,7 @@ Test(builtin, setenv_print, .init=cr_redirect_stdout)
 
 Test(builtin, setenv_alphanumeric, .init=cr_redirect_stderr)
 {
-    environment_t *env = NULL;
+    env_t *env = NULL;
     char *args[3] = {"setenv", "PATH=", NULL};
     shell_t shell = {0, 0};
 
@@ -155,7 +155,7 @@ Test(builtin, setenv_alphanumeric, .init=cr_redirect_stderr)
 Test(builtin, setenv_too_many_args, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    environment_t *env = NULL;
+    env_t *env = NULL;
     char *args[5] = {"setenv", "PATH", "key", "value", NULL};
     shell_t shell = {0, 0};
 
@@ -170,8 +170,8 @@ Test(builtin, unsetenv, .init=cr_redirect_stderr)
 {
     int ret = 0;
     int ret2 = 0;
-    environment_t *env = malloc(sizeof(environment_t));
-    environment_t *path = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
+    env_t *path = malloc(sizeof(env_t));
     char *args[2] = {"unsetenv", NULL};
     char *args2[3] = {"unsetenv", "PATH", NULL};
     shell_t shell = {0, 0};
@@ -195,8 +195,8 @@ Test(builtin, unsetenv, .init=cr_redirect_stderr)
 
 Test(builtin, unsetenv_all, .init=cr_redirect_stderr)
 {
-    environment_t *env = malloc(sizeof(environment_t));
-    environment_t *path = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
+    env_t *path = malloc(sizeof(env_t));
     char *args[3] = {"unsetenv", "*", NULL};
     shell_t shell = {0, 0};
 
@@ -214,8 +214,8 @@ Test(builtin, unsetenv_all, .init=cr_redirect_stderr)
 
 Test(builtin, unsetenv_all_error, .init=cr_redirect_stderr)
 {
-    environment_t *env = malloc(sizeof(environment_t));
-    environment_t *path = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
+    env_t *path = malloc(sizeof(env_t));
     char *args[4] = {"unsetenv", "*", "bonsoir", NULL};
     shell_t shell = {0, 0};
 
@@ -235,7 +235,7 @@ Test(builtin, cd_basic, .init=cr_redirect_stderr)
 {
     int ret = 0;
     int ret2 = 0;
-    environment_t *env = NULL;
+    env_t *env = NULL;
     char *args[3] = {"cd", "/etc", NULL};
     char *args2[4] = {"cd", "a", "b", NULL};
     shell_t shell = {0, 0};
@@ -259,7 +259,7 @@ Test(builtin, cd_fail, .init=cr_redirect_stderr)
 {
     int ret = 0;
     int ret2 = 0;
-    environment_t *env = NULL;
+    env_t *env = NULL;
     char *args[3] = {"cd", "/etc/passwd", NULL};
     char *args2[3] = {"cd", "/etcd", NULL};
     shell_t shell = {0, 0};
@@ -278,7 +278,7 @@ Test(builtin, cd_fail, .init=cr_redirect_stderr)
 Test(builtin, cd_home_unexisting, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     char *args[2] = {"cd", NULL};
     shell_t shell = {0, 0};
 
@@ -293,7 +293,7 @@ Test(builtin, cd_home_unexisting, .init=cr_redirect_stderr)
 
 Test(builtin, cd_home_valid)
 {
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     char *args[3] = {"cd", "~"};
     shell_t shell = {0, 0};
 
@@ -308,7 +308,7 @@ Test(builtin, cd_home_valid)
 Test(builtin, cd_home_invalid, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     char *args[3] = {"cd", "~"};
     shell_t shell = {0, 0};
 
@@ -325,7 +325,7 @@ Test(builtin, cd_home_append, .init=cr_redirect_stderr)
 {
     int ret = 0;
     int ret2 = 0;
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     char *args[3] = {"cd", "~/etc", NULL};
     shell_t shell = {0, 0};
     shell_t shell2 = {0, 0};
@@ -345,9 +345,9 @@ Test(builtin, cd_home_append, .init=cr_redirect_stderr)
 
 Test(builtin, cd_prev, .init=cr_redirect_stderr)
 {
-    environment_t *env = NULL;
-    environment_t *pwd = NULL;
-    environment_t *oldpwd = NULL;
+    env_t *env = NULL;
+    env_t *pwd = NULL;
+    env_t *oldpwd = NULL;
     char *args[3] = {"cd", "/etc", NULL};
     char *args2[3] = {"cd", "-", NULL};
     shell_t shell = {0, 0};
@@ -369,7 +369,7 @@ Test(builtin, cd_prev, .init=cr_redirect_stderr)
 Test(builtin, cd_prev_usage, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    environment_t *env = NULL;
+    env_t *env = NULL;
     char *args[3] = {"cd", "-a", NULL};
     shell_t shell = {0, 0};
 
@@ -382,7 +382,7 @@ Test(builtin, cd_prev_usage, .init=cr_redirect_stderr)
 Test(builtin, cd_prev_unexisting, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    environment_t *env = NULL;
+    env_t *env = NULL;
     char *args[3] = {"cd", "-", NULL};
     shell_t shell = {0, 0};
 
@@ -395,9 +395,9 @@ Test(builtin, cd_prev_unexisting, .init=cr_redirect_stderr)
 Test(builtin, cd_empty, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    environment_t *env = NULL;
-    environment_t *pwd = NULL;
-    environment_t *oldpwd = NULL;
+    env_t *env = NULL;
+    env_t *pwd = NULL;
+    env_t *oldpwd = NULL;
     char *args[3] = {"cd", "", NULL};
     shell_t shell = {0, 0};
 

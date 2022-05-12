@@ -31,9 +31,9 @@ char *extract_env_value(const char *var)
     return (NULL);
 }
 
-void print_env(environment_t *env)
+void print_env(env_t *env)
 {
-    environment_t *current = env;
+    env_t *current = env;
 
     while (current != NULL) {
         printf("%s=%s\n", current->key, current->value);
@@ -41,10 +41,10 @@ void print_env(environment_t *env)
     }
 }
 
-void destroy_env(environment_t *env)
+void destroy_env(env_t *env)
 {
-    environment_t *current = env;
-    environment_t *tmp = NULL;
+    env_t *current = env;
+    env_t *tmp = NULL;
 
     while (current != NULL) {
         tmp = current->next;

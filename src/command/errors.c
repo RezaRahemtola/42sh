@@ -13,7 +13,7 @@
 
 void handle_errors(int status)
 {
-    int sig;
+    int sig = 0;
     const char *core = (WCOREDUMP(status) ? CORE_DUMPED : "");
 
     if (WIFSIGNALED(status)) {

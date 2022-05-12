@@ -11,10 +11,10 @@
 #include "shell.h"
 #include "environment.h"
 
-int start_shell(char **env)
+int start_shell(const char *const *env)
 {
     shell_t shell = {0, 0};
-    environment_t *list = NULL;
+    env_t *list = NULL;
 
     setbuf(stdout, NULL);
     setbuf(stderr, NULL);
@@ -30,7 +30,7 @@ int start_shell(char **env)
     return (shell.ret);
 }
 
-void do_heartbeat(environment_t **env, shell_t *shell)
+void do_heartbeat(env_t **env, shell_t *shell)
 {
     size_t size = 0;
     ssize_t read_size;

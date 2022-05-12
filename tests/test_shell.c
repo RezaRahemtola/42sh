@@ -15,7 +15,7 @@
 Test(input, empty)
 {
     const char *input = " \t\t  \n";
-    environment_t *env = NULL;
+    env_t *env = NULL;
     shell_t shell = {0, 0};
 
     handle_input(input, &env, &shell);
@@ -25,7 +25,7 @@ Test(input, empty)
 Test(input, command, .init=cr_redirect_stderr)
 {
     const char *input = "ls\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     cr_redirect_stdout();
@@ -39,7 +39,7 @@ Test(input, command, .init=cr_redirect_stderr)
 Test(input, builtin, .init=cr_redirect_stdout)
 {
     const char *input = "env\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -52,7 +52,7 @@ Test(input, builtin, .init=cr_redirect_stdout)
 Test(input, folder, .init=cr_redirect_stderr)
 {
     const char *input = "/etc\n";
-    environment_t *env = NULL;
+    env_t *env = NULL;
     shell_t shell = {0, 0};
 
     handle_input(input, &env, &shell);
@@ -62,7 +62,7 @@ Test(input, folder, .init=cr_redirect_stderr)
 Test(input, no_path, .init=cr_redirect_stderr)
 {
     const char *input = "ls\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -74,7 +74,7 @@ Test(input, no_path, .init=cr_redirect_stderr)
 Test(input, not_found, .init=cr_redirect_stderr)
 {
     const char *input = "lsa\n";
-    environment_t *env = NULL;
+    env_t *env = NULL;
     shell_t shell = {0, 0};
 
     handle_input(input, &env, &shell);
@@ -83,7 +83,7 @@ Test(input, not_found, .init=cr_redirect_stderr)
 
 Test(error, no_env)
 {
-    environment_t **env = NULL;
+    env_t **env = NULL;
     shell_t shell = {1, 0};
 
     do_heartbeat(env, &shell);
@@ -101,7 +101,7 @@ Test(error, shell_exit, .init=cr_redirect_stderr)
 Test(error, segmentation_fault, .init=cr_redirect_stderr)
 {
     const char *input = "./tests/samples/segfault_coredumped\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -113,7 +113,7 @@ Test(error, segmentation_fault, .init=cr_redirect_stderr)
 Test(error, floating_exception, .init=cr_redirect_stderr)
 {
     const char *input = "./tests/samples/div_zero\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -125,7 +125,7 @@ Test(error, floating_exception, .init=cr_redirect_stderr)
 Test(error, corrupted, .init=cr_redirect_stderr)
 {
     const char *input = "./tests/samples/corrupted\n";
-    environment_t *env = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
     env->key = "PATH";
@@ -143,13 +143,9 @@ Test(signal, sigquit, .init=cr_redirect_stdout)
 
 Test(environment, convert)
 {
-    char **env = malloc(sizeof(char *) * 3);
-    environment_t *list = get_env_from_array(env);
+    const char *const env[3] = {"PATH=/bin", "HOME=/home", NULL};
+    env_t *list = get_env_from_array(env);
 
-    env[0] = "PATH=/bin";
-    env[1] = "HOME=/home";
-    env[2] = NULL;
-    list = get_env_from_array(env);
     cr_assert_str_eq(list->key, "PATH");
     cr_assert_str_eq(list->value, "/bin");
     cr_assert_not_null(list->next);
@@ -171,8 +167,8 @@ Test(environment, error_handling)
 
 Test(environment, remove_first)
 {
-    environment_t *env = malloc(sizeof(environment_t));
-    environment_t *path = malloc(sizeof(environment_t));
+    env_t *env = malloc(sizeof(env_t));
+    env_t *path = malloc(sizeof(env_t));
 
     env->key = strdup("HOME");
     env->value = strdup("/home");
