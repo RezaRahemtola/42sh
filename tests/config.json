@@ -70,7 +70,7 @@
         },
         {
             "name": "setenv - simple with checks",
-            "command": "env | grep var ; setenv var val ; env | grep var"
+            "command": "env | grep var ; setenv var val ; env | grep var=val"
         },
         {
             "name": "setenv - No argument",
