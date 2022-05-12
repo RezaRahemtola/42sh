@@ -68,7 +68,7 @@ typedef struct redirection {
     redirection_checker_t *checker;
 } redirection_t;
 
-typedef struct builtin_s {
+typedef struct builtin {
     char *command;
     redirection_function_t *function;
     redirection_silent_function_t *silent_function;
