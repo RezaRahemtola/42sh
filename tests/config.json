@@ -69,10 +69,6 @@
             "command": "setenv var val"
         },
         {
-            "name": "setenv - simple with checks",
-            "command": "env | grep var ; setenv abcd efgh ; env | grep abcd=efgh"
-        },
-        {
             "name": "setenv - No argument",
             "command": "setenv | grep HOME"
         },
