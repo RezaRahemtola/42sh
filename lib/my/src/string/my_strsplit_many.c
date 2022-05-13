@@ -6,15 +6,16 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
 #include "my_string.h"
 
-static int get_occurences(char const *str, char const *list)
+static int get_occurences(const char *str, const char *list)
 {
     int count = 1;
     int new = 0;
     int old = 0;
 
-    for (int i = 0; str[i] != '\0'; i++) {
+    for (size_t i = 0; str[i] != '\0'; i++) {
         new = (my_str_containschar(list, str[i]));
         if (new && !old)
             count++;
@@ -23,9 +24,10 @@ static int get_occurences(char const *str, char const *list)
     return (count);
 }
 
-static void append_end(char const *str, char **arr, int *nbr, char const *list)
+static void append_end(const char *str, char **arr, size_t *nbr,
+    const char *list)
 {
-    int length = my_strlen(str);
+    size_t length = strlen(str);
     char *array = NULL;
 
     if (!my_str_containschar(list, str[length - 1])) {
@@ -37,17 +39,17 @@ static void append_end(char const *str, char **arr, int *nbr, char const *list)
     }
 }
 
-char **my_strsplit_many(char const *str, char const *list)
+char **my_strsplit_many(const char *str, const char *list)
 {
     int size = get_occurences(str, list);
-    int length = my_strlen(str);
-    int info[2] = { 0, 0 };
+    size_t length = strlen(str);
+    size_t info[2] = { 0, 0 };
     char **arr = malloc(sizeof(char *) * (size + 1));
     char *array = NULL;
 
     if (arr == NULL)
         return NULL;
-    for (int i = 0; str[i] != '\0'; i++) {
+    for (size_t i = 0; str[i] != '\0'; i++) {
         if (my_str_containschar(list, str[i]) && info[1] == i) {
             info[1] = i + 1;
         } else if (my_str_containschar(list, str[i])) {

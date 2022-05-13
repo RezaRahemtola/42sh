@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** File redirections
 */
@@ -11,41 +11,36 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "minishell.h"
+#include "shell.h"
 #include "my_string.h"
 
 static void read_input(command_t *command)
 {
-    bool out = false;
     char *str = strdup("");
     char *cat = NULL;
     char *content = NULL;
     size_t size = 0;
-    size_t len = 0;
+    ssize_t read_size = 0;
 
-    while (!out) {
+    while (true) {
         printf("? ");
-        size = getline(&content, &size, stdin);
-        if ((int) size == -1 || strcmp(content, command->info_in) == '\n') {
-            out = true;
-        } else {
-            len = strlen(str) + strlen(content) + 1;
-            cat = malloc(sizeof(char) * len);
-            sprintf(cat, "%s%s", str, content);
-            free(str);
-            str = cat;
-        }
+        read_size = getline(&content, &size, stdin);
+        if (read_size == -1 || strcmp(content, command->info_in) == '\n')
+            break;
+        cat = malloc(sizeof(char) * strlen(str) + strlen(content) + 1);
+        sprintf(cat, "%s%s", str, content);
+        free(str);
+        str = cat;
     }
 }
 
 bool open_input_redirection(command_t *command)
 {
-    int fd = 0;
-    separator_in_t separator = command->separator_in;
+    int fd = -1;
+    separator_in_type_t separator = command->separator_in;
 
-    if (separator != FILE_READ && separator != INPUT_READ) {
+    if (separator != FILE_READ && separator != INPUT_READ)
         return (true);
-    }
     if (separator == INPUT_READ) {
         read_input(command);
         return (true);
@@ -62,18 +57,16 @@ bool open_input_redirection(command_t *command)
 
 bool open_output_redirection(command_t *command)
 {
-    int fd = 0;
+    int fd = -1;
     int flags = 0;
-    separator_out_t separator = command->separator_out;
+    separator_out_type_t separator = command->separator_out;
 
-    if (separator != FILE_WRITE && separator != FILE_APPEND) {
+    if (separator != FILE_WRITE && separator != FILE_APPEND)
         return (true);
-    }
-    if (separator == FILE_WRITE) {
+    if (separator == FILE_WRITE)
         flags = O_CREAT | O_WRONLY | O_TRUNC;
-    } else {
+    else
         flags = O_CREAT | O_WRONLY | O_APPEND;
-    }
     fd = open(command->info_out, flags, 0664);
     if (fd == -1) {
         fprintf(stderr, "%s: %s.\n", command->info_out, strerror(errno));
@@ -86,14 +79,12 @@ bool open_output_redirection(command_t *command)
 
 void close_input_redirection(command_t *command)
 {
-    if (command->fd_in != 0) {
+    if (command->fd_in != 0)
         close(command->fd_in);
-    }
 }
 
 void close_output_redirection(command_t *command)
 {
-    if (command->fd_out != 0) {
+    if (command->fd_out != 0)
         close(command->fd_out);
-    }
 }

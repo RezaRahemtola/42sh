@@ -15,9 +15,9 @@ char *get_next_argument(const char *str, size_t index)
 {
     bool text = false;
     size_t size = strlen(str);
-    size_t i;
+    size_t i = index;
 
-    for (i = index; i < size; i++) {
+    for (; i < size; i++) {
         if (str[i] != ' ' && str[i] != '\t')
             text = true;
         if ((str[i] == ' ' || str[i] == '\t') && text)

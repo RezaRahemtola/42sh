@@ -16,7 +16,6 @@ SRC		=	array/my_arrays.c \
 			string/my_revstr.c \
 			string/my_str_checks.c \
 			string/my_str_contains.c \
-			string/my_str_operations.c \
 			string/my_str_starts.c \
 			string/my_strrep.c \
 			string/my_strsplit.c \

@@ -6,15 +6,16 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
 #include "my_string.h"
 
-static int get_occurences(char const *str, char separator)
+static int get_occurences(const char *str, char separator)
 {
     int count = 1;
     int new = 0;
     int old = 0;
 
-    for (int i = 0; str[i] != '\0'; i++) {
+    for (size_t i = 0; str[i] != '\0'; i++) {
         new = (str[i] == separator);
         if (new == 1 && old == 0)
             count++;
@@ -23,12 +24,12 @@ static int get_occurences(char const *str, char separator)
     return (count);
 }
 
-static void append_end(char const *str, char **arr, int *info, char separator)
+static void append_end(const char *str, char **arr, size_t *info, char sep)
 {
-    int length = my_strlen(str);
+    size_t length = strlen(str);
     char *array = NULL;
 
-    if (str[length - 1] != separator) {
+    if (str[length - 1] != sep) {
         array = my_substr(str, info[1], length);
         arr[info[0]] = array;
         arr[info[0] + 1] = NULL;
@@ -37,17 +38,17 @@ static void append_end(char const *str, char **arr, int *info, char separator)
     }
 }
 
-char **my_strsplit(char const *str, char separator)
+char **my_strsplit(const char *str, char separator)
 {
     int size = get_occurences(str, separator);
-    int length = my_strlen(str);
-    int info[2] = { 0, 0 };
+    size_t length = strlen(str);
+    size_t info[2] = { 0, 0 };
     char **arr = malloc(sizeof(char *) * (size + 1));
     char *array = NULL;
 
     if (arr == NULL)
         return NULL;
-    for (int i = 0; str[i] != '\0'; i++) {
+    for (size_t i = 0; str[i] != '\0'; i++) {
         if (str[i] == separator && info[1] == i) {
             info[1] = i + 1;
         } else if (str[i] == separator) {

@@ -1,29 +1,29 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
-** Redirections check
+** Redirections checker
 */
 
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include "messages.h"
-#include "minishell.h"
+#include "shell.h"
 #include "my_arrays.h"
 #include "my_string.h"
 #include "my.h"
 #include "redirections.h"
 
-static bool check_redirection(command_t *command, varenv_t *env)
+static bool check_redirection(command_t *command, env_t *env)
 {
     char **array = split_redirections(command->input);
-    int size = my_arraylen(array);
-    redirection_t redir = { 0, 0 };
+    size_t size = my_arraylen(array);
+    redirection_t redir;
 
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         redir = get_redirection(array[i], 0);
-        if (redir.check != NULL && !redir.check(command, array, i, env)) {
+        if (redir.checker != NULL && !redir.checker(command, &array[i], env)) {
             my_free_arrays(1, array);
             return (false);
         }
@@ -36,7 +36,7 @@ static bool check_redirection(command_t *command, varenv_t *env)
     return (true);
 }
 
-bool check_redirections(command_t *list, minishell_t *shell, varenv_t *env)
+bool check_redirections(command_t *list, shell_t *shell, env_t *env)
 {
     bool empty = false;
     command_t *current = list;
@@ -52,16 +52,16 @@ bool check_redirections(command_t *list, minishell_t *shell, varenv_t *env)
     return (true);
 }
 
-static char *get_redirect_argument_sum(char *str, char *redirect, char *input)
+static char *get_redirect_argument_sum(const char *str, const char *redirect,
+    const char *input)
 {
     char *target = get_next_argument(str, 0);
-    size_t total_len = 0;
+    size_t total_len;
     char *sum = NULL;
     char *rep = NULL;
 
-    if (target == NULL) {
+    if (target == NULL)
         return (NULL);
-    }
     total_len = strlen(redirect) + strlen(target) + 1;
     sum = malloc(sizeof(char) * (total_len));
     sprintf(sum, "%s%s", redirect, target);
@@ -74,13 +74,13 @@ static char *get_redirect_argument_sum(char *str, char *redirect, char *input)
     return (rep);
 }
 
-void replace_args(command_t *command, char *redir, char *str, varenv_t *env)
+void replace_args(command_t *command, const char *redir, const char *str,
+    env_t *env)
 {
     char *rep = get_redirect_argument_sum(str, redir, command->input);
 
-    if (rep == NULL) {
+    if (rep == NULL)
         return;
-    }
     my_free(2, command->input, command->path);
     my_free_arrays(1, command->args);
     command->input = rep;

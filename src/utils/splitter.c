@@ -22,7 +22,7 @@ redirection_t get_redirection(const char *str, size_t index)
 static size_t count_redirections(const char *str, size_t size)
 {
     size_t count = 1;
-    redirection_t redirect;
+    redirection_t redirect = {NULL, NULL};
 
     for (size_t i = 0; i < size; i++) {
         redirect = get_redirection(str, i);
@@ -49,7 +49,7 @@ char **split_redirections(const char *input)
     size_t pattern = 0;
     size_t size = strlen(input);
     size_t count = count_redirections(input, size);
-    redirection_t redirect;
+    redirection_t redirect = {NULL, NULL};
     char **array = malloc(sizeof(char *) * (count + 1));
 
     for (size_t i = 0; i < size; i++) {

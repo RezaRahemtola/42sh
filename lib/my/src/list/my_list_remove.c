@@ -38,14 +38,14 @@ free_func free_func)
     }
 }
 
-void my_list_remove_index(list_t **list, int index, free_func free_func)
+void my_list_remove_index(list_t **list, size_t index, free_func free_func)
 {
     list_t *current = *list;
-    int size = my_list_size(*list);
+    size_t size = my_list_size(*list);
 
-    if (index < 0 || index >= size)
+    if (index >= size)
         return;
-    for (int i = 0; i < index - 1; i++)
+    for (size_t i = 0; i < index - 1; i++)
         current = current->next;
     remove_data(current, list, free_func);
 }

@@ -5,6 +5,8 @@
 ** my_getnbr function
 */
 
+#include <stddef.h>
+
 static void check_digit(int digit, int *out, int *less, int count)
 {
     *out = digit < 0 || (digit > 10 && count > 0) ? 1 : 0;
@@ -33,7 +35,7 @@ static int finish_number(long number, int less)
     return (final);
 }
 
-int my_getnbr(char const *str)
+int my_getnbr(const char *str)
 {
     int digit = 0;
     int less = 0;
@@ -41,7 +43,7 @@ int my_getnbr(char const *str)
     int count = 0;
     long number = 0;
 
-    for (int i = 0; str[i] != '\0' && out == 0; i++) {
+    for (size_t i = 0; str[i] != '\0' && out == 0; i++) {
         digit = get_number(str[i]);
         if (number != 0 && (int) number * 10 / number != 10)
             return (0);

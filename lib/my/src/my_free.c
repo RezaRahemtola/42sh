@@ -8,13 +8,13 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
-void my_free(int number, ...)
+void my_free(size_t number, ...)
 {
     va_list list;
     void *element = NULL;
 
     va_start(list, number);
-    for (int i = 0; i < number; i++) {
+    for (size_t i = 0; i < number; i++) {
         element = va_arg(list, void *);
         free(element);
     }
