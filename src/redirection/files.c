@@ -16,22 +16,28 @@
 
 static void read_input(command_t *command)
 {
-    char *str = strdup("");
-    char *cat = NULL;
+    char *result = malloc(1);
     char *content = NULL;
     size_t size = 0;
     ssize_t read_size = 0;
+    int pipefd[2];
 
+    strcpy(result, "\0");
     while (true) {
         printf("? ");
         read_size = getline(&content, &size, stdin);
         if (read_size == -1 || strcmp(content, command->info_in) == '\n')
             break;
-        cat = malloc(sizeof(char) * strlen(str) + strlen(content) + 1);
-        sprintf(cat, "%s%s", str, content);
-        free(str);
-        str = cat;
+        result = realloc(result, sizeof(char) * (strlen(result) + read_size + 1));
+        strcat(result, strdup(content));
+        free(content);
+        content = NULL;
     }
+    pipe(pipefd);
+    command->fd_in = pipefd[0];
+    write(pipefd[1], result, strlen(result));
+    close(pipefd[1]);
+    dup2(command->fd_in, 0);
 }
 
 bool open_input_redirection(command_t *command)
