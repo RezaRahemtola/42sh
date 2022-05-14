@@ -14,7 +14,7 @@
 #include "shell.h"
 #include "my_string.h"
 
-static void read_input(command_t *command)
+static int read_input(command_t *command)
 {
     char *result = malloc(1);
     char *content = NULL;
@@ -29,15 +29,17 @@ static void read_input(command_t *command)
         if (read_size == -1 || strcmp(content, command->info_in) == '\n')
             break;
         result = realloc(result, sizeof(char) * (strlen(result) + read_size + 1));
-        strcat(result, strdup(content));
+        strcat(result, content);
         free(content);
         content = NULL;
     }
-    pipe(pipefd);
-    command->fd_in = pipefd[0];
+    if (pipe(pipefd) == -1) {
+        fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
+        return (-1);
+    }
     write(pipefd[1], result, strlen(result));
     close(pipefd[1]);
-    dup2(command->fd_in, 0);
+    return (pipefd[0]);
 }
 
 bool open_input_redirection(command_t *command)
@@ -47,17 +49,16 @@ bool open_input_redirection(command_t *command)
 
     if (separator != FILE_READ && separator != INPUT_READ)
         return (true);
-    if (separator == INPUT_READ) {
-        read_input(command);
-        return (true);
-    }
-    fd = open(command->info_in, O_RDONLY);
+    if (separator == INPUT_READ)
+        fd = read_input(command);
+    else
+        fd = open(command->info_in, O_RDONLY);
+    command->fd_in = fd;
     if (fd == -1) {
         fprintf(stderr, "%s: %s.\n", command->info_in, strerror(errno));
         return (false);
     }
-    command->fd_in = fd;
-    dup2(fd, 0);
+    dup2(command->fd_in, 0);
     return (true);
 }
 
