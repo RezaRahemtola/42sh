@@ -24,7 +24,7 @@ static void execute_builtin(command_t *command, env_t **env)
         }
 }
 
-static void execute_binary(command_t *command, env_t **env)
+static void execute_binary(command_t *command, env_t *const *env)
 {
     char *const *environment_array = get_array_from_env(*env);
 

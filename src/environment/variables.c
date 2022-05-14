@@ -67,12 +67,12 @@ env_t *get_env_from_array(const char *const *env)
     return (list);
 }
 
-char *const *get_array_from_env(env_t *list)
+char *const *get_array_from_env(const env_t *list)
 {
-    int size = get_env_size(list);
+    size_t size = get_env_size(list);
     int index = 0;
     char **array = malloc(sizeof(char *) * (size + 1));
-    env_t *current = list;
+    const env_t *current = list;
 
     if (array == NULL)
         return NULL;

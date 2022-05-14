@@ -123,6 +123,7 @@ Test(builtin, setenv_set)
     silent_setenv(env, args, &shell);
     cr_assert_str_eq(path.value, "/etc");
     cr_assert_eq(shell.ret, 0);
+    free(path.value);
 }
 
 Test(builtin, setenv_print, .init=cr_redirect_stdout)
@@ -138,6 +139,7 @@ Test(builtin, setenv_print, .init=cr_redirect_stdout)
     cr_assert_str_eq(path.value, "/usr/bin:/bin");
     cr_assert_eq(shell.ret, 0);
     cr_assert_stdout_eq_str("PATH=/usr/bin:/bin\n");
+    free(path.value);
 }
 
 Test(builtin, setenv_alphanumeric, .init=cr_redirect_stderr)
@@ -189,8 +191,8 @@ Test(builtin, unsetenv, .init=cr_redirect_stderr)
     shell_t shell = {0, 0};
     shell_t shell2 = {0, 0};
 
-    env->key = "HOME";
-    env->value = "/home";
+    env->key = strdup("HOME");
+    env->value = strdup("/home");
     env->next = path;
     path->key = strdup("PATH");
     path->value = strdup("/usr");
@@ -203,6 +205,7 @@ Test(builtin, unsetenv, .init=cr_redirect_stderr)
     cr_assert_eq(ret, 1);
     cr_assert_eq(ret2, 0);
     cr_assert_stderr_eq_str("unsetenv: Too few arguments.\n");
+    destroy_env(env);
 }
 
 Test(builtin, unsetenv_all)
@@ -222,6 +225,7 @@ Test(builtin, unsetenv_all)
     silent_unsetenv(&env, args, &shell);
     cr_assert_null(env);
     cr_assert_eq(shell.ret, 0);
+    destroy_env(env);
 }
 
 Test(builtin, unsetenv_all_error, .init=cr_redirect_stderr)
@@ -241,6 +245,7 @@ Test(builtin, unsetenv_all_error, .init=cr_redirect_stderr)
     silent_unsetenv(&env, args, &shell);
     cr_assert_not_null(env);
     cr_assert_eq(shell.ret, 0);
+    destroy_env(env);
 }
 
 Test(builtin, cd_basic, .init=cr_redirect_stderr)
@@ -300,6 +305,7 @@ Test(builtin, cd_home_unexisting, .init=cr_redirect_stderr)
     ret = silent_cd(&env, args, &shell);
     cr_assert_stderr_eq_str("cd: No home directory.\n");
     cr_assert_eq(ret, 1);
+    free(env);
 }
 
 Test(builtin, cd_home_valid)
@@ -314,6 +320,7 @@ Test(builtin, cd_home_valid)
     builtin_cd(&env, args);
     silent_cd(&env, args, &shell);
     cr_assert_eq(shell.ret, 0);
+    free(env);
 }
 
 Test(builtin, cd_home_invalid, .init=cr_redirect_stderr)
@@ -330,6 +337,7 @@ Test(builtin, cd_home_invalid, .init=cr_redirect_stderr)
     ret = silent_cd(&env, args, &shell);
     cr_assert_stderr_eq_str("cd: Can't change to home directory.\n");
     cr_assert_eq(ret, 1);
+    free(env);
 }
 
 Test(builtin, cd_home_append, .init=cr_redirect_stderr)
@@ -352,6 +360,7 @@ Test(builtin, cd_home_append, .init=cr_redirect_stderr)
     cr_assert_stderr_eq_str("No $home variable set.\n");
     cr_assert_eq(ret, 1);
     cr_assert_eq(ret2, 0);
+    free(env);
 }
 
 Test(builtin, cd_prev)

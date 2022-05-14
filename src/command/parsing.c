@@ -10,10 +10,10 @@
 #include <stdio.h>
 #include "messages.h"
 #include "shell.h"
+#include "redirections.h"
 #include "my_string.h"
 #include "my_arrays.h"
 #include "my.h"
-#include "redirections.h"
 
 static bool init_command(command_t *command, env_t *env, const char *input)
 {

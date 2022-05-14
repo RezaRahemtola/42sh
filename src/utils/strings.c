@@ -26,7 +26,7 @@ char *get_next_argument(const char *str, size_t index)
     return (my_substr_size(str, index, index + i, size));
 }
 
-bool is_command_empty(command_t *command)
+bool is_command_empty(const command_t *command)
 {
     const char *first = command->args[0];
 

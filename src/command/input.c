@@ -13,7 +13,8 @@
 #include "messages.h"
 #include "redirections.h"
 
-bool is_valid_redirection(command_t *command, char *const *array, bool is_input)
+bool is_valid_redirection(const command_t *command, char *const *array,
+    bool is_input)
 {
     if (array[1] == NULL || strlen(array[1]) == 0) {
         fprintf(stderr, "%s\n", MISSING_NAME);

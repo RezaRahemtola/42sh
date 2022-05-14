@@ -12,8 +12,8 @@
 #include <stdio.h>
 #include "builtin.h"
 #include "shell.h"
-#include "my_string.h"
 #include "environment.h"
+#include "my_string.h"
 
 void handle_home(env_t **env, const char *path)
 {

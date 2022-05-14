@@ -76,10 +76,10 @@ void remove_env_property(env_t **list, const char *key)
     }
 }
 
-int get_env_size(env_t *list)
+size_t get_env_size(const env_t *list)
 {
-    int size = 0;
-    env_t *current = list;
+    const env_t *current = list;
+    size_t size = 0;
 
     while (current != NULL) {
         size++;
