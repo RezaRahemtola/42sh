@@ -59,6 +59,18 @@ Test(input, folder, .init=cr_redirect_stderr)
     cr_assert_stderr_eq_str("/etc: Permission denied.\n");
 }
 
+Test(input, semicolon, .init=cr_redirect_stdout)
+{
+    const char *input = "echo test1 ; echo test2 ; echo test3\n";
+    env_t *env = malloc(sizeof(env_t));
+    shell_t shell = {0, 0};
+
+    env->key = "PATH";
+    env->value = "/bin";
+    handle_input(input, &env, &shell);
+    cr_assert_stdout_eq_str("test1\ntest2\ntest3\n");
+}
+
 Test(input, no_path, .init=cr_redirect_stderr)
 {
     const char *input = "ls\n";
