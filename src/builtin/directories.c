@@ -24,6 +24,18 @@ bool is_directory(const char *path)
     return false;
 }
 
+static void handle_prev(env_t **env, const char *path)
+{
+    const env_t *oldpwd = get_env_value(*env, "OLDPWD");
+
+    if (strlen(path) > 1)
+        fprintf(stderr, "Usage: cd [-plvn][-|<dir>].\n");
+    else if (oldpwd == NULL)
+        fprintf(stderr, ": No such file or directory.\n");
+    else
+        change_current_path(oldpwd->value);
+}
+
 void handle_cd(env_t **env, const char *path)
 {
     size_t size = strlen(path);
@@ -34,18 +46,6 @@ void handle_cd(env_t **env, const char *path)
         handle_home(env, path);
     else
         change_current_path(path);
-}
-
-void handle_prev(env_t **env, const char *path)
-{
-    env_t *oldpwd = get_env_value(*env, "OLDPWD");
-
-    if (strlen(path) > 1)
-        fprintf(stderr, "Usage: cd [-plvn][-|<dir>].\n");
-    else if (oldpwd == NULL)
-        fprintf(stderr, ": No such file or directory.\n");
-    else
-        change_current_path(oldpwd->value);
 }
 
 void change_current_path(const char *dir)

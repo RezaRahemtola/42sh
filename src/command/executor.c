@@ -24,9 +24,9 @@ static void execute_builtin(command_t *command, env_t **env)
         }
 }
 
-static void execute_binary(command_t *command, env_t **env)
+static void execute_binary(command_t *command, env_t *const *env)
 {
-    char **environment_array = get_array_from_env(*env);
+    char *const *environment_array = get_array_from_env(*env);
 
     if (environment_array == NULL)
         return;
@@ -54,6 +54,5 @@ void execute_forked(command_t *cmd, env_t **env)
         execute_builtin(cmd, env);
     else
         execute_binary(cmd, env);
-    close_input_redirection(cmd);
-    close_output_redirection(cmd);
+    close_redirections(cmd);
 }

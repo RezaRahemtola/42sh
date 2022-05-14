@@ -13,9 +13,9 @@
 #include "my_arrays.h"
 #include "redirections.h"
 
-bool check_out_append(command_t *cmd, char **array, env_t *env)
+bool check_out_append(command_t *cmd, char *const *array, const env_t *env)
 {
-    char **sub = NULL;
+    char *const *sub = NULL;
 
     if (!is_valid_redirection(cmd, array, false))
         return (false);
@@ -34,9 +34,9 @@ bool check_out_append(command_t *cmd, char **array, env_t *env)
     return (true);
 }
 
-bool check_out_write(command_t *cmd, char **array, env_t *env)
+bool check_out_write(command_t *cmd, char *const *array, const env_t *env)
 {
-    char **sub = NULL;
+    char *const *sub = NULL;
 
     if (!is_valid_redirection(cmd, array, false))
         return (false);
