@@ -16,7 +16,7 @@ class Summary(enum.Enum):
 
 CONFIG_FILE_NAME = 'config.json'
 BINARY_FILE_NAME = '42sh'
-VALGRIND_DEFAULT_ARGUMENTS = ['--child-silent-after-fork=yes', '--leak-check=full', '--show-leak-kinds=all']
+VALGRIND_DEFAULT_ARGUMENTS = ['--child-silent-after-fork=yes', '--leak-check=full', '--show-leak-kinds=all', '--track-origins']
 VALGRIND_COMMAND_NAME = 'valgrind'
 
 PARSER = argparse.ArgumentParser('42sh Memory Checker')
