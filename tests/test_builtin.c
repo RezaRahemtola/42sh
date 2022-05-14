@@ -26,6 +26,7 @@ Test(builtin, exit)
     char *const args[2] = {"exit", NULL};
     shell_t shell = {0, 0};
 
+    builtin_exit(&env, args);
     silent_exit(&env, args, &shell);
     cr_assert_eq(shell.ret, 0);
     cr_assert_eq(shell.exit, 1);
@@ -149,6 +150,18 @@ Test(builtin, setenv_alphanumeric, .init=cr_redirect_stderr)
     silent_setenv(&env, args, &shell);
     cr_assert_null(env);
     cr_assert_stderr_eq_str("setenv: Variable name must contain alphanumeric characters.\n");
+}
+
+Test(builtin, setenv_begin_letter, .init=cr_redirect_stderr)
+{
+    env_t *env = NULL;
+    char *const args[3] = {"setenv", "42b", NULL};
+    shell_t shell = {0, 0};
+
+    builtin_setenv(&env, args);
+    silent_setenv(&env, args, &shell);
+    cr_assert_null(env);
+    cr_assert_stderr_eq_str("setenv: Variable name must begin with a letter.\n");
 }
 
 Test(builtin, setenv_too_many_args, .init=cr_redirect_stderr)
