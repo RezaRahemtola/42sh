@@ -21,7 +21,8 @@ VALGRIND_COMMAND_NAME = 'valgrind'
 
 PARSER = argparse.ArgumentParser('42sh Memory Checker')
 PARSER.add_argument('-c', '--color', action='store_true', help='enables the color in output')
-PARSER.add_argument('-t', '--trace', action='store_true', help='shows the full valgrind trace')
+PARSER.add_argument('-t', '--trace', action='store_true', help='shows the full valgrind trace for showed tests')
+PARSER.add_argument('-p', '--passed', '--show-passed', action='store_true', help='shows passed memory checks tests')
 
 
 def get_tests(filepath: str) -> any:
