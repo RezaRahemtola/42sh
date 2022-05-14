@@ -10,7 +10,7 @@
 #include <fcntl.h>
 #include "shell.h"
 
-Test(redirections, valid_redirection, .init=cr_redirect_stdout)
+Test(redirections, valid_redirection)
 {
     int fd = 0;
     const char *input = "ls > a\n";
@@ -41,7 +41,7 @@ Test(redirections, argument_after_redirection, .init=cr_redirect_stderr)
     cr_assert_neq(fd, -1);
 }
 
-Test(redirections, command_after_redirection, .init=cr_redirect_stdout)
+Test(redirections, command_after_redirection)
 {
     int fd = 0;
     const char *input = ">c ls\n";
@@ -85,10 +85,10 @@ Test(redirections, unexisting_file, .init=cr_redirect_stderr)
     env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0};
 
-    cr_redirect_stdout();
     env->key = "PATH";
     env->value = "/bin";
     handle_input(input, &env, &shell);
+    cr_assert_stderr_eq_str("a: No such file or directory.\n");
 }
 
 Test(redirections, valid_pipe, .init=cr_redirect_stdout)

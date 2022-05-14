@@ -148,8 +148,7 @@ Test(builtin, setenv_alphanumeric, .init=cr_redirect_stderr)
     builtin_setenv(&env, args);
     silent_setenv(&env, args, &shell);
     cr_assert_null(env);
-    cr_assert_stderr_eq_str(
-        "setenv: Variable name must contain alphanumeric characters.\n");
+    cr_assert_stderr_eq_str("setenv: Variable name must contain alphanumeric characters.\n");
 }
 
 Test(builtin, setenv_too_many_args, .init=cr_redirect_stderr)
@@ -193,7 +192,7 @@ Test(builtin, unsetenv, .init=cr_redirect_stderr)
     cr_assert_stderr_eq_str("unsetenv: Too few arguments.\n");
 }
 
-Test(builtin, unsetenv_all, .init=cr_redirect_stderr)
+Test(builtin, unsetenv_all)
 {
     env_t *env = malloc(sizeof(env_t));
     env_t *path = malloc(sizeof(env_t));
@@ -269,8 +268,7 @@ Test(builtin, cd_fail, .init=cr_redirect_stderr)
     builtin_cd(&env, args2);
     ret = silent_cd(&env, args, &shell);
     ret2 = silent_cd(&env, args2, &shell2);
-    cr_assert_stderr_eq_str(
-        "/etc/passwd: Not a directory.\n/etcd: No such file or directory.\n");
+    cr_assert_stderr_eq_str("/etc/passwd: Not a directory.\n/etcd: No such file or directory.\n");
     cr_assert_eq(ret, 1);
     cr_assert_eq(ret2, 1);
 }
@@ -343,7 +341,7 @@ Test(builtin, cd_home_append, .init=cr_redirect_stderr)
     cr_assert_eq(ret2, 0);
 }
 
-Test(builtin, cd_prev, .init=cr_redirect_stderr)
+Test(builtin, cd_prev)
 {
     env_t *env = NULL;
     const env_t *pwd = NULL;
@@ -354,8 +352,8 @@ Test(builtin, cd_prev, .init=cr_redirect_stderr)
     shell_t shell2 = {0, 0};
 
     builtin_cd(&env, args);
-    builtin_cd(&env, args2);
     silent_cd(&env, args, &shell);
+    builtin_cd(&env, args2);
     silent_cd(&env, args2, &shell2);
     cr_assert_eq(shell.ret, 0);
     cr_assert_eq(shell2.ret, 0);
