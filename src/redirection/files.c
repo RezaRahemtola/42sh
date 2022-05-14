@@ -16,13 +16,12 @@
 
 static int read_input(command_t *command)
 {
-    char *result = malloc(1);
+    char *result = strdup("\0");
     char *content = NULL;
     size_t size = 0;
     ssize_t read_size = 0;
     int pipefd[2];
 
-    strcpy(result, "\0");
     while (true) {
         printf("? ");
         read_size = getline(&content, &size, stdin);
@@ -84,14 +83,10 @@ bool open_output_redirection(command_t *command)
     return (true);
 }
 
-void close_input_redirection(command_t *command)
+void close_redirections(command_t *command)
 {
     if (command->fd_in != 0)
         close(command->fd_in);
-}
-
-void close_output_redirection(command_t *command)
-{
     if (command->fd_out != 0)
         close(command->fd_out);
 }

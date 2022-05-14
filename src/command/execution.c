@@ -57,8 +57,7 @@ static pid_t execute_single(command_t *command, env_t **env, shell_t *shell)
     return (pid);
 }
 
-static int execute_command_line(command_t *command, env_t **env,
-    shell_t *shell)
+static int execute_command_line(command_t *command, env_t **env, shell_t *shell)
 {
     int total_executed = 0;
     pid_t pid = 0;
@@ -71,7 +70,7 @@ static int execute_command_line(command_t *command, env_t **env,
             command->state = RUNNING;
         }
         total_executed++;
-        close_output_redirection(current);
+        close_redirections(current);
         current = current->next;
     } while (current != NULL && current->separator_in == PIPE_IN);
     wait_commands(command, shell);

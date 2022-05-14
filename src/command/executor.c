@@ -54,6 +54,5 @@ void execute_forked(command_t *cmd, env_t **env)
         execute_builtin(cmd, env);
     else
         execute_binary(cmd, env);
-    close_input_redirection(cmd);
-    close_output_redirection(cmd);
+    close_redirections(cmd);
 }

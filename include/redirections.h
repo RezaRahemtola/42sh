@@ -18,13 +18,13 @@ bool check_in_input(command_t *cmd, char **array, env_t *env);
 // Input and output
 bool open_input_redirection(command_t *command);
 bool open_output_redirection(command_t *command);
-void close_input_redirection(command_t *command);
-void close_output_redirection(command_t *command);
+void close_redirections(command_t *command);
 
 // Pipes
 bool open_pipe_redirections(command_t *command);
 void handle_pipe_redirections(command_t *command);
 
+// Utils
 bool check_redirections(command_t *list, shell_t *shell, env_t *env);
 redirection_t get_redirection(const char *str, size_t index);
 char **split_redirections(const char *input);
