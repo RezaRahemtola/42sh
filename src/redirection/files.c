@@ -27,7 +27,7 @@ static int write_input_redir(const char *str, const char *cmd_name)
     return (pipefd[0]);
 }
 
-static int read_input_redir(command_t *command)
+static int read_input_redir(const command_t *command)
 {
     char *result = strdup("\0");
     char *content = NULL;
@@ -85,7 +85,7 @@ bool open_output_redirection(command_t *command)
     return (true);
 }
 
-void close_redirections(command_t *command)
+void close_redirections(const command_t *command)
 {
     if (command->fd_in != 0)
         close(command->fd_in);

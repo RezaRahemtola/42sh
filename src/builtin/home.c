@@ -18,7 +18,7 @@
 void handle_home(env_t **env, const char *path)
 {
     char *result = NULL;
-    env_t *home = get_env_value(*env, "HOME");
+    const env_t *home = get_env_value(*env, "HOME");
 
     if (home == NULL)
         fprintf(stderr, "No $home variable set.\n");
@@ -33,7 +33,7 @@ void handle_home(env_t **env, const char *path)
 
 void change_home(env_t **env)
 {
-    env_t *home = get_env_value(*env, "HOME");
+    const env_t *home = get_env_value(*env, "HOME");
     struct stat stats;
     int stat_status = stat((home == NULL ? "" : home->value), &stats);
     bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);
@@ -48,7 +48,7 @@ int handle_home_silently(env_t **env, const char *path, const char *current)
 {
     int return_value;
     char *result = NULL;
-    env_t *home = get_env_value(*env, "HOME");
+    const env_t *home = get_env_value(*env, "HOME");
 
     if (home == NULL)
         return (1);
@@ -64,7 +64,7 @@ int handle_home_silently(env_t **env, const char *path, const char *current)
 
 int change_home_silently(env_t **env, const char *current)
 {
-    env_t *home = get_env_value(*env, "HOME");
+    const env_t *home = get_env_value(*env, "HOME");
     struct stat stats;
     int stat_status = stat((home == NULL ? "" : home->value), &stats);
     bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);

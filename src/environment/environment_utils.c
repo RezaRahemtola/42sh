@@ -31,9 +31,9 @@ char *extract_env_value(const char *var)
     return (NULL);
 }
 
-void print_env(env_t *env)
+void print_env(const env_t *env)
 {
-    env_t *current = env;
+    const env_t *current = env;
 
     while (current != NULL) {
         printf("%s=%s\n", current->key, current->value);

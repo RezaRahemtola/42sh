@@ -29,7 +29,7 @@ static bool is_alphanumeric(const char *str)
 
 void add_variable(env_t **env, const char *key, const char *value)
 {
-    env_t *var = get_env_value(*env, key);
+    const env_t *var = get_env_value(*env, key);
 
     if (var == NULL)
         put_env_property(env, strdup(key), strdup(value));
@@ -67,7 +67,7 @@ env_t *get_env_from_array(const char *const *env)
     return (list);
 }
 
-char **get_array_from_env(env_t *list)
+char *const *get_array_from_env(env_t *list)
 {
     int size = get_env_size(list);
     int index = 0;

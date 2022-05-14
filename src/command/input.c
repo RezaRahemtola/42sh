@@ -13,7 +13,7 @@
 #include "messages.h"
 #include "redirections.h"
 
-bool is_valid_redirection(command_t *command, char **array, bool is_input)
+bool is_valid_redirection(command_t *command, char *const *array, bool is_input)
 {
     if (array[1] == NULL || strlen(array[1]) == 0) {
         fprintf(stderr, "%s\n", MISSING_NAME);
@@ -26,9 +26,9 @@ bool is_valid_redirection(command_t *command, char **array, bool is_input)
     return (true);
 }
 
-bool check_in_file(command_t *cmd, char **array, env_t *env)
+bool check_in_file(command_t *cmd, char *const *array, const env_t *env)
 {
-    char **sub = NULL;
+    char *const *sub = NULL;
 
     if (!is_valid_redirection(cmd, array, true))
         return (false);
@@ -47,9 +47,9 @@ bool check_in_file(command_t *cmd, char **array, env_t *env)
     return (true);
 }
 
-bool check_in_input(command_t *cmd, char **array, env_t *env)
+bool check_in_input(command_t *cmd, char *const *array, const env_t *env)
 {
-    char **sub = NULL;
+    char *const *sub = NULL;
 
     if (!is_valid_redirection(cmd, array, true))
         return (false);

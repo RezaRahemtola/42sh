@@ -23,7 +23,7 @@ void list_append(command_t **list, command_t *node)
     current->next = node;
 }
 
-void free_command(command_t *command)
+static void free_command(command_t *command)
 {
     my_free_arrays(1, command->args);
     free(command->input);

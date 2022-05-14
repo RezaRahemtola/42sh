@@ -27,10 +27,10 @@ static void execute_silent(command_t *command, env_t **env, shell_t *shell)
         }
 }
 
-static void wait_commands(command_t *command, shell_t *shell)
+static void wait_commands(const command_t *command, shell_t *shell)
 {
     int status = 0;
-    command_t *current = command;
+    const command_t *current = command;
 
     while (current != NULL && current->state == RUNNING) {
         waitpid(current->pid, &status, WUNTRACED | WCONTINUED);

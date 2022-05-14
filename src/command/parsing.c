@@ -15,7 +15,7 @@
 #include "my.h"
 #include "redirections.h"
 
-static bool init_command(command_t *command, env_t *env, char *input)
+static bool init_command(command_t *command, env_t *env, const char *input)
 {
     command->separator_in = NO_IN;
     command->separator_out = NO_OUT;
@@ -38,7 +38,8 @@ static bool init_command(command_t *command, env_t *env, char *input)
     return (true);
 }
 
-static bool is_command_valid(command_t **list, env_t *env, char *str, size_t i)
+static bool is_command_valid(command_t **list, env_t *env, const char *str,
+    size_t i)
 {
     command_t *command = malloc(sizeof(command_t));
 
@@ -56,7 +57,7 @@ static bool is_command_valid(command_t **list, env_t *env, char *str, size_t i)
     return (true);
 }
 
-static bool parse_command(command_t **list, env_t *env, char *input)
+static bool parse_command(command_t **list, env_t *env, const char *input)
 {
     size_t size = strlen(input);
     char **array = my_strsplit(input, '|');
@@ -90,7 +91,7 @@ void handle_input(const char *input, env_t **env, shell_t *shell)
     command_t *list = NULL;
     size_t size = strlen(input);
     char *line = my_substr_size(input, 0, size - 1, size);
-    char **array = my_strsplit(line, ';');
+    char *const *array = my_strsplit(line, ';');
 
     for (size_t i = 0; array[i] != NULL; i++)
         if (!parse_command(&list, *env, array[i])) {

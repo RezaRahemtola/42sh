@@ -10,9 +10,9 @@
 #include "shell.h"
 #include "my.h"
 
-env_t *get_env_value(env_t *list, const char *key)
+const env_t *get_env_value(const env_t *list, const char *key)
 {
-    env_t *current = list;
+    const env_t *current = list;
 
     while (current != NULL) {
         if (strcmp(current->key, key) == 0)
