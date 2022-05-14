@@ -20,7 +20,7 @@ VALGRIND_DEFAULT_ARGUMENTS = ['--child-silent-after-fork=yes --leak-check=full -
 VALGRIND_COMMAND_NAME = 'valgrind'
 
 PARSER = argparse.ArgumentParser('42sh Memory Checker')
-PARSER.add_argument('-c', '--color', action='store_true', help="enables the color in output")
+PARSER.add_argument('-c', '--color', action='store_true', help='enables the color in output')
 PARSER.add_argument('-t', '--trace', action='store_true', help='shows the full valgrind trace')
 
 
