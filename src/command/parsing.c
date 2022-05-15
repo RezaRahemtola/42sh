@@ -19,6 +19,7 @@ static bool init_command(command_t *command, env_t *env, const char *input)
 {
     command->separator_in = NO_IN;
     command->separator_out = NO_OUT;
+    command->separator_next = NO_NEXT;
     command->state = IDLE;
     command->pid = 0;
     command->ret = -1;
