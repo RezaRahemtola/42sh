@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Silent directory checks
 */
@@ -8,42 +8,39 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
-#include "minishell.h"
-#include "my_string.h"
-#include "varenv.h"
+#include "shell.h"
+#include "environment.h"
 
-int s_handle_cd(varenv_t **env, char *path, char *current)
+static int handle_prev_silently(env_t **env, const char *path, const char *curr)
+{
+    const env_t *oldpwd = get_env_value(*env, "OLDPWD");
+
+    if (strlen(path) > 1 || oldpwd == NULL)
+        return (1);
+    else
+        return (change_dir_silently(env, oldpwd->value, curr));
+}
+
+int handle_cd_silently(env_t **env, const char *path, const char *current)
 {
     size_t size = strlen(path);
 
-    if (size > 0 && path[0] == '-') {
-        return (s_handle_prev(env, path, current));
-    } else if (size > 0 && path[0] == '~') {
-        return (s_handle_home(env, path, current));
-    } else {
-        return (s_change_dir(env, path, current));
-    }
+    if (size > 0 && path[0] == '-')
+        return (handle_prev_silently(env, path, current));
+    if (size > 0 && path[0] == '~')
+        return (handle_home_silently(env, path, current));
+    else
+        return (change_dir_silently(env, path, current));
 }
 
-int s_handle_prev(varenv_t **env, char *path, char *current)
-{
-    varenv_t *oldpwd = varenv_get(*env, "OLDPWD");
-
-    if (my_strlen(path) > 1 || oldpwd == NULL) {
-        return (1);
-    } else {
-        return (s_change_dir(env, oldpwd->value, current));
-    }
-}
-
-int s_change_dir(varenv_t **env, char *dir, char *current)
+int change_dir_silently(env_t **env, const char *dir, const char *current)
 {
     struct stat stats;
     int st = stat(dir, &stats);
 
-    if (st == -1 || !S_ISDIR(stats.st_mode) || chdir(dir) == -1) {
+    if (st == -1 || !S_ISDIR(stats.st_mode) || chdir(dir) == -1)
         return (1);
-    } else {
+    else {
         add_variable(env, "PWD", dir);
         add_variable(env, "OLDPWD", current);
         return (0);

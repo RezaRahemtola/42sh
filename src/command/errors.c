@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Errors handling
 */
@@ -18,10 +18,9 @@ void handle_errors(int status)
 
     if (WIFSIGNALED(status)) {
         sig = WTERMSIG(status);
-        if (sig == SIGFPE) {
+        if (sig == SIGFPE)
             fprintf(stderr, "%s%s\n", FLOATING_EX, core);
-        } else {
+        else
             fprintf(stderr, "%s%s\n", strsignal(sig), core);
-        }
     }
 }

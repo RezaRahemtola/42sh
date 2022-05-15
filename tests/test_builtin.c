@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Unit tests on builtins
 */
@@ -9,7 +9,7 @@
 #include <criterion/redirect.h>
 #include "builtin.h"
 #include "my_string.h"
-#include "varenv.h"
+#include "environment.h"
 
 Test(builtin, command_check)
 {
@@ -22,10 +22,11 @@ Test(builtin, command_check)
 
 Test(builtin, exit)
 {
-    varenv_t *env = NULL;
-    char *args[2] = { "exit", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t *env = NULL;
+    char *const args[2] = {"exit", NULL};
+    shell_t shell = {0, 0};
 
+    builtin_exit(&env, args);
     silent_exit(&env, args, &shell);
     cr_assert_eq(shell.ret, 0);
     cr_assert_eq(shell.exit, 1);
@@ -34,9 +35,9 @@ Test(builtin, exit)
 Test(builtin, exit_modulo)
 {
     int ret = 0;
-    varenv_t *env = NULL;
-    char *args[3] = { "exit", "258", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t *env = NULL;
+    char *const args[3] = {"exit", "258", NULL};
+    shell_t shell = {0, 0};
 
     ret = silent_exit(&env, args, &shell);
     cr_assert_eq(ret, 2);
@@ -46,9 +47,9 @@ Test(builtin, exit_modulo)
 Test(builtin, exit_wrong_arg, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    varenv_t *env = NULL;
-    char *args[3] = { "exit", "salut", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t *env = NULL;
+    char *const args[3] = {"exit", "salut", NULL};
+    shell_t shell = {0, 0};
 
     builtin_exit(&env, args);
     ret = silent_exit(&env, args, &shell);
@@ -60,9 +61,9 @@ Test(builtin, exit_wrong_arg, .init=cr_redirect_stderr)
 Test(builtin, exit_wrong_arg_2, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    varenv_t *env = NULL;
-    char *args[3] = { "exit", "!17", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t *env = NULL;
+    char *const args[3] = {"exit", "!17", NULL};
+    shell_t shell = {0, 0};
 
     builtin_exit(&env, args);
     ret = silent_exit(&env, args, &shell);
@@ -74,9 +75,9 @@ Test(builtin, exit_wrong_arg_2, .init=cr_redirect_stderr)
 Test(builtin, exit_not_a_number, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    varenv_t *env = NULL;
-    char *args[3] = { "exit", "1a" };
-    minishell_t shell = { 0, 0 };
+    env_t *env = NULL;
+    char *const args[3] = {"exit", "1a"};
+    shell_t shell = {0, 0};
 
     builtin_exit(&env, args);
     ret = silent_exit(&env, args, &shell);
@@ -88,9 +89,9 @@ Test(builtin, exit_not_a_number, .init=cr_redirect_stderr)
 Test(builtin, exit_too_many_args, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    varenv_t *env = NULL;
-    char *args[4] = { "exit", "salut", "bonsoir", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t *env = NULL;
+    char *const args[4] = {"exit", "salut", "bonsoir", NULL};
+    shell_t shell = {0, 0};
 
     builtin_exit(&env, args);
     ret = silent_exit(&env, args, &shell);
@@ -101,10 +102,10 @@ Test(builtin, exit_too_many_args, .init=cr_redirect_stderr)
 
 Test(builtin, env, .init=cr_redirect_stdout)
 {
-    varenv_t path = { "PATH", "/usr/bin:/bin", NULL };
-    varenv_t *env[2] = { &path, NULL };
-    char *args[3] = { "env", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t path = {"PATH", "/usr/bin:/bin", NULL};
+    env_t *env[2] = {&path, NULL};
+    char *const args[3] = {"env", NULL};
+    shell_t shell = {0, 0};
 
     setbuf(stdout, NULL);
     builtin_env(env, args);
@@ -114,22 +115,23 @@ Test(builtin, env, .init=cr_redirect_stdout)
 
 Test(builtin, setenv_set)
 {
-    varenv_t path = { "PATH", strdup("/usr/bin:/bin"), NULL };
-    varenv_t *env[2] = { &path, NULL };
-    char *args[4] = { "setenv", "PATH", "/etc", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t path = {"PATH", strdup("/usr/bin:/bin"), NULL};
+    env_t *env[2] = {&path, NULL};
+    char *const args[4] = {"setenv", "PATH", "/etc", NULL};
+    shell_t shell = {0, 0};
 
     silent_setenv(env, args, &shell);
     cr_assert_str_eq(path.value, "/etc");
     cr_assert_eq(shell.ret, 0);
+    free(path.value);
 }
 
 Test(builtin, setenv_print, .init=cr_redirect_stdout)
 {
-    varenv_t path = { "PATH", strdup("/usr/bin:/bin"), NULL };
-    varenv_t *env[2] = { &path, NULL };
-    char *args[2] = { "setenv", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t path = {"PATH", strdup("/usr/bin:/bin"), NULL};
+    env_t *env[2] = {&path, NULL};
+    char *const args[2] = {"setenv", NULL};
+    shell_t shell = {0, 0};
 
     setbuf(stdout, NULL);
     builtin_setenv(env, args);
@@ -137,13 +139,14 @@ Test(builtin, setenv_print, .init=cr_redirect_stdout)
     cr_assert_str_eq(path.value, "/usr/bin:/bin");
     cr_assert_eq(shell.ret, 0);
     cr_assert_stdout_eq_str("PATH=/usr/bin:/bin\n");
+    free(path.value);
 }
 
 Test(builtin, setenv_alphanumeric, .init=cr_redirect_stderr)
 {
-    varenv_t *env = NULL;
-    char *args[3] = { "setenv", "PATH=", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t *env = NULL;
+    char *const args[3] = {"setenv", "PATH=", NULL};
+    shell_t shell = {0, 0};
 
     builtin_setenv(&env, args);
     silent_setenv(&env, args, &shell);
@@ -151,12 +154,24 @@ Test(builtin, setenv_alphanumeric, .init=cr_redirect_stderr)
     cr_assert_stderr_eq_str("setenv: Variable name must contain alphanumeric characters.\n");
 }
 
+Test(builtin, setenv_begin_letter, .init=cr_redirect_stderr)
+{
+    env_t *env = NULL;
+    char *const args[3] = {"setenv", "42b", NULL};
+    shell_t shell = {0, 0};
+
+    builtin_setenv(&env, args);
+    silent_setenv(&env, args, &shell);
+    cr_assert_null(env);
+    cr_assert_stderr_eq_str("setenv: Variable name must begin with a letter.\n");
+}
+
 Test(builtin, setenv_too_many_args, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    varenv_t *env = NULL;
-    char *args[5] = { "setenv", "PATH", "key", "value", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t *env = NULL;
+    char *const args[5] = {"setenv", "PATH", "key", "value", NULL};
+    shell_t shell = {0, 0};
 
     builtin_setenv(&env, args);
     ret = silent_setenv(&env, args, &shell);
@@ -169,15 +184,15 @@ Test(builtin, unsetenv, .init=cr_redirect_stderr)
 {
     int ret = 0;
     int ret2 = 0;
-    varenv_t *env = malloc(sizeof(varenv_t));
-    varenv_t *path = malloc(sizeof(varenv_t));
-    char *args[2] = { "unsetenv", NULL };
-    char *args2[3] = { "unsetenv", "PATH", NULL };
-    minishell_t shell = { 0, 0 };
-    minishell_t shell2 = { 0, 0 };
+    env_t *env = malloc(sizeof(env_t));
+    env_t *path = malloc(sizeof(env_t));
+    char *const args[2] = {"unsetenv", NULL};
+    char *args2[3] = {"unsetenv", "PATH", NULL};
+    shell_t shell = {0, 0};
+    shell_t shell2 = {0, 0};
 
-    env->key = "HOME";
-    env->value = "/home";
+    env->key = strdup("HOME");
+    env->value = strdup("/home");
     env->next = path;
     path->key = strdup("PATH");
     path->value = strdup("/usr");
@@ -190,14 +205,15 @@ Test(builtin, unsetenv, .init=cr_redirect_stderr)
     cr_assert_eq(ret, 1);
     cr_assert_eq(ret2, 0);
     cr_assert_stderr_eq_str("unsetenv: Too few arguments.\n");
+    destroy_env(env);
 }
 
-Test(builtin, unsetenv_all, .init=cr_redirect_stderr)
+Test(builtin, unsetenv_all)
 {
-    varenv_t *env = malloc(sizeof(varenv_t));
-    varenv_t *path = malloc(sizeof(varenv_t));
-    char *args[3] = { "unsetenv", "*", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t *env = malloc(sizeof(env_t));
+    env_t *path = malloc(sizeof(env_t));
+    char *const args[3] = {"unsetenv", "*", NULL};
+    shell_t shell = {0, 0};
 
     env->key = strdup("HOME");
     env->value = strdup("/home");
@@ -209,14 +225,15 @@ Test(builtin, unsetenv_all, .init=cr_redirect_stderr)
     silent_unsetenv(&env, args, &shell);
     cr_assert_null(env);
     cr_assert_eq(shell.ret, 0);
+    destroy_env(env);
 }
 
 Test(builtin, unsetenv_all_error, .init=cr_redirect_stderr)
 {
-    varenv_t *env = malloc(sizeof(varenv_t));
-    varenv_t *path = malloc(sizeof(varenv_t));
-    char *args[4] = { "unsetenv", "*", "bonsoir", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t *env = malloc(sizeof(env_t));
+    env_t *path = malloc(sizeof(env_t));
+    char *const args[4] = {"unsetenv", "*", "bonsoir", NULL};
+    shell_t shell = {0, 0};
 
     env->key = strdup("HOME");
     env->value = strdup("/home");
@@ -228,17 +245,18 @@ Test(builtin, unsetenv_all_error, .init=cr_redirect_stderr)
     silent_unsetenv(&env, args, &shell);
     cr_assert_not_null(env);
     cr_assert_eq(shell.ret, 0);
+    destroy_env(env);
 }
 
 Test(builtin, cd_basic, .init=cr_redirect_stderr)
 {
     int ret = 0;
     int ret2 = 0;
-    varenv_t *env = NULL;
-    char *args[3] = { "cd", "/etc", NULL };
-    char *args2[4] = { "cd", "a", "b", NULL };
-    minishell_t shell = { 0, 0 };
-    minishell_t shell2 = { 0, 0 };
+    env_t *env = NULL;
+    char *const args[3] = {"cd", "/etc", NULL};
+    char *args2[4] = {"cd", "a", "b", NULL};
+    shell_t shell = {0, 0};
+    shell_t shell2 = {0, 0};
 
     builtin_cd(&env, args);
     builtin_cd(&env, args2);
@@ -258,11 +276,11 @@ Test(builtin, cd_fail, .init=cr_redirect_stderr)
 {
     int ret = 0;
     int ret2 = 0;
-    varenv_t *env = NULL;
-    char *args[3] = { "cd", "/etc/passwd", NULL };
-    char *args2[3] = { "cd", "/etcd", NULL };
-    minishell_t shell = { 0, 0 };
-    minishell_t shell2 = { 0, 0 };
+    env_t *env = NULL;
+    char *const args[3] = {"cd", "/etc/passwd", NULL};
+    char *const args2[3] = {"cd", "/etcd", NULL};
+    shell_t shell = {0, 0};
+    shell_t shell2 = {0, 0};
 
     builtin_cd(&env, args);
     builtin_cd(&env, args2);
@@ -276,9 +294,9 @@ Test(builtin, cd_fail, .init=cr_redirect_stderr)
 Test(builtin, cd_home_unexisting, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    varenv_t *env = malloc(sizeof(varenv_t));
-    char *args[2] = { "cd", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t *env = malloc(sizeof(env_t));
+    char *const args[2] = {"cd", NULL};
+    shell_t shell = {0, 0};
 
     env->key = "YES";
     env->value = "/";
@@ -287,13 +305,14 @@ Test(builtin, cd_home_unexisting, .init=cr_redirect_stderr)
     ret = silent_cd(&env, args, &shell);
     cr_assert_stderr_eq_str("cd: No home directory.\n");
     cr_assert_eq(ret, 1);
+    free(env);
 }
 
 Test(builtin, cd_home_valid)
 {
-    varenv_t *env = malloc(sizeof(varenv_t));
-    char *args[3] = { "cd", "~" };
-    minishell_t shell = { 0, 0 };
+    env_t *env = malloc(sizeof(env_t));
+    char *const args[3] = {"cd", "~"};
+    shell_t shell = {0, 0};
 
     env->key = "HOME";
     env->value = "/";
@@ -301,14 +320,15 @@ Test(builtin, cd_home_valid)
     builtin_cd(&env, args);
     silent_cd(&env, args, &shell);
     cr_assert_eq(shell.ret, 0);
+    free(env);
 }
 
 Test(builtin, cd_home_invalid, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    varenv_t *env = malloc(sizeof(varenv_t));
-    char *args[3] = { "cd", "~" };
-    minishell_t shell = { 0, 0 };
+    env_t *env = malloc(sizeof(env_t));
+    char *const args[3] = {"cd", "~"};
+    shell_t shell = {0, 0};
 
     env->key = "HOME";
     env->value = "/etc/fstab";
@@ -317,16 +337,17 @@ Test(builtin, cd_home_invalid, .init=cr_redirect_stderr)
     ret = silent_cd(&env, args, &shell);
     cr_assert_stderr_eq_str("cd: Can't change to home directory.\n");
     cr_assert_eq(ret, 1);
+    free(env);
 }
 
 Test(builtin, cd_home_append, .init=cr_redirect_stderr)
 {
     int ret = 0;
     int ret2 = 0;
-    varenv_t *env = malloc(sizeof(varenv_t));
-    char *args[3] = { "cd", "~/etc", NULL };
-    minishell_t shell = { 0, 0 };
-    minishell_t shell2 = { 0, 0 };
+    env_t *env = malloc(sizeof(env_t));
+    char *const args[3] = {"cd", "~/etc", NULL};
+    shell_t shell = {0, 0};
+    shell_t shell2 = {0, 0};
 
     env->key = "YES";
     env->value = "/";
@@ -339,26 +360,27 @@ Test(builtin, cd_home_append, .init=cr_redirect_stderr)
     cr_assert_stderr_eq_str("No $home variable set.\n");
     cr_assert_eq(ret, 1);
     cr_assert_eq(ret2, 0);
+    free(env);
 }
 
-Test(builtin, cd_prev, .init=cr_redirect_stderr)
+Test(builtin, cd_prev)
 {
-    varenv_t *env = NULL;
-    varenv_t *pwd = NULL;
-    varenv_t *oldpwd = NULL;
-    char *args[3] = { "cd", "/etc", NULL };
-    char *args2[3] = { "cd", "-", NULL };
-    minishell_t shell = { 0, 0 };
-    minishell_t shell2 = { 0, 0 };
+    env_t *env = NULL;
+    const env_t *pwd = NULL;
+    const env_t *oldpwd = NULL;
+    char *const args[3] = {"cd", "/etc", NULL};
+    char *const args2[3] = {"cd", "-", NULL};
+    shell_t shell = {0, 0};
+    shell_t shell2 = {0, 0};
 
     builtin_cd(&env, args);
-    builtin_cd(&env, args2);
     silent_cd(&env, args, &shell);
+    builtin_cd(&env, args2);
     silent_cd(&env, args2, &shell2);
     cr_assert_eq(shell.ret, 0);
     cr_assert_eq(shell2.ret, 0);
-    pwd = varenv_get(env, "PWD");
-    oldpwd = varenv_get(env, "OLDPWD");
+    pwd = get_env_value(env, "PWD");
+    oldpwd = get_env_value(env, "OLDPWD");
     cr_assert_not_null(pwd);
     cr_assert_not_null(oldpwd);
     cr_assert_str_eq(oldpwd->value, "/etc");
@@ -367,9 +389,9 @@ Test(builtin, cd_prev, .init=cr_redirect_stderr)
 Test(builtin, cd_prev_usage, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    varenv_t *env = NULL;
-    char *args[3] = { "cd", "-a", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t *env = NULL;
+    char *const args[3] = {"cd", "-a", NULL};
+    shell_t shell = {0, 0};
 
     builtin_cd(&env, args);
     ret = silent_cd(&env, args, &shell);
@@ -380,9 +402,9 @@ Test(builtin, cd_prev_usage, .init=cr_redirect_stderr)
 Test(builtin, cd_prev_unexisting, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    varenv_t *env = NULL;
-    char *args[3] = { "cd", "-", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t *env = NULL;
+    char *const args[3] = {"cd", "-", NULL};
+    shell_t shell = {0, 0};
 
     builtin_cd(&env, args);
     ret = silent_cd(&env, args, &shell);
@@ -393,17 +415,17 @@ Test(builtin, cd_prev_unexisting, .init=cr_redirect_stderr)
 Test(builtin, cd_empty, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    varenv_t *env = NULL;
-    varenv_t *pwd = NULL;
-    varenv_t *oldpwd = NULL;
-    char *args[3] = { "cd", "", NULL };
-    minishell_t shell = { 0, 0 };
+    env_t *env = NULL;
+    const env_t *pwd = NULL;
+    const env_t *oldpwd = NULL;
+    char *const args[3] = {"cd", "", NULL};
+    shell_t shell = {0, 0};
 
     builtin_cd(&env, args);
     ret = silent_cd(&env, args, &shell);
     cr_assert_eq(ret, 1);
-    pwd = varenv_get(env, "PWD");
-    oldpwd = varenv_get(env, "OLDPWD");
+    pwd = get_env_value(env, "PWD");
+    oldpwd = get_env_value(env, "OLDPWD");
     cr_assert_null(pwd);
     cr_assert_null(oldpwd);
     cr_assert_stderr_eq_str(": No such file or directory.\n");

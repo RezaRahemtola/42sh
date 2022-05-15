@@ -6,15 +6,15 @@
 */
 
 #include <stdbool.h>
-#include "my_string.h"
+#include <string.h>
 
-bool my_str_starts(char const *str, char const *to_find)
+bool my_str_starts(const char *str, const char *to_find)
 {
-    int size = my_strlen(str);
-    int size_2 = my_strlen(to_find);
-    int same = 0;
+    size_t size = strlen(str);
+    size_t size_2 = strlen(to_find);
+    size_t same = 0;
 
-    for (int i = 0; i < size && i < size_2; i++)
+    for (size_t i = 0; i < size && i < size_2; i++)
         if (str[i] == to_find[i])
             same++;
     return (same != size_2);

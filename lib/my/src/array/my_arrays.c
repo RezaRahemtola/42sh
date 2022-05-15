@@ -10,27 +10,27 @@
 #include "my_arrays.h"
 #include "my_string.h"
 
-int my_arraylen(char * const *array)
+size_t my_arraylen(char * const *array)
 {
-    int size = 0;
+    size_t size = 0;
 
-    for (size = 0; array[size] != NULL; size++);
+    for (; array[size] != NULL; size++);
     return (size);
 }
 
 static void free_array(void **array)
 {
-    for (int i = 0; array[i] != NULL; i++)
+    for (size_t i = 0; array[i] != NULL; i++)
         free(array[i]);
 }
 
-void my_free_arrays(int number, ...)
+void my_free_arrays(size_t number, ...)
 {
     va_list list;
     void **element;
 
     va_start(list, number);
-    for (int i = 0; i < number; i++) {
+    for (size_t i = 0; i < number; i++) {
         element = va_arg(list, void **);
         if (element != NULL)
             free_array(element);

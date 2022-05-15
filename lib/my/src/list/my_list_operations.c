@@ -8,10 +8,10 @@
 #include <stdlib.h>
 #include "my_list.h"
 
-int my_list_size(list_t *list)
+size_t my_list_size(list_t *list)
 {
     list_t *current = list;
-    int size = 0;
+    size_t size = 0;
 
     if (list == NULL)
         return (0);

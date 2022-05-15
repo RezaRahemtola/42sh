@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Builtin header
 */
@@ -9,19 +9,19 @@
 
 #include "types.h"
 
-void builtin_cd(varenv_t **env, char **args);
-void builtin_env(varenv_t **env, char **args);
-void builtin_exit(varenv_t **env, char **args);
-void builtin_setenv(varenv_t **env, char **args);
-void builtin_unsetenv(varenv_t **env, char **args);
+void builtin_cd(env_t **env, char *const *args);
+void builtin_env(env_t **env, char *const *args);
+void builtin_exit(env_t **env, char *const *args);
+void builtin_setenv(env_t **env, char *const *args);
+void builtin_unsetenv(env_t **env, char *const *args);
 
-int silent_cd(varenv_t **env, char **args, minishell_t *shell);
-int silent_env(varenv_t **env, char **args, minishell_t *shell);
-int silent_exit(varenv_t **env, char **args, minishell_t *shell);
-int silent_setenv(varenv_t **env, char **args, minishell_t *shell);
-int silent_unsetenv(varenv_t **env, char **args, minishell_t *shell);
+int silent_cd(env_t **env, char *const *args, shell_t *shell);
+int silent_env(env_t **env, char *const *args, shell_t *shell);
+int silent_exit(env_t **env, char *const *args, shell_t *shell);
+int silent_setenv(env_t **env, char *const *args, shell_t *shell);
+int silent_unsetenv(env_t **env, char *const *args, shell_t *shell);
 
-bool is_builtin(char *command);
+bool is_builtin(const char *command);
 
 static const builtin_t BUILTIN[6] = {
         { "exit", &builtin_exit, &silent_exit },

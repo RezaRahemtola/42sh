@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2021
-** minishell2
+** 42sh
 ** File description:
 ** Environment variables
 */
@@ -8,36 +8,32 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "minishell.h"
+#include "shell.h"
 #include "my_string.h"
 
-char *extract_key(char const *var)
+char *extract_env_key(const char *var)
 {
     size_t size = strlen(var);
 
-    for (size_t i = 0; i < size; i++) {
-        if (var[i] == '=') {
-            return (my_substr_size(var, 0, (int) i, (int) size));
-        }
-    }
+    for (size_t i = 0; i < size; i++)
+        if (var[i] == '=')
+            return (my_substr_size(var, 0, i, size));
     return (NULL);
 }
 
-char *extract_value(char const *var)
+char *extract_env_value(const char *var)
 {
     size_t size = strlen(var);
 
-    for (size_t i = 0; i < size; i++) {
-        if (var[i] == '=') {
-            return (my_substr_size(var, (int) i + 1, (int) size, (int) size));
-        }
-    }
+    for (size_t i = 0; i < size; i++)
+        if (var[i] == '=')
+            return (my_substr_size(var, i + 1, size, size));
     return (NULL);
 }
 
-void print_env(varenv_t *env)
+void print_env(const env_t *env)
 {
-    varenv_t *current = env;
+    const env_t *current = env;
 
     while (current != NULL) {
         printf("%s=%s\n", current->key, current->value);
@@ -45,10 +41,10 @@ void print_env(varenv_t *env)
     }
 }
 
-void destroy_env(varenv_t *env)
+void destroy_env(env_t *env)
 {
-    varenv_t *current = env;
-    varenv_t *tmp = NULL;
+    env_t *current = env;
+    env_t *tmp = NULL;
 
     while (current != NULL) {
         tmp = current->next;

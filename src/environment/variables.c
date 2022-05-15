@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** minishell2
+** 42sh
 ** File description:
 ** Variables management
 */
@@ -8,9 +8,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "varenv.h"
+#include "environment.h"
 
-static int is_alphanumeric(char *str)
+static bool is_alphanumeric(const char *str)
 {
     size_t size = strlen(str);
     int number = 0;
@@ -21,25 +21,23 @@ static int is_alphanumeric(char *str)
         number = (str[i] >= '0' && str[i] <= '9');
         lower = (str[i] >= 'a' && str[i] <= 'z');
         upper = (str[i] >= 'A' && str[i] <= 'Z');
-        if (!number && !lower && !upper && str[i] != '_') {
-            return (0);
-        }
+        if (!number && !lower && !upper && str[i] != '_')
+            return (false);
     }
-    return (1);
+    return (true);
 }
 
-void add_variable(varenv_t **env, char *key, char *value)
+void add_variable(env_t **env, const char *key, const char *value)
 {
-    varenv_t *var = varenv_get(*env, key);
+    const env_t *var = get_env_value(*env, key);
 
-    if (var == NULL) {
-        varenv_put(env, strdup(key), strdup(value));
-    } else {
-        varenv_replace(*env, key, strdup(value));
-    }
+    if (var == NULL)
+        put_env_property(env, strdup(key), strdup(value));
+    else
+        replace_env_value(*env, key, value);
 }
 
-int set_variable(varenv_t **env, char *key, char *value)
+int set_variable(env_t **env, const char *key, const char *value)
 {
     char *alpha = "alphanumeric characters";
 
@@ -52,34 +50,35 @@ int set_variable(varenv_t **env, char *key, char *value)
     }
 }
 
-varenv_t *convert_env(char **env)
+env_t *get_env_from_array(const char *const *env)
 {
-    varenv_t *list = NULL;
+    env_t *list = NULL;
     char *key = NULL;
     char *value = NULL;
 
-    for (int i = 0; env[i] != NULL; i++) {
-        key = extract_key(env[i]);
-        value = extract_value(env[i]);
-        if (key != NULL && value != NULL) {
-            varenv_put(&list, key, value);
-        }
+    for (size_t i = 0; env[i] != NULL; i++) {
+        key = extract_env_key(env[i]);
+        value = extract_env_value(env[i]);
+        if (key != NULL && value != NULL)
+            put_env_property(&list, key, value);
+        free(key);
+        free(value);
     }
     return (list);
 }
 
-char **convert_varenv(varenv_t *list)
+char *const *get_array_from_env(const env_t *list)
 {
-    int size = varenv_size(list);
+    size_t size = get_env_size(list);
     int index = 0;
     char **array = malloc(sizeof(char *) * (size + 1));
-    varenv_t *current = list;
+    const env_t *current = list;
 
     if (array == NULL)
         return NULL;
     while (current != NULL) {
         array[index] = malloc(sizeof(char) * (strlen(current->key) +
-        strlen(current->value) + 2));
+                                              strlen(current->value) + 2));
         sprintf(array[index], "%s=%s", current->key, current->value);
         index++;
         current = current->next;

@@ -1,68 +1,64 @@
 /*
 ** EPITECH PROJECT, 2021
-** minishell2
+** 42sh
 ** File description:
 ** Map management
 */
 
 #include <stdlib.h>
 #include <string.h>
-#include "minishell.h"
-#include "my_string.h"
+#include "shell.h"
 #include "my.h"
 
-varenv_t *varenv_get(varenv_t *list, char const *key)
+const env_t *get_env_value(const env_t *list, const char *key)
 {
-    varenv_t *current = list;
+    const env_t *current = list;
 
     while (current != NULL) {
-        if (strcmp(current->key, key) == 0) {
+        if (strcmp(current->key, key) == 0)
             return (current);
-        }
         current = current->next;
     }
     return (NULL);
 }
 
-void varenv_put(varenv_t **list, char *key, char *value)
+void put_env_property(env_t **list, const char *key, const char *value)
 {
-    varenv_t *env = malloc(sizeof(varenv_t));
-    varenv_t *current = *list;
+    env_t *env = malloc(sizeof(env_t));
+    env_t *current = *list;
 
-    if (env == NULL) {
+    if (env == NULL)
         return;
-    }
-    env->key = key;
-    env->value = value;
+    env->key = strdup(key);
+    env->value = strdup(value);
     env->next = NULL;
-    if (*list == NULL) {
+    if (*list == NULL)
         *list = env;
-    } else {
-        while (current->next != NULL) {
+    else {
+        while (current->next != NULL)
             current = current->next;
-        }
         current->next = env;
     }
 }
 
-void varenv_replace(varenv_t *list, char *key, char *value)
+void replace_env_value(env_t *list, const char *key, const char *value)
 {
-    varenv_t *current = list;
+    env_t *current = list;
 
     while (current != NULL) {
         if (strcmp(current->key, key) == 0) {
             free(current->value);
-            current->value = value;
+            current->value = strdup(value);
             return;
         }
         current = current->next;
     }
 }
 
-void varenv_remove(varenv_t **list, char *key)
+void remove_env_property(env_t **list, const char *key)
 {
-    varenv_t *current = *list;
-    varenv_t *prev = *list;
+    env_t *current = *list;
+    env_t *prev = *list;
 
     if (strcmp(current->key, key) == 0) {
         *list = current->next;
@@ -80,10 +76,10 @@ void varenv_remove(varenv_t **list, char *key)
     }
 }
 
-int varenv_size(varenv_t *list)
+size_t get_env_size(const env_t *list)
 {
-    int size = 0;
-    varenv_t *current = list;
+    const env_t *current = list;
+    size_t size = 0;
 
     while (current != NULL) {
         size++;

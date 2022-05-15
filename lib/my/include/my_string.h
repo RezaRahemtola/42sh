@@ -9,21 +9,16 @@
 
 #include <stdbool.h>
 
-int my_strlen(char const *str);
-char *my_strdup(char const *str);
+bool my_str_contains(const char *str, const char *pattern);
+bool my_str_containschar(const char *str, char c);
+bool my_str_starts(const char *str, const char *pattern);
 
-bool my_str_contains(char const *str, char const *pattern);
-bool my_str_containschar(char const *str, char c);
-bool my_str_starts(char const *str, char const *pattern);
-
-bool my_str_isalpha(char const *str);
-bool my_str_isnum(char const *str);
 bool my_char_isalpha(char c);
 
-char **my_strsplit_many(char const *str, char const *list);
+char **my_strsplit_many(const char *str, const char *list);
 
-char *my_revstr(char const *str);
-char *my_strrep(char *, char const *, char const *);
-char **my_strsplit(char const *, char);
-char *my_substr(char const *, int, int);
-char *my_substr_size(char const *, int, int, int);
+char *my_revstr(const char *str);
+char *my_strrep(const char *str, const char *pattern, const char *new);
+char **my_strsplit(const char *str, char separator);
+char *my_substr(const char *str, int start, int end);
+char *my_substr_size(const char *str, int start, int end, int size);

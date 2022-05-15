@@ -61,8 +61,16 @@
             "command": "cd config.json"
         },
         {
+            "name": "env - simple",
+            "command": "env | grep PATH"
+        },
+        {
             "name": "setenv - simple",
             "command": "setenv var val"
+        },
+        {
+            "name": "setenv - No argument",
+            "command": "setenv | grep HOME"
         },
         {
             "name": "setenv - Too many arguments",
@@ -81,12 +89,20 @@
             "command": "unsetenv PATH"
         },
         {
+            "name": "unsetenv - simple with checks",
+            "command": "env | grep PATH ; unsetenv PATH ; env | grep PATH"
+        },
+        {
             "name": "unsetenv - No argument",
             "command": "unsetenv"
         },
         {
             "name": "unsetenv - simple all",
             "command": "unsetenv *"
+        },
+        {
+            "name": "unsetenv - simple all with checks",
+            "command": "env | grep PATH ; unsetenv * ; env"
         },
         {
             "name": "unsetenv - complex all",
@@ -115,6 +131,10 @@
         {
             "name": "exit - Badly formed number",
             "command": "exit 42NaN"
+        },
+        {
+            "name": "recursion - 42sh in 42sh",
+            "command": "42sh"
         },
         {
             "name": "semicolon - simple",

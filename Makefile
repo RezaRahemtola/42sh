@@ -27,26 +27,26 @@ REDIRECTION_DIR	=	redirection
 REDIRECTION_SRC	=	files.c \
 					pipes.c
 
-UTIL_DIR	=	util
-UTIL_SRC	=	lists.c \
+UTILS_DIR	=	utils
+UTILS_SRC	=	lists.c \
 				splitter.c \
 				strings.c
 
-VARENV_DIR	=	varenv
-VARENV_SRC	=	varenv.c \
-				variables.c \
-				environment.c
+ENV_DIR	=	environment
+ENV_SRC	=	environment.c \
+			environment_utils.c \
+			variables.c
 
 BASE_DIR	= 	src
-BASE_SRC	=	minishell.c \
+BASE_SRC	=	shell.c \
 				$(addprefix $(BUILTIN_DIR)/, $(BUILTIN_SRC)) \
 				$(addprefix $(COMMAND_DIR)/, $(COMMAND_SRC)) \
 				$(addprefix $(REDIRECTION_DIR)/, $(REDIRECTION_SRC)) \
-				$(addprefix $(UTIL_DIR)/, $(UTIL_SRC)) \
-				$(addprefix $(VARENV_DIR)/, $(VARENV_SRC))
+				$(addprefix $(UTILS_DIR)/, $(UTILS_SRC)) \
+				$(addprefix $(ENV_DIR)/, $(ENV_SRC))
 
 TESTS_DIR	=	tests
-TESTS_SRC	=	test_minishell.c \
+TESTS_SRC	=	test_shell.c \
 				test_builtin.c \
 				test_redirections.c
 
@@ -55,7 +55,7 @@ MAIN		=	main.c
 SRC			=	$(addprefix $(BASE_DIR)/, $(BASE_SRC)) \
 				$(addprefix $(BASE_DIR)/, $(MAIN))
 
-TEST		=	$(addprefix $(BASE_DIR)/, $(BASE_SRC))\
+TEST		=	$(addprefix $(BASE_DIR)/, $(BASE_SRC)) \
 				$(addprefix $(TESTS_DIR)/, $(TESTS_SRC))
 
 OBJ			=	$(SRC:.c=.o)
