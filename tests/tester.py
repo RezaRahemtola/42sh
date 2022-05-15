@@ -36,7 +36,7 @@ def run_test(isDebug: bool, isFullLog: bool, hasColor: bool) -> bool:
     tcsh = run_command(test["command"], "tcsh")
     name = test["name"]
 
-    if (tcsh.stdout not in mysh.stdout) or (tcsh.stderr not in mysh.stderr):
+    if (tcsh.stdout != mysh.stdout) or (tcsh.stderr != mysh.stderr):
         if isDebug:
             disp_err(tcsh, mysh)
         print(colored(f'Test "{name}" failed.', "red") if hasColor else f'Test "{name}" failed.')
