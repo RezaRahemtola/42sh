@@ -45,3 +45,17 @@ bool check_logicals(command_t *list, shell_t *shell)
     }
     return (true);
 }
+
+bool should_ignore(command_t *command)
+{
+    if (command->prev == NULL) {
+        return (false);
+    }
+    if (command->prev->separator_next == AND && command->prev->ret != 0) {
+        return (true);
+    }
+    if (command->prev->separator_next == OR && command->prev->ret == 0) {
+        return (true);
+    }
+    return (false);
+}
