@@ -105,7 +105,7 @@ Test(input, and, .init=cr_redirect_stderr)
 
 Test(input, or, .init=cr_redirect_stderr)
 {
-    const char *input = "echo salut && echo bonsoir\n";
+    const char *input = "echo salut || echo bonsoir\n";
     env_t *env = NULL;
     shell_t shell = {0, 0};
 
