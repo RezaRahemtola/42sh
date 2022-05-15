@@ -131,7 +131,9 @@ func_tests:
 			@python3 -m pip install termcolor > /dev/null
 			python3 tests/tester.py -adc
 
-mem_checks:	fclean $(DEBUG_BINARY)
+mem_checks:
+			@$(MAKE) fclean > /dev/null
+			@$(MAKE) $(DEBUG_BINARY) > /dev/null
 			@python3 -m pip install termcolor > /dev/null
 			python3 tests/memory_checker.py -pcd
 
