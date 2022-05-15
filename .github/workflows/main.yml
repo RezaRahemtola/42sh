@@ -84,3 +84,4 @@ jobs:
       - run_unit_tests
       - run_functional_tests
       - run_memory_checks
+      - check_repository_cleanliness
