@@ -32,7 +32,7 @@ void add_variable(env_t **env, const char *key, const char *value)
     const env_t *var = get_env_value(*env, key);
 
     if (var == NULL)
-        put_env_property(env, strdup(key), strdup(value));
+        put_env_property(env, key, value);
     else
         replace_env_value(*env, key, value);
 }
