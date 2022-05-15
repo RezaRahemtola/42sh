@@ -149,7 +149,7 @@ def run_memory_checker() -> int:
             passing = print_result(result, test, args.color, args.trace, args.passed, i)
             not_passing_checks += 1 if not passing else 0
         color = 'green' if not_passing_checks == 0 else 'yellow' if not_passing_checks >= len(tests) / 2 else 'red'
-        print_colored_or_not(f'Ran {len(tests)} ({len(tests) - not_passing_checks} passed and {not_passing_checks} failed)', color, args.color)
+        print_colored_or_not(f'Ran {len(tests)} tests ({len(tests) - not_passing_checks} passed and {not_passing_checks} failed)', color, args.color)
     elif args.only_on < 0 or args.only_on not in range(len(tests)):
         print_colored_or_not(f'Error: Index {args.only_on} is not a valid index', 'yellow', args.color)
         return -1
