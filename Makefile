@@ -117,8 +117,8 @@ debug_run:	fclean $(DEBUG_BINARY)
 			$(VG) ./$(DEBUG_BINARY) $(ARGS)
 
 tests_run:
-			$(MAKE) unit_tests
 			$(MAKE) func_tests
+			$(MAKE) unit_tests
 
 unit_tests:	clean_coverage $(TEST_BINARY)
 			./$(TEST_BINARY)
