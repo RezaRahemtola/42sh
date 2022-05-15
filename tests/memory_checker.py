@@ -123,7 +123,7 @@ def print_result(result: MemoryCheckResult, test: any, colorize: bool, show_valg
         print_colored_or_not(f'- {result.leaked_bytes} byte(s) in {result.leaked_blocks} block(s) are leaking.', 'red', colorize)
 
     if result.errors - result.leaked_blocks > 0:
-        print_colored_or_not(f'- {result.errors} other error(s) were found (run with --trace for details)', 'red', colorize)
+        print_colored_or_not(f'- {result.errors} other error(s) were found', 'red', colorize)
 
     if show_valgrind_trace:
         print_colored_or_not('=' * 50, 'red', colorize)
