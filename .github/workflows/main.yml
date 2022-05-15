@@ -32,8 +32,6 @@ jobs:
         run: make clean
       - name: Check executables
         run: IFS=',' ; read -a strarr <<< ${{ env.EXECUTABLES }} ; for val in ${strarr[@]} ; do if ! test -x $val; then exit 1; fi ; done
-    needs:
-      - check_repository_cleanliness
 
   run_unit_tests:
     name: Run unit tests
