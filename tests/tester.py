@@ -17,13 +17,13 @@ def run_command(command: str, piped_path: str):
 
 
 def disp_err(tcsh, mysh) -> None:
-    if tcsh.stdout not in mysh.stdout:
+    if tcsh.stdout != mysh.stdout:
         print("stdout:")
         delta = diff(tcsh.stdout.split(), mysh.stdout.split(), "tcsh", "42sh")
         for line in delta:
             print(line, end="")
         print()
-    if tcsh.stderr not in mysh.stderr:
+    if tcsh.stderr != mysh.stderr:
         print("stderr:")
         delta = diff(tcsh.stderr.split(), mysh.stderr.split(), "tcsh", "42sh")
         for line in delta:
@@ -36,7 +36,7 @@ def run_test(isDebug: bool, isFullLog: bool, hasColor: bool) -> bool:
     tcsh = run_command(test["command"], "tcsh")
     name = test["name"]
 
-    if (tcsh.stdout not in mysh.stdout) or (tcsh.stderr not in mysh.stderr):
+    if (tcsh.stdout != mysh.stdout) or (tcsh.stderr != mysh.stderr):
         if isDebug:
             disp_err(tcsh, mysh)
         print(colored(f'Test "{name}" failed.', "red") if hasColor else f'Test "{name}" failed.')

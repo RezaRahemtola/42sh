@@ -24,6 +24,13 @@ typedef enum separator_out_type {
     FILE_APPEND,
 } separator_out_type_t;
 
+typedef enum separator_next_type {
+    NO_NEXT,
+    SEMICOLON,
+    AND,
+    OR
+} separator_next_type_t;
+
 typedef enum state {
     IDLE,
     RUNNING,
@@ -38,6 +45,7 @@ typedef struct shell {
 typedef struct command {
     separator_in_type_t separator_in;
     separator_out_type_t separator_out;
+    separator_next_type_t separator_next;
     state_t state;
     pid_t pid;
     int ret;
@@ -68,6 +76,11 @@ typedef struct redirection {
     char *type;
     redirection_checker_t *checker;
 } redirection_t;
+
+typedef struct logical {
+    char *type;
+    separator_next_type_t separator;
+} logical_t;
 
 typedef struct builtin {
     char *command;

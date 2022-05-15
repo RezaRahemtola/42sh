@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include "builtin.h"
+#include "logical.h"
 #include "shell.h"
 #include "redirections.h"
 
@@ -27,16 +28,16 @@ static void execute_silent(command_t *command, env_t **env, shell_t *shell)
         }
 }
 
-static void wait_commands(const command_t *command, shell_t *shell)
+static void wait_commands(command_t *command, shell_t *shell)
 {
     int status = 0;
-    const command_t *current = command;
+    command_t *current = command;
 
     while (current != NULL && current->state == RUNNING) {
         waitpid(current->pid, &status, WUNTRACED | WCONTINUED);
         handle_errors(status);
-        shell->ret = (status > 255 ? status / 256 : status);
-        if (command->ret != -1)
+        current->ret = (status > 255 ? status / 256 : status);
+        if (!is_builtin(current->args[0]))
             shell->ret = command->ret;
         current = current->next;
     }
@@ -62,12 +63,13 @@ static int execute_command_line(command_t *command, env_t **env, shell_t *shell)
     int total_executed = 0;
     pid_t pid = 0;
     command_t *current = command;
+    bool ignored = should_ignore(command);
 
     do {
-        pid = execute_single(current, env, shell);
-        if (pid > 0) {
-            command->pid = pid;
-            command->state = RUNNING;
+        if (!ignored) {
+            pid = execute_single(current, env, shell);
+            command->pid = (pid > 0 ? pid : 0);
+            command->state = (pid > 0 ? RUNNING : IDLE);
         }
         total_executed++;
         close_redirections(current);

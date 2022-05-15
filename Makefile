@@ -17,6 +17,7 @@ COMMAND_SRC	=	errors.c \
 				execution.c \
 				executor.c \
 				input.c \
+				logical.c \
 				output.c \
 				parsing.c \
 				paths.c \
@@ -29,7 +30,8 @@ REDIRECTION_SRC	=	files.c \
 
 UTILS_DIR	=	utils
 UTILS_SRC	=	lists.c \
-				splitter.c \
+				logical.c \
+				redirections.c \
 				strings.c
 
 ENV_DIR	=	environment
