@@ -26,7 +26,6 @@ COMMAND_SRC	=	errors.c \
 
 REDIRECTION_DIR	=	redirection
 REDIRECTION_SRC	=	files.c \
-				    logical.c \
 					pipes.c
 
 UTILS_DIR	=	utils
