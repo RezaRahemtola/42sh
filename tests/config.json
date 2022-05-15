@@ -81,10 +81,6 @@
             "command": "setenv 1var val"
         },
         {
-            "name": "setenv - Var with non-alphanum chars",
-            "command": "setenv va#r val"
-        },
-        {
             "name": "unsetenv - simple",
             "command": "unsetenv PATH"
         },
