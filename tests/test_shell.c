@@ -116,7 +116,7 @@ Test(input, and_simple, .init=cr_redirect_stdout)
     free(env);
 }
 
-Test(input, and_no_commands, .init=cr_redirect_stdout)
+Test(input, and_no_commands, .init=cr_redirect_stderr)
 {
     const char *input = "&&\n";
     env_t *env = malloc(sizeof(env_t));
@@ -125,7 +125,7 @@ Test(input, and_no_commands, .init=cr_redirect_stdout)
     env->key = "PATH";
     env->value = "/bin";
     handle_input(input, &env, &shell);
-    cr_assert_stdout_eq_str("");
+    cr_assert_stderr_neq_str("Invalid null command.\n");
     free(env);
 }
 

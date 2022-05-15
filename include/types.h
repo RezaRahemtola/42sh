@@ -29,7 +29,7 @@ typedef enum separator_next_type {
     SEMICOLON,
     AND,
     OR
-} separatour_next_type_t;
+} separator_next_type_t;
 
 typedef enum state {
     IDLE,
@@ -45,7 +45,7 @@ typedef struct shell {
 typedef struct command {
     separator_in_type_t separator_in;
     separator_out_type_t separator_out;
-    separatour_next_type_t separator_next;
+    separator_next_type_t separator_next;
     state_t state;
     pid_t pid;
     int ret;
@@ -79,7 +79,7 @@ typedef struct redirection {
 
 typedef struct logical {
     char *type;
-    separatour_next_type_t separator;
+    separator_next_type_t separator;
 } logical_t;
 
 typedef struct builtin {
