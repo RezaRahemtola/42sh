@@ -16,13 +16,13 @@ static bool check_logical(command_t *command, bool empty)
     command_t *prev = command->prev;
     separatour_next_type_t next = command->separator_next;
 
-    if (empty && next != NO_NEXT && next != SEMICOLON) {
+    if (empty && next == OR) {
         fprintf(stderr, "%s\n", MISSING_COMMAND);
         return (false);
     }
     if (empty && prev != NULL) {
         next = prev->separator_next;
-        if (next != NO_NEXT && next != SEMICOLON) {
+        if (next == OR) {
             fprintf(stderr, "%s\n", MISSING_COMMAND);
             return (false);
         }
