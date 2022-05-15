@@ -17,6 +17,7 @@ COMMAND_SRC	=	errors.c \
 				execution.c \
 				executor.c \
 				input.c \
+				logical.c \
 				output.c \
 				parsing.c \
 				paths.c \

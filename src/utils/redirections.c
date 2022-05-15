@@ -34,13 +34,14 @@ static size_t count_redirections(const char *str, size_t size)
     return (count);
 }
 
-static void append_end(char **array, const char *input, size_t pattern, int idx)
+static void append_end(char **array, const char *input, size_t pattern, \
+int index)
 {
     size_t size = strlen(input);
     char *end = my_substr_size(input, pattern, size, size);
 
-    array[idx] = end;
-    array[idx + 1] = NULL;
+    array[index] = end;
+    array[index + 1] = NULL;
 }
 
 char **split_redirections(const char *input)
