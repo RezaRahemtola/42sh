@@ -93,6 +93,26 @@ Test(input, not_found, .init=cr_redirect_stderr)
     cr_assert_stderr_eq_str("lsa: Command not found.\n");
 }
 
+Test(input, and, .init=cr_redirect_stderr)
+{
+    const char *input = "echo salut && echo bonsoir\n";
+    env_t *env = NULL;
+    shell_t shell = {0, 0};
+
+    handle_input(input, &env, &shell);
+    cr_assert_stderr_eq_str("echo: Command not found.\n");
+}
+
+Test(input, or, .init=cr_redirect_stderr)
+{
+    const char *input = "echo salut && echo bonsoir\n";
+    env_t *env = NULL;
+    shell_t shell = {0, 0};
+
+    handle_input(input, &env, &shell);
+    cr_assert_stderr_eq_str("echo: Command not found.\necho: Command not found.\n");
+}
+
 Test(error, no_env)
 {
     env_t **env = NULL;
