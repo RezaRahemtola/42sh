@@ -11,6 +11,7 @@
 
 logical_t get_logical(const char *str, size_t index);
 void apply_logical(command_t *command, char const *separator);
+bool check_logicals(command_t *list, shell_t *shell);
 
 char **split_logical(const char *input);
 

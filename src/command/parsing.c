@@ -86,6 +86,8 @@ const char *separator)
 
 static void pipe_and_exec(command_t *cmd, env_t **env, shell_t *shell)
 {
+    if (!check_logicals(cmd, shell))
+        return;
     if (!check_redirections(cmd, shell, *env) || !open_pipe_redirections(cmd))
         shell->ret = 1;
     else

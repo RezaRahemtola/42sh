@@ -6,7 +6,6 @@
 */
 
 #include "logical.h"
-#include "shell.h"
 
 bool check_and(command_t *cmd, char *const *array, const env_t *env)
 {
