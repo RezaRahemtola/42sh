@@ -1,10 +1,10 @@
 name: Main workflow
 
-on: [push]
+on: [ push ]
 
 env:
-   MIRROR_URL: "git@github.com:EpitechPromo2026/B-PSU-210-PAR-2-1-42sh-florian.lauch.git"
-   EXECUTABLES: "42sh"
+  MIRROR_URL: "git@github.com:EpitechPromo2026/B-PSU-210-PAR-2-1-42sh-florian.lauch.git"
+  EXECUTABLES: "42sh"
 
 jobs:
   check_repository_cleanliness:
