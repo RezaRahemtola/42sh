@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include <stddef.h>
 #include "types.h"
 
 bool check_out_append(command_t *cmd, char *const *array, const env_t *env);
