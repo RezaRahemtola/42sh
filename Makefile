@@ -120,10 +120,13 @@ tests_run:
 			$(MAKE) func_tests
 			$(MAKE) unit_tests
 
-unit_tests:	clean_coverage $(TEST_BINARY)
+unit_tests:
+			@$(MAKE) clean_coverage > /dev/null
+			@$(MAKE) $(TEST_BINARY) > /dev/null
 			./$(TEST_BINARY)
 
-func_tests:	re
+func_tests:
+			@$(MAKE) re > /dev/null
 			@python3 -m pip install termcolor > /dev/null
 			python3 tests/tester.py -adc
 
