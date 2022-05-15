@@ -109,7 +109,7 @@ def print_result(result: MemoryCheckResult, test: any, colorize: bool, show_valg
             print_colored_or_not('=' * 50, 'green', colorize)
             print_colored_or_not('\n'.join(result.logs), 'green', colorize)
             print_colored_or_not('=' * 50, 'green', colorize)
-        print()
+            print()
         return True
     print_colored_or_not(f'#{index} {test["name"]} [{test["command"]}] has memory issues.', 'red', colorize)
     if not show_valgrind_trace:
@@ -130,7 +130,7 @@ def print_result(result: MemoryCheckResult, test: any, colorize: bool, show_valg
         print_colored_or_not('=' * 50, 'red', colorize)
         print_colored_or_not('\n'.join(result.logs), 'red', colorize)
         print_colored_or_not('=' * 50, 'red', colorize)
-    print()
+        print()
     return False
 
 
@@ -149,7 +149,7 @@ def run_memory_checker() -> int:
             passing = print_result(result, test, args.color, args.trace, args.passed, i)
             not_passing_checks += 1 if not passing else 0
         color = 'green' if not_passing_checks == 0 else 'yellow' if not_passing_checks >= len(tests) / 2 else 'red'
-        print_colored_or_not(f'Ran {len(tests)} ({len(tests) > - not_passing_checks} passed and {not_passing_checks} failed)', color, args.color)
+        print_colored_or_not(f'Ran {len(tests)} ({len(tests) - not_passing_checks} passed and {not_passing_checks} failed)', color, args.color)
     elif args.only_on < 0 or args.only_on not in range(len(tests)):
         print_colored_or_not(f'Error: Index {args.only_on} is not a valid index', 'yellow', args.color)
         return -1
