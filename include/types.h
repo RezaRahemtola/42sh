@@ -58,6 +58,8 @@ typedef struct environment {
     struct environment *next;
 } env_t;
 
+typedef bool logical_checker_t(command_t *cmd, char *const *array, \
+    const env_t *env);
 typedef bool redirection_checker_t(command_t *cmd, char *const *array,
     const env_t *env);
 typedef void redirection_function_t(env_t **env, char *const *args);
@@ -68,6 +70,11 @@ typedef struct redirection {
     char *type;
     redirection_checker_t *checker;
 } redirection_t;
+
+typedef struct logical {
+    char *type;
+    logical_checker_t *checker;
+} logical_t;
 
 typedef struct builtin {
     char *command;
