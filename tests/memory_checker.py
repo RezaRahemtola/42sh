@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-import argparse
-import enum
-import json
-import os
-import re
-from os import path
+from argparse import ArgumentParser
+from enum import Enum
+from json import load
+from os import path, access, X_OK
+from re import match
 from subprocess import run
 
 from termcolor import colored
@@ -15,7 +14,7 @@ BINARY_FILE_NAME = '42sh'
 VALGRIND_DEFAULT_ARGUMENTS = ['--child-silent-after-fork=yes', '--leak-check=full', '--show-leak-kinds=all', '--track-origins=yes']
 VALGRIND_COMMAND_NAME = 'valgrind'
 
-PARSER = argparse.ArgumentParser('42sh Memory Checker')
+PARSER = ArgumentParser('42sh Memory Checker')
 PARSER.add_argument('-c', '--color', action='store_true', help='enables the color in output')
 PARSER.add_argument('-t', '--trace', action='store_true', help='shows the full valgrind trace for showed tests')
 PARSER.add_argument('-p', '--passed', '--show-passed', action='store_true', help='shows passed memory checks tests')
@@ -23,7 +22,7 @@ PARSER.add_argument('--only-on', default=None, type=int, help='executes memory c
 PARSER.add_argument('-d', '--debug-binary', action='store_true', help=f'executes {BINARY_FILE_NAME}.debug instead of {BINARY_FILE_NAME}')
 
 
-class Summary(enum.Enum):
+class Summary(Enum):
     ERROR = 'ERROR'
     LEAK = 'LEAK'
     HEAP = 'HEAP'
@@ -69,7 +68,7 @@ class MemoryCheckResult:
 
 def get_tests(filepath: str) -> any:
     with open(filepath) as json_file:
-        return json.load(json_file)["tests"]
+        return load(json_file)["tests"]
 
 
 def get_valgrind_logs(command: str, binary_path: str) -> any:
@@ -90,7 +89,7 @@ def format_valgrind_logs(unformatted_valgrind_logs: any) -> list[str]:
 def find_summary_index_in_logs(summary_type: Summary, valgrind_logs: list[str]) -> int:
     valgrind_pid = get_valgrind_pid_from_logs(valgrind_logs)
     for index, log in enumerate(valgrind_logs):
-        if re.match(rf'=={valgrind_pid}== {summary_type.value} SUMMARY:.*', log):
+        if match(rf'=={valgrind_pid}== {summary_type.value} SUMMARY:.*', log):
             return index
     return -1
 
@@ -138,7 +137,7 @@ def run_memory_checker() -> int:
     args = PARSER.parse_args()
     tests = get_tests(path.dirname(path.realpath(__file__)) + path.sep + CONFIG_FILE_NAME)
     binary_name = f'{BINARY_FILE_NAME}.debug' if args.debug_binary else BINARY_FILE_NAME
-    if not os.access(binary_name, os.X_OK):
+    if not access(binary_name, X_OK):
         print_colored_or_not(f'Error: Cannot execute {binary_name}', 'yellow', args.color)
         return -1
     not_passing_checks = 0
