@@ -3,6 +3,7 @@
 import argparse
 import enum
 import json
+import os
 import re
 from os import path
 from subprocess import run
@@ -19,6 +20,7 @@ PARSER.add_argument('-c', '--color', action='store_true', help='enables the colo
 PARSER.add_argument('-t', '--trace', action='store_true', help='shows the full valgrind trace for showed tests')
 PARSER.add_argument('-p', '--passed', '--show-passed', action='store_true', help='shows passed memory checks tests')
 PARSER.add_argument('--only-on', default=None, type=int, help='executes memory check only on passed index of configuration file')
+PARSER.add_argument('-d', '--debug-binary', action='store_true', help=f'executes {BINARY_FILE_NAME}.debug instead of {BINARY_FILE_NAME}')
 
 
 class Summary(enum.Enum):
@@ -119,10 +121,10 @@ def print_result(result: MemoryCheckResult, test: any, colorize: bool, show_valg
         print_colored_or_not(f'- Too many free(s): {result.allocation_delta} too much.', 'red', colorize)
 
     if result.leaked_bytes > 0:
-        print_colored_or_not(f'- {result.leaked_bytes} bytes in {result.leaked_blocks} blocks are leaking.', 'red', colorize)
+        print_colored_or_not(f'- {result.leaked_bytes} byte(s) in {result.leaked_blocks} block(s) are leaking.', 'red', colorize)
 
     if result.errors - result.leaked_blocks > 0:
-        print_colored_or_not(f'- {result.errors} others errors were found (run with --trace for details)', 'red', colorize)
+        print_colored_or_not(f'- {result.errors} other error(s) were found (run with --trace for details)', 'red', colorize)
 
     if show_valgrind_trace:
         print_colored_or_not('=' * 50, 'red', colorize)
@@ -135,21 +137,25 @@ def print_result(result: MemoryCheckResult, test: any, colorize: bool, show_valg
 def run_memory_checker() -> int:
     args = PARSER.parse_args()
     tests = get_tests(path.dirname(path.realpath(__file__)) + path.sep + CONFIG_FILE_NAME)
+    binary_name = f'{BINARY_FILE_NAME}.debug' if args.debug_binary else BINARY_FILE_NAME
+    if not os.access(binary_name, os.X_OK):
+        print_colored_or_not(f'Cannot execute {binary_name}', 'red', args.color)
+        return -1
     not_passing_checks = 0
     if args.only_on is None:
         for i, test in enumerate(tests):
-            logs = format_valgrind_logs(get_valgrind_logs(test['command'], f'./{BINARY_FILE_NAME}').stderr)
+            logs = format_valgrind_logs(get_valgrind_logs(test['command'], f'./{binary_name}').stderr)
             result = MemoryCheckResult(logs)
             passing = print_result(result, test, args.color, args.trace, args.passed, i)
             not_passing_checks += 1 if not passing else 0
-        color = 'green' if not_passing_checks == 0 else 'yel<low' if not_passing_checks >= len(tests) / 2 else 'red'
+        color = 'green' if not_passing_checks == 0 else 'yellow' if not_passing_checks >= len(tests) / 2 else 'red'
         print_colored_or_not(f'Ran {len(tests)} ({len(tests) > - not_passing_checks} passed and {not_passing_checks} failed)', color, args.color)
     elif args.only_on < 0 or args.only_on not in range(len(tests)):
         print_colored_or_not(f'Error: Index {args.only_on} is not a valid index', 'yellow', args.color)
         return -1
     else:
         test = tests[args.only_on]
-        logs = format_valgrind_logs(get_valgrind_logs(test['command'], f'./{BINARY_FILE_NAME}').stderr)
+        logs = format_valgrind_logs(get_valgrind_logs(test['command'], f'./{binary_name}').stderr)
         result = MemoryCheckResult(logs)
         not_passing_checks += 1 if not print_result(result, test, args.color, args.trace, True, args.only_on) else 0
     return not_passing_checks
