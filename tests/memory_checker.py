@@ -139,7 +139,7 @@ def run_memory_checker() -> int:
     tests = get_tests(path.dirname(path.realpath(__file__)) + path.sep + CONFIG_FILE_NAME)
     binary_name = f'{BINARY_FILE_NAME}.debug' if args.debug_binary else BINARY_FILE_NAME
     if not os.access(binary_name, os.X_OK):
-        print_colored_or_not(f'Cannot execute {binary_name}', 'red', args.color)
+        print_colored_or_not(f'Error: Cannot execute {binary_name}', 'yellow', args.color)
         return -1
     not_passing_checks = 0
     if args.only_on is None:
