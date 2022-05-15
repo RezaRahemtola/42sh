@@ -10,9 +10,9 @@
 #include "shell.h"
 #include "my.h"
 
-env_t *get_env_value(env_t *list, const char *key)
+const env_t *get_env_value(const env_t *list, const char *key)
 {
-    env_t *current = list;
+    const env_t *current = list;
 
     while (current != NULL) {
         if (strcmp(current->key, key) == 0)
@@ -76,10 +76,10 @@ void remove_env_property(env_t **list, const char *key)
     }
 }
 
-int get_env_size(env_t *list)
+size_t get_env_size(const env_t *list)
 {
-    int size = 0;
-    env_t *current = list;
+    const env_t *current = list;
+    size_t size = 0;
 
     while (current != NULL) {
         size++;

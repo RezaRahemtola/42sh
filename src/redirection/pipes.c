@@ -40,7 +40,7 @@ bool open_pipe_redirections(command_t *commands)
     return (true);
 }
 
-void handle_pipe_redirections(command_t *command)
+void handle_pipe_redirections(const command_t *command)
 {
     if (command->separator_in == PIPE_IN) {
         dup2(command->fd_in, 0);

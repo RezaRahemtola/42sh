@@ -10,12 +10,12 @@
 #include <stdio.h>
 #include "messages.h"
 #include "shell.h"
+#include "redirections.h"
 #include "my_arrays.h"
 #include "my_string.h"
 #include "my.h"
-#include "redirections.h"
 
-static bool check_redirection(command_t *command, env_t *env)
+static bool check_redirection(command_t *command, const env_t *env)
 {
     char **array = split_redirections(command->input);
     size_t size = my_arraylen(array);
@@ -36,7 +36,7 @@ static bool check_redirection(command_t *command, env_t *env)
     return (true);
 }
 
-bool check_redirections(command_t *list, shell_t *shell, env_t *env)
+bool check_redirections(command_t *list, shell_t *shell, const env_t *env)
 {
     bool empty = false;
     command_t *current = list;
@@ -75,7 +75,7 @@ static char *get_redirect_argument_sum(const char *str, const char *redirect,
 }
 
 void replace_args(command_t *command, const char *redir, const char *str,
-    env_t *env)
+    const env_t *env)
 {
     char *rep = get_redirect_argument_sum(str, redir, command->input);
 

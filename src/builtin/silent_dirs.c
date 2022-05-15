@@ -11,6 +11,16 @@
 #include "shell.h"
 #include "environment.h"
 
+static int handle_prev_silently(env_t **env, const char *path, const char *curr)
+{
+    const env_t *oldpwd = get_env_value(*env, "OLDPWD");
+
+    if (strlen(path) > 1 || oldpwd == NULL)
+        return (1);
+    else
+        return (change_dir_silently(env, oldpwd->value, curr));
+}
+
 int handle_cd_silently(env_t **env, const char *path, const char *current)
 {
     size_t size = strlen(path);
@@ -21,16 +31,6 @@ int handle_cd_silently(env_t **env, const char *path, const char *current)
         return (handle_home_silently(env, path, current));
     else
         return (change_dir_silently(env, path, current));
-}
-
-int handle_prev_silently(env_t **env, const char *path, const char *current)
-{
-    env_t *oldpwd = get_env_value(*env, "OLDPWD");
-
-    if (strlen(path) > 1 || oldpwd == NULL)
-        return (1);
-    else
-        return (change_dir_silently(env, oldpwd->value, current));
 }
 
 int change_dir_silently(env_t **env, const char *dir, const char *current)

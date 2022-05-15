@@ -14,50 +14,59 @@
 #include "shell.h"
 #include "my_string.h"
 
-static void read_input(command_t *command)
+static int write_input_redir(const char *str, const char *cmd_name)
 {
-    char *str = strdup("");
-    char *cat = NULL;
+    int pipefd[2];
+
+    if (pipe(pipefd) == -1) {
+        fprintf(stderr, "%s: %s.\n", cmd_name, strerror(errno));
+        return (-1);
+    }
+    write(pipefd[1], str, strlen(str));
+    close(pipefd[1]);
+    return (pipefd[0]);
+}
+
+static int read_input_redir(const command_t *command)
+{
+    char *result = strdup("\0");
     char *content = NULL;
     size_t size = 0;
-    ssize_t read_size = 0;
+    ssize_t read = 0;
 
     while (true) {
         printf("? ");
-        read_size = getline(&content, &size, stdin);
-        if (read_size == -1 || strcmp(content, command->info_in) == '\n')
+        read = getline(&content, &size, stdin);
+        if (read == -1 || strcmp(content, command->info_in) == '\n')
             break;
-        cat = malloc(sizeof(char) * strlen(str) + strlen(content) + 1);
-        sprintf(cat, "%s%s", str, content);
-        free(str);
-        str = cat;
+        result = realloc(result, sizeof(char) * (strlen(result) + read + 1));
+        strcat(result, content);
+        free(content);
+        content = NULL;
     }
+    return (write_input_redir(result, command->args[0]));
 }
 
 bool open_input_redirection(command_t *command)
 {
-    int fd = -1;
     separator_in_type_t separator = command->separator_in;
 
     if (separator != FILE_READ && separator != INPUT_READ)
         return (true);
-    if (separator == INPUT_READ) {
-        read_input(command);
-        return (true);
-    }
-    fd = open(command->info_in, O_RDONLY);
-    if (fd == -1) {
+    if (separator == INPUT_READ)
+        command->fd_in = read_input_redir(command);
+    else
+        command->fd_in = open(command->info_in, O_RDONLY);
+    if (command->fd_in == -1) {
         fprintf(stderr, "%s: %s.\n", command->info_in, strerror(errno));
         return (false);
     }
-    command->fd_in = fd;
-    dup2(fd, 0);
+    dup2(command->fd_in, 0);
     return (true);
 }
 
 bool open_output_redirection(command_t *command)
 {
-    int fd = -1;
     int flags = 0;
     separator_out_type_t separator = command->separator_out;
 
@@ -67,24 +76,19 @@ bool open_output_redirection(command_t *command)
         flags = O_CREAT | O_WRONLY | O_TRUNC;
     else
         flags = O_CREAT | O_WRONLY | O_APPEND;
-    fd = open(command->info_out, flags, 0664);
-    if (fd == -1) {
+    command->fd_out = open(command->info_out, flags, 0664);
+    if (command->fd_out == -1) {
         fprintf(stderr, "%s: %s.\n", command->info_out, strerror(errno));
         return (false);
     }
-    command->fd_out = fd;
-    dup2(fd, 1);
+    dup2(command->fd_out, 1);
     return (true);
 }
 
-void close_input_redirection(command_t *command)
+void close_redirections(const command_t *command)
 {
     if (command->fd_in != 0)
         close(command->fd_in);
-}
-
-void close_output_redirection(command_t *command)
-{
     if (command->fd_out != 0)
         close(command->fd_out);
 }

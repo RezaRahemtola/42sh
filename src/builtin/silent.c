@@ -9,10 +9,10 @@
 #include <unistd.h>
 #include <string.h>
 #include "shell.h"
+#include "environment.h"
 #include "my_arrays.h"
 #include "my_math.h"
 #include "my_string.h"
-#include "environment.h"
 
 int silent_exit(env_t **env, char *const *args, shell_t *shell)
 {
