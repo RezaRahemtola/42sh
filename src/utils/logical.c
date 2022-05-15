@@ -15,13 +15,13 @@ logical_t get_logical(const char *str, size_t index)
     for (size_t i = 0; LOGICAL[i].type != NULL; i++)
         if (my_str_starts(&str[index], LOGICAL[i].type) == 0)
             return (LOGICAL[i]);
-    return (logical_t) {NULL, NULL};
+    return (logical_t) {NULL, NULL, NO_NEXT};
 }
 
 static size_t count_logical(const char *str, size_t size)
 {
     size_t count = 1;
-    logical_t logical = {NULL, NULL};
+    logical_t logical = {NULL, NULL, NO_NEXT};
 
     for (size_t i = 0; i < size; i++) {
         logical = get_logical(str, i);
@@ -49,7 +49,7 @@ char **split_logical(const char *input)
     size_t pattern = 0;
     size_t size = strlen(input);
     size_t count = count_logical(input, size);
-    logical_t logical = {NULL, NULL};
+    logical_t logical = {NULL, NULL, NO_NEXT};
     char **array = malloc(sizeof(char *) * (count + 1));
 
     for (size_t i = 0; i < size; i++) {

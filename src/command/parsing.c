@@ -8,12 +8,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include "logical.h"
 #include "messages.h"
+#include "my_arrays.h"
+#include "my_string.h"
+#include "my.h"
 #include "shell.h"
 #include "redirections.h"
-#include "my_string.h"
-#include "my_arrays.h"
-#include "my.h"
 
 static bool init_command(command_t *command, env_t *env, const char *input)
 {
@@ -39,29 +40,31 @@ static bool init_command(command_t *command, env_t *env, const char *input)
     return (true);
 }
 
-static bool is_command_valid(command_t **list, env_t *env, const char *str,
+static command_t *get_command(command_t **list, env_t *env, const char *str,
     size_t i)
 {
     command_t *command = malloc(sizeof(command_t));
 
     if (command == NULL || !init_command(command, env, str))
-        return (false);
+        return (NULL);
     list_append(list, command);
     if (i > 0) {
         if (is_command_empty(command) || is_command_empty(command->prev)) {
             fprintf(stderr, "%s\n", MISSING_COMMAND);
-            return (false);
+            return (NULL);
         }
         command->prev->separator_out = PIPE_OUT;
         command->separator_in = PIPE_IN;
     }
-    return (true);
+    return (command);
 }
 
-static bool parse_command(command_t **list, env_t *env, const char *input)
+static bool parse_command(command_t **list, env_t *env, const char *input, \
+const char *separator)
 {
     size_t size = strlen(input);
     char **array = my_strsplit(input, '|');
+    command_t *command = NULL;
 
     if (array == NULL)
         return (false);
@@ -70,13 +73,15 @@ static bool parse_command(command_t **list, env_t *env, const char *input)
         my_free_arrays(1, array);
         return (false);
     }
-    for (size_t i = 0; array[i] != NULL; i++)
-        if (!is_command_valid(list, env, array[i], i)) {
-            my_free_arrays(1, array);
-            return (false);
-        }
+    for (size_t i = 0; array[i] != NULL; i++) {
+        command = get_command(list, env, array[i], i);
+        if (command == NULL)
+            break;
+        if (array[i + 1] == NULL && separator != NULL)
+            apply_logical(command, separator);
+    }
     my_free_arrays(1, array);
-    return (true);
+    return (command != NULL);
 }
 
 static void pipe_and_exec(command_t *cmd, env_t **env, shell_t *shell)
@@ -92,16 +97,18 @@ void handle_input(const char *input, env_t **env, shell_t *shell)
     command_t *list = NULL;
     size_t size = strlen(input);
     char *line = my_substr_size(input, 0, size - 1, size);
-    char *const *array = my_strsplit(line, ';');
+    char *const *array = split_logical(line);
 
-    for (size_t i = 0; array[i] != NULL; i++)
-        if (!parse_command(&list, *env, array[i])) {
+    for (size_t i = 0; array[i] != NULL; i++) {
+        if (!parse_command(&list, *env, array[i], array[i + 1])) {
             free(line);
             my_free_arrays(1, array);
             list_free(list);
             shell->ret = 1;
             return;
         }
+        i+= (array[i + 1] != NULL);
+    }
     pipe_and_exec(list, env, shell);
     free(line);
     my_free_arrays(1, array);

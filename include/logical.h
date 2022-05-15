@@ -10,6 +10,7 @@
 #include "types.h"
 
 logical_t get_logical(const char *str, size_t index);
+void apply_logical(command_t *command, char const *separator);
 
 char **split_logical(const char *input);
 
@@ -18,8 +19,8 @@ bool check_or(command_t *cmd, char *const *array, const env_t *env);
 bool check_semicolon(command_t *cmd, char *const *array, const env_t *env);
 
 static const logical_t LOGICAL[4] = {
-        { "&&", &check_and },
-        { "||", &check_or},
-        { ";", &check_semicolon },
-        {0, 0}
+        { ";", &check_semicolon, SEMICOLON },
+        { "&&", &check_and, AND },
+        { "||", &check_or, OR},
+        {0, 0, 0}
 };

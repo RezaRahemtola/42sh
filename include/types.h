@@ -82,6 +82,7 @@ typedef struct redirection {
 typedef struct logical {
     char *type;
     logical_checker_t *checker;
+    separatour_next_type_t separator;
 } logical_t;
 
 typedef struct builtin {
