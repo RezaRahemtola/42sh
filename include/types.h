@@ -24,6 +24,13 @@ typedef enum separator_out_type {
     FILE_APPEND,
 } separator_out_type_t;
 
+typedef enum separator_next_type {
+    NO_NEXT,
+    SEMICOLON,
+    AND,
+    OR
+} separatour_next_type_t;
+
 typedef enum state {
     IDLE,
     RUNNING,
