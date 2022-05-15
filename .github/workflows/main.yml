@@ -55,6 +55,17 @@ jobs:
     needs:
       - check_program_compilation
 
+  run_memory_checks:
+    name: Run memory checks
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - uses: actions/checkout@v3
+      - run: make mem_checks
+        timeout-minutes: 2
+    needs:
+      - check_program_compilation
+
   push_to_mirror:
     name: Push to Epitech repository
     runs-on: ubuntu-latest
