@@ -45,6 +45,7 @@ typedef struct shell {
 typedef struct command {
     separator_in_type_t separator_in;
     separator_out_type_t separator_out;
+    separatour_next_type_t separator_next;
     state_t state;
     pid_t pid;
     int ret;
