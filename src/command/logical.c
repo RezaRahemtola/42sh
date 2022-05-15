@@ -22,7 +22,7 @@ static bool check_logical(command_t *command, bool empty)
     }
     if (empty && prev != NULL) {
         next = prev->separator_next;
-        if (next == OR ) {
+        if (next == OR || next == AND) {
             fprintf(stderr, "%s\n", MISSING_COMMAND);
             return (false);
         }
