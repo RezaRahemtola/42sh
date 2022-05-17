@@ -7,25 +7,14 @@
 
 #include <stddef.h>
 #include <stdio.h>
-#include <string.h>
 #include "logical.h"
 #include "messages.h"
-
-static bool is_command_empty(command_t *command)
-{
-    if (command == NULL)
-        return (true);
-    if (command->args[0] == NULL)
-        return (true);
-    if (strlen(command->args[0]) == 0)
-        return (true);
-    return (false);
-}
+#include "shell.h"
 
 static bool check_logical(command_t *command, bool empty)
 {
     command_t *prev = command->prev;
-    bool prev_empty = is_command_empty(prev);
+    bool prev_empty = (prev == NULL ? false : is_command_empty(prev));
     separator_next_type_t next = command->separator_next;
 
     if (empty && next == OR) {
@@ -67,6 +56,19 @@ bool should_ignore(command_t *command)
     if (command->prev->separator_next == OR && command->prev->ret == 0)
         return (true);
     return (false);
+}
+
+size_t ignore_command(command_t *command)
+{
+    size_t total = 0;
+    command_t *node = command;
+
+    for (total = 0; node != NULL; total++) {
+        if (node->next != NULL && node->next->separator_next == SEMICOLON)
+            return (total + 2);
+        node = node->next;
+    }
+    return (total);
 }
 
 void apply_logical(command_t *command, char const *separator)
