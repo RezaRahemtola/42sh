@@ -58,25 +58,25 @@ static pid_t execute_single(command_t *command, env_t **env, shell_t *shell)
     return (pid);
 }
 
-static int execute_command_line(command_t *command, env_t **env, shell_t *shell)
+static size_t execute_command_line(command_t *cmd, env_t **env, shell_t *shell)
 {
-    int total_executed = 0;
+    size_t total = 0;
     pid_t pid = 0;
-    command_t *current = command;
-    bool ignored = should_ignore(command);
+    command_t *current = cmd;
 
+    if (should_ignore(cmd)) {
+        return (ignore_command(cmd));
+    }
     do {
-        if (!ignored) {
-            pid = execute_single(current, env, shell);
-            command->pid = (pid > 0 ? pid : 0);
-            command->state = (pid > 0 ? RUNNING : IDLE);
-        }
-        total_executed++;
+        pid = execute_single(current, env, shell);
+        current->pid = (pid > 0 ? pid : 0);
+        current->state = (pid > 0 ? RUNNING : IDLE);
+        total++;
         close_redirections(current);
         current = current->next;
     } while (current != NULL && current->separator_in == PIPE_IN);
-    wait_commands(command, shell);
-    return (total_executed);
+    wait_commands(cmd, shell);
+    return (total);
 }
 
 void execute_commands(command_t *command, env_t **env, shell_t *shell)

@@ -265,6 +265,10 @@
             "command": "nocommand && ls && nocommand"
         },
         {
+            "name": "operators - Complex operation",
+            "command": "echo One || echo Two && echo Three || echo Four"
+        },
+        {
             "name": "pipes - no right",
             "command": "cat -e Makefile |"
         },

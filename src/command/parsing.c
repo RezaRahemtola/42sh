@@ -59,16 +59,16 @@ static command_t *get_command(command_t **list, env_t *env, const char *str,
     return (command);
 }
 
-static bool parse_command(command_t **list, env_t *env, const char *input, \
+static bool parse_command(command_t **list, env_t *env, const char *input,
 const char *separator)
 {
-    size_t size = strlen(input);
+    int size = strlen(input);
     char **array = my_strsplit(input, '|');
     command_t *command = NULL;
 
     if (array == NULL)
         return (false);
-    else if (input[size - 1] == '|' || input[0] == '|') {
+    else if (input[MAX(0, size - 1)] == '|' || input[0] == '|') {
         fprintf(stderr, "%s\n", MISSING_COMMAND);
         my_free_arrays(1, array);
         return (false);

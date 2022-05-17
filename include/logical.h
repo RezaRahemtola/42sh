@@ -15,6 +15,7 @@ void apply_logical(command_t *command, char const *separator);
 
 bool check_logicals(command_t *list, shell_t *shell);
 bool should_ignore(command_t *command);
+size_t ignore_command(command_t *command);
 
 static const logical_t LOGICAL[4] = {
         { ";", SEMICOLON },
