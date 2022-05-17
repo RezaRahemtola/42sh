@@ -44,8 +44,7 @@ char *find_command(const env_t *env, const char *bin)
         return (NULL);
     if (my_str_contains(bin, "/") == 0)
         return (access(bin, F_OK) == -1 ? NULL : strdup(bin));
-    else if (path == NULL)
+    if (path == NULL)
         return NULL;
-    else
-        return (explore_path(path, bin));
+    return (explore_path(path, bin));
 }

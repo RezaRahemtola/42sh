@@ -22,7 +22,8 @@ int silent_exit(env_t **env, char *const *args, shell_t *shell)
     if (size == 1) {
         shell->exit = true;
         return (shell->ret);
-    } else if (size > 2 || args[1][0] <= '0' || args[1][0] >= '9')
+    }
+    if (size > 2 || args[1][0] <= '0' || args[1][0] >= '9')
         return (1);
     if (!my_is_number(args[1]))
         return (1);

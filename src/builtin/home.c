@@ -20,11 +20,11 @@ void handle_home(env_t **env, const char *path)
     char *result = NULL;
     const env_t *home = get_env_value(*env, "HOME");
 
-    if (home == NULL)
+    if (home == NULL) {
         fprintf(stderr, "No $home variable set.\n");
-    else if (strlen(path) == 1)
+    } else if (strlen(path) == 1) {
         change_home(env);
-    else {
+    } else {
         result = my_strrep(path, "~", home->value);
         change_current_path(result);
         free(result);
@@ -52,14 +52,12 @@ int handle_home_silently(env_t **env, const char *path, const char *current)
 
     if (home == NULL)
         return (1);
-    else if (strlen(path) == 1)
+    if (strlen(path) == 1)
         return (change_home_silently(env, current));
-    else {
-        result = my_strrep(path, "~", home->value);
-        return_value = change_dir_silently(env, result, current);
-        free(result);
-        return (return_value);
-    }
+    result = my_strrep(path, "~", home->value);
+    return_value = change_dir_silently(env, result, current);
+    free(result);
+    return (return_value);
 }
 
 int change_home_silently(env_t **env, const char *current)
@@ -71,11 +69,9 @@ int change_home_silently(env_t **env, const char *current)
 
     if (home == NULL || chdir(home->value) == -1 || file)
         return (1);
-    else {
-        add_variable(env, "PWD", home->value);
-        add_variable(env, "OLDPWD", current);
-        return (0);
-    }
+    add_variable(env, "PWD", home->value);
+    add_variable(env, "OLDPWD", current);
+    return (0);
 }
 
 bool is_builtin(const char *command)

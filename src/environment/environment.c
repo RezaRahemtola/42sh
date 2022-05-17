@@ -32,9 +32,9 @@ void put_env_property(env_t **list, const char *key, const char *value)
     env->key = strdup(key);
     env->value = strdup(value);
     env->next = NULL;
-    if (*list == NULL)
+    if (*list == NULL) {
         *list = env;
-    else {
+    } else {
         while (current->next != NULL)
             current = current->next;
         current->next = env;
