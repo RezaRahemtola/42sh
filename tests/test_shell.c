@@ -93,6 +93,130 @@ Test(input, not_found, .init=cr_redirect_stderr)
     cr_assert_stderr_eq_str("lsa: Command not found.\n");
 }
 
+Test(input, and, .init=cr_redirect_stderr)
+{
+    const char *input = "echo salut && echo bonsoir\n";
+    env_t *env = NULL;
+    shell_t shell = {0, 0};
+
+    handle_input(input, &env, &shell);
+    cr_assert_stderr_eq_str("echo: Command not found.\n");
+}
+
+Test(input, and_simple, .init=cr_redirect_stdout)
+{
+    const char *input = "echo foo && echo bar\n";
+    env_t *env = malloc(sizeof(env_t));
+    shell_t shell = {0, 0};
+
+    env->key = "PATH";
+    env->value = "/bin";
+    handle_input(input, &env, &shell);
+    cr_assert_stdout_eq_str("foo\nbar\n");
+    free(env);
+}
+
+Test(input, and_no_commands, .init=cr_redirect_stderr)
+{
+    const char *input = "&&\n";
+    env_t *env = malloc(sizeof(env_t));
+    shell_t shell = {0, 0};
+
+    env->key = "PATH";
+    env->value = "/bin";
+    handle_input(input, &env, &shell);
+    cr_assert_stderr_neq_str("Invalid null command.\n");
+    free(env);
+}
+
+Test(input, and_no_left, .init=cr_redirect_stdout)
+{
+    const char *input = "&& echo foo\n";
+    env_t *env = malloc(sizeof(env_t));
+    shell_t shell = {0, 0};
+
+    env->key = "PATH";
+    env->value = "/bin";
+    handle_input(input, &env, &shell);
+    cr_assert_stdout_eq_str("foo\n");
+    free(env);
+}
+
+Test(input, and_no_right, .init=cr_redirect_stderr)
+{
+    const char *input = "echo foo &&\n";
+    env_t *env = malloc(sizeof(env_t));
+    shell_t shell = {0, 0};
+
+    env->key = "PATH";
+    env->value = "/bin";
+    handle_input(input, &env, &shell);
+    cr_assert_stderr_eq_str("Invalid null command.\n");
+    free(env);
+}
+
+Test(input, or, .init=cr_redirect_stderr)
+{
+    const char *input = "echo salut || echo bonsoir\n";
+    env_t *env = NULL;
+    shell_t shell = {0, 0};
+
+    handle_input(input, &env, &shell);
+    cr_assert_stderr_eq_str("echo: Command not found.\necho: Command not found.\n");
+}
+
+Test(input, or_simple, .init=cr_redirect_stdout)
+{
+    const char *input = "echo foo || echo bar\n";
+    env_t *env = malloc(sizeof(env_t));
+    shell_t shell = {0, 0};
+
+    env->key = "PATH";
+    env->value = "/bin";
+    handle_input(input, &env, &shell);
+    cr_assert_stdout_eq_str("foo\n");
+    free(env);
+}
+
+Test(input, or_no_commands, .init=cr_redirect_stderr)
+{
+    const char *input = "||\n";
+    env_t *env = malloc(sizeof(env_t));
+    shell_t shell = {0, 0};
+
+    env->key = "PATH";
+    env->value = "/bin";
+    handle_input(input, &env, &shell);
+    cr_assert_stderr_eq_str("Invalid null command.\n");
+    free(env);
+}
+
+Test(input, or_no_left, .init=cr_redirect_stderr)
+{
+    const char *input = "|| echo foo\n";
+    env_t *env = malloc(sizeof(env_t));
+    shell_t shell = {0, 0};
+
+    env->key = "PATH";
+    env->value = "/bin";
+    handle_input(input, &env, &shell);
+    cr_assert_stderr_eq_str("Invalid null command.\n");
+    free(env);
+}
+
+Test(input, or_no_right, .init=cr_redirect_stderr)
+{
+    const char *input = "echo foo ||\n";
+    env_t *env = malloc(sizeof(env_t));
+    shell_t shell = {0, 0};
+
+    env->key = "PATH";
+    env->value = "/bin";
+    handle_input(input, &env, &shell);
+    cr_assert_stderr_eq_str("Invalid null command.\n");
+    free(env);
+}
+
 Test(error, no_env)
 {
     env_t **env = NULL;

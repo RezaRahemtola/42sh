@@ -29,6 +29,11 @@ static void append_end(const char *str, char **arr, size_t *info, char sep)
     size_t length = strlen(str);
     char *array = NULL;
 
+    if (length == 0) {
+        arr[info[0]] = strdup("");
+        arr[info[0] + 1] = NULL;
+        return;
+    }
     if (str[length - 1] != sep) {
         array = my_substr(str, info[1], length);
         arr[info[0]] = array;

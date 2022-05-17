@@ -17,6 +17,7 @@ COMMAND_SRC	=	errors.c \
 				execution.c \
 				executor.c \
 				input.c \
+				logical.c \
 				output.c \
 				parsing.c \
 				paths.c \
@@ -29,7 +30,8 @@ REDIRECTION_SRC	=	files.c \
 
 UTILS_DIR	=	utils
 UTILS_SRC	=	lists.c \
-				splitter.c \
+				logical.c \
+				redirections.c \
 				strings.c
 
 ENV_DIR	=	environment
@@ -117,15 +119,25 @@ debug_run:	fclean $(DEBUG_BINARY)
 			$(VG) ./$(DEBUG_BINARY) $(ARGS)
 
 tests_run:
-			$(MAKE) unit_tests
 			$(MAKE) func_tests
+			$(MAKE) unit_tests
+			$(MAKE) mem_checks
 
-unit_tests:	clean_coverage $(TEST_BINARY)
+unit_tests:
+			@$(MAKE) clean_coverage > /dev/null
+			@$(MAKE) $(TEST_BINARY) > /dev/null
 			./$(TEST_BINARY)
 
-func_tests:	re
+func_tests:
+			@$(MAKE) re > /dev/null
 			@python3 -m pip install termcolor > /dev/null
 			python3 tests/tester.py -adc
+
+mem_checks:
+			@$(MAKE) fclean > /dev/null
+			@$(MAKE) $(DEBUG_BINARY) > /dev/null
+			@python3 -m pip install termcolor > /dev/null
+			python3 tests/memory_checker.py -pcd
 
 .PHONY:	all	clean fclean clean_coverage re debug_run tests_run unit_tests \
 		func_tests

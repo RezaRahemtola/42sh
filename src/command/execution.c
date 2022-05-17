@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include "builtin.h"
+#include "logical.h"
 #include "shell.h"
 #include "redirections.h"
 
@@ -27,16 +28,16 @@ static void execute_silent(command_t *command, env_t **env, shell_t *shell)
         }
 }
 
-static void wait_commands(const command_t *command, shell_t *shell)
+static void wait_commands(command_t *command, shell_t *shell)
 {
     int status = 0;
-    const command_t *current = command;
+    command_t *current = command;
 
     while (current != NULL && current->state == RUNNING) {
         waitpid(current->pid, &status, WUNTRACED | WCONTINUED);
         handle_errors(status);
-        shell->ret = (status > 255 ? status / 256 : status);
-        if (command->ret != -1)
+        current->ret = (status > 255 ? status / 256 : status);
+        if (!is_builtin(current->args[0]))
             shell->ret = command->ret;
         current = current->next;
     }
@@ -57,24 +58,25 @@ static pid_t execute_single(command_t *command, env_t **env, shell_t *shell)
     return (pid);
 }
 
-static int execute_command_line(command_t *command, env_t **env, shell_t *shell)
+static size_t execute_command_line(command_t *cmd, env_t **env, shell_t *shell)
 {
-    int total_executed = 0;
+    size_t total = 0;
     pid_t pid = 0;
-    command_t *current = command;
+    command_t *current = cmd;
 
+    if (should_ignore(cmd)) {
+        return (ignore_command(cmd));
+    }
     do {
         pid = execute_single(current, env, shell);
-        if (pid > 0) {
-            command->pid = pid;
-            command->state = RUNNING;
-        }
-        total_executed++;
+        current->pid = (pid > 0 ? pid : 0);
+        current->state = (pid > 0 ? RUNNING : IDLE);
+        total++;
         close_redirections(current);
         current = current->next;
     } while (current != NULL && current->separator_in == PIPE_IN);
-    wait_commands(command, shell);
-    return (total_executed);
+    wait_commands(cmd, shell);
+    return (total);
 }
 
 void execute_commands(command_t *command, env_t **env, shell_t *shell)
