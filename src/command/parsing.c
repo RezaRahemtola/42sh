@@ -59,7 +59,7 @@ static command_t *get_command(command_t **list, env_t *env, const char *str,
     return (command);
 }
 
-static bool parse_command(command_t **list, env_t *env, const char *input, \
+static bool parse_command(command_t **list, env_t *env, const char *input,
 const char *separator)
 {
     size_t size = strlen(input);
