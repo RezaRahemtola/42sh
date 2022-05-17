@@ -9,6 +9,7 @@
 #include <string.h>
 #include "logical.h"
 #include "my_string.h"
+#include "my.h"
 
 logical_t get_logical(const char *str, size_t index)
 {
@@ -37,9 +38,13 @@ static void append_end(char **array, const char *input, size_t pattern, \
 int index)
 {
     size_t size = strlen(input);
-    char *end = my_substr_size(input, pattern, size, size);
 
-    array[index] = end;
+    if (size == 0) {
+        array[index] = strdup("");
+        array[index] = NULL;
+        return;
+    }
+    array[index] = my_substr_size(input, pattern, size, size);
     array[index + 1] = NULL;
 }
 

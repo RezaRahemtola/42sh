@@ -30,6 +30,11 @@ static void append_end(const char *str, char **arr, size_t *nbr,
     size_t length = strlen(str);
     char *array = NULL;
 
+    if (length == 0) {
+        arr[nbr[0]] = strdup("");
+        arr[nbr[0] + 1] = NULL;
+        return;
+    }
     if (!my_str_containschar(list, str[length - 1])) {
         array = my_substr(str, nbr[1], length);
         arr[nbr[0]] = array;
