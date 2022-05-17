@@ -64,9 +64,8 @@ static size_t execute_command_line(command_t *cmd, env_t **env, shell_t *shell)
     pid_t pid = 0;
     command_t *current = cmd;
 
-    if (should_ignore(cmd)) {
+    if (should_ignore(cmd))
         return (ignore_command(cmd));
-    }
     do {
         pid = execute_single(current, env, shell);
         current->pid = (pid > 0 ? pid : 0);
