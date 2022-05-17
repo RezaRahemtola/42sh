@@ -63,14 +63,14 @@ static size_t execute_command_line(command_t *cmd, env_t **env, shell_t *shell)
     size_t total_executed = 0;
     pid_t pid = 0;
     command_t *current = cmd;
-    bool ignored = should_ignore(cmd);
 
-    if (ignored) {
-        while (current->separator_next != SEMICOLON) {
+    if (should_ignore(cmd)) {
+        while (current != NULL && current->separator_next != SEMICOLON) {
             current->state = IGNORED;
+            //printf("skipped %s\n", current->input);
             current = current->next;
         }
-        return (total_executed);
+        return (1);
     }
     do {
         pid = execute_single(current, env, shell);
