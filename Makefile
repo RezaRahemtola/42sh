@@ -22,8 +22,7 @@ COMMAND_SRC	=	errors.c \
 				parsing.c \
 				paths.c \
 				redirections.c \
-				signal.c \
-				skipping.c
+				signal.c
 
 REDIRECTION_DIR	=	redirection
 REDIRECTION_SRC	=	files.c \

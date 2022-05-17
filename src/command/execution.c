@@ -14,7 +14,7 @@
 #include "builtin.h"
 #include "logical.h"
 #include "shell.h"
-#include "skipping.h"
+#include "redirections.h"
 
 static void execute_silent(command_t *command, env_t **env, shell_t *shell)
 {
@@ -66,14 +66,19 @@ static size_t execute_command_line(command_t *cmd, env_t **env, shell_t *shell)
     bool ignored = should_ignore(cmd);
 
     if (ignored) {
-        skip_logicals(&current, &total_executed);
+        while (current->separator_next != SEMICOLON) {
+            current->state = IGNORED;
+            current = current->next;
+        }
         return (total_executed);
     }
     do {
         pid = execute_single(current, env, shell);
-        cmd->pid = (pid > 0 ? pid : 0);
-        cmd->state = (pid > 0 ? RUNNING : IDLE);
-        skip_to_next_cmd(&current, &total_executed);
+        current->pid = (pid > 0 ? pid : 0);
+        current->state = (pid > 0 ? RUNNING : IDLE);
+        total_executed++;
+        close_redirections(current);
+        current = current->next;
     } while (current != NULL && current->separator_in == PIPE_IN);
     wait_commands(cmd, shell);
     return (total_executed);
