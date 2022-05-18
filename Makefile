@@ -75,7 +75,7 @@ HEADERS_DIRS 	=	include/ \
 
 CFLAGS		=	-Wall -Wextra
 CPPFLAGS	=	$(HEADERS_DIRS:%=-iquote %)
-LDLIBS		=	$(addprefix -l, $(LIBS))
+LDLIBS		=	$(addprefix -l, $(LIBS)) -lncurses
 LDFLAGS		=	$(addprefix -L, $(LIB_DIRS))
 
 VG_FLAGS	=	--leak-check=full --track-origins=yes --show-leak-kinds=all \
