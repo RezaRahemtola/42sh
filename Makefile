@@ -47,7 +47,7 @@ BASE_SRC	=	shell.c \
 				$(addprefix $(UTILS_DIR)/, $(UTILS_SRC)) \
 				$(addprefix $(ENV_DIR)/, $(ENV_SRC))
 
-TESTS_DIR	=	tests
+TESTS_DIR	=	tests/src
 TESTS_SRC	=	test_shell.c \
 				test_builtin.c \
 				test_redirections.c
@@ -132,6 +132,7 @@ func_tests:
 			@$(MAKE) re > /dev/null
 			@python3 -m pip install termcolor > /dev/null
 			python3 tests/tester.py -adc
+			./tests/subject/tester.sh
 
 mem_checks:
 			@$(MAKE) fclean > /dev/null
