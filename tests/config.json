@@ -61,6 +61,10 @@
             "command": "cd config.json"
         },
         {
+            "name": "cd - Previous with too many arguments",
+            "command": "cd -args"
+        },
+        {
             "name": "env - simple",
             "command": "env | grep PATH"
         },
@@ -265,7 +269,7 @@
             "command": "nocommand && ls && nocommand"
         },
         {
-            "name": "operators - Complex operation",
+            "name": "operators - Mixed && and ||",
             "command": "echo One || echo Two && echo Three || echo Four"
         },
         {

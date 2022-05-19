@@ -47,7 +47,7 @@ BASE_SRC	=	shell.c \
 				$(addprefix $(UTILS_DIR)/, $(UTILS_SRC)) \
 				$(addprefix $(ENV_DIR)/, $(ENV_SRC))
 
-TESTS_DIR	=	tests
+TESTS_DIR	=	tests/src
 TESTS_SRC	=	test_shell.c \
 				test_builtin.c \
 				test_redirections.c

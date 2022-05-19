@@ -40,9 +40,7 @@ int change_dir_silently(env_t **env, const char *dir, const char *current)
 
     if (st == -1 || !S_ISDIR(stats.st_mode) || chdir(dir) == -1)
         return (1);
-    else {
-        add_variable(env, "PWD", dir);
-        add_variable(env, "OLDPWD", current);
-        return (0);
-    }
+    add_variable(env, "PWD", dir);
+    add_variable(env, "OLDPWD", current);
+    return (0);
 }

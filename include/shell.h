@@ -42,3 +42,6 @@ int change_home_silently(env_t **env, const char *current);
 // Signals
 void handle_quit(int sig);
 void init_signals(void);
+
+// Others
+void append_end(char **array, const char *input, size_t pattern, size_t index);

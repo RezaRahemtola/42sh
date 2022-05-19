@@ -23,7 +23,7 @@ static char *explore_path(const env_t *path, const char *bin)
     for (size_t i = 0; i < size; i++) {
         separator = (array[i][strlen(array[i]) - 1] == '/' ? "" : "/");
         line = malloc(sizeof(char) * (strlen(array[i]) + strlen(bin)
-                                      + strlen(separator) + 1));
+        + strlen(separator) + 1));
         sprintf(line, "%s%s%s", array[i], separator, bin);
         if (access(line, F_OK) == 0) {
             my_free_arrays(1, array);
@@ -44,8 +44,7 @@ char *find_command(const env_t *env, const char *bin)
         return (NULL);
     if (my_str_contains(bin, "/") == 0)
         return (access(bin, F_OK) == -1 ? NULL : strdup(bin));
-    else if (path == NULL)
+    if (path == NULL)
         return NULL;
-    else
-        return (explore_path(path, bin));
+    return (explore_path(path, bin));
 }

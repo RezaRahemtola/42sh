@@ -24,6 +24,7 @@ static void execute_silent(command_t *command, env_t **env, shell_t *shell)
         if (strcmp(command->args[0], BUILTIN[i].command) == 0) {
             command->ret = BUILTIN[i].silent_function(env, command->args,
                 shell);
+            shell->ret = command->ret;
             return;
         }
 }
@@ -38,7 +39,7 @@ static void wait_commands(command_t *command, shell_t *shell)
         handle_errors(status);
         current->ret = (status > 255 ? status / 256 : status);
         if (!is_builtin(current->args[0]))
-            shell->ret = command->ret;
+            shell->ret = current->ret;
         current = current->next;
     }
 }
@@ -64,9 +65,8 @@ static size_t execute_command_line(command_t *cmd, env_t **env, shell_t *shell)
     pid_t pid = 0;
     command_t *current = cmd;
 
-    if (should_ignore(cmd)) {
+    if (should_ignore(cmd))
         return (ignore_command(cmd));
-    }
     do {
         pid = execute_single(current, env, shell);
         current->pid = (pid > 0 ? pid : 0);

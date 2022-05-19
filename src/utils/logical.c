@@ -34,8 +34,7 @@ static size_t count_logical(const char *str, size_t size)
     return (count);
 }
 
-static void append_end(char **array, const char *input, size_t pattern, \
-int index)
+void append_end(char **array, const char *input, size_t pattern, size_t index)
 {
     size_t size = strlen(input);
 
@@ -50,7 +49,7 @@ int index)
 
 char **split_logical(const char *input)
 {
-    int index = 0;
+    size_t index = 0;
     size_t pattern = 0;
     size_t size = strlen(input);
     size_t count = count_logical(input, size);

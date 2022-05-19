@@ -109,7 +109,7 @@ void handle_input(const char *input, env_t **env, shell_t *shell)
             shell->ret = 1;
             return;
         }
-        i+= (array[i + 1] != NULL);
+        i += (array[i + 1] != NULL);
     }
     pipe_and_exec(list, env, shell);
     free(line);

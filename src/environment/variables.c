@@ -44,10 +44,9 @@ int set_variable(env_t **env, const char *key, const char *value)
     if (is_alphanumeric(key)) {
         add_variable(env, key, value);
         return (0);
-    } else {
-        fprintf(stderr, "setenv: Variable name must contain %s.\n", alpha);
-        return (1);
     }
+    fprintf(stderr, "setenv: Variable name must contain %s.\n", alpha);
+    return (1);
 }
 
 env_t *get_env_from_array(const char *const *env)
@@ -78,7 +77,7 @@ char *const *get_array_from_env(const env_t *list)
         return NULL;
     while (current != NULL) {
         array[index] = malloc(sizeof(char) * (strlen(current->key) +
-                                              strlen(current->value) + 2));
+        strlen(current->value) + 2));
         sprintf(array[index], "%s=%s", current->key, current->value);
         index++;
         current = current->next;
