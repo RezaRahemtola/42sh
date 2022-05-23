@@ -10,7 +10,8 @@ BUILTIN_SRC	=	builtin.c \
 				directories.c \
 				home.c \
 				silent.c \
-				silent_dirs.c
+				silent_dirs.c \
+				history.c
 
 COMMAND_DIR	=	command
 COMMAND_SRC	=	errors.c \

@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include "shell.h"
 #include "environment.h"
 
@@ -46,8 +47,10 @@ void do_heartbeat(env_t **env, shell_t *shell)
         read_size = getline(&line, &size, stdin);
         if (read_size == -1)
             shell->exit = true;
-        if (read_size > 1)
+        if (read_size > 1) {
+            my_list_add(&shell->history, strdup(line));
             handle_input(line, env, shell);
+        }
         free(line);
         line = NULL;
     }
