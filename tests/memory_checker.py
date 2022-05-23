@@ -72,7 +72,7 @@ def get_tests(filepath: str) -> any:
 
 
 def get_valgrind_logs(command: str, binary_path: str) -> any:
-    joined_valgrind_arguments = ' '.join(VALGRIND_DEFAULT_ARGUMENTS);
+    joined_valgrind_arguments = ' '.join(VALGRIND_DEFAULT_ARGUMENTS)
     to_execute = f'echo "{command}" | {VALGRIND_COMMAND_NAME} {joined_valgrind_arguments} {binary_path}'
 
     return run(to_execute, shell=True, capture_output=True, text=True)
