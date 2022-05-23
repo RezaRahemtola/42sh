@@ -23,7 +23,7 @@ int start_shell(const char *const *env)
     setbuf(stderr, NULL);
     if (env == NULL) {
         fprintf(stderr, "Error: Invalid environment.\n");
-        my_list_free(shell.history, free);
+        my_list_free(shell.history, free_history);
         return (EXIT_USAGE);
     }
     list = get_env_from_array(env);
