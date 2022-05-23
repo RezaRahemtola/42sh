@@ -9,7 +9,6 @@
 
 #include <stdbool.h>
 
-bool my_str_contains(const char *str, const char *pattern);
 bool my_str_containschar(const char *str, char c);
 bool my_str_starts(const char *str, const char *pattern);
 
