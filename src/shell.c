@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <string.h>
 #include "shell.h"
+#include "builtin.h"
 #include "environment.h"
 
 int start_shell(const char *const *env)
@@ -30,7 +31,7 @@ int start_shell(const char *const *env)
     init_signals();
     do_heartbeat(&list, &shell);
     ret = shell.ret;
-    my_list_free(shell.history, free);
+    my_list_free(shell.history, free_history);
     destroy_env(list);
     return (ret);
 }
@@ -48,7 +49,7 @@ void do_heartbeat(env_t **env, shell_t *shell)
         if (read_size == -1)
             shell->exit = true;
         if (read_size > 1) {
-            my_list_add(&shell->history, strdup(line));
+            add_history_command(line, shell);
             handle_input(line, env, shell);
         }
         free(line);

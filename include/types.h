@@ -38,6 +38,12 @@ typedef enum state {
     IGNORED
 } state_t;
 
+typedef struct history {
+    size_t index;
+    char *command;
+    char *time;
+} history_t;
+
 typedef struct shell {
     bool exit;
     int ret;
@@ -71,8 +77,8 @@ typedef struct environment {
 typedef bool redirection_checker_t(command_t *cmd, char *const *array,
     const env_t *env);
 typedef void redirection_function_t(env_t **env, char *const *args);
-typedef int redirection_silent_function_t(env_t **env,
-    char *const *args, shell_t *shell);
+typedef int redirection_silent_function_t(env_t **env, char *const *args,
+    shell_t *shell);
 
 typedef struct redirection {
     char *type;
