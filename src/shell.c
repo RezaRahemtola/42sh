@@ -49,7 +49,7 @@ void do_heartbeat(env_t **env, shell_t *shell)
         if (read_size == -1)
             shell->exit = true;
         if (read_size > 1) {
-            add_history_command(line, shell);
+            replace_history(&line, shell);
             handle_input(line, env, shell);
         }
         free(line);
