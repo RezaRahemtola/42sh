@@ -16,15 +16,13 @@ static void add_history(const char *input, shell_t *shell)
 {
     history_t *elem = malloc(sizeof(history_t));
     size_t index = my_list_size(shell->history);
-    time_t now = time(NULL);
-    struct tm *current_time = localtime(&now);
-    int hour = current_time->tm_hour;
-    int min = current_time->tm_min;
+    time_t current_time = time(NULL);
+    struct tm *now= localtime(&current_time);
 
     elem->index = index;
     elem->command = strdup(input);
     elem->time = malloc(sizeof(char) * 6);
-    sprintf(elem->time, "%d:%d", hour, min);
+    sprintf(elem->time, "%d:%d", now->tm_hour, now->tm_min);
     elem->command[strlen(elem->command) - 1] = '\0';
     my_list_add(&shell->history, elem);
 }
@@ -66,6 +64,8 @@ void replace_history(char **input, shell_t *shell)
         replace_last_command(input, shell->history);
     if (*input != NULL)
         add_history(*input, shell);
+    else
+        *input = strdup(" ");
 }
 
 void free_history(void *elem)
