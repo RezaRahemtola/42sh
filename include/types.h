@@ -9,6 +9,7 @@
 
 #include <stdbool.h>
 #include <sys/wait.h>
+#include "my_list.h"
 
 typedef enum separator_in_type {
     NO_IN,
@@ -40,6 +41,7 @@ typedef enum state {
 typedef struct shell {
     bool exit;
     int ret;
+    list_t *history;
 } shell_t;
 
 typedef struct command {
