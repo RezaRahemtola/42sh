@@ -10,18 +10,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
+#include "my_string.h"
 
 void add_history(const char *input, shell_t *shell)
 {
     history_t *elem = malloc(sizeof(history_t));
-    size_t index = my_list_size(shell->history);
-    time_t current_time = time(NULL);
-    struct tm *now= localtime(&current_time);
 
-    elem->index = index;
+    elem->index = my_list_size(shell->history);
     elem->command = strdup(input);
-    elem->time = malloc(sizeof(char) * 6);
-    sprintf(elem->time, "%d:%d", now->tm_hour, now->tm_min);
+    elem->time = my_timestr();
     elem->command[strlen(elem->command) - 1] = '\0';
     my_list_add(&shell->history, elem);
 }
