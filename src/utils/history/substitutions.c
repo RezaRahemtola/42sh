@@ -16,7 +16,7 @@ void handle_last_substitution(char **input, list_t *history)
     char *new = NULL;
 
     if (my_list_size(history) == 0) {
-        dprintf(2, "0: Event not found.\n");
+        fprintf(stderr, "0: Event not found.\n");
         free(*input);
         *input = NULL;
     } else {
@@ -34,7 +34,7 @@ void handle_nb_substitution(char **input, char *current, list_t *history)
     char *new = NULL;
 
     if (cmd == NULL) {
-        dprintf(2, "%d: Event not found.\n", nb);
+        fprintf(stderr, "%d: Event not found.\n", nb);
         free(*input);
         *input = NULL;
     } else {
