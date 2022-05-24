@@ -50,3 +50,17 @@ char *get_history_command(list_t *history, int index)
     }
     return (NULL);
 }
+
+char *get_history_by_str(list_t *history, const char *str)
+{
+    int len = my_list_size(history);
+    int index = -1;
+    char *cmd = NULL;
+
+    while (len >= abs(index)) {
+        cmd = get_history_command(history, index);
+        if (strncmp(cmd, str, strlen(str)) == 0)
+            return (cmd);
+    }
+    return (NULL);
+}
