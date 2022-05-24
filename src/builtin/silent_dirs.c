@@ -17,8 +17,7 @@ static int handle_prev_silently(env_t **env, const char *path, const char *curr)
 
     if (strlen(path) > 1 || oldpwd == NULL)
         return (1);
-    else
-        return (change_dir_silently(env, oldpwd->value, curr));
+    return (change_dir_silently(env, oldpwd->value, curr));
 }
 
 int handle_cd_silently(env_t **env, const char *path, const char *current)
@@ -29,8 +28,7 @@ int handle_cd_silently(env_t **env, const char *path, const char *current)
         return (handle_prev_silently(env, path, current));
     if (size > 0 && path[0] == '~')
         return (handle_home_silently(env, path, current));
-    else
-        return (change_dir_silently(env, path, current));
+    return (change_dir_silently(env, path, current));
 }
 
 int change_dir_silently(env_t **env, const char *dir, const char *current)

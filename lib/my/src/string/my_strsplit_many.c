@@ -25,7 +25,7 @@ static int get_occurences(const char *str, const char *list)
 }
 
 static void append_end(const char *str, char **arr, size_t *nbr,
-    const char *list)
+const char *list)
 {
     size_t length = strlen(str);
     char *array = NULL;

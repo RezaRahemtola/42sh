@@ -45,9 +45,9 @@ void my_list_add(list_t **list, void *data)
     list_t *node = init_node(data);
     list_t *current = *list;
 
-    if (node == NULL) {
+    if (node == NULL)
         return;
-    } else if (*list == NULL) {
+    if (*list == NULL) {
         *list = node;
         return;
     }
@@ -63,9 +63,9 @@ void my_list_add_index(list_t **list, void *data, size_t index)
     list_t *current = *list;
     size_t size = my_list_size(*list);
 
-    if (node == NULL || index > size) {
+    if (node == NULL || index > size)
         return;
-    } else if (index == size) {
+    if (index == size) {
         my_list_add(list, data);
         return;
     }

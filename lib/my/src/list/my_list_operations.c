@@ -15,10 +15,8 @@ size_t my_list_size(list_t *list)
 
     if (list == NULL)
         return (0);
-    while (current != NULL) {
-        size++;
+    for (; current != NULL; size++)
         current = current->next;
-    }
     return (size);
 }
 

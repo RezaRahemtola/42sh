@@ -84,7 +84,8 @@ CPPFLAGS	=	$(HEADERS_DIRS:%=-iquote %)
 LDLIBS		=	$(addprefix -l, $(LIBS))
 LDFLAGS		=	$(addprefix -L, $(LIB_DIRS))
 
-VG_FLAGS	=	--leak-check=full --track-origins=yes --error-limit=no
+VG_FLAGS	=	--leak-check=full --track-origins=yes --show-leak-kinds=all \
+				--error-limit=no
 
 CC			=	gcc
 VG			=	valgrind $(VG_FLAGS)

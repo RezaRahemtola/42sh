@@ -12,7 +12,7 @@
 char *my_timestr(void)
 {
     time_t current_time = time(NULL);
-    struct tm *now= localtime(&current_time);
+    struct tm *now = localtime(&current_time);
     char *result = malloc(sizeof(char) * 6);
 
     if (now->tm_hour < 10 && now->tm_min < 10) {
