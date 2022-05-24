@@ -42,7 +42,7 @@ char *find_command(const env_t *env, const char *bin)
 
     if (bin == NULL)
         return (NULL);
-    if (strstr(bin, "/") != NULL)
+    if (strchr(bin, '/') != NULL)
         return (access(bin, F_OK) == -1 ? NULL : strdup(bin));
     if (path == NULL)
         return NULL;
