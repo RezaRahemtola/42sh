@@ -24,8 +24,6 @@ int silent_unsetenv(env_t **env, char *const *args, shell_t *shell);
 int silent_history(env_t **env, char *const *args, shell_t *shell);
 
 bool is_builtin(const char *command);
-void replace_history(char **input, shell_t *shell);
-void free_history(void *elem);
 
 static const builtin_t BUILTIN[7] = {
         { "exit", &builtin_exit, &silent_exit },

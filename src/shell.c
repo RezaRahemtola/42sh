@@ -11,6 +11,7 @@
 #include <string.h>
 #include "shell.h"
 #include "builtin.h"
+#include "history.h"
 #include "environment.h"
 
 int start_shell(const char *const *env)
