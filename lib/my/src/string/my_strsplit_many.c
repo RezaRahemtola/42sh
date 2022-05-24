@@ -16,7 +16,7 @@ static int get_occurences(const char *str, const char *list)
     int old = 0;
 
     for (size_t i = 0; str[i] != '\0'; i++) {
-        new = (my_str_containschar(list, str[i]));
+        new = (strchr(list, str[i]) != NULL);
         if (new && !old)
             count++;
         old = new;
@@ -35,7 +35,7 @@ static void append_end(const char *str, char **arr, size_t *nbr,
         arr[nbr[0] + 1] = NULL;
         return;
     }
-    if (!my_str_containschar(list, str[length - 1])) {
+    if (strchr(list, str[length - 1]) == NULL) {
         array = my_substr(str, nbr[1], length);
         arr[nbr[0]] = array;
         arr[nbr[0] + 1] = NULL;
@@ -55,9 +55,9 @@ char **my_strsplit_many(const char *str, const char *list)
     if (arr == NULL)
         return NULL;
     for (size_t i = 0; str[i] != '\0'; i++) {
-        if (my_str_containschar(list, str[i]) && info[1] == i) {
+        if (strchr(list, str[i]) != NULL && info[1] == i) {
             info[1] = i + 1;
-        } else if (my_str_containschar(list, str[i])) {
+        } else if (strchr(list, str[i]) != NULL) {
             array = my_substr_size(str, info[1], i, length);
             info[1] = i + 1;
             arr[info[0]] = array;
