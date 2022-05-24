@@ -36,7 +36,8 @@ UTILS_SRC	=	lists.c \
 				strings.c \
 				history/history.c \
 				history/interact.c \
-				history/substitutions.c
+				history/substitutions.c \
+				history/add.c
 
 ENV_DIR	=	environment
 ENV_SRC	=	environment.c \

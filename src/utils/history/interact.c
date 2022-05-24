@@ -5,23 +5,9 @@
 ** Functions to interact with history elements
 */
 
-#include <time.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
-#include "my_string.h"
-
-void add_history(const char *input, shell_t *shell)
-{
-    history_t *elem = malloc(sizeof(history_t));
-
-    elem->index = my_list_size(shell->history);
-    elem->command = strdup(input);
-    elem->time = my_timestr();
-    elem->command[strlen(elem->command) - 1] = '\0';
-    my_list_add(&shell->history, elem);
-}
 
 void free_history(void *elem)
 {
