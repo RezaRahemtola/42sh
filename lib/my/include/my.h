@@ -9,9 +9,6 @@
 
 #include <stddef.h>
 
-#define ABS(x) ((x) < 0 ? -(x) : (x))
-#define CTOI(x) ((x) - '0')
-#define ITOC(x) ((x) + '0')
 #define MAX(x, y) ((x) > (y) ? (x) : (y))
 #define MIN(x, y) ((x) < (y) ? (x) : (y))
 

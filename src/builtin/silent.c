@@ -5,6 +5,7 @@
 ** Silent builtins
 */
 
+#include <ctype.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
@@ -44,7 +45,7 @@ int silent_setenv(env_t **env, char *const *args, shell_t *shell)
     size_t size = my_arraylen(args);
 
     (void) shell;
-    if (size > 3 || (size >= 2 && !my_char_isalpha(args[1][0])))
+    if (size > 3 || (size >= 2 && !isalpha(args[1][0])))
         return (1);
     if (size != 1)
         return (set_variable(env, args[1], (size == 2 ? "" : args[2])));

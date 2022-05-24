@@ -68,7 +68,7 @@ const char *separator)
 
     if (array == NULL)
         return (false);
-    else if (input[MAX(0, size - 1)] == '|' || input[0] == '|') {
+    if (input[MAX(0, size - 1)] == '|' || input[0] == '|') {
         fprintf(stderr, "%s\n", MISSING_COMMAND);
         my_free_arrays(1, array);
         return (false);

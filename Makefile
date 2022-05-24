@@ -33,7 +33,10 @@ UTILS_DIR	=	utils
 UTILS_SRC	=	lists.c \
 				logical.c \
 				redirections.c \
-				strings.c
+				strings.c \
+				history/history.c \
+				history/interact.c \
+				history/substitutions.c
 
 ENV_DIR	=	environment
 ENV_SRC	=	environment.c \
