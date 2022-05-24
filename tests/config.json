@@ -301,6 +301,14 @@
             "command": "env | grep HOME | wc -l"
         },
         {
+            "name": "! - no command withoyt history",
+            "command": "! command"
+        },
+        {
+            "name": "! - no command with history",
+            "command": "ls \n ! ls"
+        },
+        {
             "name": "mysh2 - subject example",
             "command": "ls -l; ls -l | wc -l"
         }
