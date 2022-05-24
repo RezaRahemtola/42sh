@@ -21,15 +21,22 @@ void free_history(void *elem)
 char *get_history_command(list_t *history, int index)
 {
     history_t *elem = NULL;
-    int size = my_list_size(history);
+    bool backward = (index < 0);
 
-    if (index < 0)
-        index = size + index;
-    while (history != NULL) {
+    while (true) {
         elem = history->data;
         if (elem->index == (size_t)index)
             return (elem->command);
+        if (history->next == NULL)
+            break;
         history = history->next;
+    }
+    while (backward && history != NULL) {
+        elem = history->data;
+        index += 1;
+        if (index == 0)
+            return (elem->command);
+        history = history->prev;
     }
     return (NULL);
 }
