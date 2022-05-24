@@ -12,8 +12,6 @@
 bool my_str_containschar(const char *str, char c);
 bool my_str_starts(const char *str, const char *pattern);
 
-bool my_char_isalpha(char c);
-
 char **my_strsplit_many(const char *str, const char *list);
 
 char *my_revstr(const char *str);
