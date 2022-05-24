@@ -13,6 +13,7 @@
 #include "environment.h"
 #include "my_string.h"
 #include "my_arrays.h"
+#include "my.h"
 
 static char *get_history_file_path(env_t *env)
 {
@@ -27,9 +28,11 @@ static char *get_history_file_path(env_t *env)
     return (path);
 }
 
-static void add_loaded_elem(char *index, char *time, char *cmd, shell_t *shell)
+static void add_loaded_elem(char **metadata, char *cmd, shell_t *shell)
 {
     history_t *elem = malloc(sizeof(history_t));
+    char *index = metadata[0];
+    char *time = metadata[1];
 
     elem->index = atoi(index);
     time[strlen(time) - 1] = '\0';
@@ -37,39 +40,42 @@ static void add_loaded_elem(char *index, char *time, char *cmd, shell_t *shell)
     cmd[strlen(cmd) - 1] = '\0';
     elem->command = strdup(cmd);
     my_list_add(&shell->history, elem);
+    my_free_arrays(1, metadata);
 }
 
 void load_history(shell_t *shell, env_t *env)
 {
     char *path = get_history_file_path(env);
-    FILE *file = fopen(path, "r");
+    FILE *file = NULL;
     char *line = NULL;
     char **args = NULL;
     size_t len = 0;
 
-    if (file == NULL) {
+    if (path != NULL)
+        file = fopen(path, "r");
+    if (path == NULL || file == NULL) {
         free(path);
         return;
     }
     while (getline(&line, &len, file) != -1) {
         args = my_strsplit(line, ' ');
-        if (getline(&line, &len, file) == -1)
+        if (my_arraylen(args) != 2 || getline(&line, &len, file) == -1)
             break;
-        add_loaded_elem(args[0], args[1], line, shell);
-        my_free_arrays(1, args);
+        add_loaded_elem(args, line, shell);
     }
     fclose(file);
-    free(line);
-    free(path);
+    my_free(2, line, path);
 }
 
 void save_history(list_t *history, env_t *env)
 {
     char *path = get_history_file_path(env);
-    FILE *file = fopen(path, "w");
+    FILE *file = NULL;
     history_t *elem = NULL;
 
-    if (file == NULL) {
+    if (path != NULL)
+        file = fopen(path, "w");
+    if (path == NULL || file == NULL) {
         free(path);
         return;
     }
