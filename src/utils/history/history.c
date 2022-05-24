@@ -16,7 +16,7 @@ static void make_history_substitutions(char **input, list_t *history)
     char *new = strchr(*input, '!');
 
     while (new != NULL && *input != NULL) {
-        if (isdigit(new[1]))
+        if (isdigit(new[1]) || (new[1] == '-' && isdigit(new[2])))
             handle_nb_substitution(input, &new[1], history);
         if (isalpha(new[1]))
             handle_str_substitution(input, &new[1], history);
