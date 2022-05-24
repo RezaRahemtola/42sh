@@ -32,3 +32,14 @@ bool my_is_number(const char *str)
             return (false);
     return (true);
 }
+
+size_t my_nbrlen(int nb)
+{
+    size_t len = 1;
+
+    while (nb > 9) {
+        len++;
+        nb /= 10;
+    }
+    return (len);
+}

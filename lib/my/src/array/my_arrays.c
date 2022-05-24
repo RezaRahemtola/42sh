@@ -7,8 +7,6 @@
 
 #include <stdarg.h>
 #include <stdlib.h>
-#include "my_arrays.h"
-#include "my_string.h"
 
 size_t my_arraylen(char * const *array)
 {
