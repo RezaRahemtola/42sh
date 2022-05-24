@@ -122,12 +122,12 @@ re:	fclean all
 debug_run:	fclean $(DEBUG_BINARY)
 			$(VG) ./$(DEBUG_BINARY) $(ARGS)
 
-tests_run:
+tests_all:
 			$(MAKE) func_tests
 			$(MAKE) unit_tests
 			$(MAKE) mem_checks
 
-unit_tests:
+tests_run:
 			@$(MAKE) clean_coverage > /dev/null
 			@$(MAKE) $(TEST_BINARY) > /dev/null
 			./$(TEST_BINARY)
