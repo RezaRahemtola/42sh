@@ -66,9 +66,9 @@ void replace_history(char **input, shell_t *shell)
 
     if (strstr(*input, "!!") != NULL)
         replace_last_command(input, shell->history);
-    if (strchr(*input, '!') != NULL)
+    if (*input != NULL && strchr(*input, '!') != NULL)
         make_history_substitutions(input, shell->history);
-    if (strcmp(*input, old) != 0)
+    if (*input != NULL && strcmp(*input, old) != 0)
         printf("%s", *input);
     if (*input != NULL)
         add_history(*input, shell);
