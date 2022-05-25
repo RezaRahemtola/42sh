@@ -41,7 +41,7 @@ static bool init_command(command_t *command, env_t *env, const char *input)
 }
 
 static command_t *get_command(command_t **list, env_t *env, const char *str,
-    size_t i)
+size_t i)
 {
     command_t *command = malloc(sizeof(command_t));
 

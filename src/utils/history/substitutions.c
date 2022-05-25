@@ -5,8 +5,10 @@
 ** Functions to handle history substitutions
 */
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "history.h"
 #include "my_string.h"
 #include "my_math.h"
@@ -49,8 +51,24 @@ void handle_nb_substitution(char **input, char *current, list_t *history)
 
 void handle_str_substitution(char **input, char *current, list_t *history)
 {
-    (void)input;
-    (void)current;
-    (void)history;
-    return;
+    char *pattern = malloc(sizeof(char) * strlen(current) + 2);
+    char *cmd = NULL;
+    char *new = NULL;
+
+    pattern[0] = '!';
+    for (size_t i = 0; isalpha(current[i]); i++) {
+        pattern[i + 1] = current[i];
+        pattern[i + 2] = '\0';
+    }
+    cmd = get_history_by_str(history, &pattern[1]);
+    if (cmd == NULL) {
+        fprintf(stderr, "%s: Event not found.\n", &pattern[1]);
+        free(*input);
+        *input = NULL;
+    } else {
+        new = my_strrep(*input, pattern, cmd);
+        free(*input);
+        *input = new;
+    }
+    free(pattern);
 }

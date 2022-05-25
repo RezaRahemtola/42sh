@@ -5,26 +5,9 @@
 ** Functions to interact with history elements
 */
 
-#include <time.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
-
-void add_history(const char *input, shell_t *shell)
-{
-    history_t *elem = malloc(sizeof(history_t));
-    size_t index = my_list_size(shell->history);
-    time_t current_time = time(NULL);
-    struct tm *now= localtime(&current_time);
-
-    elem->index = index;
-    elem->command = strdup(input);
-    elem->time = malloc(sizeof(char) * 6);
-    sprintf(elem->time, "%d:%d", now->tm_hour, now->tm_min);
-    elem->command[strlen(elem->command) - 1] = '\0';
-    my_list_add(&shell->history, elem);
-}
 
 void free_history(void *elem)
 {
@@ -38,15 +21,36 @@ void free_history(void *elem)
 char *get_history_command(list_t *history, int index)
 {
     history_t *elem = NULL;
-    int size = my_list_size(history);
+    bool backward = (index < 0);
 
-    if (index < 0)
-        index = size + index;
-    while (history != NULL) {
+    while (true) {
         elem = history->data;
         if (elem->index == (size_t)index)
             return (elem->command);
+        if (history->next == NULL)
+            break;
         history = history->next;
+    }
+    while (backward && history != NULL) {
+        elem = history->data;
+        index += 1;
+        if (index == 0)
+            return (elem->command);
+        history = history->prev;
+    }
+    return (NULL);
+}
+
+char *get_history_by_str(list_t *history, const char *str)
+{
+    int len = my_list_size(history);
+    int index = -1;
+    char *cmd = NULL;
+
+    while (len >= abs(index)) {
+        cmd = get_history_command(history, index);
+        if (strncmp(cmd, str, strlen(str)) == 0)
+            return (cmd);
     }
     return (NULL);
 }

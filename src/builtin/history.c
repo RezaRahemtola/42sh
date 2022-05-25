@@ -24,7 +24,7 @@ int silent_history(env_t **env, char *const *args, shell_t *shell)
     (void)args;
     for (size_t i = 0; i < size; i++) {
         elem = history->data;
-        printf("%ld\t%s\t%s\n", elem->index, elem->time, elem->command);
+        printf("    %ld  %s  %s\n", elem->index, elem->time, elem->command);
         history = history->next;
     }
     return (0);

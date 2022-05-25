@@ -81,9 +81,7 @@ size_t get_env_size(const env_t *list)
     const env_t *current = list;
     size_t size = 0;
 
-    while (current != NULL) {
-        size++;
+    for (; current != NULL; size++)
         current = current->next;
-    }
     return (size);
 }

@@ -17,6 +17,7 @@ SRC		=	array/my_arrays.c \
 			string/my_strsplit.c \
 			string/my_strsplit_many.c \
 			string/my_substr.c \
+			string/my_timestr.c \
 			my_free.c
 
 OBJ		=	$(addprefix $(SRC_DIR), $(SRC:.c=.o))

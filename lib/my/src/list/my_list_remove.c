@@ -24,7 +24,7 @@ static void remove_data(list_t *node, list_t **list, free_func free_func)
     free(node);
 }
 
-void my_list_remove(list_t **list, void *data, equals_func eq_func, \
+void my_list_remove(list_t **list, void *data, equals_func eq_func,
 free_func free_func)
 {
     list_t *current = *list;
@@ -50,7 +50,7 @@ void my_list_remove_index(list_t **list, size_t index, free_func free_func)
     remove_data(current, list, free_func);
 }
 
-void my_list_remove_all(list_t **list, void *data, equals_func eq_func, \
+void my_list_remove_all(list_t **list, void *data, equals_func eq_func,
 free_func free_func)
 {
     list_t *current = *list;

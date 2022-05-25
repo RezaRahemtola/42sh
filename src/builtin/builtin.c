@@ -27,10 +27,8 @@ void builtin_exit(__attribute__ ((unused)) env_t **env, char *const *args)
         fprintf(stderr, "exit: Expression Syntax.\n");
         return;
     }
-    if (!my_is_number(args[1])) {
+    if (!my_is_number(args[1]))
         fprintf(stderr, "exit: Badly formed number.\n");
-        return;
-    }
 }
 
 void builtin_env(env_t **env, __attribute__ ((unused)) char *const *args)
