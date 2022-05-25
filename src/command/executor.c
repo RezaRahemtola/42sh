@@ -15,11 +15,11 @@
 #include "redirections.h"
 #include "environment.h"
 
-static void execute_builtin(command_t *command, env_t **env)
+static void execute_builtin(command_t *command, env_t **env, shell_t *shell)
 {
     for (size_t i = 0; BUILTIN[i].command != NULL; i++)
         if (strcmp(command->args[0], BUILTIN[i].command) == 0) {
-            BUILTIN[i].function(env, command->args);
+            BUILTIN[i].function(env, command->args, shell);
             return;
         }
 }
@@ -37,7 +37,7 @@ static void execute_binary(command_t *command, env_t *const *env)
         fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
 }
 
-void execute_forked(command_t *cmd, env_t **env)
+void execute_forked(command_t *cmd, env_t **env, shell_t *shell)
 {
     bool builtin = is_builtin(cmd->args[0]);
 
@@ -51,7 +51,7 @@ void execute_forked(command_t *cmd, env_t **env)
         return;
     }
     if (builtin)
-        execute_builtin(cmd, env);
+        execute_builtin(cmd, env, shell);
     else
         execute_binary(cmd, env);
     close_redirections(cmd);

@@ -20,7 +20,7 @@ bool is_directory(const char *path);
 void handle_input(const char *input, env_t **env, shell_t *shell);
 void handle_errors(int status);
 void execute_commands(command_t *commands, env_t **env, shell_t *shell);
-void execute_forked(command_t *command, env_t **env);
+void execute_forked(command_t *command, env_t **env, shell_t *shell);
 char *find_command(const env_t *env, const char *bin);
 char *get_next_argument(const char *str, size_t index);
 bool is_command_empty(const command_t *command);

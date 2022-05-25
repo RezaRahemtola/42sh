@@ -9,13 +9,13 @@
 
 #include "types.h"
 
-void builtin_cd(env_t **env, char *const *args);
-void builtin_env(env_t **env, char *const *args);
-void builtin_exit(env_t **env, char *const *args);
-void builtin_setenv(env_t **env, char *const *args);
-void builtin_unsetenv(env_t **env, char *const *args);
-void builtin_history(env_t **env, char *const *args);
-void builtin_alias(env_t **env, char *const *args);
+void builtin_cd(env_t **env, char *const *args, shell_t *shell);
+void builtin_env(env_t **env, char *const *args, shell_t *shell);
+void builtin_exit(env_t **env, char *const *args, shell_t *shell);
+void builtin_setenv(env_t **env, char *const *args, shell_t *shell);
+void builtin_unsetenv(env_t **env, char *const *args, shell_t *shell);
+void builtin_history(env_t **env, char *const *args, shell_t *shell);
+void builtin_alias(env_t **env, char *const *args, shell_t *shell);
 
 int silent_cd(env_t **env, char *const *args, shell_t *shell);
 int silent_env(env_t **env, char *const *args, shell_t *shell);

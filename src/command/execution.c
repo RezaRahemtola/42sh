@@ -52,7 +52,7 @@ static pid_t execute_single(command_t *command, env_t **env, shell_t *shell)
         fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
         return (-1);
     } else if (pid == 0) {
-        execute_forked(command, env);
+        execute_forked(command, env, shell);
         exit(!is_command_empty(command));
     }
     execute_silent(command, env, shell);

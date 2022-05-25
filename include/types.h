@@ -44,10 +44,17 @@ typedef struct history {
     char *time;
 } history_t;
 
+typedef struct environment {
+    char *key;
+    char *value;
+    struct environment *next;
+} env_t;
+
 typedef struct shell {
     bool exit;
     int ret;
     list_t *history;
+    env_t *aliases;
 } shell_t;
 
 typedef struct command {
@@ -68,15 +75,10 @@ typedef struct command {
     struct command *next;
 } command_t;
 
-typedef struct environment {
-    char *key;
-    char *value;
-    struct environment *next;
-} env_t;
-
 typedef bool redirection_checker_t(command_t *cmd, char *const *array,
     const env_t *env);
-typedef void redirection_function_t(env_t **env, char *const *args);
+typedef void redirection_function_t(env_t **env, char *const *args, \
+    shell_t *shell);
 typedef int redirection_silent_function_t(env_t **env, char *const *args,
     shell_t *shell);
 

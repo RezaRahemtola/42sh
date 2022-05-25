@@ -6,7 +6,8 @@
 ##
 
 BUILTIN_DIR	=	builtin
-BUILTIN_SRC	=	builtin.c \
+BUILTIN_SRC	=	alias.c \
+				builtin.c \
 				directories.c \
 				home.c \
 				silent.c \

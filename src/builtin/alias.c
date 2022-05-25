@@ -7,8 +7,9 @@
 
 #include "environment.h"
 
-void builtin_alias(env_t **env, char *const *args)
+void builtin_alias(env_t **env, char *const *args, shell_t *shell)
 {
+    (void)shell;
     (void)env;
     (void)args;
 }
