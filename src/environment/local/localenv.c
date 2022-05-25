@@ -79,13 +79,3 @@ void remove_localenv_property(localenv_t **list, const char *key)
         current = current->next;
     }
 }
-
-size_t get_localenv_size(const localenv_t *list)
-{
-    const localenv_t *current = list;
-    size_t size = 0;
-
-    for (; current != NULL; size++)
-        current = current->next;
-    return (size);
-}

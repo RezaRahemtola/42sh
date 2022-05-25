@@ -33,7 +33,6 @@ const char *value, bool readonly);
 void replace_localenv_value(localenv_t *list, const char *key,
 const char *value, bool readonly);
 void remove_localenv_property(localenv_t **list, const char *key);
-size_t get_localenv_size(const localenv_t *list);
 
 void print_localenv(const localenv_t *env);
 void destroy_localenv(localenv_t *env);
