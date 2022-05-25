@@ -75,11 +75,10 @@ char *const *get_array_from_env(const env_t *list)
 
     if (array == NULL)
         return NULL;
-    while (current != NULL) {
+    for (; current != NULL; index++) {
         array[index] = malloc(sizeof(char) * (strlen(current->key) +
         strlen(current->value) + 2));
         sprintf(array[index], "%s=%s", current->key, current->value);
-        index++;
         current = current->next;
     }
     array[index] = NULL;

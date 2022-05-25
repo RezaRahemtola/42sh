@@ -10,7 +10,8 @@ BUILTIN_SRC	=	builtin.c \
 				directories.c \
 				home.c \
 				silent.c \
-				silent_dirs.c
+				silent_dirs.c \
+				history.c
 
 COMMAND_DIR	=	command
 COMMAND_SRC	=	errors.c \
@@ -32,7 +33,12 @@ UTILS_DIR	=	utils
 UTILS_SRC	=	lists.c \
 				logical.c \
 				redirections.c \
-				strings.c
+				strings.c \
+				history/history.c \
+				history/interact.c \
+				history/substitutions.c \
+				history/add.c \
+				history/save.c
 
 ENV_DIR	=	environment
 ENV_SRC	=	environment.c \
@@ -118,12 +124,12 @@ re:	fclean all
 debug_run:	fclean $(DEBUG_BINARY)
 			$(VG) ./$(DEBUG_BINARY) $(ARGS)
 
-tests_run:
+tests_all:
 			$(MAKE) func_tests
 			$(MAKE) unit_tests
 			$(MAKE) mem_checks
 
-unit_tests:
+tests_run:
 			@$(MAKE) clean_coverage > /dev/null
 			@$(MAKE) $(TEST_BINARY) > /dev/null
 			./$(TEST_BINARY)

@@ -6,6 +6,7 @@
 */
 
 #include <errno.h>
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -26,10 +27,8 @@ void builtin_exit(__attribute__ ((unused)) env_t **env, char *const *args)
         fprintf(stderr, "exit: Expression Syntax.\n");
         return;
     }
-    if (!my_is_number(args[1])) {
+    if (!my_is_number(args[1]))
         fprintf(stderr, "exit: Badly formed number.\n");
-        return;
-    }
 }
 
 void builtin_env(env_t **env, __attribute__ ((unused)) char *const *args)
@@ -45,7 +44,7 @@ void builtin_setenv(env_t **env, char *const *args)
         fprintf(stderr, "setenv: Too many arguments.\n");
         return;
     }
-    if (size >= 2 && !my_char_isalpha(args[1][0])) {
+    if (size >= 2 && !isalpha(args[1][0])) {
         fprintf(stderr, "setenv: Variable name must begin with a letter.\n");
         return;
     }

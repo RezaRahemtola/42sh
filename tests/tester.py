@@ -13,7 +13,7 @@ def get_tests(filepath: str):
 
 
 def run_command(command: str, piped_path: str):
-    return run(f'echo "{command}" | {piped_path} ; echo $?', shell=True, capture_output=True, text=True)
+    return run(f'echo -e "{command}" | {piped_path} ; echo Exit status:$?', shell=True, capture_output=True, text=True)
 
 
 def disp_err(tcsh, mysh) -> None:
