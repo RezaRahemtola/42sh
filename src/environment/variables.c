@@ -5,27 +5,12 @@
 ** Variables management
 */
 
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include "environment.h"
-
-static bool is_alphanumeric(const char *str)
-{
-    size_t size = strlen(str);
-    int number = 0;
-    int lower = 0;
-    int upper = 0;
-
-    for (size_t i = 0; i < size; i++) {
-        number = (str[i] >= '0' && str[i] <= '9');
-        lower = (str[i] >= 'a' && str[i] <= 'z');
-        upper = (str[i] >= 'A' && str[i] <= 'Z');
-        if (!number && !lower && !upper && str[i] != '_')
-            return (false);
-    }
-    return (true);
-}
+#include "my_string.h"
 
 void add_variable(env_t **env, const char *key, const char *value)
 {
@@ -39,9 +24,9 @@ void add_variable(env_t **env, const char *key, const char *value)
 
 int set_variable(env_t **env, const char *key, const char *value)
 {
-    char *alpha = "alphanumeric characters";
+    const char *alpha = "alphanumeric characters";
 
-    if (is_alphanumeric(key)) {
+    if (my_isalphanum_str(key)) {
         add_variable(env, key, value);
         return (0);
     }

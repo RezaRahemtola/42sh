@@ -50,10 +50,11 @@ typedef struct environment {
     struct environment *next;
 } env_t;
 
-typedef struct local_enviroment {
+typedef struct local_environment {
     char *key;
     char *value;
     bool readonly;
+    struct local_environment *next;
 } localenv_t;
 
 typedef struct shell {
@@ -61,7 +62,7 @@ typedef struct shell {
     int ret;
     list_t *history;
     env_t *env;
-    list_t *localenv;
+    localenv_t *localenv;
 } shell_t;
 
 typedef struct command {
