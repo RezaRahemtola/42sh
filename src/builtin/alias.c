@@ -18,7 +18,9 @@ size_t size)
     const env_t *node = get_env_value(*aliases, alias);
     char *joined = join_array(args, 2, size);
 
-    printf("'%s'\n", joined);
+    if (joined == NULL) {
+        return;
+    }
     if (node == NULL) {
         put_env_property(aliases, alias, joined);
     } else {
