@@ -76,9 +76,8 @@ static size_t execute_command_line(command_t *cmd, env_t **env, shell_t *shell)
         close_redirections(current);
         current = current->next;
     } while (current != NULL && current->separator_in == PIPE_IN);
-    if (cmd->job_check) {
+    if (cmd->job_check)
         shell->job = add_job_pid(shell->job, cmd->input, pid);
-    }
     wait_commands(cmd, shell);
     return (total);
 }
@@ -90,15 +89,17 @@ void execute_commands(command_t *command, env_t **env, shell_t *shell)
 
     while (current != NULL) {
         if (job_command_case(current->input) && !current->job_check) {
-            current->input = remove_incorrect_char(current->input);
+            current->args = remove_incorrect_char(current->args);
+            current->input[strlen(current->input) - 1] = '\0';
             shell->job = add_new_job(shell->job, current->input);
+            shell->nb_job++;
             current->job_check = true;
             executed_number = execute_command_line(current, env, shell);
         } else {
+            current->job_check = false;
             executed_number = execute_command_line(current, env, shell);
         }
-        for (size_t i = 0; i < executed_number && current != NULL; i++) {
+        for (size_t i = 0; i < executed_number && current != NULL; i++)
             current = current->next;
-        }
     }
 }

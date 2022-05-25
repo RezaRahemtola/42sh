@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include "shell.h"
 #include <string.h>
+#include <stdlib.h>
 
 bool job_command_case(char *command)
 {
@@ -20,11 +21,11 @@ bool job_command_case(char *command)
     return (false);
 }
 
-char *remove_incorrect_char(char *input)
+char **remove_incorrect_char(char **input)
 {
-    for (int i = 0; input[i] != '\0'; i++) {
-        if (input[i] == '&') {
-            input[i] = '\0';
+    for (int i = 0; input[i] != NULL; i++) {
+        if (job_command_case(input[i])) {
+            input[i] = NULL;
             return (input);
         }
     }
@@ -37,7 +38,7 @@ job_t *add_new_job(job_t *command, char *input)
     job_t *new_elem = NULL;
 
     new_elem = malloc(sizeof(job_t));
-    new_elem->command = strdup(input);
+    new_elem->command = strdup(input);;
     new_elem->nb_job = 1;
     new_elem->next = NULL;
     if (command == NULL) {
@@ -45,7 +46,7 @@ job_t *add_new_job(job_t *command, char *input)
     } else {
         tmp = command;
         new_elem->nb_job++;
-        for (tmp = command; tmp->next != NULL; new_elem->nb_job++)
+        for (tmp = command; tmp->next != NULL; ++new_elem->nb_job)
             tmp = tmp->next;
         tmp->next = new_elem;
     }
