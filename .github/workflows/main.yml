@@ -39,7 +39,7 @@ jobs:
     container: epitechcontent/epitest-docker
     steps:
       - uses: actions/checkout@v3
-      - run: make unit_tests
+      - run: make tests_run
         timeout-minutes: 2
     needs:
       - check_program_compilation
