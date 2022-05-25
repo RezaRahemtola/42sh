@@ -27,6 +27,8 @@ int silent_alias(env_t **env, char *const *args, shell_t *shell);
 
 bool is_builtin(const char *command);
 
+void replace_aliases(command_t *commands, env_t *aliases, env_t *env);
+
 static const builtin_t BUILTIN[8] = {
         { "exit", &builtin_exit, &silent_exit },
         { "env", &builtin_env, &silent_env },

@@ -70,7 +70,7 @@ typedef struct command {
     char *info_out;
     char *input;
     char *path;
-    char *const *args;
+    char **args;
     struct command *prev;
     struct command *next;
 } command_t;

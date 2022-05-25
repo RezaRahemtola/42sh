@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include "builtin.h"
 #include "logical.h"
 #include "messages.h"
 #include "my_arrays.h"
@@ -90,8 +91,10 @@ static void pipe_and_exec(command_t *cmd, env_t **env, shell_t *shell)
         return;
     if (!check_redirections(cmd, shell, *env) || !open_pipe_redirections(cmd))
         shell->ret = 1;
-    else
+    else {
+        replace_aliases(cmd, shell->aliases, *env);
         execute_commands(cmd, env, shell);
+    }
 }
 
 void handle_input(const char *input, env_t **env, shell_t *shell)

@@ -34,6 +34,7 @@ UTILS_DIR	=	utils
 UTILS_SRC	=	lists.c \
 				logical.c \
 				redirections.c \
+				replacements.c \
 				strings.c \
 				history/history.c \
 				history/interact.c \
