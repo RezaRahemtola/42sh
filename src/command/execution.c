@@ -90,7 +90,6 @@ void execute_commands(command_t *command, env_t **env, shell_t *shell)
 
     while (current != NULL) {
         if (job_command_case(current->input) && !current->job_check) {
-            current->path = remove_incorrect_char(current->path);
             current->input = remove_incorrect_char(current->input);
             shell->job = add_new_job(shell->job, current->input);
             current->job_check = true;

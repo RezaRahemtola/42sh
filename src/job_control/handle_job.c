@@ -41,14 +41,12 @@ job_t *add_new_job(job_t *command, char *input)
     new_elem->nb_job = 1;
     new_elem->next = NULL;
     if (command == NULL) {
-        printf("add: [%d] %s\n", new_elem->nb_job, new_elem->command);
         command = new_elem;
     } else {
         tmp = command;
         new_elem->nb_job++;
         for (tmp = command; tmp->next != NULL; new_elem->nb_job++)
             tmp = tmp->next;
-        printf("add: [%d] %s\n", new_elem->nb_job, new_elem->command);
         tmp->next = new_elem;
     }
     return (command);
