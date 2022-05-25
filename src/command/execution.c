@@ -77,7 +77,7 @@ static size_t execute_command_line(command_t *cmd, env_t **env, shell_t *shell)
         current = current->next;
     } while (current != NULL && current->separator_in == PIPE_IN);
     if (cmd->job_check)
-        shell->job = add_job_pid(shell->job, cmd->input, pid);
+        shell->job = add_job_pid(shell->job, cmd->input, pid, shell->nb_job);
     wait_commands(cmd, shell);
     return (total);
 }
