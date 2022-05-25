@@ -39,7 +39,7 @@ int start_shell(const char *const *env)
 void do_heartbeat(env_t **env, shell_t *shell)
 {
     size_t size = 0;
-    ssize_t read_size;
+    ssize_t read_size = 0;
     char *line = NULL;
 
     while (!shell->exit) {
