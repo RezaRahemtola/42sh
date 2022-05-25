@@ -33,6 +33,7 @@ int start_shell(const char *const *env)
     save_history(shell.history, list);
     my_list_free(shell.history, free_history);
     destroy_env(list);
+    destroy_env(shell.aliases);
     return (shell.ret);
 }
 
