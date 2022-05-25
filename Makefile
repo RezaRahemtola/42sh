@@ -11,7 +11,8 @@ BUILTIN_SRC	=	builtin.c \
 				home.c \
 				silent.c \
 				silent_dirs.c \
-				history.c
+				history.c \
+				localenv.c
 
 COMMAND_DIR	=	command
 COMMAND_SRC	=	errors.c \
@@ -43,7 +44,10 @@ UTILS_SRC	=	lists.c \
 ENV_DIR	=	environment
 ENV_SRC	=	environment.c \
 			environment_utils.c \
-			variables.c
+			variables.c \
+			local/localenv_utils.c \
+			local/localenv.c \
+			local/localenv_variables.c
 
 BASE_DIR	= 	src
 BASE_SRC	=	shell.c \

@@ -24,7 +24,7 @@ bool open_pipe_redirections(command_t *command);
 void handle_pipe_redirections(const command_t *command);
 
 // Utils
-bool check_redirections(command_t *list, shell_t *shell, const env_t *env);
+bool check_redirections(command_t *list, shell_t *shell);
 redirection_t get_redirection(const char *str, size_t index);
 char **split_redirections(const char *input);
 

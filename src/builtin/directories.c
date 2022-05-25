@@ -24,9 +24,9 @@ bool is_directory(const char *path)
     return false;
 }
 
-static void handle_prev(env_t **env, const char *path)
+static void handle_prev(env_t *env, const char *path)
 {
-    const env_t *oldpwd = get_env_value(*env, "OLDPWD");
+    const env_t *oldpwd = get_env_value(env, "OLDPWD");
 
     if (strlen(path) > 1)
         fprintf(stderr, "Usage: cd [-plvn][-|<dir>].\n");
@@ -36,7 +36,7 @@ static void handle_prev(env_t **env, const char *path)
         change_current_path(oldpwd->value);
 }
 
-void handle_cd(env_t **env, const char *path)
+void handle_cd(env_t *env, const char *path)
 {
     size_t size = strlen(path);
 

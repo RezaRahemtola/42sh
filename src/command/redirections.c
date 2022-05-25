@@ -36,18 +36,17 @@ static bool check_redirection(command_t *command, const env_t *env)
     return (true);
 }
 
-bool check_redirections(command_t *list, shell_t *shell, const env_t *env)
+bool check_redirections(command_t *list, shell_t *shell)
 {
     bool empty = false;
-    command_t *current = list;
 
-    while (current != NULL) {
-        empty = (current->args[0] == NULL || strlen(current->args[0]) == 0);
-        if (!empty && !check_redirection(current, env)) {
+    while (list != NULL) {
+        empty = (list->args[0] == NULL || strlen(list->args[0]) == 0);
+        if (!empty && !check_redirection(list, shell->env)) {
             shell->ret = 1;
             return (false);
         }
-        current = current->next;
+        list = list->next;
     }
     return (true);
 }
@@ -56,7 +55,7 @@ static char *get_redirect_argument_sum(const char *str, const char *redirect,
     const char *input)
 {
     char *target = get_next_argument(str, 0);
-    size_t total_len;
+    size_t total_len = 0;
     char *sum = NULL;
     char *rep = NULL;
 
