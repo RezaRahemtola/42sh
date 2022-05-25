@@ -12,7 +12,7 @@
 bool job_command_case(char *command)
 {
     for (int i = 0; command[i] != '\0'; i++) {
-        if (command[i] == '&') {
+        if (command[i] == '&' && command[i + 1] == '\0') {
             return (true);
         }
     }
