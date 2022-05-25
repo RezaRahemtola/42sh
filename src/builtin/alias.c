@@ -9,6 +9,15 @@
 #include "environment.h"
 #include "my_arrays.h"
 
+static void print_alias(env_t *aliases, char *name)
+{
+    const env_t *alias = get_env_value(aliases, name);
+
+    if (alias != NULL) {
+        printf("%s\n", alias->value);
+    }
+}
+
 static void print_aliases(env_t *aliases)
 {
     env_t *current = aliases;
@@ -26,6 +35,8 @@ void builtin_alias(env_t **env, char *const *args, shell_t *shell)
 
     if (size == 0) {
         print_aliases(shell->aliases);
+    } else if (size == 1) {
+        print_alias(shell->aliases, args[0]);
     }
 }
 
