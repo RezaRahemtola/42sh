@@ -87,7 +87,7 @@ LDLIBS		=	$(addprefix -l, $(LIBS))
 LDFLAGS		=	$(addprefix -L, $(LIB_DIRS))
 
 VG_FLAGS	=	--leak-check=full --track-origins=yes --show-leak-kinds=all \
-				--error-limit=no
+				--error-limit=no --trace-children=no
 
 CC			=	gcc
 VG			=	valgrind $(VG_FLAGS)
