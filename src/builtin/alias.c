@@ -41,15 +41,14 @@ static void print_alias(env_t *aliases, char *name)
 static void print_aliases(env_t *aliases)
 {
     bool mult = false;
-    env_t *current = aliases;
 
-    while (current != NULL) {
-        mult = strchr(current->value, ' ') != NULL;
+    while (aliases != NULL) {
+        mult = strchr(aliases->value, ' ') != NULL;
         if (mult)
-            printf("%s\t(%s)\n", current->key, current->value);
+            printf("%s\t(%s)\n", aliases->key, aliases->value);
         else
-            printf("%s\t%s\n", current->key, current->value);
-        current = current->next;
+            printf("%s\t%s\n", aliases->key, aliases->value);
+        aliases = aliases->next;
     }
 }
 

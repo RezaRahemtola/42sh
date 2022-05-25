@@ -45,13 +45,10 @@ char *join_array(char *const *array, size_t start, size_t end)
     if (str == NULL)
         return (NULL);
     for (size_t j = 0; j < end; j++) {
-        if (j > 0) {
-            str[i] = ' ';
-            i++;
-        }
+        if (j > 0)
+            str[i++] = ' ';
         for (size_t k = 0; array[j + start][k] != '\0'; k++) {
-            str[i] = array[j + start][k];
-            i++;
+            str[i++] = array[j + start][k];
         }
     }
     str[i] = '\0';
