@@ -16,7 +16,7 @@
 
 int start_shell(const char *const *env)
 {
-    shell_t shell = {0, 0, NULL};
+    shell_t shell = {0, 0, NULL, NULL};
     env_t *list = NULL;
 
     setbuf(stdout, NULL);

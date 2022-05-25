@@ -44,10 +44,17 @@ typedef struct history {
     char *time;
 } history_t;
 
+typedef struct local_enviroment {
+    char *key;
+    char *value;
+    bool readonly;
+} localenv_t;
+
 typedef struct shell {
     bool exit;
     int ret;
     list_t *history;
+    list_t *localenv;
 } shell_t;
 
 typedef struct command {
