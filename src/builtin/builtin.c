@@ -17,7 +17,7 @@
 #include "my_math.h"
 #include "my_string.h"
 
-void builtin_exit(__attribute__ ((unused)) env_t **env, char *const *args)
+void builtin_exit(__attribute__ ((unused)) shell_t *shell, char *const *args)
 {
     size_t size = my_arraylen(args);
 
@@ -31,12 +31,12 @@ void builtin_exit(__attribute__ ((unused)) env_t **env, char *const *args)
         fprintf(stderr, "exit: Badly formed number.\n");
 }
 
-void builtin_env(env_t **env, __attribute__ ((unused)) char *const *args)
+void builtin_env(shell_t *shell, __attribute__ ((unused)) char *const *args)
 {
-    print_env(*env);
+    print_env(shell->env);
 }
 
-void builtin_setenv(env_t **env, char *const *args)
+void builtin_setenv(shell_t *shell, char *const *args)
 {
     size_t size = my_arraylen(args);
 
@@ -49,16 +49,17 @@ void builtin_setenv(env_t **env, char *const *args)
         return;
     }
     if (size == 1)
-        print_env(*env);
+        print_env(shell->env);
 }
 
-void builtin_unsetenv(__attribute__ ((unused)) env_t **env, char *const *args)
+void builtin_unsetenv(shell_t *shell, char *const *args)
 {
+    (void) shell;
     if (my_arraylen(args) == 1)
         fprintf(stderr, "unsetenv: Too few arguments.\n");
 }
 
-void builtin_cd(env_t **env, char *const *args)
+void builtin_cd(shell_t *shell, char *const *args)
 {
     size_t size = my_arraylen(args);
     char *path = getcwd(NULL, 0);
@@ -68,9 +69,9 @@ void builtin_cd(env_t **env, char *const *args)
         return;
     }
     if (size == 1)
-        change_home(env);
+        change_home(shell->env);
     else if (size == 2)
-        handle_cd(env, args[1]);
+        handle_cd(shell->env, args[1]);
     else
         fprintf(stderr, "cd: Too many arguments.\n");
     free(path);

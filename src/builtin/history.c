@@ -8,19 +8,19 @@
 #include <stdio.h>
 #include "shell.h"
 
-void builtin_history(env_t **env, char *const *args)
+void builtin_history(shell_t *shell, char *const *args)
 {
-    (void)env;
+    (void)shell;
     (void)args;
 }
 
-int silent_history(env_t **env, char *const *args, shell_t *shell)
+int silent_history(shell_t *shell, char *const *args)
 {
     size_t size = my_list_size(shell->history);
     list_t *history = shell->history;
     history_t *elem = NULL;
 
-    (void)env;
+    (void)shell;
     (void)args;
     for (size_t i = 0; i < size; i++) {
         elem = history->data;

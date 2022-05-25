@@ -15,11 +15,10 @@
 #include "my_math.h"
 #include "my_string.h"
 
-int silent_exit(env_t **env, char *const *args, shell_t *shell)
+int silent_exit(shell_t *shell, char *const *args)
 {
     size_t size = my_arraylen(args);
 
-    (void) env;
     if (size == 1) {
         shell->exit = true;
         return (shell->ret);
@@ -32,15 +31,14 @@ int silent_exit(env_t **env, char *const *args, shell_t *shell)
     return (atoi(args[1]) % 256);
 }
 
-int silent_env(env_t **env, char *const *args, shell_t *shell)
+int silent_env(shell_t *shell, char *const *args)
 {
-    (void) env;
-    (void) args;
     (void) shell;
+    (void) args;
     return (0);
 }
 
-int silent_setenv(env_t **env, char *const *args, shell_t *shell)
+int silent_setenv(shell_t *shell, char *const *args)
 {
     size_t size = my_arraylen(args);
 
@@ -48,11 +46,11 @@ int silent_setenv(env_t **env, char *const *args, shell_t *shell)
     if (size > 3 || (size >= 2 && !isalpha(args[1][0])))
         return (1);
     if (size != 1)
-        return (set_variable(env, args[1], (size == 2 ? "" : args[2])));
+        return (set_variable(&shell->env, args[1], (size == 2 ? "" : args[2])));
     return (0);
 }
 
-int silent_unsetenv(env_t **env, char *const *args, shell_t *shell)
+int silent_unsetenv(shell_t *shell, char *const *args)
 {
     size_t size = my_arraylen(args);
 
@@ -60,16 +58,16 @@ int silent_unsetenv(env_t **env, char *const *args, shell_t *shell)
     if (size == 1)
         return (1);
     if (size == 2 && strcmp(args[1], "*") == 0) {
-        destroy_env(*env);
-        *env = NULL;
+        destroy_env(shell->env);
+        shell->env = NULL;
         return (0);
     }
     for (size_t i = 1; i < size; i++)
-        remove_env_property(env, args[i]);
+        remove_env_property(&shell->env, args[i]);
     return (0);
 }
 
-int silent_cd(env_t **env, char *const *args, shell_t *shell)
+int silent_cd(shell_t *shell, char *const *args)
 {
     int return_value = 1;
     size_t size = my_arraylen(args);
@@ -79,9 +77,9 @@ int silent_cd(env_t **env, char *const *args, shell_t *shell)
     if (path == NULL)
         return (return_value);
     if (size == 1)
-        return_value = change_home_silently(env, path);
+        return_value = change_home_silently(&shell->env, path);
     else if (size == 2)
-        return_value = handle_cd_silently(env, args[1], path);
+        return_value = handle_cd_silently(&shell->env, args[1], path);
     free(path);
     return (return_value);
 }

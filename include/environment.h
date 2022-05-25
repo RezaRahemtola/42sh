@@ -26,3 +26,6 @@ char *extract_env_value(const char *var);
 
 char *const *get_array_from_env(const env_t *list);
 env_t *get_env_from_array(const char *const *env);
+
+// Localenv
+void print_localenv(const list_t *env);
