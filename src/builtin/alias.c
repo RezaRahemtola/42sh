@@ -9,6 +9,18 @@
 #include "environment.h"
 #include "my_arrays.h"
 
+static void set_alias(env_t **aliases, char *alias, char *command)
+{
+    const env_t *node = get_env_value(*aliases, alias);
+
+    if (node == NULL) {
+        put_env_property(aliases, alias, command);
+        return;
+    } else {
+        replace_env_value(*aliases, alias, command);
+    }
+}
+
 static void print_alias(env_t *aliases, char *name)
 {
     const env_t *alias = get_env_value(aliases, name);
@@ -33,17 +45,21 @@ void builtin_alias(env_t **env, char *const *args, shell_t *shell)
     (void) env;
     size_t size = my_arraylen(args);
 
-    if (size == 0) {
+    if (size == 1) {
         print_aliases(shell->aliases);
-    } else if (size == 1) {
-        print_alias(shell->aliases, args[0]);
+    } else if (size == 2) {
+        print_alias(shell->aliases, args[1]);
     }
 }
 
 int silent_alias(env_t **env, char *const *args, shell_t *shell)
 {
+    size_t size = my_arraylen(args);
+
+    if (size > 2) {
+        set_alias(&shell->aliases, args[1], args[2]);
+    }
     (void) env;
-    (void) args;
     (void) shell;
     return (0);
 }
