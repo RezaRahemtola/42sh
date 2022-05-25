@@ -60,9 +60,10 @@ typedef struct local_environment {
 typedef struct shell {
     bool exit;
     int ret;
-    list_t *history;
     env_t *env;
     localenv_t *localenv;
+    list_t *history;
+    env_t *aliases;
 } shell_t;
 
 typedef struct command {
@@ -78,7 +79,7 @@ typedef struct command {
     char *info_out;
     char *input;
     char *path;
-    char *const *args;
+    char **args;
     struct command *prev;
     struct command *next;
 } command_t;

@@ -24,6 +24,7 @@ void execute_forked(command_t *command, shell_t *shell);
 char *find_command(const env_t *env, const char *bin);
 char *get_next_argument(const char *str, size_t index);
 bool is_command_empty(const command_t *command);
+char *join_array(char *const *array, size_t start, size_t end);
 
 // Command linked lists
 void list_append(command_t **list, command_t *node);

@@ -16,8 +16,7 @@
 
 int start_shell(const char *const *env)
 {
-    shell_t shell = {0, 0, NULL, NULL, NULL};
-    env_t *list = NULL;
+    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
 
     setbuf(stdout, NULL);
     setbuf(stderr, NULL);
@@ -30,8 +29,9 @@ int start_shell(const char *const *env)
     remove_env_property(&shell.env, "OLDPWD");
     init_signals();
     do_heartbeat(&shell);
-    save_history(shell.history, list);
+    save_history(shell.history, shell.env);
     my_list_free(shell.history, free_history);
+    destroy_env(shell.aliases);
     destroy_env(shell.env);
     return (shell.ret);
 }
