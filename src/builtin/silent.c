@@ -45,8 +45,12 @@ int silent_setenv(shell_t *shell, char *const *args)
     (void) shell;
     if (size > 3 || (size >= 2 && !isalpha(args[1][0])))
         return (1);
-    if (size != 1)
-        return (set_variable(&shell->env, args[1], (size == 2 ? "" : args[2])));
+    if (size != 1) {
+        if (!my_isalphanum_str(args[1]))
+            return (1);
+        else
+            add_variable(&shell->env, args[1], (size == 2 ? "" : args[2]));
+    }
     return (0);
 }
 

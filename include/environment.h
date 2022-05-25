@@ -19,7 +19,6 @@ void print_env(const env_t *env);
 void destroy_env(env_t *env);
 
 void add_variable(env_t **env, const char *key, const char *value);
-int set_variable(env_t **env, const char *key, const char *value);
 
 char *extract_env_key(const char *var);
 char *extract_env_value(const char *var);

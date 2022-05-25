@@ -23,16 +23,6 @@ void add_variable(env_t **env, const char *key, const char *value)
         replace_env_value(*env, key, value);
 }
 
-int set_variable(env_t **env, const char *key, const char *value)
-{
-    if (my_isalphanum_str(key)) {
-        add_variable(env, key, value);
-        return (0);
-    }
-    fprintf(stderr, "setenv: Variable name must %s.\n", NONALPHA);
-    return (1);
-}
-
 env_t *get_env_from_array(const char *const *env)
 {
     env_t *list = NULL;

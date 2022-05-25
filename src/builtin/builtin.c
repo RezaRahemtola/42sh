@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include "shell.h"
 #include "environment.h"
+#include "messages.h"
 #include "my_arrays.h"
 #include "my_math.h"
 #include "my_string.h"
@@ -46,6 +47,10 @@ void builtin_setenv(shell_t *shell, char *const *args)
     }
     if (size >= 2 && !isalpha(args[1][0])) {
         fprintf(stderr, "setenv: Variable name must begin with a letter.\n");
+        return;
+    }
+    if (size >= 2 && !my_isalphanum_str(args[1])) {
+        fprintf(stderr, "setenv: Variable name must %s\n", NONALPHA);
         return;
     }
     if (size == 1)
