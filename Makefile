@@ -12,6 +12,7 @@ BUILTIN_SRC	=	alias.c \
 				home.c \
 				silent.c \
 				silent_dirs.c \
+				unalias.c \
 				history.c
 
 COMMAND_DIR	=	command

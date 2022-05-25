@@ -16,6 +16,7 @@ void builtin_setenv(env_t **env, char *const *args, shell_t *shell);
 void builtin_unsetenv(env_t **env, char *const *args, shell_t *shell);
 void builtin_history(env_t **env, char *const *args, shell_t *shell);
 void builtin_alias(env_t **env, char *const *args, shell_t *shell);
+void builtin_unalias(env_t **env, char *const *args, shell_t *shell);
 
 int silent_cd(env_t **env, char *const *args, shell_t *shell);
 int silent_env(env_t **env, char *const *args, shell_t *shell);
@@ -24,12 +25,13 @@ int silent_setenv(env_t **env, char *const *args, shell_t *shell);
 int silent_unsetenv(env_t **env, char *const *args, shell_t *shell);
 int silent_history(env_t **env, char *const *args, shell_t *shell);
 int silent_alias(env_t **env, char *const *args, shell_t *shell);
+int silent_unalias(env_t **env, char *const *args, shell_t *shell);
 
 bool is_builtin(const char *command);
 
 void replace_aliases(command_t *commands, env_t *aliases, env_t *env);
 
-static const builtin_t BUILTIN[8] = {
+static const builtin_t BUILTIN[9] = {
         { "exit", &builtin_exit, &silent_exit },
         { "env", &builtin_env, &silent_env },
         { "setenv", &builtin_setenv, &silent_setenv },
@@ -37,5 +39,6 @@ static const builtin_t BUILTIN[8] = {
         { "cd", &builtin_cd, &silent_cd },
         { "history", &builtin_history, &silent_history },
         { "alias", &builtin_alias, &silent_alias },
+        { "unalias", &builtin_unalias, &silent_unalias },
         { 0, 0, 0 }
 };
