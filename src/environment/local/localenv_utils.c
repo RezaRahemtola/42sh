@@ -11,11 +11,9 @@
 
 void print_localenv(const localenv_t *env)
 {
-    const localenv_t *current = env;
-
-    while (current != NULL) {
-        printf("%s=%s\n", current->key, current->value);
-        current = current->next;
+    while (env != NULL) {
+        printf("%s=%s\n", env->key, env->value);
+        env = env->next;
     }
 }
 

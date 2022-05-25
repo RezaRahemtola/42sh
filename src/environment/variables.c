@@ -51,20 +51,19 @@ env_t *get_env_from_array(const char *const *env)
     return (list);
 }
 
-char *const *get_array_from_env(const env_t *list)
+char *const *get_array_from_env(const env_t *env)
 {
-    size_t size = get_env_size(list);
+    size_t size = get_env_size(env);
     int index = 0;
     char **array = malloc(sizeof(char *) * (size + 1));
-    const env_t *current = list;
 
     if (array == NULL)
         return NULL;
-    for (; current != NULL; index++) {
-        array[index] = malloc(sizeof(char) * (strlen(current->key) +
-        strlen(current->value) + 2));
-        sprintf(array[index], "%s=%s", current->key, current->value);
-        current = current->next;
+    for (; env != NULL; index++) {
+        array[index] = malloc(sizeof(char) * (strlen(env->key) +
+        strlen(env->value) + 2));
+        sprintf(array[index], "%s=%s", env->key, env->value);
+        env = env->next;
     }
     array[index] = NULL;
     return (array);
