@@ -11,7 +11,7 @@ BUILTIN_SRC	=	alias.c \
 				directories.c \
 				history.c \
 				home.c \
-				localenv.c
+				localenv.c \
 				silent.c \
 				silent_dirs.c \
 				unalias.c
