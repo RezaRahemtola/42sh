@@ -40,7 +40,8 @@ ENV_SRC	=	environment.c \
 			variables.c
 
 JOB_DIR	=	job_control
-JOB_SRC	=	handle_job.c
+JOB_SRC	=	handle_job.c \
+			remove_job.c \
 
 BASE_DIR	= 	src
 BASE_SRC	=	shell.c \

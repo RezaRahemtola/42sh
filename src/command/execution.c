@@ -96,7 +96,6 @@ void execute_commands(command_t *command, env_t **env, shell_t *shell)
             current->job_check = true;
             executed_number = execute_command_line(current, env, shell);
         } else {
-            current->job_check = false;
             executed_number = execute_command_line(current, env, shell);
         }
         for (size_t i = 0; i < executed_number && current != NULL; i++) {

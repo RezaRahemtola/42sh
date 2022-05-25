@@ -8,11 +8,12 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "shell.h"
+#include <string.h>
 
 bool job_command_case(char *command)
 {
     for (int i = 0; command[i] != '\0'; i++) {
-        if (command[i] == '&' && command[i + 1] == '\0') {
+        if (command[i] == '&' && command[i + 1] != '&') {
             return (true);
         }
     }
@@ -66,13 +67,4 @@ job_t *add_job_pid(job_t *job, char *wanted, pid_t pid)
         tmp = tmp->next;
     }
     return (job);
-}
-
-void check_zombie(job_t *job)
-{
-    job_t *tmp = job;
-
-    while (tmp != NULL) {
-        tmp = tmp->next;
-    }
 }
