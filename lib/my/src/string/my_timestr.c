@@ -40,3 +40,13 @@ bool my_isalphanum_str(const char *str)
             return (false);
     return (true);
 }
+
+bool my_isalpha_str(const char *str)
+{
+    size_t size = strlen(str);
+
+    for (size_t i = 0; i < size; i++)
+        if (!isalpha(str[i]))
+            return (false);
+    return (true);
+}

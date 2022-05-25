@@ -10,6 +10,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "environment.h"
+#include "messages.h"
 #include "my_string.h"
 
 void add_variable(env_t **env, const char *key, const char *value)
@@ -24,13 +25,11 @@ void add_variable(env_t **env, const char *key, const char *value)
 
 int set_variable(env_t **env, const char *key, const char *value)
 {
-    const char *alpha = "alphanumeric characters";
-
     if (my_isalphanum_str(key)) {
         add_variable(env, key, value);
         return (0);
     }
-    fprintf(stderr, "setenv: Variable name must contain %s.\n", alpha);
+    fprintf(stderr, "setenv: Variable name must %s.\n", NONALPHA);
     return (1);
 }
 
