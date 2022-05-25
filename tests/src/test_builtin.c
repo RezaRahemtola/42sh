@@ -180,16 +180,13 @@ Test(builtin, setenv_too_many_args, .init=cr_redirect_stderr)
     cr_assert_eq(ret, 1);
 }
 
-Test(builtin, unsetenv, .init=cr_redirect_stderr)
+Test(builtin, unsetenv_basic)
 {
     int ret = 0;
-    int ret2 = 0;
     env_t *env = malloc(sizeof(env_t));
     env_t *path = malloc(sizeof(env_t));
-    char *const args[2] = {"unsetenv", NULL};
-    char *args2[3] = {"unsetenv", "PATH", NULL};
+    char *args[3] = {"unsetenv", "PATH", NULL};
     shell_t shell = {0, 0, NULL, NULL};
-    shell_t shell2 = {0, 0, NULL, NULL};
 
     env->key = strdup("HOME");
     env->value = strdup("/home");
@@ -198,14 +195,22 @@ Test(builtin, unsetenv, .init=cr_redirect_stderr)
     path->value = strdup("/usr");
     path->next = NULL;
     builtin_unsetenv(&env, args, &shell);
-    builtin_unsetenv(&env, args2, &shell);
     ret = silent_unsetenv(&env, args, &shell);
-    ret2 = silent_unsetenv(&env, args2, &shell2);
     cr_assert_null(env->next);
-    cr_assert_eq(ret, 1);
-    cr_assert_eq(ret2, 0);
-    cr_assert_stderr_eq_str("unsetenv: Too few arguments.\n");
+    cr_assert_eq(ret, 0);
     destroy_env(env);
+}
+
+Test(builtin, unsetenv_no_args, .init=cr_redirect_stderr)
+{
+    int ret = 0;
+    char *const args[2] = {"unsetenv", NULL};
+    shell_t shell = {0, 0, NULL, NULL};
+
+    builtin_unsetenv(NULL, args, &shell);
+    ret = silent_unsetenv(NULL, args, &shell);
+    cr_assert_eq(ret, 1);
+    cr_assert_stderr_eq_str("unsetenv: Too few arguments.\n");
 }
 
 Test(builtin, unsetenv_all)
@@ -248,47 +253,59 @@ Test(builtin, unsetenv_all_error, .init=cr_redirect_stderr)
     destroy_env(env);
 }
 
-Test(builtin, cd_basic, .init=cr_redirect_stderr)
+Test(builtin, cd_basic)
 {
     int ret = 0;
-    int ret2 = 0;
     env_t *env = NULL;
     char *const args[3] = {"cd", "/etc", NULL};
-    char *args2[4] = {"cd", "a", "b", NULL};
     shell_t shell = {0, 0, NULL, NULL};
-    shell_t shell2 = {0, 0, NULL, NULL};
 
     builtin_cd(&env, args, &shell);
-    builtin_cd(&env, args2, &shell);
     ret = silent_cd(&env, args, &shell);
-    ret2 = silent_cd(&env, args2, &shell2);
     cr_assert_not_null(env);
     cr_assert_str_eq(env->key, "PWD");
     cr_assert_str_eq(env->value, "/etc");
     cr_assert_not_null(env->next);
     cr_assert_str_eq(env->next->key, "OLDPWD");
     cr_assert_eq(ret, 0);
-    cr_assert_stderr_eq_str("cd: Too many arguments.\n");
-    cr_assert_eq(ret2, 1);
 }
 
-Test(builtin, cd_fail, .init=cr_redirect_stderr)
+Test(builtin, cd_too_many_args, .init=cr_redirect_stderr)
 {
     int ret = 0;
-    int ret2 = 0;
+    char *args[4] = {"cd", "a", "b", NULL};
+    shell_t shell = {0, 0, NULL, NULL};
+
+    builtin_cd(NULL, args, &shell);
+    ret = silent_cd(NULL, args, &shell);
+    cr_assert_eq(ret, 1);
+    cr_assert_stderr_eq_str("cd: Too many arguments.\n");
+}
+
+Test(builtin, cd_fail_file, .init=cr_redirect_stderr)
+{
+    int ret = 0;
     env_t *env = NULL;
     char *const args[3] = {"cd", "/etc/passwd", NULL};
-    char *const args2[3] = {"cd", "/etcd", NULL};
     shell_t shell = {0, 0, NULL, NULL};
-    shell_t shell2 = {0, 0, NULL, NULL};
 
     builtin_cd(&env, args, &shell);
-    builtin_cd(&env, args2, &shell);
     ret = silent_cd(&env, args, &shell);
-    ret2 = silent_cd(&env, args2, &shell2);
-    cr_assert_stderr_eq_str("/etc/passwd: Not a directory.\n/etcd: No such file or directory.\n");
     cr_assert_eq(ret, 1);
-    cr_assert_eq(ret2, 1);
+    cr_assert_stderr_eq_str("/etc/passwd: Not a directory.\n");
+}
+
+Test(builtin, cd_fail_unexisting, .init=cr_redirect_stderr)
+{
+    int ret = 0;
+    env_t *env = NULL;
+    char *const args[3] = {"cd", "/etcd", NULL};
+    shell_t shell = {0, 0, NULL, NULL};
+
+    builtin_cd(&env, args, &shell);
+    ret = silent_cd(&env, args, &shell);
+    cr_assert_eq(ret, 1);
+    cr_assert_stderr_eq_str("/etcd: No such file or directory.\n");
 }
 
 Test(builtin, cd_home_unexisting, .init=cr_redirect_stderr)
