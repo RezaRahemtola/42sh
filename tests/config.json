@@ -129,6 +129,14 @@
             "command": "unsetenv"
         },
         {
+            "name": "unsetenv - Non existing var",
+            "command": "unsetenv novar"
+        },
+        {
+            "name": "unsetenv - Multiple non existing var",
+            "command": "unsetenv novar novar2 novar3"
+        },
+        {
             "name": "exit - simple",
             "command": "exit"
         },

@@ -41,11 +41,8 @@ void builtin_unset(shell_t *shell, char *const *args)
     size_t size = my_arraylen(args);
 
     (void) shell;
-    if (size == 1) {
+    if (size == 1)
         fprintf(stderr, "unset: Too few arguments.\n");
-        return;
-    }
-    return;
 }
 
 int silent_set(shell_t *shell, char *const *args)
@@ -73,5 +70,7 @@ int silent_unset(shell_t *shell, char *const *args)
     (void) shell;
     if (size == 1)
         return (1);
+    for (size_t i = 1; i < size; i++)
+        remove_localenv_property(&shell->localenv, args[i]);
     return (0);
 }
