@@ -50,9 +50,18 @@ typedef struct environment {
     struct environment *next;
 } env_t;
 
+typedef struct local_environment {
+    char *key;
+    char *value;
+    bool readonly;
+    struct local_environment *next;
+} localenv_t;
+
 typedef struct shell {
     bool exit;
     int ret;
+    env_t *env;
+    localenv_t *localenv;
     list_t *history;
     env_t *aliases;
 } shell_t;
@@ -77,10 +86,8 @@ typedef struct command {
 
 typedef bool redirection_checker_t(command_t *cmd, char *const *array,
     const env_t *env);
-typedef void redirection_function_t(env_t **env, char *const *args, \
-    shell_t *shell);
-typedef int redirection_silent_function_t(env_t **env, char *const *args,
-    shell_t *shell);
+typedef void redirection_function_t(shell_t *shell, char *const *args);
+typedef int redirection_silent_function_t(shell_t *shell, char *const *args);
 
 typedef struct redirection {
     char *type;

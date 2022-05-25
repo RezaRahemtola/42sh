@@ -15,18 +15,18 @@
 #include "redirections.h"
 #include "environment.h"
 
-static void execute_builtin(command_t *command, env_t **env, shell_t *shell)
+static void execute_builtin(command_t *command, shell_t *shell)
 {
     for (size_t i = 0; BUILTIN[i].command != NULL; i++)
         if (strcmp(command->args[0], BUILTIN[i].command) == 0) {
-            BUILTIN[i].function(env, command->args, shell);
+            BUILTIN[i].function(shell, command->args);
             return;
         }
 }
 
-static void execute_binary(command_t *command, env_t *const *env)
+static void execute_binary(command_t *command, const env_t *env)
 {
-    char *const *environment_array = get_array_from_env(*env);
+    char *const *environment_array = get_array_from_env(env);
 
     if (environment_array == NULL)
         return;
@@ -37,7 +37,7 @@ static void execute_binary(command_t *command, env_t *const *env)
         fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
 }
 
-void execute_forked(command_t *cmd, env_t **env, shell_t *shell)
+void execute_forked(command_t *cmd, shell_t *shell)
 {
     bool builtin = is_builtin(cmd->args[0]);
 
@@ -51,8 +51,8 @@ void execute_forked(command_t *cmd, env_t **env, shell_t *shell)
         return;
     }
     if (builtin)
-        execute_builtin(cmd, env, shell);
+        execute_builtin(cmd, shell);
     else
-        execute_binary(cmd, env);
+        execute_binary(cmd, shell->env);
     close_redirections(cmd);
 }

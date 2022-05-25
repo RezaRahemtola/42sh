@@ -43,9 +43,9 @@ static void add_loaded_elem(char **metadata, char *cmd, shell_t *shell)
     my_free_arrays(1, metadata);
 }
 
-void load_history(shell_t *shell, env_t *env)
+void load_history(shell_t *shell)
 {
-    char *path = get_history_file_path(env);
+    char *path = get_history_file_path(shell->env);
     FILE *file = NULL;
     char *line = NULL;
     char **args = NULL;

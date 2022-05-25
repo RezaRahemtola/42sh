@@ -35,12 +35,11 @@ static void free_command(command_t *command)
 
 void list_free(command_t *list)
 {
-    command_t *current = list;
     command_t *tmp = NULL;
 
-    while (current != NULL) {
-        tmp = current->next;
-        free_command(current);
-        current = tmp;
+    while (list != NULL) {
+        tmp = list->next;
+        free_command(list);
+        list = tmp;
     }
 }

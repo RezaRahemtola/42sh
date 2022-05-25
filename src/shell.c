@@ -16,8 +16,7 @@
 
 int start_shell(const char *const *env)
 {
-    shell_t shell = {0, 0, NULL, NULL};
-    env_t *list = NULL;
+    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
 
     setbuf(stdout, NULL);
     setbuf(stderr, NULL);
@@ -25,22 +24,22 @@ int start_shell(const char *const *env)
         fprintf(stderr, "Error: Invalid environment.\n");
         return (EXIT_USAGE);
     }
-    list = get_env_from_array(env);
-    load_history(&shell, list);
-    remove_env_property(&list, "OLDPWD");
+    shell.env = get_env_from_array(env);
+    load_history(&shell);
+    remove_env_property(&shell.env, "OLDPWD");
     init_signals();
-    do_heartbeat(&list, &shell);
-    save_history(shell.history, list);
+    do_heartbeat(&shell);
+    save_history(shell.history, shell.env);
     my_list_free(shell.history, free_history);
-    destroy_env(list);
     destroy_env(shell.aliases);
+    destroy_env(shell.env);
     return (shell.ret);
 }
 
-void do_heartbeat(env_t **env, shell_t *shell)
+void do_heartbeat(shell_t *shell)
 {
     size_t size = 0;
-    ssize_t read_size;
+    ssize_t read_size = 0;
     char *line = NULL;
 
     while (!shell->exit) {
@@ -51,7 +50,7 @@ void do_heartbeat(env_t **env, shell_t *shell)
             shell->exit = true;
         if (read_size > 1) {
             replace_history(&line, shell);
-            handle_input(line, env, shell);
+            handle_input(line, shell);
         }
         free(line);
         line = NULL;

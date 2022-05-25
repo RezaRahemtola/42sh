@@ -17,7 +17,8 @@
 #include "shell.h"
 #include "redirections.h"
 
-static bool init_command(command_t *command, env_t *env, const char *input)
+static bool init_command(command_t *command, const env_t *env,
+const char *input)
 {
     command->separator_in = NO_IN;
     command->separator_out = NO_OUT;
@@ -41,8 +42,8 @@ static bool init_command(command_t *command, env_t *env, const char *input)
     return (true);
 }
 
-static command_t *get_command(command_t **list, env_t *env, const char *str,
-size_t i)
+static command_t *get_command(command_t **list, const env_t *env,
+const char *str, size_t i)
 {
     command_t *command = malloc(sizeof(command_t));
 
@@ -60,7 +61,7 @@ size_t i)
     return (command);
 }
 
-static bool parse_command(command_t **list, env_t *env, const char *input,
+static bool parse_command(command_t **list, const env_t *env, const char *input,
 const char *separator)
 {
     int size = strlen(input);
@@ -85,19 +86,19 @@ const char *separator)
     return (command != NULL);
 }
 
-static void pipe_and_exec(command_t *cmd, env_t **env, shell_t *shell)
+static void pipe_and_exec(command_t *cmd, shell_t *shell)
 {
     if (!check_logicals(cmd, shell))
         return;
-    if (!check_redirections(cmd, shell, *env) || !open_pipe_redirections(cmd)) {
+    if (!check_redirections(cmd, shell) || !open_pipe_redirections(cmd)) {
         shell->ret = 1;
     } else {
-        replace_aliases(cmd, shell->aliases, *env);
-        execute_commands(cmd, env, shell);
+        replace_aliases(cmd, shell->aliases, shell->env);
+        execute_commands(cmd, shell);
     }
 }
 
-void handle_input(const char *input, env_t **env, shell_t *shell)
+void handle_input(const char *input, shell_t *shell)
 {
     command_t *list = NULL;
     size_t size = strlen(input);
@@ -105,7 +106,7 @@ void handle_input(const char *input, env_t **env, shell_t *shell)
     char *const *array = split_logical(line);
 
     for (size_t i = 0; array[i] != NULL; i++) {
-        if (!parse_command(&list, *env, array[i], array[i + 1])) {
+        if (!parse_command(&list, shell->env, array[i], array[i + 1])) {
             free(line);
             my_free_arrays(1, array);
             list_free(list);
@@ -114,7 +115,7 @@ void handle_input(const char *input, env_t **env, shell_t *shell)
         }
         i += (array[i + 1] != NULL);
     }
-    pipe_and_exec(list, env, shell);
+    pipe_and_exec(list, shell);
     free(line);
     my_free_arrays(1, array);
     list_free(list);
