@@ -34,6 +34,7 @@ static void wait_commands(command_t *command, shell_t *shell)
     int status = 0;
     command_t *current = command;
 
+    check_zombie(shell->job);
     while (current != NULL && current->state == RUNNING) {
         waitpid(current->pid, &status, WUNTRACED | WCONTINUED);
         handle_errors(status);
@@ -75,8 +76,9 @@ static size_t execute_command_line(command_t *cmd, env_t **env, shell_t *shell)
         close_redirections(current);
         current = current->next;
     } while (current != NULL && current->separator_in == PIPE_IN);
-    if (cmd->job_check)
-        printf("[%d] %d\n", 1, pid);
+    if (cmd->job_check) {
+        shell->job = add_job_pid(shell->job, cmd->input, pid);
+    }
     wait_commands(cmd, shell);
     return (total);
 }
@@ -85,21 +87,20 @@ void execute_commands(command_t *command, env_t **env, shell_t *shell)
 {
     size_t executed_number = 0;
     command_t *current = command;
-    bool job_found = false;
 
     while (current != NULL) {
-        if (job_command_case(current->input) && !current->job_check && !job_found) {
+        if (job_command_case(current->input) && !current->job_check) {
+            current->path = remove_incorrect_char(current->path);
             current->input = remove_incorrect_char(current->input);
             shell->job = add_new_job(shell->job, current->input);
             current->job_check = true;
             executed_number = execute_command_line(current, env, shell);
-            job_found = true;
         } else {
+            current->job_check = false;
             executed_number = execute_command_line(current, env, shell);
         }
         for (size_t i = 0; i < executed_number && current != NULL; i++) {
             current = current->next;
-            job_found = false;
         }
     }
 }
