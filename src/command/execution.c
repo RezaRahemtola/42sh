@@ -5,6 +5,7 @@
 ** Command execution
 */
 
+#include <stdbool.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
@@ -74,6 +75,8 @@ static size_t execute_command_line(command_t *cmd, env_t **env, shell_t *shell)
         close_redirections(current);
         current = current->next;
     } while (current != NULL && current->separator_in == PIPE_IN);
+    if (cmd->job_check)
+        printf("[%d] %d\n", 1, pid);
     wait_commands(cmd, shell);
     return (total);
 }
@@ -82,10 +85,21 @@ void execute_commands(command_t *command, env_t **env, shell_t *shell)
 {
     size_t executed_number = 0;
     command_t *current = command;
+    bool job_found = false;
 
     while (current != NULL) {
-        executed_number = execute_command_line(current, env, shell);
-        for (size_t i = 0; i < executed_number && current != NULL; i++)
+        if (job_command_case(current->input) && !current->job_check && !job_found) {
+            current->input = remove_incorrect_char(current->input);
+            shell->job = add_new_job(shell->job, current->input);
+            current->job_check = true;
+            executed_number = execute_command_line(current, env, shell);
+            job_found = true;
+        } else {
+            executed_number = execute_command_line(current, env, shell);
+        }
+        for (size_t i = 0; i < executed_number && current != NULL; i++) {
             current = current->next;
+            job_found = false;
+        }
     }
 }
