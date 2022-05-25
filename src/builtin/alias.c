@@ -6,6 +6,7 @@
 */
 
 #include <stdio.h>
+#include <string.h>
 #include "environment.h"
 #include "my_arrays.h"
 
@@ -42,22 +43,32 @@ static void print_aliases(env_t *aliases)
 
 void builtin_alias(env_t **env, char *const *args, shell_t *shell)
 {
-    (void) env;
+    bool not = false;
     size_t size = my_arraylen(args);
 
+    (void) env;
     if (size == 1) {
         print_aliases(shell->aliases);
     } else if (size == 2) {
         print_alias(shell->aliases, args[1]);
     }
+    if (size > 2) {
+        not = strcmp("alias", args[1]) == 0 || strcmp("unalias", args[1]) == 0;
+        if (not) {
+            printf("%s: Too dangerous to alias that.\n", args[1]);
+        }
+    }
 }
 
 int silent_alias(env_t **env, char *const *args, shell_t *shell)
 {
+    bool not = false;
     size_t size = my_arraylen(args);
 
     if (size > 2) {
-        set_alias(&shell->aliases, args[1], args[2]);
+        not = strcmp("alias", args[1]) == 0 || strcmp("unalias", args[1]) == 0;
+        if (!not)
+            set_alias(&shell->aliases, args[1], args[2]);
     }
     (void) env;
     (void) shell;
