@@ -38,8 +38,13 @@ void builtin_set(shell_t *shell, char *const *args)
 
 void builtin_unset(shell_t *shell, char *const *args)
 {
+    size_t size = my_arraylen(args);
+
     (void) shell;
-    (void) args;
+    if (size == 1) {
+        fprintf(stderr, "unset: Too few arguments.\n");
+        return;
+    }
     return;
 }
 
@@ -63,7 +68,10 @@ int silent_set(shell_t *shell, char *const *args)
 
 int silent_unset(shell_t *shell, char *const *args)
 {
+    size_t size = my_arraylen(args);
+
     (void) shell;
-    (void) args;
+    if (size == 1)
+        return (1);
     return (0);
 }
