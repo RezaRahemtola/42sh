@@ -39,13 +39,17 @@ ENV_SRC	=	environment.c \
 			environment_utils.c \
 			variables.c
 
+JOB_DIR	=	job_control
+JOB_SRC	=	handle_job.c
+
 BASE_DIR	= 	src
 BASE_SRC	=	shell.c \
 				$(addprefix $(BUILTIN_DIR)/, $(BUILTIN_SRC)) \
 				$(addprefix $(COMMAND_DIR)/, $(COMMAND_SRC)) \
 				$(addprefix $(REDIRECTION_DIR)/, $(REDIRECTION_SRC)) \
 				$(addprefix $(UTILS_DIR)/, $(UTILS_SRC)) \
-				$(addprefix $(ENV_DIR)/, $(ENV_SRC))
+				$(addprefix $(ENV_DIR)/, $(ENV_SRC)) \
+				$(addprefix $(JOB_DIR)/, $(JOB_SRC))
 
 TESTS_DIR	=	tests/src
 TESTS_SRC	=	test_shell.c \
