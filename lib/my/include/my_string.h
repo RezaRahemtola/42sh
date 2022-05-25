@@ -19,4 +19,3 @@ char *my_substr_size(const char *str, size_t start, size_t end, size_t size);
 
 char *my_timestr(void);
 bool my_isalphanum_str(const char *str);
-bool my_isalpha_str(const char *str);

@@ -25,7 +25,7 @@ void builtin_set(shell_t *shell, char *const *args)
         fprintf(stderr, "set: Variable name must begin with a letter.\n");
         return;
     }
-    if (size == 4 && strcmp(args[2], "=") == 0 && !my_isalpha_str(args[1])) {
+    if (size == 4 && strcmp(args[2], "=") == 0 && !my_isalphanum_str(args[1])) {
         fprintf(stderr, "set: Variable name must %s\n", NONALPHA);
         return;
     }
@@ -41,7 +41,7 @@ int silent_set(shell_t *shell, char *const *args)
     size_t size = my_arraylen(args);
 
     if (size == 4 && strcmp(args[2], "=") == 0) {
-        if (!my_isalpha_str(args[1]))
+        if (!isalpha(args[1][0]) || !my_isalphanum_str(args[1]))
             return (1);
         else
             add_localvar(&shell->localenv, args[1], args[3], false);

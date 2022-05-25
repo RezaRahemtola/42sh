@@ -22,16 +22,3 @@ bool readonly)
     else
         replace_localenv_value(*env, key, value, readonly);
 }
-
-int set_localvar(localenv_t **env, const char *key,
-const char *value, bool readonly)
-{
-    const char *alpha = "alphanumeric characters";
-
-    if (my_isalphanum_str(key)) {
-        add_localvar(env, key, value, readonly);
-        return (0);
-    }
-    fprintf(stderr, "setenv: Variable name must contain %s.\n", alpha);
-    return (1);
-}

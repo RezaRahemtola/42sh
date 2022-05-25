@@ -85,6 +85,10 @@
             "command": "setenv 1var val"
         },
         {
+            "name": "setenv - Var with non alphanumeric char",
+            "command": "setenv var-var val"
+        },
+        {
             "name": "unsetenv - simple",
             "command": "unsetenv PATH"
         },
@@ -107,6 +111,14 @@
         {
             "name": "unsetenv - complex all",
             "command": "unsetenv PATH * notAvar"
+        },
+        {
+            "name": "set - Var starting with non-letter char",
+            "command": "set 1var = val"
+        },
+        {
+            "name": "set - Var with non alphanumeric char",
+            "command": "set var-var = val"
         },
         {
             "name": "exit - simple",

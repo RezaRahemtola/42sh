@@ -40,5 +40,3 @@ void destroy_localenv(localenv_t *env);
 
 void add_localvar(localenv_t **env, const char *key, const char *value,
 bool readonly);
-int set_localvar(localenv_t **env, const char *key, const char *value,
-bool readonly);
