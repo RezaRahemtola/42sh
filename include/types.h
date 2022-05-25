@@ -37,9 +37,18 @@ typedef enum state {
     IGNORED
 } state_t;
 
+typedef struct job {
+    struct job *next;
+    char *command;
+    pid_t pid;
+    int nb_job;
+} job_t;
+
 typedef struct shell {
     bool exit;
     int ret;
+    int nb_job;
+    job_t *job;
 } shell_t;
 
 typedef struct command {
@@ -58,6 +67,7 @@ typedef struct command {
     char *const *args;
     struct command *prev;
     struct command *next;
+    bool job_check;
 } command_t;
 
 typedef struct environment {
