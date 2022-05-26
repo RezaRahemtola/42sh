@@ -36,7 +36,6 @@ job_t *check_zombie(job_t *job)
     while (tmp != NULL) {
         if (kill(tmp->pid, 0) <= -1)
             printf("[%d] Done -> %s\n", tmp->nb_job, tmp->command);
-        printf("OH\n");
         tmp = tmp->next;
     }
 }
