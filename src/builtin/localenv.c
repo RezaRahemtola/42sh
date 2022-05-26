@@ -23,7 +23,7 @@ void builtin_set(shell_t *shell, char *const *args)
         return;
     }
     if (size == i + 3 && strcmp(args[i + 1], "=") == 0) {
-        is_valid_set(args, readonly, shell->localenv, true);
+        is_valid_localvar(args[i], shell->localenv, true);
         return;
     }
     for (; i < size && is_valid_localvar(args[i], shell->localenv, true); i++);
@@ -50,7 +50,7 @@ int silent_set(shell_t *shell, char *const *args)
     size_t i = readonly ? 2 : 1;
 
     if (size == i + 3 && strcmp(args[i + 1], "=") == 0) {
-        if (!is_valid_set(args, readonly, shell->localenv, false))
+        if (!is_valid_localvar(args[i], shell->localenv, false))
             return (1);
         add_localvar(&shell->localenv, args[i], args[i + 2], readonly);
         return (0);
