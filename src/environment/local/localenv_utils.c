@@ -12,7 +12,7 @@
 void print_localenv(const localenv_t *env)
 {
     while (env != NULL) {
-        printf("%s=%s\n", env->key, env->value);
+        printf("%s\t%s\n", env->key, env->value);
         env = env->next;
     }
 }

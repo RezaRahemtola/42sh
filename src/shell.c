@@ -14,6 +14,14 @@
 #include "history.h"
 #include "environment.h"
 
+static void destroy_shell_content(shell_t *shell)
+{
+    my_list_free(shell->history, free_history);
+    destroy_env(shell->aliases);
+    destroy_env(shell->env);
+    destroy_localenv(shell->localenv);
+}
+
 int start_shell(const char *const *env)
 {
     shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
@@ -26,13 +34,12 @@ int start_shell(const char *const *env)
     }
     shell.env = get_env_from_array(env);
     load_history(&shell);
+    load_localenv(&shell);
     remove_env_property(&shell.env, "OLDPWD");
     init_signals();
     do_heartbeat(&shell);
     save_history(shell.history, shell.env);
-    my_list_free(shell.history, free_history);
-    destroy_env(shell.aliases);
-    destroy_env(shell.env);
+    destroy_shell_content(&shell);
     return (shell.ret);
 }
 
