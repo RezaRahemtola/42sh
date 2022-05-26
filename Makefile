@@ -62,6 +62,11 @@ BASE_SRC	=	shell.c \
 
 TESTS_DIR	=	tests/src
 TESTS_SRC	=	test_shell.c \
+				builtin/tests_cd.c \
+				builtin/tests_env.c \
+				builtin/tests_exit.c \
+				separators/tests_and.c \
+				separators/tests_or.c \
 				test_builtin.c \
 				test_redirections.c
 

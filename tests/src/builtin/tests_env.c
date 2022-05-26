@@ -1,0 +1,158 @@
+/*
+** EPITECH PROJECT, 2022
+** 42sh
+** File description:
+** Unit tests for builtin environment
+*/
+
+#include <criterion/criterion.h>
+#include <criterion/redirect.h>
+#include "environment.h"
+#include "builtin.h"
+
+Test(env, list_env, .init=cr_redirect_stdout)
+{
+    env_t path = {"PATH", "/usr/bin:/bin", NULL};
+    char *const args[3] = {"env", NULL};
+    shell_t shell = {0, 0, &path, NULL, NULL, NULL};
+
+    setbuf(stdout, NULL);
+    builtin_env(&shell, args);
+    cr_assert_stdout_eq_str("PATH=/usr/bin:/bin\n");
+    cr_assert_eq(shell.ret, 0);
+}
+
+Test(env, setenv_set)
+{
+    env_t path = {"PATH", strdup("/usr/bin:/bin"), NULL};
+    char *const args[4] = {"setenv", "PATH", "/etc", NULL};
+    shell_t shell = {0, 0, &path, NULL, NULL, NULL};
+
+    silent_setenv(&shell, args);
+    cr_assert_str_eq(path.value, "/etc");
+    cr_assert_eq(shell.ret, 0);
+    free(path.value);
+}
+
+Test(env, setenv_print, .init=cr_redirect_stdout)
+{
+    env_t path = {"PATH", strdup("/usr/bin:/bin"), NULL};
+    char *const args[2] = {"setenv", NULL};
+    shell_t shell = {0, 0, &path, NULL, NULL, NULL};
+
+    setbuf(stdout, NULL);
+    builtin_setenv(&shell, args);
+    silent_setenv(&shell, args);
+    cr_assert_str_eq(path.value, "/usr/bin:/bin");
+    cr_assert_eq(shell.ret, 0);
+    cr_assert_stdout_eq_str("PATH=/usr/bin:/bin\n");
+    free(path.value);
+}
+
+Test(env, setenv_alphanumeric, .init=cr_redirect_stderr)
+{
+    env_t *env = NULL;
+    char *const args[3] = {"setenv", "PATH=", NULL};
+    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+
+    builtin_setenv(&shell, args);
+    silent_setenv(&shell, args);
+    cr_assert_null(env);
+    cr_assert_stderr_eq_str("setenv: Variable name must contain alphanumeric characters.\n");
+}
+
+Test(env, setenv_begin_letter, .init=cr_redirect_stderr)
+{
+    env_t *env = NULL;
+    char *const args[3] = {"setenv", "42b", NULL};
+    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+
+    builtin_setenv(&shell, args);
+    silent_setenv(&shell, args);
+    cr_assert_null(env);
+    cr_assert_stderr_eq_str("setenv: Variable name must begin with a letter.\n");
+}
+
+Test(env, setenv_too_many_args, .init=cr_redirect_stderr)
+{
+    int ret = 0;
+    env_t *env = NULL;
+    char *const args[5] = {"setenv", "PATH", "key", "value", NULL};
+    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+
+    builtin_setenv(&shell, args);
+    ret = silent_setenv(&shell, args);
+    cr_assert_null(env);
+    cr_assert_stderr_eq_str("setenv: Too many arguments.\n");
+    cr_assert_eq(ret, 1);
+}
+
+Test(env, unsetenv_basic)
+{
+    env_t *env = malloc(sizeof(env_t));
+    env_t *path = malloc(sizeof(env_t));
+    char *args[3] = {"unsetenv", "PATH", NULL};
+    shell_t shell = {0, 0, env, NULL, NULL, NULL};
+
+    shell.env->key = strdup("HOME");
+    shell.env->value = strdup("/home");
+    shell.env->next = path;
+    path->key = strdup("PATH");
+    path->value = strdup("/usr");
+    path->next = NULL;
+    builtin_unsetenv(&shell, args);
+    cr_assert_eq(silent_unsetenv(&shell, args), 0);
+    cr_assert_null(shell.env->next);
+    destroy_env(env);
+}
+
+Test(env, unsetenv_no_args, .init=cr_redirect_stderr)
+{
+    int ret = 0;
+    char *const args[2] = {"unsetenv", NULL};
+    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+
+    builtin_unsetenv(&shell, args);
+    ret = silent_unsetenv(&shell, args);
+    cr_assert_eq(ret, 1);
+    cr_assert_stderr_eq_str("unsetenv: Too few arguments.\n");
+}
+
+Test(env, unsetenv_all)
+{
+    env_t *env = malloc(sizeof(env_t));
+    env_t *path = malloc(sizeof(env_t));
+    char *const args[3] = {"unsetenv", "*", NULL};
+    shell_t shell = {0, 0, env, NULL, NULL, NULL};
+
+    shell.env->key = strdup("HOME");
+    shell.env->value = strdup("/home");
+    shell.env->next = path;
+    path->key = strdup("PATH");
+    path->value = strdup("/usr");
+    path->next = NULL;
+    builtin_unsetenv(&shell, args);
+    silent_unsetenv(&shell, args);
+    cr_assert_null(shell.env);
+    cr_assert_eq(shell.ret, 0);
+}
+
+Test(env, unsetenv_all_error, .init=cr_redirect_stderr)
+{
+    env_t *env = malloc(sizeof(env_t));
+    env_t *path = malloc(sizeof(env_t));
+    char *const args[4] = {"unsetenv", "*", "bonsoir", NULL};
+    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+
+    env->key = strdup("HOME");
+    env->value = strdup("/home");
+    env->next = path;
+    path->key = strdup("PATH");
+    path->value = strdup("/usr");
+    path->next = NULL;
+    builtin_unsetenv(&shell, args);
+    silent_unsetenv(&shell, args);
+    cr_assert_not_null(env);
+    cr_assert_eq(shell.ret, 0);
+    destroy_env(env);
+}
