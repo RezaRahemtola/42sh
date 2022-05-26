@@ -38,6 +38,7 @@ UTILS_SRC	=	lists.c \
 				redirections.c \
 				replacements.c \
 				strings.c \
+				prompt.c \
 				history/history.c \
 				history/interact.c \
 				history/substitutions.c \

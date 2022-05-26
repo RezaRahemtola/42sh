@@ -29,6 +29,8 @@ env_t *get_env_from_array(const char *const *env)
     char *key = NULL;
     char *value = NULL;
 
+    if (env == NULL)
+        return (NULL);
     for (size_t i = 0; env[i] != NULL; i++) {
         key = extract_env_key(env[i]);
         value = extract_env_value(env[i]);

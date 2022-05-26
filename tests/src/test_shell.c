@@ -82,7 +82,7 @@ Test(error, no_env)
 {
     shell_t shell = {1, 0, NULL, NULL, NULL, NULL};
 
-    do_heartbeat(&shell);
+    do_heartbeat(&shell, NULL);
     cr_assert_eq(shell.ret, 0);
 }
 
