@@ -34,7 +34,6 @@ static void wait_commands(command_t *command, shell_t *shell)
     int status = 0;
     command_t *current = command;
 
-    check_zombie(shell->job);
     while (current != NULL && current->state == RUNNING) {
         waitpid(current->pid, &status, WUNTRACED | WCONTINUED);
         handle_errors(status);
