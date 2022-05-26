@@ -49,6 +49,8 @@ ENV_SRC	=	environment.c \
 			environment_utils.c \
 			variables.c \
 			local/localenv_utils.c \
+			local/localenv_load.c \
+			local/localset_checks.c \
 			local/localenv.c \
 			local/localenv_variables.c
 
