@@ -38,6 +38,7 @@ UTILS_SRC	=	lists.c \
 				redirections.c \
 				replacements.c \
 				strings.c \
+				prompt.c \
 				history/history.c \
 				history/interact.c \
 				history/substitutions.c \
@@ -68,6 +69,8 @@ TESTS_SRC	=	test_shell.c \
 				builtin/tests_cd.c \
 				builtin/tests_env.c \
 				builtin/tests_exit.c \
+				builtin/tests_history.c \
+				builtin/tests_localenv.c \
 				separators/tests_and.c \
 				separators/tests_or.c \
 				separators/tests_semicolon.c \

@@ -86,14 +86,14 @@ Test(redirections, command_without_redirection, .init=cr_redirect_stderr)
 
 Test(redirections, unexisting_file, .init=cr_redirect_stderr)
 {
-    const char *input = "cat < a\n";
+    const char *input = "cat < d\n";
     env_t *env = malloc(sizeof(env_t));
     shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
 
     env->key = "PATH";
     env->value = "/bin";
     handle_input(input, &shell);
-    cr_assert_stderr_eq_str("a: No such file or directory.\n");
+    cr_assert_stderr_eq_str("d: No such file or directory.\n");
     free(env);
 }
 

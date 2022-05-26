@@ -13,7 +13,7 @@ static const int EXIT_USAGE = 84;
 
 // Core
 int start_shell(const char *const *env);
-void do_heartbeat(shell_t *shell);
+void do_heartbeat(shell_t *shell, const char *const *env);
 
 // Command handling
 bool is_directory(const char *path);
@@ -43,6 +43,9 @@ int change_home_silently(env_t **env, const char *current);
 // Signals
 void handle_quit(int sig);
 void init_signals(void);
+
+// Prompt
+void display_prompt(void);
 
 // Others
 void append_end(char **array, const char *input, size_t pattern, size_t index);

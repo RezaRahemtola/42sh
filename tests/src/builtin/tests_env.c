@@ -10,10 +10,10 @@
 #include "environment.h"
 #include "builtin.h"
 
-Test(env, list_env, .init=cr_redirect_stdout)
+Test(env, list, .init=cr_redirect_stdout)
 {
     env_t path = {"PATH", "/usr/bin:/bin", NULL};
-    char *const args[3] = {"env", NULL};
+    char *const args[2] = {"env", NULL};
     shell_t shell = {0, 0, &path, NULL, NULL, NULL};
 
     setbuf(stdout, NULL);
@@ -22,7 +22,7 @@ Test(env, list_env, .init=cr_redirect_stdout)
     cr_assert_eq(shell.ret, 0);
 }
 
-Test(env, setenv_set)
+Test(setenv, simple)
 {
     env_t path = {"PATH", strdup("/usr/bin:/bin"), NULL};
     char *const args[4] = {"setenv", "PATH", "/etc", NULL};
@@ -34,7 +34,7 @@ Test(env, setenv_set)
     free(path.value);
 }
 
-Test(env, setenv_print, .init=cr_redirect_stdout)
+Test(setenv, print, .init=cr_redirect_stdout)
 {
     env_t path = {"PATH", strdup("/usr/bin:/bin"), NULL};
     char *const args[2] = {"setenv", NULL};
@@ -49,7 +49,7 @@ Test(env, setenv_print, .init=cr_redirect_stdout)
     free(path.value);
 }
 
-Test(env, setenv_alphanumeric, .init=cr_redirect_stderr)
+Test(setenv, alphanumeric, .init=cr_redirect_stderr)
 {
     env_t *env = NULL;
     char *const args[3] = {"setenv", "PATH=", NULL};
@@ -61,7 +61,7 @@ Test(env, setenv_alphanumeric, .init=cr_redirect_stderr)
     cr_assert_stderr_eq_str("setenv: Variable name must contain alphanumeric characters.\n");
 }
 
-Test(env, setenv_begin_letter, .init=cr_redirect_stderr)
+Test(setenv, begin_letter, .init=cr_redirect_stderr)
 {
     env_t *env = NULL;
     char *const args[3] = {"setenv", "42b", NULL};
@@ -73,7 +73,7 @@ Test(env, setenv_begin_letter, .init=cr_redirect_stderr)
     cr_assert_stderr_eq_str("setenv: Variable name must begin with a letter.\n");
 }
 
-Test(env, setenv_too_many_args, .init=cr_redirect_stderr)
+Test(setenv, too_many_args, .init=cr_redirect_stderr)
 {
     char *const args[5] = {"setenv", "PATH", "key", "value", NULL};
     shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
@@ -84,7 +84,7 @@ Test(env, setenv_too_many_args, .init=cr_redirect_stderr)
     cr_assert_stderr_eq_str("setenv: Too many arguments.\n");
 }
 
-Test(env, unsetenv_basic)
+Test(unsetenv, basic)
 {
     env_t *env = malloc(sizeof(env_t));
     env_t *path = malloc(sizeof(env_t));
@@ -103,7 +103,7 @@ Test(env, unsetenv_basic)
     destroy_env(env);
 }
 
-Test(env, unsetenv_no_args, .init=cr_redirect_stderr)
+Test(unsetenv, no_args, .init=cr_redirect_stderr)
 {
     char *const args[2] = {"unsetenv", NULL};
     shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
@@ -113,7 +113,7 @@ Test(env, unsetenv_no_args, .init=cr_redirect_stderr)
     cr_assert_stderr_eq_str("unsetenv: Too few arguments.\n");
 }
 
-Test(env, unsetenv_all)
+Test(unsetenv, all)
 {
     env_t *env = malloc(sizeof(env_t));
     env_t *path = malloc(sizeof(env_t));
@@ -132,7 +132,7 @@ Test(env, unsetenv_all)
     cr_assert_eq(shell.ret, 0);
 }
 
-Test(env, unsetenv_all_error, .init=cr_redirect_stderr)
+Test(unsetenv, all_error, .init=cr_redirect_stderr)
 {
     env_t *env = malloc(sizeof(env_t));
     env_t *path = malloc(sizeof(env_t));

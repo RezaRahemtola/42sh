@@ -44,6 +44,4 @@ bool readonly);
 void load_localenv(shell_t *shell);
 // Checks
 bool is_localvar_readonly(localenv_t *env, const char *key);
-bool is_valid_set(char *const *args, bool readonly, localenv_t *env,
-bool print);
 bool is_valid_localvar(const char *var, localenv_t *env, bool print);
