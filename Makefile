@@ -6,12 +6,15 @@
 ##
 
 BUILTIN_DIR	=	builtin
-BUILTIN_SRC	=	builtin.c \
+BUILTIN_SRC	=	alias.c \
+				builtin.c \
 				directories.c \
+				history.c \
 				home.c \
+				localenv.c \
 				silent.c \
 				silent_dirs.c \
-				history.c
+				unalias.c
 
 COMMAND_DIR	=	command
 COMMAND_SRC	=	errors.c \
@@ -33,6 +36,7 @@ UTILS_DIR	=	utils
 UTILS_SRC	=	lists.c \
 				logical.c \
 				redirections.c \
+				replacements.c \
 				strings.c \
 				history/history.c \
 				history/interact.c \
@@ -43,7 +47,10 @@ UTILS_SRC	=	lists.c \
 ENV_DIR	=	environment
 ENV_SRC	=	environment.c \
 			environment_utils.c \
-			variables.c
+			variables.c \
+			local/localenv_utils.c \
+			local/localenv.c \
+			local/localenv_variables.c
 
 BASE_DIR	= 	src
 BASE_SRC	=	shell.c \
@@ -55,6 +62,13 @@ BASE_SRC	=	shell.c \
 
 TESTS_DIR	=	tests/src
 TESTS_SRC	=	test_shell.c \
+				builtin/tests_alias.c \
+				builtin/tests_cd.c \
+				builtin/tests_env.c \
+				builtin/tests_exit.c \
+				separators/tests_and.c \
+				separators/tests_or.c \
+				separators/tests_semicolon.c \
 				test_builtin.c \
 				test_redirections.c
 
@@ -85,7 +99,7 @@ LDLIBS		=	$(addprefix -l, $(LIBS))
 LDFLAGS		=	$(addprefix -L, $(LIB_DIRS))
 
 VG_FLAGS	=	--leak-check=full --track-origins=yes --show-leak-kinds=all \
-				--error-limit=no
+				--error-limit=no --trace-children=no
 
 CC			=	gcc
 VG			=	valgrind $(VG_FLAGS)

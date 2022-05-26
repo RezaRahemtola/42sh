@@ -15,10 +15,10 @@
 #include "environment.h"
 #include "my_string.h"
 
-void handle_home(env_t **env, const char *path)
+void handle_home(const env_t *env, const char *path)
 {
     char *result = NULL;
-    const env_t *home = get_env_value(*env, "HOME");
+    const env_t *home = get_env_value(env, "HOME");
 
     if (home == NULL) {
         fprintf(stderr, "No $home variable set.\n");
@@ -31,9 +31,9 @@ void handle_home(env_t **env, const char *path)
     }
 }
 
-void change_home(env_t **env)
+void change_home(const env_t *env)
 {
-    const env_t *home = get_env_value(*env, "HOME");
+    const env_t *home = get_env_value(env, "HOME");
     struct stat stats;
     int stat_status = stat((home == NULL ? "" : home->value), &stats);
     bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);

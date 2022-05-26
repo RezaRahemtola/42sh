@@ -26,5 +26,5 @@ void handle_nb_substitution(char **input, char *current, list_t *history);
 void handle_str_substitution(char **input, char *current, list_t *history);
 
 // Save
-void load_history(shell_t *shell, env_t *env);
+void load_history(shell_t *shell);
 void save_history(list_t *history, env_t *env);

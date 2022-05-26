@@ -5,9 +5,12 @@
 ** Function to get a string of the current time
 */
 
+#include <ctype.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
 char *my_timestr(void)
 {
@@ -26,4 +29,14 @@ char *my_timestr(void)
             sprintf(result, "%d:%d", now->tm_hour, now->tm_min);
     }
     return (result);
+}
+
+bool my_isalphanum_str(const char *str)
+{
+    size_t size = strlen(str);
+
+    for (size_t i = 0; i < size; i++)
+        if (!isalnum(str[i]))
+            return (false);
+    return (true);
 }
