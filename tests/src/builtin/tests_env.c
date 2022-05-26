@@ -75,16 +75,13 @@ Test(env, setenv_begin_letter, .init=cr_redirect_stderr)
 
 Test(env, setenv_too_many_args, .init=cr_redirect_stderr)
 {
-    int ret = 0;
-    env_t *env = NULL;
     char *const args[5] = {"setenv", "PATH", "key", "value", NULL};
     shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
 
     builtin_setenv(&shell, args);
-    ret = silent_setenv(&shell, args);
-    cr_assert_null(env);
+    cr_assert_eq(silent_setenv(&shell, args), 1);
+    cr_assert_null(shell.env);
     cr_assert_stderr_eq_str("setenv: Too many arguments.\n");
-    cr_assert_eq(ret, 1);
 }
 
 Test(env, unsetenv_basic)
@@ -108,13 +105,11 @@ Test(env, unsetenv_basic)
 
 Test(env, unsetenv_no_args, .init=cr_redirect_stderr)
 {
-    int ret = 0;
     char *const args[2] = {"unsetenv", NULL};
     shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
 
     builtin_unsetenv(&shell, args);
-    ret = silent_unsetenv(&shell, args);
-    cr_assert_eq(ret, 1);
+    cr_assert_eq(silent_unsetenv(&shell, args), 1);
     cr_assert_stderr_eq_str("unsetenv: Too few arguments.\n");
 }
 
@@ -142,7 +137,7 @@ Test(env, unsetenv_all_error, .init=cr_redirect_stderr)
     env_t *env = malloc(sizeof(env_t));
     env_t *path = malloc(sizeof(env_t));
     char *const args[4] = {"unsetenv", "*", "bonsoir", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, env, NULL, NULL, NULL};
 
     env->key = strdup("HOME");
     env->value = strdup("/home");
@@ -152,7 +147,7 @@ Test(env, unsetenv_all_error, .init=cr_redirect_stderr)
     path->next = NULL;
     builtin_unsetenv(&shell, args);
     silent_unsetenv(&shell, args);
-    cr_assert_not_null(env);
+    cr_assert_not_null(shell.env);
     cr_assert_eq(shell.ret, 0);
     destroy_env(env);
 }

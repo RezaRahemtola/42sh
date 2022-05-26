@@ -88,10 +88,8 @@ Test(error, no_env)
 
 Test(error, shell_exit, .init=cr_redirect_stderr)
 {
-    int out = start_shell(NULL);
-
+    cr_assert_eq(start_shell(NULL), 84);
     cr_assert_stderr_eq_str("Error: Invalid environment.\n");
-    cr_assert_eq(out, 84);
 }
 
 Test(error, segmentation_fault, .init=cr_redirect_stderr)
@@ -153,7 +151,7 @@ Test(environment, convert)
 
 Test(environment, error_handling)
 {
-    char *str = "salut";
+    const char *str = "salut";
     char *key = extract_env_key(str);
     char *value = extract_env_value(str);
 
