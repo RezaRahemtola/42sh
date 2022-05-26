@@ -31,10 +31,10 @@ void list_append(command_t **list, command_t *node);
 void list_free(command_t *list);
 
 // Directories
-void handle_cd(env_t *env, const char *path);
+void handle_cd(const env_t *env, const char *path);
 void change_current_path(const char *dir);
-void handle_home(env_t *env, const char *path);
-void change_home(env_t *env);
+void handle_home(const env_t *env, const char *path);
+void change_home(const env_t *env);
 int handle_cd_silently(env_t **env, const char *path, const char *current);
 int change_dir_silently(env_t **env, const char *dir, const char *current);
 int handle_home_silently(env_t **env, const char *path, const char *current);

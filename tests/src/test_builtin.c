@@ -173,22 +173,20 @@ Test(builtin, setenv_too_many_args, .init=cr_redirect_stderr)
 
 Test(builtin, unsetenv_basic)
 {
-    int ret = 0;
     env_t *env = malloc(sizeof(env_t));
     env_t *path = malloc(sizeof(env_t));
     char *args[3] = {"unsetenv", "PATH", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, env, NULL, NULL, NULL};
 
-    env->key = strdup("HOME");
-    env->value = strdup("/home");
-    env->next = path;
+    shell.env->key = strdup("HOME");
+    shell.env->value = strdup("/home");
+    shell.env->next = path;
     path->key = strdup("PATH");
     path->value = strdup("/usr");
     path->next = NULL;
     builtin_unsetenv(&shell, args);
-    ret = silent_unsetenv(&shell, args);
-    cr_assert_null(env->next);
-    cr_assert_eq(ret, 0);
+    cr_assert_eq(silent_unsetenv(&shell, args), 0);
+    cr_assert_null(shell.env->next);
     destroy_env(env);
 }
 
@@ -209,19 +207,18 @@ Test(builtin, unsetenv_all)
     env_t *env = malloc(sizeof(env_t));
     env_t *path = malloc(sizeof(env_t));
     char *const args[3] = {"unsetenv", "*", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, env, NULL, NULL, NULL};
 
-    env->key = strdup("HOME");
-    env->value = strdup("/home");
-    env->next = path;
+    shell.env->key = strdup("HOME");
+    shell.env->value = strdup("/home");
+    shell.env->next = path;
     path->key = strdup("PATH");
     path->value = strdup("/usr");
     path->next = NULL;
     builtin_unsetenv(&shell, args);
     silent_unsetenv(&shell, args);
-    cr_assert_null(env);
+    cr_assert_null(shell.env);
     cr_assert_eq(shell.ret, 0);
-    destroy_env(env);
 }
 
 Test(builtin, unsetenv_all_error, .init=cr_redirect_stderr)
@@ -247,17 +244,16 @@ Test(builtin, unsetenv_all_error, .init=cr_redirect_stderr)
 Test(builtin, cd_basic)
 {
     int ret = 0;
-    env_t *env = NULL;
     char *const args[3] = {"cd", "/etc", NULL};
     shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
 
     builtin_cd(&shell, args);
     ret = silent_cd(&shell, args);
-    cr_assert_not_null(env);
-    cr_assert_str_eq(env->key, "PWD");
-    cr_assert_str_eq(env->value, "/etc");
-    cr_assert_not_null(env->next);
-    cr_assert_str_eq(env->next->key, "OLDPWD");
+    cr_assert_not_null(shell.env);
+    cr_assert_str_eq(shell.env->key, "PWD");
+    cr_assert_str_eq(shell.env->value, "/etc");
+    cr_assert_not_null(shell.env->next);
+    cr_assert_str_eq(shell.env->next->key, "OLDPWD");
     cr_assert_eq(ret, 0);
 }
 
@@ -348,44 +344,36 @@ Test(builtin, cd_home_invalid, .init=cr_redirect_stderr)
 
 Test(builtin, cd_home_append, .init=cr_redirect_stderr)
 {
-    int ret = 0;
-    int ret2 = 0;
     env_t *env = malloc(sizeof(env_t));
     char *const args[3] = {"cd", "~/etc", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, env, NULL, NULL, NULL};
 
     env->key = "YES";
     env->value = "/";
     env->next = NULL;
     builtin_cd(&shell, args);
-    ret = silent_cd(&shell, args);
+    cr_assert_eq(silent_cd(&shell, args), 1);
     env->key = "HOME";
     builtin_cd(&shell, args);
-    ret2 = silent_cd(&shell, args);
+    cr_assert_eq(silent_cd(&shell, args), 0);
     cr_assert_stderr_eq_str("No $home variable set.\n");
-    cr_assert_eq(ret, 1);
-    cr_assert_eq(ret2, 0);
     free(env);
 }
 
 Test(builtin, cd_prev)
 {
-    env_t *env = NULL;
     const env_t *pwd = NULL;
     const env_t *oldpwd = NULL;
     char *const args[3] = {"cd", "/etc", NULL};
     char *const args2[3] = {"cd", "-", NULL};
     shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
-    shell_t shell2 = {0, 0, NULL, NULL, NULL, NULL};
 
     builtin_cd(&shell, args);
-    silent_cd(&shell, args);
+    cr_assert_eq(silent_cd(&shell, args), 0);
     builtin_cd(&shell, args2);
-    silent_cd(&shell2, args2);
-    cr_assert_eq(shell.ret, 0);
-    cr_assert_eq(shell2.ret, 0);
-    pwd = get_env_value(env, "PWD");
-    oldpwd = get_env_value(env, "OLDPWD");
+    cr_assert_eq(silent_cd(&shell, args2), 0);
+    pwd = get_env_value(shell.env, "PWD");
+    oldpwd = get_env_value(shell.env, "OLDPWD");
     cr_assert_not_null(pwd);
     cr_assert_not_null(oldpwd);
     cr_assert_str_eq(oldpwd->value, "/etc");

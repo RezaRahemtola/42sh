@@ -15,7 +15,7 @@
 #include "environment.h"
 #include "my_string.h"
 
-void handle_home(env_t *env, const char *path)
+void handle_home(const env_t *env, const char *path)
 {
     char *result = NULL;
     const env_t *home = get_env_value(env, "HOME");
@@ -31,7 +31,7 @@ void handle_home(env_t *env, const char *path)
     }
 }
 
-void change_home(env_t *env)
+void change_home(const env_t *env)
 {
     const env_t *home = get_env_value(env, "HOME");
     struct stat stats;
