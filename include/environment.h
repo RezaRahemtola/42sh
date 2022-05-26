@@ -9,6 +9,7 @@
 
 #include "types.h"
 
+// Env
 const env_t *get_env_value(const env_t *list, const char *key);
 void put_env_property(env_t **list, const char *key, const char *value);
 void replace_env_value(env_t *list, const char *key, const char *value);
@@ -41,3 +42,9 @@ void add_localvar(localenv_t **env, const char *key, const char *value,
 bool readonly);
 
 void load_localenv(shell_t *shell);
+// Checks
+bool is_localvar_readonly(localenv_t *env, const char *key);
+bool is_valid_set(char *const *args, bool readonly, localenv_t *env,
+bool print);
+bool is_valid_multiset(char *const *args, bool readonly, localenv_t *env,
+bool print);
