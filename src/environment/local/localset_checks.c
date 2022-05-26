@@ -23,25 +23,17 @@ bool is_localvar_readonly(localenv_t *env, const char *key)
     return (false);
 }
 
-bool is_valid_multiset(char *const *args, bool readonly, localenv_t *env,
-bool print)
+bool is_valid_localvar(const char *var, localenv_t *env, bool print)
 {
-    size_t size = my_arraylen(args);
-    size_t i = readonly ? 2 : 1;
-
-    for (; i < size; i++) {
-        if (!my_isalphanum_str(args[i]) && print) {
+    if (!my_isalphanum_str(var)) {
+        if (print)
             fprintf(stderr, "set: Variable name must %s\n", NONALPHA);
-            return (false);
-        }
-        if (!my_isalphanum_str(args[i]))
-            return (false);
-        if (is_localvar_readonly(env, args[i]) && print) {
-            fprintf(stderr, "set: $%s is read-only.\n", args[i]);
-            return (false);
-        }
-        if (is_localvar_readonly(env, args[i]))
-            return (false);
+        return (false);
+    }
+    if (is_localvar_readonly(env, var)) {
+        if (print)
+            fprintf(stderr, "set: $%s is read-only.\n", var);
+        return (false);
     }
     return (true);
 }

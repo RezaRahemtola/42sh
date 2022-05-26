@@ -22,17 +22,17 @@ void builtin_set(shell_t *shell, char *const *args)
         print_localenv(shell->localenv, readonly);
         return;
     }
-    if (size == i + 3 && strcmp(args[i + 1], "=") == 0)
+    if (size == i + 3 && strcmp(args[i + 1], "=") == 0) {
         is_valid_set(args, readonly, shell->localenv, true);
-    else
-        is_valid_multiset(args, readonly, shell->localenv, true);
+        return;
+    }
+    for (; i < size && is_valid_localvar(args[i], shell->localenv, true); i++);
 }
 
 void builtin_unset(shell_t *shell, char *const *args)
 {
     size_t size = my_arraylen(args);
 
-    (void) shell;
     if (size == 1)
         fprintf(stderr, "unset: Too few arguments.\n");
     for (size_t i = 1; i < size; i++) {
@@ -55,10 +55,12 @@ int silent_set(shell_t *shell, char *const *args)
         add_localvar(&shell->localenv, args[i], args[i + 2], readonly);
         return (0);
     }
-    if (!is_valid_multiset(args, readonly, shell->localenv, false))
-        return (1);
-    for (; i < size; i++)
-        add_localvar(&shell->localenv, args[i], "", readonly);
+    for (; i < size; i++) {
+        if (is_valid_localvar(args[i], shell->localenv, false))
+            add_localvar(&shell->localenv, args[i], "", readonly);
+        else
+            return (1);
+    }
     return (0);
 }
 
@@ -66,13 +68,13 @@ int silent_unset(shell_t *shell, char *const *args)
 {
     size_t size = my_arraylen(args);
 
-    (void) shell;
     if (size == 1)
         return (1);
-    for (size_t i = 1; i < size; i++)
-        if (is_localvar_readonly(shell->localenv, args[i]))
+    for (size_t i = 1; i < size; i++) {
+        if (!is_localvar_readonly(shell->localenv, args[i]))
+            remove_localenv_property(&shell->localenv, args[i]);
+        else
             return (1);
-    for (size_t i = 1; i < size; i++)
-        remove_localenv_property(&shell->localenv, args[i]);
+    }
     return (0);
 }
