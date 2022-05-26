@@ -126,15 +126,15 @@
         },
         {
             "name": "unset - No argument",
-            "command": "unsetenv"
+            "command": "unset"
         },
         {
-            "name": "unsetenv - Non existing var",
-            "command": "unsetenv novar"
+            "name": "unset - Non existing var",
+            "command": "unset novar"
         },
         {
-            "name": "unsetenv - Multiple non existing var",
-            "command": "unsetenv novar novar2 novar3"
+            "name": "unset - Multiple non existing var",
+            "command": "unset novar novar2 novar3"
         },
         {
             "name": "exit - simple",

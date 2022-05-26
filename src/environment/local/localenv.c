@@ -64,7 +64,7 @@ void remove_localenv_property(localenv_t **list, const char *key)
     localenv_t *current = *list;
     localenv_t *prev = *list;
 
-    if (strcmp(current->key, key) == 0) {
+    if (current != NULL && strcmp(current->key, key) == 0) {
         *list = current->next;
         my_free(3, current->key, current->value, current);
         return;

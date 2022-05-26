@@ -56,7 +56,7 @@ void remove_env_property(env_t **list, const char *key)
     env_t *current = *list;
     env_t *prev = *list;
 
-    if (strcmp(current->key, key) == 0) {
+    if (current != NULL && strcmp(current->key, key) == 0) {
         *list = current->next;
         my_free(3, current->key, current->value, current);
         return;
