@@ -9,10 +9,11 @@
 #include <stdlib.h>
 #include "environment.h"
 
-void print_localenv(const localenv_t *env)
+void print_localenv(const localenv_t *env, bool readonly)
 {
     while (env != NULL) {
-        printf("%s\t%s\n", env->key, env->value);
+        if ((!readonly && !env->readonly) || (readonly && env->readonly))
+            printf("%s\t%s\n", env->key, env->value);
         env = env->next;
     }
 }
