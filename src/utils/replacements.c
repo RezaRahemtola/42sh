@@ -19,7 +19,7 @@ void replace_argument(command_t *command, size_t index, char *new_arg)
     if (replaced == NULL) {
         return;
     }
-    my_free(2, command->input, command->args[index], command->path);
+    my_free(2, command->input, command->args[index]);
     command->input = replaced;
     command->args[index] = new_arg;
 }
