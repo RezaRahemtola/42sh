@@ -184,14 +184,13 @@ Test(directories, unexisting_file)
     cr_assert(!is_directory("./bonsoir"));
 }
 
-Test(variables, home_tilde_not_set, .init=redirect_all_out)
+Test(variables, home_tilde_not_set, .init=cr_redirect_stderr)
 {
     const char *input = "ls ~ ; echo something\n";
     shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
 
     handle_input(input, &shell);
-    cr_assert_stderr_eq_str("No $home variable set.\n");
-    cr_assert_stdout_eq_str("something\n");
+    cr_assert_stderr_eq_str("No $home variable set.\necho: Command not found.\n");
 }
 
 Test(variables, other_not_set, .init=redirect_all_out)

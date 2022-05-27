@@ -74,7 +74,7 @@ static size_t execute_command_line(command_t *cmd, shell_t *shell)
     do {
         pid = execute_single(current, shell);
         current->pid = (pid > 0 ? pid : 0);
-        current->state = (pid > 0 ? RUNNING : IDLE);
+        current->state = (pid > 0 ? RUNNING : current->state);
         total++;
         current = current->next;
     } while (current != NULL && current->separator_in == PIPE_IN);
