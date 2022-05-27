@@ -39,7 +39,6 @@ static void replace_value(command_t *command, char *name, char *value, size_t i)
     free(input);
 }
 
-
 void replace_test(command_t *command, shell_t *shell, size_t i)
 {
     bool ret = false;
