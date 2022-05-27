@@ -74,7 +74,6 @@ static size_t execute_command_line(command_t *cmd, shell_t *shell)
         current->pid = (pid > 0 ? pid : 0);
         current->state = (pid > 0 ? RUNNING : IDLE);
         total++;
-        close_redirections(current);
         current = current->next;
     } while (current != NULL && current->separator_in == PIPE_IN);
     wait_commands(cmd, shell);
