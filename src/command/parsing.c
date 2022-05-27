@@ -93,7 +93,6 @@ static void pipe_and_exec(command_t *cmd, shell_t *shell)
     if (!check_redirections(cmd, shell) || !open_pipe_redirections(cmd)) {
         shell->ret = 1;
     } else {
-        replace_aliases(cmd, shell->aliases, shell->env);
         execute_commands(cmd, shell);
     }
 }
