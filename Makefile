@@ -170,7 +170,7 @@ mem_checks:
 norm_checks:
 			@$(MAKE) fclean > /dev/null
 			@python3 -m pip install termcolor > /dev/null
-			python3 tests/norm/style.py .
+			python3 tests/norm/style.py ./$(BASE_DIR)
 
 .PHONY:	all	clean fclean clean_coverage re debug_run tests_all tests_run \
 		func_tests mem_checks norm_checks

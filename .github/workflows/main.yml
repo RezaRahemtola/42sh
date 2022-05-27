@@ -11,7 +11,8 @@ jobs:
     name: Check repository cleanliness
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Repository checkout
+        uses: actions/checkout@v3
       - run: find -name "#*#" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
       - run: find -name "*~" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
       - run: find -regextype posix-extended -regex '.*\.(o|a|so|gcno|gcda)' -exec echo "::error file={},title="Unwanted file detected"::{}" \;
@@ -23,7 +24,8 @@ jobs:
     name: Check coding style
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Repository checkout
+        uses: actions/checkout@v3
       - run: make norm_checks
 
   check_program_compilation:
@@ -31,7 +33,8 @@ jobs:
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     steps:
-      - uses: actions/checkout@v3
+      - name: Repository checkout
+        uses: actions/checkout@v3
       - name: Building
         run: make
         timeout-minutes: 2
@@ -45,7 +48,8 @@ jobs:
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     steps:
-      - uses: actions/checkout@v3
+      - name: Repository checkout
+        uses: actions/checkout@v3
       - run: make tests_run
         timeout-minutes: 2
     needs:
@@ -56,7 +60,8 @@ jobs:
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     steps:
-      - uses: actions/checkout@v3
+      - name: Repository checkout
+        uses: actions/checkout@v3
       - run: make func_tests
         timeout-minutes: 2
     needs:
@@ -67,7 +72,8 @@ jobs:
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     steps:
-      - uses: actions/checkout@v3
+      - name: Repository checkout
+        uses: actions/checkout@v3
       - run: make mem_checks
         timeout-minutes: 2
     needs:
@@ -78,10 +84,12 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name }} == "push"
     steps:
-      - uses: actions/checkout@v3
+      - name: Repository checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: pixta-dev/repository-mirroring-action@v1
+      - name: Cloning to mirror
+        uses: pixta-dev/repository-mirroring-action@v1
         with:
           target_repo_url:
             ${{ env.MIRROR_URL }}
