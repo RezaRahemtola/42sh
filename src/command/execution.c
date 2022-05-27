@@ -57,6 +57,8 @@ static pid_t execute_single(command_t *command, shell_t *shell)
         execute_forked(command, shell);
         exit(!is_command_empty(command));
     }
+    if (command->fd_out != 0)
+        close(command->fd_out);
     execute_silent(command, shell);
     return (pid);
 }

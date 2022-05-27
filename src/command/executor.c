@@ -46,7 +46,6 @@ void execute_forked(command_t *cmd, shell_t *shell)
     if (!open_input_redirection(cmd) || !open_output_redirection(cmd) ||
         is_command_empty(cmd) || is_directory(cmd->path) ||
         cmd->state == SKIPPED) {
-        close_redirections(cmd);
         return;
     }
     if (cmd->path == NULL && !builtin) {
