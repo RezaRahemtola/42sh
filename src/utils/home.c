@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "builtin.h"
 #include "environment.h"
 #include "my_string.h"
 #include "shell.h"
@@ -17,7 +18,6 @@ char *path)
 {
     char *usr = malloc(sizeof(char) * (strlen(user) + 2));
     char *replaced = NULL;
-    char *input = NULL;
 
     if (usr == NULL)
         return (false);
@@ -25,15 +25,7 @@ char *path)
     strcat(usr, user);
     replaced = my_strrep(command->args[i], usr, path);
     free(usr);
-    if (replaced == NULL)
-        return (false);
-    input = my_strrep(command->input, command->args[i], replaced);
-    if (input == NULL)
-        return (false);
-    free(command->args[i]);
-    free(command->input);
-    command->args[i] = replaced;
-    command->input = input;
+    replace_argument(command, i, replaced);
     return (true);
 }
 
@@ -61,7 +53,6 @@ static bool replace_home_value(command_t *command, shell_t *shell, size_t i)
 {
     const localenv_t *home = get_localenv_value(shell->localenv, "home");
     char *replaced = NULL;
-    char *input = NULL;
 
     if (home == NULL) {
         fprintf(stderr, "No $home variable set.\n");
@@ -70,13 +61,7 @@ static bool replace_home_value(command_t *command, shell_t *shell, size_t i)
     replaced = my_strrep(command->args[i], "~", home->value);
     if (replaced == NULL)
         return (false);
-    input = my_strrep(command->input, command->args[i], replaced);
-    if (input == NULL)
-        return (false);
-    free(command->args[i]);
-    free(command->input);
-    command->args[i] = replaced;
-    command->input = input;
+    replace_argument(command, i, replaced);
     return (true);
 }
 

@@ -49,6 +49,8 @@ static pid_t execute_single(command_t *command, shell_t *shell)
 
     replace_aliases(command, shell->aliases, shell->env);
     replace_variables(command, shell);
+    if (command->state == ABORTED)
+        return (0);
     pid = fork();
     if (pid == -1) {
         fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
@@ -75,6 +77,9 @@ static size_t execute_command_line(command_t *cmd, shell_t *shell)
         pid = execute_single(current, shell);
         current->pid = (pid > 0 ? pid : 0);
         current->state = (pid > 0 ? RUNNING : current->state);
+        if (current->state == ABORTED) {
+            return list_size(cmd);
+        }
         total++;
         current = current->next;
     } while (current != NULL && current->separator_in == PIPE_IN);
