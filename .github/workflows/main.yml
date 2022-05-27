@@ -13,10 +13,12 @@ jobs:
     steps:
       - name: Repository checkout
         uses: actions/checkout@v3
-      - run: find -name "#*#" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
-      - run: find -name "*~" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
-      - run: find -regextype posix-extended -regex '.*\.(o|a|so|gcno|gcda)' -exec echo "::error file={},title="Unwanted file detected"::{}" \;
-      - run: find -path "*/tmp/*" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
+      - name: Unwanted files detection
+        run: |
+          find -name "#*#" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
+          find -name "*~" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
+          find -regextype posix-extended -regex '.*\.(o|a|so|gcno|gcda)' -exec echo "::error file={},title="Unwanted file detected"::{}" \;
+          find -path "*/tmp/*" -exec echo "::error file={},title="Unwanted file detected"::{}" \;
       - name: Making the job fail if any unwanted file is detected
         run: find -name "#*#" -o -name "*~" -o -regextype posix-extended -regex '.*\.(o|a|so|gcno|gcda)' -o -path "*/tmp/*" | (! grep -q .)
 
@@ -26,7 +28,8 @@ jobs:
     steps:
       - name: Repository checkout
         uses: actions/checkout@v3
-      - run: make norm_checks
+      - name: Coding style checks
+        run: make norm_checks
 
   check_program_compilation:
     name: Check compilation
@@ -35,12 +38,12 @@ jobs:
     steps:
       - name: Repository checkout
         uses: actions/checkout@v3
-      - name: Building
+      - name: Build
         run: make
         timeout-minutes: 2
-      - name: Cleaning the repo
+      - name: Repository cleaning
         run: make clean
-      - name: Check executables
+      - name: Executables presence checks
         run: IFS=',' ; read -a strarr <<< ${{ env.EXECUTABLES }} ; for val in ${strarr[@]} ; do if ! test -x $val; then exit 1; fi ; done
 
   run_unit_tests:
@@ -50,7 +53,8 @@ jobs:
     steps:
       - name: Repository checkout
         uses: actions/checkout@v3
-      - run: make tests_run
+      - name: Unit tests execution
+       run: make tests_run
         timeout-minutes: 2
     needs:
       - check_program_compilation
@@ -62,7 +66,8 @@ jobs:
     steps:
       - name: Repository checkout
         uses: actions/checkout@v3
-      - run: make func_tests
+      - name: Functional tests execution
+        run: make func_tests
         timeout-minutes: 2
     needs:
       - check_program_compilation
@@ -74,7 +79,8 @@ jobs:
     steps:
       - name: Repository checkout
         uses: actions/checkout@v3
-      - run: make mem_checks
+      - name: Memory checks execution
+        run: make mem_checks
         timeout-minutes: 2
     needs:
       - check_program_compilation
