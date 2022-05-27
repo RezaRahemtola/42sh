@@ -44,8 +44,11 @@ void execute_forked(command_t *cmd, shell_t *shell)
     init_signals();
     handle_pipe_redirections(cmd);
     if (!open_input_redirection(cmd) || !open_output_redirection(cmd) ||
-        is_command_empty(cmd) || is_directory(cmd->path))
+        is_command_empty(cmd) || is_directory(cmd->path) ||
+        cmd->state == SKIPPED) {
+        close_redirections(cmd);
         return;
+    }
     if (cmd->path == NULL && !builtin) {
         fprintf(stderr, "%s: Command not found.\n", cmd->args[0]);
         return;

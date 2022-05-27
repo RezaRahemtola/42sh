@@ -45,8 +45,11 @@ static void wait_commands(command_t *command, shell_t *shell)
 
 static pid_t execute_single(command_t *command, shell_t *shell)
 {
-    pid_t pid = fork();
+    pid_t pid = 0;
 
+    replace_aliases(command, shell->aliases, shell->env);
+    replace_variables(command, shell);
+    pid = fork();
     if (pid == -1) {
         fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
         return (-1);

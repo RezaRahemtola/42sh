@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include "builtin.h"
 #include "my_arrays.h"
 #include "my_string.h"
 #include "shell.h"
@@ -41,5 +42,16 @@ void replace_aliases(command_t *commands, env_t *aliases, env_t *env)
             free(input);
         }
         commands = commands->next;
+    }
+}
+
+void replace_variables(command_t *command, shell_t *shell)
+{
+    size_t size = my_arraylen(command->args);
+
+    if (!replace_home(command, shell, size)) {
+        command->state = SKIPPED;
+        command->ret = 1;
+        return;
     }
 }

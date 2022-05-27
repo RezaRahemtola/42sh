@@ -34,6 +34,8 @@ int silent_unalias(shell_t *shell, char *const *args);
 bool is_builtin(const char *command);
 
 void replace_aliases(command_t *commands, env_t *aliases, env_t *env);
+void replace_variables(command_t *command, shell_t *shell);
+bool replace_home(command_t *command, shell_t *shell, size_t size);
 
 static const builtin_t BUILTIN[11] = {
         { "exit", &builtin_exit, &silent_exit },

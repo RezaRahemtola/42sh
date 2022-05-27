@@ -33,12 +33,14 @@ REDIRECTION_SRC	=	files.c \
 					pipes.c
 
 UTILS_DIR	=	utils
-UTILS_SRC	=	lists.c \
+UTILS_SRC	=	home.c \
+				lists.c \
 				logical.c \
 				redirections.c \
 				replacements.c \
 				strings.c \
 				prompt.c \
+				users.c \
 				history/history.c \
 				history/interact.c \
 				history/substitutions.c \
