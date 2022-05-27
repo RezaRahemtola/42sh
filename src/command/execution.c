@@ -45,8 +45,13 @@ static void wait_commands(command_t *command, shell_t *shell)
 
 static pid_t execute_single(command_t *command, shell_t *shell)
 {
-    pid_t pid = fork();
+    pid_t pid = 0;
 
+    replace_aliases(command, shell->aliases, shell->env);
+    replace_variables(command, shell);
+    if (command->state == ABORTED)
+        return (0);
+    pid = fork();
     if (pid == -1) {
         fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
         return (-1);
@@ -54,6 +59,8 @@ static pid_t execute_single(command_t *command, shell_t *shell)
         execute_forked(command, shell);
         exit(!is_command_empty(command));
     }
+    if (command->fd_out != 0)
+        close(command->fd_out);
     execute_silent(command, shell);
     return (pid);
 }
@@ -69,9 +76,11 @@ static size_t execute_command_line(command_t *cmd, shell_t *shell)
     do {
         pid = execute_single(current, shell);
         current->pid = (pid > 0 ? pid : 0);
-        current->state = (pid > 0 ? RUNNING : IDLE);
+        current->state = (pid > 0 ? RUNNING : current->state);
+        if (current->state == ABORTED) {
+            return list_size(cmd);
+        }
         total++;
-        close_redirections(current);
         current = current->next;
     } while (current != NULL && current->separator_in == PIPE_IN);
     wait_commands(cmd, shell);

@@ -33,11 +33,15 @@ REDIRECTION_SRC	=	files.c \
 					pipes.c
 
 UTILS_DIR	=	utils
-UTILS_SRC	=	lists.c \
+UTILS_SRC	=	home.c \
+				lists.c \
 				logical.c \
 				redirections.c \
 				replacements.c \
 				strings.c \
+				prompt.c \
+				tests.c \
+				variables.c \
 				history/history.c \
 				history/interact.c \
 				history/substitutions.c \
@@ -49,6 +53,8 @@ ENV_SRC	=	environment.c \
 			environment_utils.c \
 			variables.c \
 			local/localenv_utils.c \
+			local/localenv_load.c \
+			local/localset_checks.c \
 			local/localenv.c \
 			local/localenv_variables.c
 
@@ -66,6 +72,8 @@ TESTS_SRC	=	test_shell.c \
 				builtin/tests_cd.c \
 				builtin/tests_env.c \
 				builtin/tests_exit.c \
+				builtin/tests_history.c \
+				builtin/tests_localenv.c \
 				separators/tests_and.c \
 				separators/tests_or.c \
 				separators/tests_semicolon.c \

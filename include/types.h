@@ -35,7 +35,8 @@ typedef enum separator_next_type {
 typedef enum state {
     IDLE,
     RUNNING,
-    IGNORED
+    SKIPPED,
+    ABORTED
 } state_t;
 
 typedef struct history {

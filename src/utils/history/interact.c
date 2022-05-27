@@ -23,6 +23,8 @@ char *get_history_command(list_t *history, int index)
     history_t *elem = NULL;
     bool backward = (index < 0);
 
+    if (history == NULL)
+        return (NULL);
     while (true) {
         elem = history->data;
         if (elem->index == (size_t)index)
@@ -44,10 +46,9 @@ char *get_history_command(list_t *history, int index)
 char *get_history_by_str(list_t *history, const char *str)
 {
     int len = my_list_size(history);
-    int index = -1;
     char *cmd = NULL;
 
-    while (len >= abs(index)) {
+    for (int index = -1; len >= abs(index); index--) {
         cmd = get_history_command(history, index);
         if (strncmp(cmd, str, strlen(str)) == 0)
             return (cmd);

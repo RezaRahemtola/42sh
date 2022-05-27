@@ -10,6 +10,15 @@
 #include "shell.h"
 #include "builtin.h"
 
+Test(alias, no_arg)
+{
+    char *const args[2] = {"alias", NULL};
+    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+
+    builtin_alias(&shell, args);
+    cr_assert_eq(silent_alias(&shell, args), 0);
+}
+
 Test(alias, set_forbidden_alias, .init=cr_redirect_stderr)
 {
     char *const args[4] = {"alias", "alias", "value", NULL};
@@ -78,6 +87,29 @@ Test(unalias, non_existing_alias)
 Test(unalias, multiple_non_existing)
 {
     char *const args[4] = {"unalias", "notanalias", "notanalias2", NULL};
+    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+
+    builtin_unalias(&shell, args);
+    cr_assert_eq(silent_unalias(&shell, args), 0);
+}
+
+Test(unalias, all, .init=cr_redirect_stderr)
+{
+    char *const args[4] = {"alias", "myalias", "value", NULL};
+    char *const args2[3] = {"unalias", "*", NULL};
+    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+
+    builtin_alias(&shell, args);
+    cr_assert_eq(silent_alias(&shell, args), 0);
+    cr_assert_not_null(shell.aliases);
+    builtin_unalias(&shell, args2);
+    cr_assert_eq(silent_unalias(&shell, args2), 0);
+    cr_assert_null(shell.aliases);
+}
+
+Test(unalias, all_non_existing, .init=cr_redirect_stderr)
+{
+    char *const args[3] = {"unalias", "*", NULL};
     shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
 
     builtin_unalias(&shell, args);

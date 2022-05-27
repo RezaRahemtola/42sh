@@ -13,7 +13,7 @@ static const int EXIT_USAGE = 84;
 
 // Core
 int start_shell(const char *const *env);
-void do_heartbeat(shell_t *shell);
+void do_heartbeat(shell_t *shell, const char *const *env);
 
 // Command handling
 bool is_directory(const char *path);
@@ -28,6 +28,7 @@ char *join_array(char *const *array, size_t start, size_t end);
 
 // Command linked lists
 void list_append(command_t **list, command_t *node);
+size_t list_size(command_t *list);
 void list_free(command_t *list);
 
 // Directories
@@ -43,6 +44,9 @@ int change_home_silently(env_t **env, const char *current);
 // Signals
 void handle_quit(int sig);
 void init_signals(void);
+
+// Prompt
+void display_prompt(void);
 
 // Others
 void append_end(char **array, const char *input, size_t pattern, size_t index);

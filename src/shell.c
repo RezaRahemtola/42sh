@@ -14,6 +14,23 @@
 #include "history.h"
 #include "environment.h"
 
+static void init_shell(shell_t *shell, const char *const *env)
+{
+    shell->env = get_env_from_array(env);
+    load_history(shell);
+    load_localenv(shell);
+    remove_env_property(&shell->env, "OLDPWD");
+}
+
+static void terminate_shell(shell_t *shell)
+{
+    save_history(shell->history, shell->env);
+    my_list_free(shell->history, free_history);
+    destroy_env(shell->aliases);
+    destroy_env(shell->env);
+    destroy_localenv(shell->localenv);
+}
+
 int start_shell(const char *const *env)
 {
     shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
@@ -24,27 +41,20 @@ int start_shell(const char *const *env)
         fprintf(stderr, "Error: Invalid environment.\n");
         return (EXIT_USAGE);
     }
-    shell.env = get_env_from_array(env);
-    load_history(&shell);
-    remove_env_property(&shell.env, "OLDPWD");
     init_signals();
-    do_heartbeat(&shell);
-    save_history(shell.history, shell.env);
-    my_list_free(shell.history, free_history);
-    destroy_env(shell.aliases);
-    destroy_env(shell.env);
+    do_heartbeat(&shell, env);
     return (shell.ret);
 }
 
-void do_heartbeat(shell_t *shell)
+void do_heartbeat(shell_t *shell, const char *const *env)
 {
     size_t size = 0;
     ssize_t read_size = 0;
     char *line = NULL;
 
+    init_shell(shell, env);
     while (!shell->exit) {
-        if (isatty(0))
-            printf("$> ");
+        display_prompt();
         read_size = getline(&line, &size, stdin);
         if (read_size == -1)
             shell->exit = true;
@@ -57,4 +67,5 @@ void do_heartbeat(shell_t *shell)
     }
     if (isatty(0))
         printf("exit\n");
+    terminate_shell(shell);
 }

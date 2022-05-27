@@ -33,6 +33,18 @@ static void free_command(command_t *command)
     free(command);
 }
 
+size_t list_size(command_t *list)
+{
+    command_t *current = list;
+    size_t size = 0;
+
+    if (list == NULL)
+        return (0);
+    for (; current != NULL; size++)
+        current = current->next;
+    return (size);
+}
+
 void list_free(command_t *list)
 {
     command_t *tmp = NULL;
