@@ -12,12 +12,6 @@
 #include "shell.h"
 #include "environment.h"
 
-static void redirect_all_out(void)
-{
-    cr_redirect_stdout();
-    cr_redirect_stderr();
-}
-
 Test(input, empty)
 {
     const char *input = " \t\t  \n";
@@ -193,46 +187,60 @@ Test(variables, home_tilde_not_set, .init=cr_redirect_stderr)
     cr_assert_stderr_eq_str("No $home variable set.\necho: Command not found.\n");
 }
 
-Test(variables, other_not_set, .init=redirect_all_out)
+Test(variables, other_not_set, .init=cr_redirect_stderr)
 {
     const char *input = "echo $myvar ; echo something\n";
     shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
 
     handle_input(input, &shell);
-    cr_assert_stderr_eq_str("No $myvar variable set.\n");
-    cr_assert_stdout_eq_str("something\n");
+    cr_assert_stderr_eq_str("myvar: Undefined variable.\n");
 }
 
 Test(variables, other_set_local, .init=cr_redirect_stdout)
 {
     const char *input = "echo $myvar ; echo something\n";
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    env_t *env = malloc(sizeof(env_t));
+    shell_t shell = {0, 0, env, NULL, NULL, NULL};
 
+    env->key = "PATH";
+    env->value = "/bin";
+    env->next = NULL;
     add_localvar(&shell.localenv, "myvar", "content", false);
     handle_input(input, &shell);
     cr_assert_stdout_eq_str("content\nsomething\n");
     destroy_localenv(shell.localenv);
+    free(env);
 }
 
 Test(variables, other_set_env, .init=cr_redirect_stdout)
 {
     const char *input = "echo $myvar ; echo something\n";
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    env_t *env = malloc(sizeof(env_t));
+    shell_t shell = {0, 0, env, NULL, NULL, NULL};
 
+    env->key = "PATH";
+    env->value = "/bin";
+    env->next = NULL;
     add_variable(&shell.env, "myvar", "content");
     handle_input(input, &shell);
     cr_assert_stdout_eq_str("content\nsomething\n");
     destroy_localenv(shell.localenv);
+    free(env);
 }
 
 Test(variables, other_set_both, .init=cr_redirect_stdout)
 {
     const char *input = "echo $myvar ; echo something\n";
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    env_t *env = malloc(sizeof(env_t));
+    shell_t shell = {0, 0, env, NULL, NULL, NULL};
 
+    env->key = "PATH";
+    env->value = "/bin";
+    env->next = NULL;
     add_variable(&shell.env, "myvar", "content env");
     add_localvar(&shell.localenv, "myvar", "content local", false);
     handle_input(input, &shell);
     cr_assert_stdout_eq_str("content local\nsomething\n");
     destroy_localenv(shell.localenv);
+    free(env);
 }
