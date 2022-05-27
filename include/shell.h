@@ -50,5 +50,3 @@ void display_prompt(void);
 
 // Others
 void append_end(char **array, const char *input, size_t pattern, size_t index);
-char *get_user(char *argument);
-bool user_exists(char *name);

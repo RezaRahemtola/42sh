@@ -5,13 +5,27 @@
 ** Home value replacements
 */
 
+#include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "builtin.h"
 #include "environment.h"
 #include "my_string.h"
-#include "shell.h"
+
+static char *get_user(char *argument)
+{
+    size_t size = strlen(argument);
+
+    if (size == 1)
+        return (NULL);
+    for (size_t i = 1; i < size; i++) {
+        if (argument[i] == '/') {
+            return (i > 1 ? my_substr_size(argument, 1, i, size) : NULL);
+        }
+    }
+    return (my_substr_size(argument, 1, size, size));
+}
 
 static bool replace_user_in_argument(command_t *command, size_t i, char *user,
 char *path)
@@ -35,7 +49,7 @@ size_t i)
     bool out = false;
     char *path = NULL;
 
-    if (!user_exists(user)) {
+    if (getpwnam(user) == NULL) {
         fprintf(stderr, "Unknown user: %s\n", user);
         return (false);
     }

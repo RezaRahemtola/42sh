@@ -41,7 +41,6 @@ UTILS_SRC	=	home.c \
 				strings.c \
 				prompt.c \
 				tests.c \
-				users.c \
 				variables.c \
 				history/history.c \
 				history/interact.c \
