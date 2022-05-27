@@ -353,6 +353,14 @@
             "command": "cat Makefile | grep test"
         },
         {
+            "name": "pipes - unknown left",
+            "command": "unknowncommand | ls"
+        },
+        {
+            "name": "pipes - unknown right",
+            "command": "ls | unknowncommand"
+        },
+        {
             "name": "pipes - simple with builtin",
             "command": "env | grep HOME"
         },
