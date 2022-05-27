@@ -1,14 +1,29 @@
+# binaries
+
 42sh
 42sh.test
 42sh.debug
-CMakeLists.txt
-#*#
+
+# temporary files
+
+*#
 *~
 *.a
 *.o
 *.gcda
 *.gcno
-cmake-build-debug/
-.idea/
-.vscode/
+
+# debug
+
 vgcore.*
+
+# development
+
+/.idea
+/.vscode
+CMakeLists.txt
+/cmake-build-debug
+
+# cache
+
+/tests/norm/__pycache__

@@ -148,7 +148,7 @@ debug_run:	fclean $(DEBUG_BINARY)
 
 tests_all:
 			$(MAKE) func_tests
-			$(MAKE) unit_tests
+			$(MAKE) tests_run
 			$(MAKE) mem_checks
 
 tests_run:
@@ -167,5 +167,10 @@ mem_checks:
 			@python3 -m pip install termcolor > /dev/null
 			python3 tests/memory_checker.py -pcd
 
-.PHONY:	all	clean fclean clean_coverage re debug_run tests_run unit_tests \
-		func_tests
+norm_checks:
+			@$(MAKE) fclean > /dev/null
+			@python3 -m pip install termcolor > /dev/null
+			python3 tests/norm/style.py .
+
+.PHONY:	all	clean fclean clean_coverage re debug_run tests_all tests_run \
+		func_tests mem_checks norm_checks

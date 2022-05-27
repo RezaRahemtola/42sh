@@ -19,6 +19,13 @@ jobs:
       - name: Making the job fail if any unwanted file is detected
         run: find -name "#*#" -o -name "*~" -o -regextype posix-extended -regex '.*\.(o|a|so|gcno|gcda)' -o -path "*/tmp/*" | (! grep -q .)
 
+  check_coding_style:
+    name: Check coding style
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: make norm_checks
+
   check_program_compilation:
     name: Check compilation
     runs-on: ubuntu-latest
@@ -85,3 +92,4 @@ jobs:
       - run_functional_tests
       - run_memory_checks
       - check_repository_cleanliness
+      - check_coding_style
