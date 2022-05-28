@@ -44,33 +44,34 @@ void change_home(const env_t *env)
         fprintf(stderr, "cd: Can't change to home directory.\n");
 }
 
-int handle_home_silently(env_t **env, const char *path, const char *current)
+int handle_home_silently(shell_t *shell, const char *path, const char *current)
 {
     int return_value;
     char *result = NULL;
-    const env_t *home = get_env_value(*env, "HOME");
+    const env_t *home = get_env_value(shell->env, "HOME");
 
     if (home == NULL)
         return (1);
     if (strlen(path) == 1)
-        return (change_home_silently(env, current));
+        return (change_home_silently(shell, current));
     result = my_strrep(path, "~", home->value);
-    return_value = change_dir_silently(env, result, current);
+    return_value = change_dir_silently(shell, result, current);
     free(result);
     return (return_value);
 }
 
-int change_home_silently(env_t **env, const char *current)
+int change_home_silently(shell_t *shell, const char *current)
 {
-    const env_t *home = get_env_value(*env, "HOME");
+    const env_t *home = get_env_value(shell->env, "HOME");
     struct stat stats;
     int stat_status = stat((home == NULL ? "" : home->value), &stats);
     bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);
 
     if (home == NULL || chdir(home->value) == -1 || file)
         return (1);
-    add_variable(env, "PWD", home->value);
-    add_variable(env, "OLDPWD", current);
+    add_variable(&shell->env, "PWD", home->value);
+    add_localvar(&shell->localenv, "cwd", home->value, false);
+    add_variable(&shell->env, "OLDPWD", current);
     return (0);
 }
 

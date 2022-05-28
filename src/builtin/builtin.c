@@ -68,9 +68,14 @@ void builtin_cd(shell_t *shell, char *const *args)
 {
     size_t size = my_arraylen(args);
     char *path = getcwd(NULL, 0);
+    bool readonly = is_localvar_readonly(shell->localenv, "cwd");
 
     if (path == NULL) {
         fprintf(stderr, "cd: %s.\n", strerror(errno));
+        return;
+    }
+    if (readonly) {
+        fprintf(stderr, "cd: $cwd is read-only.\n");
         return;
     }
     if (size == 1)
