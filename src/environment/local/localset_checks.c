@@ -8,10 +8,10 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
-#include "types.h"
-#include "my_string.h"
 #include "my_arrays.h"
+#include "my_string.h"
 #include "messages.h"
+#include "types.h"
 
 bool is_localvar_readonly(localenv_t *env, const char *key)
 {
@@ -32,7 +32,7 @@ bool is_valid_localvar(const char *var, localenv_t *env, bool print)
     }
     if (!my_isalphanum_str(var)) {
         if (print)
-            fprintf(stderr, "set: Variable name must %s\n", NONALPHA);
+            fprintf(stderr, "set: %s\n", NON_ALPHA);
         return (false);
     }
     if (is_localvar_readonly(env, var)) {

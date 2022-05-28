@@ -7,13 +7,13 @@
 
 #include <ctype.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
-#include "shell.h"
+#include <unistd.h>
 #include "environment.h"
 #include "my_arrays.h"
 #include "my_math.h"
 #include "my_string.h"
+#include "shell.h"
 
 int silent_exit(shell_t *shell, char *const *args)
 {

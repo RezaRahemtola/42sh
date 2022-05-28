@@ -14,8 +14,8 @@
 #include "my_arrays.h"
 #include "my_string.h"
 #include "my.h"
-#include "shell.h"
 #include "redirections.h"
+#include "shell.h"
 
 static bool init_command(command_t *command, const env_t *env,
 const char *input)

@@ -5,31 +5,15 @@
 ** Home alias functions
 */
 
-#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <string.h>
-#include <stdio.h>
 #include "builtin.h"
-#include "shell.h"
 #include "environment.h"
+#include "messages.h"
 #include "my_string.h"
-
-void handle_home(const env_t *env, const char *path)
-{
-    char *result = NULL;
-    const env_t *home = get_env_value(env, "HOME");
-
-    if (home == NULL) {
-        fprintf(stderr, "No $home variable set.\n");
-    } else if (strlen(path) == 1) {
-        change_home(env);
-    } else {
-        result = my_strrep(path, "~", home->value);
-        change_current_path(result);
-        free(result);
-    }
-}
+#include "shell.h"
 
 void change_home(const env_t *env)
 {
@@ -39,25 +23,9 @@ void change_home(const env_t *env)
     bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);
 
     if (home == NULL)
-        fprintf(stderr, "cd: No home directory.\n");
+        fprintf(stderr, "cd: %s\n", NO_HOME_DIR);
     else if (chdir(home->value) == -1 || file)
-        fprintf(stderr, "cd: Can't change to home directory.\n");
-}
-
-int handle_home_silently(shell_t *shell, const char *path, const char *current)
-{
-    int return_value;
-    char *result = NULL;
-    const env_t *home = get_env_value(shell->env, "HOME");
-
-    if (home == NULL)
-        return (1);
-    if (strlen(path) == 1)
-        return (change_home_silently(shell, current));
-    result = my_strrep(path, "~", home->value);
-    return_value = change_dir_silently(shell, result, current);
-    free(result);
-    return (return_value);
+        fprintf(stderr, "cd: %s\n", HOME_DIR_ERROR);
 }
 
 int change_home_silently(shell_t *shell, const char *current)

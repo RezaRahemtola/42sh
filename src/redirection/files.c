@@ -7,12 +7,12 @@
 
 #include <errno.h>
 #include <fcntl.h>
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
-#include "shell.h"
 #include "my_string.h"
+#include "shell.h"
 
 static int write_input_redir(const char *str, const char *cmd_name)
 {

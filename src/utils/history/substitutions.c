@@ -10,15 +10,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include "history.h"
-#include "my_string.h"
+#include "messages.h"
 #include "my_math.h"
+#include "my_string.h"
 
 void handle_last_substitution(char **input, list_t *history)
 {
     char *new = NULL;
 
     if (my_list_size(history) == 0) {
-        fprintf(stderr, "0: Event not found.\n");
+        fprintf(stderr, "0: %s\n", NO_EVENT);
         free(*input);
         *input = NULL;
     } else {
@@ -36,7 +37,7 @@ void handle_nb_substitution(char **input, char *current, list_t *history)
     char *new = NULL;
 
     if (cmd == NULL) {
-        fprintf(stderr, "%d: Event not found.\n", nb);
+        fprintf(stderr, "%d: %s\n", nb, NO_EVENT);
         free(*input);
         *input = NULL;
     } else {
@@ -62,7 +63,7 @@ void handle_str_substitution(char **input, char *current, list_t *history)
     }
     cmd = get_history_by_str(history, &pattern[1]);
     if (cmd == NULL) {
-        fprintf(stderr, "%s: Event not found.\n", &pattern[1]);
+        fprintf(stderr, "%s: %s\n", &pattern[1], NO_EVENT);
         free(*input);
         *input = NULL;
     } else {

@@ -5,11 +5,11 @@
 ** Silent directory checks
 */
 
-#include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
-#include "shell.h"
+#include <sys/stat.h>
 #include "environment.h"
+#include "shell.h"
 
 static int handle_prev_silently(shell_t *shell, const char *path,
 const char *current)
@@ -27,8 +27,6 @@ int handle_cd_silently(shell_t *shell, const char *path, const char *current)
 
     if (size > 0 && path[0] == '-')
         return (handle_prev_silently(shell, path, current));
-    if (size > 0 && path[0] == '~')
-        return (handle_home_silently(shell, path, current));
     return (change_dir_silently(shell, path, current));
 }
 

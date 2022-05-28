@@ -1,5 +1,5 @@
 /*
-** EPITECH PROJECT, 2022
+** EPITECH PROJECT, 2021
 ** 42sh
 ** File description:
 ** Shell
@@ -8,12 +8,12 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
-#include "shell.h"
-#include "builtin.h"
-#include "history.h"
+#include <unistd.h>
 #include "environment.h"
+#include "history.h"
+#include "messages.h"
+#include "shell.h"
 
 static void init_shell(shell_t *shell, const char *const *env)
 {
@@ -63,7 +63,7 @@ static void handle_eof(shell_t *shell, int nb_eof)
     empty = (strlen(var->value) == 0 || strcmp(var->value, "0") == 0);
     value = atoi(var->value);
     if (empty || (isdigit(var->value[0]) && nb_eof < value))
-        printf("^D\nUse \"exit\" to leave 42sh.\n");
+        printf("^D\n%s\n", IGNOREEOF_MESSAGE);
     else if (nb_eof == value)
         shell->exit = true;
 }

@@ -6,8 +6,8 @@
 */
 
 #include <stddef.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 #include "messages.h"
 #include "my_string.h"
 #include "my_arrays.h"

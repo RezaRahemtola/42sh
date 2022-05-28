@@ -6,9 +6,9 @@
 */
 
 #include <signal.h>
+#include <stdio.h>
 #include <string.h>
 #include <sys/wait.h>
-#include <stdio.h>
 #include "messages.h"
 
 void handle_errors(int status)
@@ -19,7 +19,7 @@ void handle_errors(int status)
     if (WIFSIGNALED(status)) {
         sig = WTERMSIG(status);
         if (sig == SIGFPE)
-            fprintf(stderr, "%s%s\n", FLOATING_EX, core);
+            fprintf(stderr, "%s%s\n", FLOATING_POINT, core);
         else
             fprintf(stderr, "%s%s\n", strsignal(sig), core);
     }

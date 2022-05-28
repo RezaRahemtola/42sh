@@ -55,8 +55,7 @@ ENV_SRC	=	environment.c \
 			local/localenv_utils.c \
 			local/localenv_load.c \
 			local/localset_checks.c \
-			local/localenv.c \
-			local/localenv_variables.c
+			local/localenv.c
 
 BASE_DIR	= 	src
 BASE_SRC	=	shell.c \

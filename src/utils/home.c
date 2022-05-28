@@ -11,6 +11,7 @@
 #include <string.h>
 #include "builtin.h"
 #include "environment.h"
+#include "messages.h"
 #include "my_string.h"
 
 static char *get_user(char *argument)
@@ -50,7 +51,7 @@ size_t i)
     char *path = NULL;
 
     if (getpwnam(user) == NULL) {
-        fprintf(stderr, "Unknown user: %s\n", user);
+        fprintf(stderr, "%s %s\n", NO_USER, user);
         return (false);
     }
     path = malloc(sizeof(char) * (strlen(user) + 7));
@@ -69,7 +70,7 @@ static bool replace_home_value(command_t *command, shell_t *shell, size_t i)
     char *replaced = NULL;
 
     if (home == NULL) {
-        fprintf(stderr, "No $home variable set.\n");
+        fprintf(stderr, "%s\n", NO_HOME_VARIABLE);
         return (false);
     }
     replaced = my_strrep(command->args[i], "~", home->value);

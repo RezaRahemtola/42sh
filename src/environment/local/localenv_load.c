@@ -5,12 +5,11 @@
 ** Functions to load initial localenv values
 */
 
-#include <sys/types.h>
-#include <unistd.h>
 #include <grp.h>
 #include <pwd.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "environment.h"
 
 static void add_id_var(unsigned int id, const char *key, shell_t *shell)
@@ -52,4 +51,15 @@ void load_localenv(shell_t *shell)
     }
     add_user_variables(shell);
     free(cwd);
+}
+
+void add_localvar(localenv_t **env, const char *key, const char *value,
+                  bool readonly)
+{
+    const localenv_t *var = get_localenv_value(*env, key);
+
+    if (var == NULL)
+        put_localenv_property(env, key, value, readonly);
+    else
+        replace_localenv_value(*env, key, value, readonly);
 }
