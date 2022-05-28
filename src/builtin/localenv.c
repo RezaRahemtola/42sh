@@ -5,12 +5,12 @@
 ** Functions for local env builtins
 */
 
-#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include "environment.h"
-#include "my_string.h"
+#include "messages.h"
 #include "my_arrays.h"
+#include "my_string.h"
 
 void builtin_set(shell_t *shell, char *const *args)
 {
@@ -34,10 +34,10 @@ void builtin_unset(shell_t *shell, char *const *args)
     size_t size = my_arraylen(args);
 
     if (size == 1)
-        fprintf(stderr, "unset: Too few arguments.\n");
+        fprintf(stderr, "unset: %s\n", TOO_FEW_ARGS);
     for (size_t i = 1; i < size; i++) {
         if (is_localvar_readonly(shell->localenv, args[i])) {
-            fprintf(stderr, "unset: $%s is read-only.\n", args[i]);
+            fprintf(stderr, "unset: $%s %s\n", args[i], READ_ONLY);
             return;
         }
     }

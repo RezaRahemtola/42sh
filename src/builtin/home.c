@@ -5,14 +5,15 @@
 ** Home alias functions
 */
 
+#include <stdio.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <string.h>
-#include <stdio.h>
 #include "builtin.h"
-#include "shell.h"
 #include "environment.h"
+#include "messages.h"
 #include "my_string.h"
+#include "shell.h"
 
 void change_home(const env_t *env)
 {
@@ -22,9 +23,9 @@ void change_home(const env_t *env)
     bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);
 
     if (home == NULL)
-        fprintf(stderr, "cd: No home directory.\n");
+        fprintf(stderr, "cd: %s\n", NO_HOME_DIR);
     else if (chdir(home->value) == -1 || file)
-        fprintf(stderr, "cd: Can't change to home directory.\n");
+        fprintf(stderr, "cd: %s\n", HOME_DIR_ERROR);
 }
 
 int change_home_silently(env_t **env, const char *current)

@@ -20,7 +20,10 @@ static msg_t NUMBER_ERROR = "Badly formed number.";
 static msg_t ALIAS_DANGEROUS = "Too dangerous to alias that.";
 static msg_t BEGIN_LETTER = "Variable name must begin with a letter.";
 static msg_t NON_ALPHA = "Variable name must contain alphanumeric characters.";
+static msg_t READ_ONLY = "is read-only.";
 static msg_t CD_USAGE = "Usage: cd [-plvn][-|<dir>].";
+static msg_t NO_HOME_DIR = "No home directory.";
+static msg_t HOME_DIR_ERROR = "Can't change to home directory.";
 
 // Redirections
 static msg_t AMBIGUOUS_INPUT = "Ambiguous input redirect.";

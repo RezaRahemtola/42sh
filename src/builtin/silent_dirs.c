@@ -5,11 +5,11 @@
 ** Silent directory checks
 */
 
-#include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
-#include "shell.h"
+#include <sys/stat.h>
 #include "environment.h"
+#include "shell.h"
 
 static int handle_prev_silently(env_t **env, const char *path, const char *curr)
 {

@@ -8,13 +8,14 @@
 #include <stdio.h>
 #include <string.h>
 #include "environment.h"
+#include "messages.h"
 #include "my_arrays.h"
 
 void builtin_unalias(shell_t *shell, char *const *args)
 {
     (void) shell;
     if (my_arraylen(args) == 1)
-        fprintf(stderr, "%s: Too few arguments.\n", args[0]);
+        fprintf(stderr, "%s: %s\n", args[0], TOO_FEW_ARGS);
 }
 
 int silent_unalias(shell_t *shell, char *const *args)

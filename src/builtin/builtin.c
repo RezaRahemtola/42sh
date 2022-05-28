@@ -7,16 +7,16 @@
 
 #include <errno.h>
 #include <ctype.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <stdio.h>
-#include "shell.h"
 #include "environment.h"
 #include "messages.h"
 #include "my_arrays.h"
 #include "my_math.h"
 #include "my_string.h"
+#include "shell.h"
 
 void builtin_exit(__attribute__ ((unused)) shell_t *shell, char *const *args)
 {
