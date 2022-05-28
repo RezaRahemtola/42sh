@@ -21,7 +21,8 @@ static void init_shell(shell_t *shell, const char *const *env)
     load_history(shell);
     load_localenv(shell);
     remove_env_property(&shell->env, "OLDPWD");
-    load_rc(shell);
+    if (isatty(0))
+        load_rc(shell);
 }
 
 static void terminate_shell(shell_t *shell)
