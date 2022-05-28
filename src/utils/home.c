@@ -66,7 +66,7 @@ size_t i)
 
 static bool replace_home_value(command_t *command, shell_t *shell, size_t i)
 {
-    const localenv_t *home = get_localenv_value(shell->localenv, "home");
+    const env_t *home = get_env_value(shell->env, "HOME");
     char *replaced = NULL;
 
     if (home == NULL) {
