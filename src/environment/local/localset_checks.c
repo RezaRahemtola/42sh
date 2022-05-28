@@ -32,7 +32,7 @@ bool is_valid_localvar(const char *var, localenv_t *env, bool print)
     }
     if (!my_isalphanum_str(var)) {
         if (print)
-            fprintf(stderr, "set: Variable name must %s\n", NONALPHA);
+            fprintf(stderr, "set: %s\n", NON_ALPHA);
         return (false);
     }
     if (is_localvar_readonly(env, var)) {

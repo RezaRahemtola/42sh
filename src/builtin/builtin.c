@@ -25,11 +25,11 @@ void builtin_exit(__attribute__ ((unused)) shell_t *shell, char *const *args)
     if (size == 1)
         return;
     if (size > 2 || args[1][0] <= '0' || args[1][0] >= '9') {
-        fprintf(stderr, "exit: Expression Syntax.\n");
+        fprintf(stderr, "exit: %s\n", SYNTAX_ERROR);
         return;
     }
     if (!my_is_number(args[1]))
-        fprintf(stderr, "exit: Badly formed number.\n");
+        fprintf(stderr, "exit: %s\n", NUMBER_ERROR);
 }
 
 void builtin_env(shell_t *shell, __attribute__ ((unused)) char *const *args)
@@ -42,15 +42,15 @@ void builtin_setenv(shell_t *shell, char *const *args)
     size_t size = my_arraylen(args);
 
     if (size > 3) {
-        fprintf(stderr, "setenv: Too many arguments.\n");
+        fprintf(stderr, "setenv: %s\n", TOO_MANY_ARGS);
         return;
     }
     if (size >= 2 && !isalpha(args[1][0])) {
-        fprintf(stderr, "setenv: Variable name must begin with a letter.\n");
+        fprintf(stderr, "setenv: %s\n", BEGIN_LETTER);
         return;
     }
     if (size >= 2 && !my_isalphanum_str(args[1])) {
-        fprintf(stderr, "setenv: Variable name must %s\n", NONALPHA);
+        fprintf(stderr, "setenv: %s\n", NON_ALPHA);
         return;
     }
     if (size == 1)
@@ -61,7 +61,7 @@ void builtin_unsetenv(shell_t *shell, char *const *args)
 {
     (void) shell;
     if (my_arraylen(args) == 1)
-        fprintf(stderr, "unsetenv: Too few arguments.\n");
+        fprintf(stderr, "unsetenv: %s\n", TOO_FEW_ARGS);
 }
 
 void builtin_cd(shell_t *shell, char *const *args)
@@ -78,6 +78,6 @@ void builtin_cd(shell_t *shell, char *const *args)
     else if (size == 2)
         handle_cd(shell->env, args[1]);
     else
-        fprintf(stderr, "cd: Too many arguments.\n");
+        fprintf(stderr, "cd: %s\n", TOO_MANY_ARGS);
     free(path);
 }
