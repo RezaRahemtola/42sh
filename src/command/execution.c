@@ -14,7 +14,6 @@
 #include "builtin.h"
 #include "logical.h"
 #include "shell.h"
-#include "status.h"
 
 static void execute_silent(command_t *command, shell_t *shell)
 {
