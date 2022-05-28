@@ -16,8 +16,6 @@ jobs:
       - name: Unit tests execution
         run: make tests_run
         timeout-minutes: 2
-    needs:
-      - check_program_compilation
 
   run_functional_tests:
     name: Run functional tests
@@ -29,8 +27,6 @@ jobs:
       - name: Functional tests execution
         run: make func_tests
         timeout-minutes: 2
-    needs:
-      - check_program_compilation
 
   run_memory_checks:
     name: Run memory checks
@@ -42,5 +38,3 @@ jobs:
       - name: Memory checks execution
         run: make mem_checks
         timeout-minutes: 2
-    needs:
-      - check_program_compilation
