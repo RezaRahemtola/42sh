@@ -6,6 +6,7 @@
 */
 
 #include <unistd.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include "environment.h"
@@ -34,11 +35,15 @@ int change_dir_silently(shell_t *shell, const char *dir, const char *current)
 {
     struct stat stats;
     int st = stat(dir, &stats);
+    char *path = NULL;
 
     if (st == -1 || !S_ISDIR(stats.st_mode) || chdir(dir) == -1)
         return (1);
-    add_variable(&shell->env, "PWD", dir);
-    add_localvar(&shell->localenv, "cwd", dir, false);
-    add_variable(&shell->env, "OLDPWD", current);
+    path = getcwd(NULL, 0);
+    add_variable(&shell->env, "PWD", path);
+    add_localvar(&shell->localenv, "cwd", path, false);
+    add_variable(&shell->env, "OLDPWD", path);
+    add_localvar(&shell->localenv, "owd", path, false);
+    free(path);
     return (0);
 }
