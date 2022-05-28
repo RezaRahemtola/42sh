@@ -373,6 +373,10 @@
             "command": "cat Makefile | grep test"
         },
         {
+            "name": "pipes - unknown left",
+            "command": "unknowncommand | ls"
+        },
+        {
             "name": "pipes - unknown right",
             "command": "ls | unknowncommand"
         },
@@ -475,10 +479,6 @@
         {
             "name": "42sh - subject example",
             "command": "cd ; </etc/hosts od -c | grep xx | wc >> /tmp/z -l ; cd - && echo OK"
-        },
-        {
-            "name": "pipes - unknown left",
-            "command": "unknowncommand | ls"
         }
     ]
 }
