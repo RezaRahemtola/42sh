@@ -42,8 +42,8 @@ int change_dir_silently(shell_t *shell, const char *dir, const char *current)
     path = getcwd(NULL, 0);
     add_variable(&shell->env, "PWD", path);
     add_localvar(&shell->localenv, "cwd", path, false);
-    add_variable(&shell->env, "OLDPWD", path);
-    add_localvar(&shell->localenv, "owd", path, false);
+    add_variable(&shell->env, "OLDPWD", current);
+    add_localvar(&shell->localenv, "owd", current, false);
     free(path);
     return (0);
 }
