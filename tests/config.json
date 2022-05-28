@@ -425,6 +425,10 @@
             "command": "unalias * ; alias"
         },
         {
+            "name": "tilde - Printing",
+            "command": "echo ~ ; echo $home"
+        },
+        {
             "name": "tilde - Basic",
             "command": "echo ~ ; ls ~"
         },
