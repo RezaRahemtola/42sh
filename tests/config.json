@@ -301,6 +301,14 @@
             "command": "ls && ls"
         },
         {
+            "name": "&& - simple with builtin",
+            "command": "env > /dev/null && echo 'OK'"
+        },
+        {
+            "name": "&& - simple with builtin failed",
+            "command": "exit NaN && echo 'not displayed'"
+        },
+        {
             "name": "&& - failed left",
             "command": "nocommand && ls"
         },
@@ -323,6 +331,14 @@
         {
             "name": "|| - simple",
             "command": "ls || ls"
+        },
+        {
+            "name": "|| - simple with builtin",
+            "command": "cd / || echo 'not displayed'"
+        },
+        {
+            "name": "|| - simple with builtin failed",
+            "command": "unset || echo 'OK'"
         },
         {
             "name": "|| - failed left",
@@ -407,6 +423,10 @@
         {
             "name": "mysh2 - subject example",
             "command": "ls -l; ls -l | wc -l"
+        },
+        {
+            "name": "42sh - subject example",
+            "command": "cd ; </etc/hosts od -c | grep xx | wc >> /tmp/z -l ; cd - && echo 'OK'"
         }
     ]
 }
