@@ -302,7 +302,7 @@
         },
         {
             "name": "&& - simple with builtin",
-            "command": "env > /dev/null && echo 'OK'"
+            "command": "env > /dev/null && echo OK"
         },
         {
             "name": "&& - simple with builtin failed",
@@ -338,7 +338,7 @@
         },
         {
             "name": "|| - simple with builtin failed",
-            "command": "unset || echo 'OK'"
+            "command": "unset || echo OK"
         },
         {
             "name": "|| - failed left",
@@ -426,7 +426,7 @@
         },
         {
             "name": "42sh - subject example",
-            "command": "cd ; </etc/hosts od -c | grep xx | wc >> /tmp/z -l ; cd - && echo 'OK'"
+            "command": "cd ; </etc/hosts od -c | grep xx | wc >> /tmp/z -l ; cd - && echo OK"
         }
     ]
 }
