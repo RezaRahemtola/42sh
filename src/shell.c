@@ -46,6 +46,14 @@ int start_shell(const char *const *env)
     return (shell.ret);
 }
 
+static void handle_eof(shell_t *shell)
+{
+    const localenv_t *ignore = get_localenv_value(shell->localenv, "ignoreeof");
+
+    if (ignore == NULL)
+        shell->exit = true;
+}
+
 void do_heartbeat(shell_t *shell, const char *const *env)
 {
     size_t size = 0;
@@ -57,7 +65,7 @@ void do_heartbeat(shell_t *shell, const char *const *env)
         display_prompt();
         read_size = getline(&line, &size, stdin);
         if (read_size == -1)
-            shell->exit = true;
+            handle_eof(shell);
         if (read_size > 1) {
             replace_history(&line, shell);
             handle_input(line, shell);
