@@ -36,8 +36,8 @@ bool is_builtin(const char *command);
 void replace_aliases(command_t *commands, env_t *aliases, env_t *env);
 void replace_variables(command_t *command, shell_t *shell);
 bool replace_home(command_t *command, shell_t *shell, size_t size);
-bool replace_variable(command_t *command, shell_t *shell, size_t size);
-void replace_test(command_t *command, shell_t *shell, size_t size);
+bool replace_var(command_t *command, shell_t *shell, size_t index, size_t i);
+void replace_test(command_t *command, shell_t *shell, size_t index, size_t i);
 void replace_argument(command_t *command, size_t index, char *new_arg);
 
 char *get_variable_name(char const *str, size_t start, size_t len);
