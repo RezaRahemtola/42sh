@@ -6,9 +6,9 @@
 */
 
 #include <signal.h>
+#include <stdio.h>
 #include <string.h>
 #include <sys/wait.h>
-#include <stdio.h>
 #include "messages.h"
 
 void handle_errors(int status)

@@ -12,6 +12,7 @@ typedef const char *const msg_t;
 // Overall
 static msg_t TOO_FEW_ARGS = "Too few arguments.";
 static msg_t TOO_MANY_ARGS = "Too many arguments.";
+static msg_t UNKNOWN_COMMAND = "Command not found.";
 static msg_t NO_FILE = "No such file or directory.";
 static msg_t SYNTAX_ERROR = "Expression Syntax.";
 static msg_t NUMBER_ERROR = "Badly formed number.";

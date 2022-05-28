@@ -9,11 +9,11 @@
 #include <string.h>
 #include <stdio.h>
 #include "messages.h"
-#include "shell.h"
-#include "redirections.h"
 #include "my_arrays.h"
 #include "my_string.h"
 #include "my.h"
+#include "redirections.h"
+#include "shell.h"
 
 static bool check_redirection(command_t *command, const env_t *env)
 {
