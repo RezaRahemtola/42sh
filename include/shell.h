@@ -35,9 +35,9 @@ void list_free(command_t *list);
 void handle_cd(const env_t *env, const char *path);
 void change_current_path(const char *dir);
 void change_home(const env_t *env);
-int handle_cd_silently(env_t **env, const char *path, const char *current);
-int change_dir_silently(env_t **env, const char *dir, const char *current);
-int change_home_silently(env_t **env, const char *current);
+int handle_cd_silently(shell_t *shell, const char *path, const char *current);
+int change_dir_silently(shell_t *shell, const char *dir, const char *current);
+int change_home_silently(shell_t *shell, const char *current);
 
 // Signals
 void handle_quit(int sig);

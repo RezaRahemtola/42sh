@@ -76,14 +76,14 @@ int silent_cd(shell_t *shell, char *const *args)
     int return_value = 1;
     size_t size = my_arraylen(args);
     char *path = getcwd(NULL, 0);
+    bool readonly = is_localvar_readonly(shell->localenv, "cwd");
 
-    (void) shell;
-    if (path == NULL)
+    if (path == NULL || readonly)
         return (return_value);
     if (size == 1)
-        return_value = change_home_silently(&shell->env, path);
+        return_value = change_home_silently(shell, path);
     else if (size == 2)
-        return_value = handle_cd_silently(&shell->env, args[1], path);
+        return_value = handle_cd_silently(shell, args[1], path);
     free(path);
     return (return_value);
 }
