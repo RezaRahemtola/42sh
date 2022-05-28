@@ -36,9 +36,10 @@ static void wait_commands(command_t *command, shell_t *shell)
     while (current != NULL && current->state == RUNNING) {
         waitpid(current->pid, &status, WUNTRACED | WCONTINUED);
         handle_errors(status);
-        current->ret = (status > 255 ? status / 256 : status);
-        if (!is_builtin(current->args[0]))
+        if (!is_builtin(current->args[0])) {
+            current->ret = (status > 255 ? status / 256 : status);
             shell->ret = current->ret;
+        }
         current = current->next;
     }
 }
