@@ -1,0 +1,46 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - test/*
+
+jobs:
+  run_unit_tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v3
+      - name: Unit tests execution
+        run: make tests_run
+        timeout-minutes: 2
+    needs:
+      - check_program_compilation
+
+  run_functional_tests:
+    name: Run functional tests
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v3
+      - name: Functional tests execution
+        run: make func_tests
+        timeout-minutes: 2
+    needs:
+      - check_program_compilation
+
+  run_memory_checks:
+    name: Run memory checks
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v3
+      - name: Memory checks execution
+        run: make mem_checks
+        timeout-minutes: 2
+    needs:
+      - check_program_compilation

@@ -429,6 +429,10 @@
             "command": "ls -l; ls -l | wc -l"
         },
         {
+            "name": "mysh2 - subject example complex",
+            "command": "mkdir folder ; cd folder ; ls -a ; ls | cat | wc -c > tutu ; cat tutu ; cd .. ; rm -r folder"
+        },
+        {
             "name": "42sh - subject example",
             "command": "cd ; </etc/hosts od -c | grep xx | wc >> /tmp/z -l ; cd - && echo OK"
         }
