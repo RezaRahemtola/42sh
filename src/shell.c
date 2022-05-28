@@ -50,8 +50,13 @@ static void handle_eof(shell_t *shell)
 {
     const localenv_t *ignore = get_localenv_value(shell->localenv, "ignoreeof");
 
-    if (ignore == NULL)
+    clearerr(stdin);
+    if (ignore == NULL) {
         shell->exit = true;
+        return;
+    }
+    if (strlen(ignore->value) == 0 || strcmp(ignore->value, "0") == 0)
+        printf("Use \"exit\" to leave 42sh.\n");
 }
 
 void do_heartbeat(shell_t *shell, const char *const *env)
