@@ -430,7 +430,7 @@
         },
         {
             "name": "mysh2 - subject example complex",
-            "command": "mkdir folder ; cd folder ; ls -a ; ls | wc -c > tutu ; cat tutu ; cd .. ; rm -r folder"
+            "command": "mkdir folder ; cd folder ; ls -a ; ls | cat | wc -c ; cd .. ; rm -r folder"
         },
         {
             "name": "42sh - subject example",
