@@ -26,8 +26,6 @@ int handle_cd_silently(env_t **env, const char *path, const char *current)
 
     if (size > 0 && path[0] == '-')
         return (handle_prev_silently(env, path, current));
-    if (size > 0 && path[0] == '~')
-        return (handle_home_silently(env, path, current));
     return (change_dir_silently(env, path, current));
 }
 
