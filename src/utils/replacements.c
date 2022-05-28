@@ -24,7 +24,7 @@ void replace_argument(command_t *command, size_t index, char *new_arg)
     command->args[index] = new_arg;
 }
 
-static env_t *get_alias(char *command, env_t *aliases)
+static env_t *get_alias(const char *command, env_t *aliases)
 {
     while (aliases != NULL) {
         if (strcmp(aliases->key, command) == 0) {

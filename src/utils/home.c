@@ -44,8 +44,7 @@ char *path)
     return (true);
 }
 
-static bool replace_home_user(command_t *command, char *user,
-size_t i)
+static bool replace_home_user(command_t *command, char *user, size_t i)
 {
     bool out = false;
     char *path = NULL;

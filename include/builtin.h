@@ -40,8 +40,8 @@ bool replace_variable(command_t *command, shell_t *shell, size_t size);
 void replace_test(command_t *command, shell_t *shell, size_t size);
 void replace_argument(command_t *command, size_t index, char *new_arg);
 
-char *get_variable_name(char const *str, size_t start, size_t len);
-char *env_value(shell_t *shell, char *name);
+char *get_variable_name(const char *str, size_t start, size_t len);
+char *env_value(const shell_t *shell, const char *name);
 
 static const builtin_t BUILTIN[11] = {
         { "exit", &builtin_exit, &silent_exit },

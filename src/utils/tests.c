@@ -12,7 +12,7 @@
 #include "my_string.h"
 #include "my.h"
 
-static char *return_value(shell_t *shell)
+static char *return_value(const shell_t *shell)
 {
     size_t id_len = snprintf(NULL, 0, "%d", shell->ret) + 1;
     char *value = malloc(sizeof(char) * id_len);
