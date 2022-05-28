@@ -7,9 +7,9 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "shell.h"
 #include "my_string.h"
 #include "redirections.h"
+#include "shell.h"
 
 redirection_t get_redirection(const char *str, size_t index)
 {

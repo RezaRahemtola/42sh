@@ -5,8 +5,8 @@
 ** Functions to display the prompt
 */
 
-#include <unistd.h>
 #include <stdio.h>
+#include <unistd.h>
 
 void display_prompt(void)
 {

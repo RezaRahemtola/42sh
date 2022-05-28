@@ -23,8 +23,10 @@ static msg_t BEGIN_LETTER = "Variable name must begin with a letter.";
 static msg_t NON_ALPHA = "Variable name must contain alphanumeric characters.";
 static msg_t READ_ONLY = "is read-only.";
 static msg_t CD_USAGE = "Usage: cd [-plvn][-|<dir>].";
+static msg_t NO_HOME_VARIABLE = "No $home variable set.";
 static msg_t NO_HOME_DIR = "No home directory.";
 static msg_t HOME_DIR_ERROR = "Can't change to home directory.";
+static msg_t NO_EVENT = "Event not found.";
 
 // Redirections
 static msg_t AMBIGUOUS_INPUT = "Ambiguous input redirect.";
@@ -38,4 +40,5 @@ static msg_t NOT_DIRECTORY = "Not a directory.";
 static msg_t WRONG_ARCH = "Exec format error. Wrong Architecture.";
 static msg_t FLOATING_POINT = "Floating exception";
 static msg_t CORE_DUMPED = " (core dumped)";
+static msg_t NO_USER = "Unknown user:";
 static msg_t IGNOREEOF_MESSAGE = "Use \"exit\" to leave 42sh.";
