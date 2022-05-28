@@ -6,15 +6,14 @@
 */
 
 #include <errno.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <stdio.h>
 #include "builtin.h"
 #include "logical.h"
 #include "shell.h"
-#include "redirections.h"
 
 static void execute_silent(command_t *command, shell_t *shell)
 {

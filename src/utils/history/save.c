@@ -7,12 +7,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stddef.h>
 #include <string.h>
-#include "history.h"
 #include "environment.h"
-#include "my_string.h"
+#include "history.h"
 #include "my_arrays.h"
+#include "my_string.h"
 #include "my.h"
 
 static char *get_history_file_path(env_t *env)

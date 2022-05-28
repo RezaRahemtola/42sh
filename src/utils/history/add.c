@@ -7,7 +7,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "types.h"
 #include "history.h"
 #include "my_string.h"
 

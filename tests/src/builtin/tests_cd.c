@@ -69,54 +69,6 @@ Test(cd, home_unexisting, .init=cr_redirect_stderr)
     free(env);
 }
 
-Test(cd, home_valid)
-{
-    env_t *env = malloc(sizeof(env_t));
-    char *const args[3] = {"cd", "~"};
-    shell_t shell = {0, 0, env, NULL, NULL, NULL};
-
-    shell.env->key = "HOME";
-    shell.env->value = "/";
-    shell.env->next = NULL;
-    builtin_cd(&shell, args);
-    silent_cd(&shell, args);
-    cr_assert_eq(shell.ret, 0);
-    free(env);
-}
-
-Test(cd, home_invalid, .init=cr_redirect_stderr)
-{
-    env_t *env = malloc(sizeof(env_t));
-    char *const args[3] = {"cd", "~"};
-    shell_t shell = {0, 0, env, NULL, NULL, NULL};
-
-    shell.env->key = "HOME";
-    shell.env->value = "/etc/fstab";
-    shell.env->next = NULL;
-    builtin_cd(&shell, args);
-    cr_assert_eq(silent_cd(&shell, args), 1);
-    cr_assert_stderr_eq_str("cd: Can't change to home directory.\n");
-    free(env);
-}
-
-Test(cd, home_append, .init=cr_redirect_stderr)
-{
-    env_t *env = malloc(sizeof(env_t));
-    char *const args[3] = {"cd", "~/etc", NULL};
-    shell_t shell = {0, 0, env, NULL, NULL, NULL};
-
-    env->key = "YES";
-    env->value = "/";
-    env->next = NULL;
-    builtin_cd(&shell, args);
-    cr_assert_eq(silent_cd(&shell, args), 1);
-    env->key = "HOME";
-    builtin_cd(&shell, args);
-    cr_assert_eq(silent_cd(&shell, args), 0);
-    cr_assert_stderr_eq_str("No $home variable set.\n");
-    free(env);
-}
-
 Test(cd, prev)
 {
     const env_t *oldpwd = NULL;

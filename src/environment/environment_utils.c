@@ -5,11 +5,11 @@
 ** Environment variables
 */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
-#include "shell.h"
 #include "my_string.h"
+#include "shell.h"
 
 char *extract_env_key(const char *var)
 {

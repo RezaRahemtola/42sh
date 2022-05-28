@@ -5,11 +5,10 @@
 ** String checks
 */
 
-#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include "shell.h"
 #include "my_string.h"
+#include "shell.h"
 
 char *get_next_argument(const char *str, size_t index)
 {

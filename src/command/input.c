@@ -6,11 +6,11 @@
 */
 
 #include <stddef.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
+#include "messages.h"
 #include "my_string.h"
 #include "my_arrays.h"
-#include "messages.h"
 #include "redirections.h"
 
 bool is_valid_redirection(const command_t *command, char *const *array,

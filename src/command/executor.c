@@ -49,7 +49,7 @@ void execute_forked(command_t *cmd, shell_t *shell)
         return;
     }
     if (cmd->path == NULL && !builtin) {
-        fprintf(stderr, "%s: Command not found.\n", cmd->args[0]);
+        fprintf(stderr, "%s: %s\n", cmd->args[0], UNKNOWN_COMMAND);
         return;
     }
     if (builtin)

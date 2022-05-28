@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "environment.h"
+#include "messages.h"
 #include "my_arrays.h"
 #include "shell.h"
 
@@ -61,7 +62,7 @@ void builtin_alias(shell_t *shell, char *const *args)
     if (size > 2) {
         not = strcmp("alias", args[1]) == 0 || strcmp("unalias", args[1]) == 0;
         if (not)
-            fprintf(stderr, "%s: Too dangerous to alias that.\n", args[1]);
+            fprintf(stderr, "%s: %s\n", args[1], ALIAS_DANGEROUS);
     }
 }
 

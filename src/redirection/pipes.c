@@ -6,9 +6,9 @@
 */
 
 #include <errno.h>
+#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <stdio.h>
 #include "shell.h"
 
 static bool open_redirection(command_t *command)
