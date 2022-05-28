@@ -59,10 +59,10 @@ static bool replace_value(command_t *command, char *name, char *value, size_t i)
     return (true);
 }
 
-bool replace_variable(command_t *command, shell_t *shell, size_t i)
+bool replace_var(command_t *command, shell_t *shell, size_t index, size_t i)
 {
-    size_t size = strlen(command->args[i]);
-    char *name = get_variable_name(command->args[i], 1, size);
+    size_t size = strlen(command->args[index]);
+    char *name = get_variable_name(command->args[index], i + 1, size);
     char *value = NULL;
 
     if (name == NULL)
@@ -78,5 +78,5 @@ bool replace_variable(command_t *command, shell_t *shell, size_t i)
         free(name);
         return (false);
     }
-    return (replace_value(command, name, value, i));
+    return (replace_value(command, name, value, index));
 }
