@@ -11,6 +11,21 @@
 #include "environment.h"
 #include "shell.h"
 
+static void execute_line(char *line, shell_t *shell)
+{
+    char *fixed = NULL;
+    size_t size = strlen(line);
+
+    if (line[size - 1] == '\n') {
+        handle_input(line, shell);
+    } else {
+        fixed = malloc(sizeof(char) * (size + 2));
+        sprintf(fixed, "%s\n", line);
+        handle_input(fixed, shell);
+        free(fixed);
+    }
+}
+
 static void execute_rc(FILE *file, shell_t *shell)
 {
     ssize_t read = 0;
@@ -20,7 +35,7 @@ static void execute_rc(FILE *file, shell_t *shell)
     while (read != -1) {
         read = getline(&line, &size, file);
         if (read > 1 && line[0] != '#')
-            handle_input(line, shell);
+            execute_line(line, shell);
     }
     free(line);
 }
@@ -33,8 +48,7 @@ static FILE *load_rc_file(char const *home_path)
 
     if (rc_path == NULL)
         return (NULL);
-    strcpy(rc_path, home_path);
-    strcat(rc_path, "/.42shrc");
+    sprintf(rc_path, "%s/.42shrc", home_path);
     file = fopen(rc_path, "r");
     free(rc_path);
     return (file);
