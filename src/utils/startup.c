@@ -42,7 +42,7 @@ static FILE *load_rc_file(char const *home_path)
 
 void load_rc(shell_t *shell)
 {
-    const localenv_t *home = get_localenv_value(shell->localenv, "home");
+    const env_t *home = get_env_value(shell->env, "HOME");
     FILE *rc_file = NULL;
 
     if (home == NULL)

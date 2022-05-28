@@ -35,7 +35,7 @@ void list_free(command_t *list);
 // Directories
 void handle_cd(const env_t *env, const char *path);
 void change_current_path(const char *dir);
-void change_home(const env_t *env);
+void change_home(const env_t *env, const localenv_t *localenv);
 int handle_cd_silently(shell_t *shell, const char *path, const char *current);
 int change_dir_silently(shell_t *shell, const char *dir, const char *current);
 int change_home_silently(shell_t *shell, const char *current);
