@@ -11,6 +11,7 @@
 #include <string.h>
 #include "builtin.h"
 #include "environment.h"
+#include "messages.h"
 #include "my_string.h"
 #include "my.h"
 
@@ -68,13 +69,13 @@ bool replace_var(command_t *command, shell_t *shell, size_t index, size_t i)
     if (name == NULL)
         return (false);
     if (strlen(name) == 0) {
-        fprintf(stderr, "Illegal variable name.\n");
+        fprintf(stderr, "%s\n", ILLEGAL_VARIABLE);
         free(name);
         return (false);
     }
     value = env_value(shell, name);
     if (value == NULL) {
-        fprintf(stderr, "%s: Undefined variable.\n", name);
+        fprintf(stderr, "%s: %s\n", name, NO_VARIABLE);
         free(name);
         return (false);
     }
