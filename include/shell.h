@@ -14,6 +14,7 @@ static const int EXIT_USAGE = 84;
 // Core
 int start_shell(const char *const *env);
 void do_heartbeat(shell_t *shell, const char *const *env);
+void load_rc(shell_t *shell);
 
 // Command handling
 bool is_directory(const char *path);
