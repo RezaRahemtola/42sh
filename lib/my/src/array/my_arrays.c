@@ -8,7 +8,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
-size_t my_arraylen(char * const *array)
+size_t my_arraylen(char *const *array)
 {
     size_t size = 0;
 
@@ -25,7 +25,7 @@ static void free_array(void **array)
 void my_free_arrays(size_t number, ...)
 {
     va_list list;
-    void **element;
+    void **element = NULL;
 
     va_start(list, number);
     for (size_t i = 0; i < number; i++) {

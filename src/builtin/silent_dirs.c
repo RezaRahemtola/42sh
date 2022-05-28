@@ -33,11 +33,10 @@ int handle_cd_silently(shell_t *shell, const char *path, const char *current)
 
 int change_dir_silently(shell_t *shell, const char *dir, const char *current)
 {
-    struct stat stats;
-    int st = stat(dir, &stats);
+    struct stat sb;
     char *path = NULL;
 
-    if (st == -1 || !S_ISDIR(stats.st_mode) || chdir(dir) == -1)
+    if (stat(dir, &sb) == -1 || !S_ISDIR(sb.st_mode) || chdir(dir) == -1)
         return (1);
     path = getcwd(NULL, 0);
     add_variable(&shell->env, "PWD", path);
