@@ -5,7 +5,7 @@
 ** Status handling
 */
 
-#include "status.h"
+#include "shell.h"
 
 bool must_relay_status(command_t *command)
 {
