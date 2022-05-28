@@ -38,3 +38,4 @@ static msg_t NOT_DIRECTORY = "Not a directory.";
 static msg_t WRONG_ARCH = "Exec format error. Wrong Architecture.";
 static msg_t FLOATING_POINT = "Floating exception";
 static msg_t CORE_DUMPED = " (core dumped)";
+static msg_t IGNOREEOF_MESSAGE = "Use \"exit\" to leave 42sh.";

@@ -7,12 +7,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
-#include "shell.h"
-#include "builtin.h"
-#include "history.h"
+#include <unistd.h>
 #include "environment.h"
+#include "history.h"
+#include "messages.h"
+#include "shell.h"
 
 static void init_shell(shell_t *shell, const char *const *env)
 {
@@ -56,7 +56,7 @@ static void handle_eof(shell_t *shell)
         return;
     }
     if (strlen(ignore->value) == 0 || strcmp(ignore->value, "0") == 0)
-        printf("Use \"exit\" to leave 42sh.\n");
+        printf("%s\n", IGNOREEOF_MESSAGE);
 }
 
 void do_heartbeat(shell_t *shell, const char *const *env)
