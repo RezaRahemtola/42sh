@@ -7,8 +7,8 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "shell.h"
 #include "my.h"
+#include "shell.h"
 
 const localenv_t *get_localenv_value(const localenv_t *list, const char *key)
 {

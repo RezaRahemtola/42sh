@@ -5,13 +5,10 @@
 ** Variables management
 */
 
-#include <ctype.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include "environment.h"
-#include "messages.h"
-#include "my_string.h"
 
 void add_variable(env_t **env, const char *key, const char *value)
 {

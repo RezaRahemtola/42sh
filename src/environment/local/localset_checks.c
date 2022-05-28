@@ -8,10 +8,10 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
-#include "types.h"
-#include "my_string.h"
 #include "my_arrays.h"
+#include "my_string.h"
 #include "messages.h"
+#include "types.h"
 
 bool is_localvar_readonly(localenv_t *env, const char *key)
 {
