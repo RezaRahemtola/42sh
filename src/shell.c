@@ -43,9 +43,7 @@ void do_heartbeat(env_t **env, shell_t *shell)
         read_size = getline(&line, &size, stdin);
         if (read_size == -1)
             shell->exit = true;
-        printf("WELL\n");
         shell->job = check_children(shell->job);
-        printf("WELL\n");
         if (read_size > 1) {
             handle_input(line, env, shell);
         }

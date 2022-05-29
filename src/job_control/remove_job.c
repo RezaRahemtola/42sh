@@ -56,10 +56,9 @@ list_t *check_children(list_t *job)
     }
     while (tmp != NULL) {
         if (tmp->pid != 0 && kill(tmp->pid, SIGCHLD) < 0) {
-            my_list_remove(&job, &tmp, compare_pid, free_pid);
+            my_list_remove(&job, tmp, compare_pid, free_pid);
         }
         tmp = tmp->next;
     }
-    printf("end");
     return (job);
 }

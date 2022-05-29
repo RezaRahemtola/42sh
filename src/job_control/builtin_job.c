@@ -14,10 +14,12 @@
 
 int silent_job(env_t **env, char *const *args, shell_t *shell)
 {
-    job_t *job = shell->job->data;
+    job_t *job = NULL;
     size_t size = my_arraylen(args);
 
     (void)env;
+    if (shell->job != NULL)
+        job = shell->job->data;
     if (size != 1) {
         fprintf(stderr, "jobs: Too many arguments.\n");
         return (1);
