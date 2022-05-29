@@ -12,6 +12,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include "builtin.h"
+#include "jobs.h"
 #include "logical.h"
 #include "shell.h"
 

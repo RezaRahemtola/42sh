@@ -11,7 +11,7 @@
 #include "my_arrays.h"
 #include "shell.h"
 
-int silent_job(env_t **env, char *const *args, shell_t *shell)
+int silent_jobs(env_t **env, char *const *args, shell_t *shell)
 {
     job_t *job = NULL;
     size_t size = my_arraylen(args);

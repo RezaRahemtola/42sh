@@ -62,7 +62,7 @@ void free_pid(void *elem)
 
 int start_shell(const char *const *env)
 {
-    shell_t shell = {0, 0, isatty(0), NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, isatty(0), NULL, NULL, NULL, NULL, 0, NULL};
 
     setbuf(stdout, NULL);
     setbuf(stderr, NULL);

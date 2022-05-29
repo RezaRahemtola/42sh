@@ -58,7 +58,7 @@ static const builtin_t BUILTIN[13] = {
         { "history", &builtin_history, &silent_history },
         { "alias", &builtin_alias, &silent_alias },
         { "unalias", &builtin_unalias, &silent_unalias },
-        { "jobs", &builtin_jobs, &silent_job },
+        { "jobs", &builtin_jobs, &silent_jobs },
         { "fg", &builtin_fg, &silent_fg },
         { 0, 0, 0 }
 };
