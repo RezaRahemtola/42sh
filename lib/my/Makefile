@@ -41,11 +41,6 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 
-install: fclean
-	$(RM) -r .git/
-	$(RM) -r .idea/
-	$(RM) .gitignore
-
 re:     fclean all
 
-.PHONY: all clean fclean install re
+.PHONY: all clean fclean re

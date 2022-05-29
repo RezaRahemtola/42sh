@@ -20,18 +20,6 @@ size_t my_list_size(list_t *list)
     return (size);
 }
 
-bool my_list_contains(list_t *list, void *data, equals_func eq_func)
-{
-    list_t *current = list;
-
-    while (current != NULL) {
-        if (eq_func(current->data, data) == true)
-            return (true);
-        current = current->next;
-    }
-    return (false);
-}
-
 void my_list_free(list_t *list, free_func free_func)
 {
     list_t *current = list;
