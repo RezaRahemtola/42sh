@@ -22,10 +22,15 @@ char **remove_incorrect_char(char **input)
     return (input);
 }
 
-job_t *check_children(job_t *job)
+list_t *check_children(list_t *job)
 {
-    job_t *tmp = job;
+    job_t *tmp = NULL;
+    job_t *new = NULL;
 
+    if (job != NULL && job->data != NULL) {
+        tmp = job->data;
+        new = job->data;
+    }
     while (tmp != NULL) {
         if (kill(tmp->pid, SIGCHLD) < 0) {
             printf("[%d] Done -> %s\n", tmp->nb_job, tmp->command);

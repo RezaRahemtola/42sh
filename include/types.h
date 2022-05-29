@@ -49,7 +49,7 @@ typedef struct shell {
     bool exit;
     int ret;
     int nb_job;
-    job_t *job;
+    list_t *job;
 } shell_t;
 
 typedef struct command {

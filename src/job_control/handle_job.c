@@ -44,12 +44,18 @@ job_t *add_new_job(job_t *command, char *input)
     return (command);
 }
 
-job_t *add_job_pid(job_t *job, char *wanted, pid_t pid, int nb_job)
+list_t *add_job_pid(list_t *job, char *wanted, pid_t pid, int nb_job)
 {
-    job_t *tmp = job;
+    job_t *tmp = NULL;
+    job_t *new = NULL;
 
-    while (tmp != NULL) {
-        if (!strcmp(wanted, tmp->command) && nb_job == tmp->nb_job) {
+    if (job != NULL && job->data != NULL) {
+        tmp = job->data;
+        new = job->data;
+    }
+    while (tmp != NULL && tmp->command != NULL) {
+        printf("[%d] %s\n", tmp->nb_job, tmp->command);
+        if (!strcmp(wanted, tmp->command)) {
             tmp->pid = pid;
             printf("[%d] %d\n", tmp->nb_job, tmp->pid);
             return (job);

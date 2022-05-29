@@ -14,7 +14,7 @@
 
 int silent_job(env_t **env, char *const *args, shell_t *shell)
 {
-    job_t *job = shell->job;
+    job_t *job = shell->job->data;
     size_t size = my_arraylen(args);
 
     (void)env;
@@ -45,7 +45,7 @@ int wait_fg(pid_t pid)
 
 int silent_fg(env_t **env, char *const *args, shell_t *shell)
 {
-    job_t *job = shell->job;
+    job_t *job = shell->job->data;
     size_t size = my_arraylen(args);
     bool found = false;
     int pid = 0;

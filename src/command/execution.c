@@ -30,17 +30,17 @@ static void execute_silent(command_t *command, env_t **env, shell_t *shell)
         }
 }
 
-static void wait_commands(command_t *command, shell_t *shell)
+static void wait_commands(command_t *cmd, shell_t *shell)
 {
     int status = 0;
-    command_t *current = command;
+    command_t *current = cmd;
 
-    while (current != NULL && current->state == RUNNING && !command->job_check) {
+    while (current != NULL && current->state == RUNNING && !cmd->job_check) {
         waitpid(current->pid, &status, WUNTRACED | WCONTINUED);
         handle_errors(status);
         current->ret = (status > 255 ? status / 256 : status);
         if (!is_builtin(current->args[0]))
-            shell->ret = command->ret;
+            shell->ret = cmd->ret;
         current = current->next;
     }
 }
@@ -86,12 +86,16 @@ void execute_commands(command_t *command, env_t **env, shell_t *shell)
 {
     size_t executed_number = 0;
     command_t *current = command;
+    job_t *new = NULL;
 
     while (current != NULL) {
         if (job_command_case(current->input)) {
             current->args = remove_incorrect_char(current->args);
-            shell->job = add_new_job(shell->job, current->input);
+            new = malloc(sizeof(sizeof(job_t)));
+            new->command = strdup(current->input);
             shell->nb_job++;
+            new->nb_job = shell->nb_job;
+            my_list_add(&shell->job, new);
             current->job_check = true;
         }
         executed_number = execute_command_line(current, env, shell);

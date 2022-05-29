@@ -43,7 +43,7 @@ void do_heartbeat(env_t **env, shell_t *shell)
         read_size = getline(&line, &size, stdin);
         if (read_size == -1)
             shell->exit = true;
-        check_children(shell->job);
+        shell->job = check_children(shell->job);
         if (read_size > 1) {
             handle_input(line, env, shell);
         }
