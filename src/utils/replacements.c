@@ -12,12 +12,11 @@
 #include "my_string.h"
 #include "shell.h"
 
-static env_t *get_alias(char *command, env_t *aliases)
+static env_t *get_alias(const char *command, env_t *aliases)
 {
     while (aliases != NULL) {
-        if (strcmp(aliases->key, command) == 0) {
+        if (strcmp(aliases->key, command) == 0)
             return aliases;
-        }
         aliases = aliases->next;
     }
     return (NULL);

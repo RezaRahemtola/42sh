@@ -1,8 +1,8 @@
 /*
-** EPITECH PROJECT, 2021
+** EPITECH PROJECT, 2022
 ** 42sh
 ** File description:
-** Map management
+** General environment functions
 */
 
 #include <stdlib.h>

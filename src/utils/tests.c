@@ -23,7 +23,8 @@ void replace_argument(command_t *command, size_t index, char *new_arg)
     command->args[index] = new_arg;
 }
 
-static char *return_value(shell_t *shell)
+static char *return_value(const shell_t *shell)
+
 {
     size_t id_len = snprintf(NULL, 0, "%d", shell->ret) + 1;
     char *value = malloc(sizeof(char) * id_len);

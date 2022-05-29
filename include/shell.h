@@ -1,5 +1,5 @@
 /*
-** EPITECH PROJECT, 2021
+** EPITECH PROJECT, 2022
 ** 42sh
 ** File description:
 ** Header
@@ -22,6 +22,8 @@ void handle_input(const char *input, shell_t *shell);
 void handle_errors(int status);
 void execute_commands(command_t *commands, shell_t *shell);
 void execute_forked(command_t *command, shell_t *shell);
+void execute_line(const char *line, shell_t *shell);
+void exec_special_alias(const char *key, shell_t *shell);
 char *find_command(const env_t *env, const char *bin);
 char *get_next_argument(const char *str, size_t index);
 bool is_command_empty(const command_t *command);
@@ -40,7 +42,7 @@ int handle_cd_silently(shell_t *shell, const char *path, const char *current);
 int change_dir_silently(shell_t *shell, const char *dir, const char *current);
 int change_home_silently(shell_t *shell, const char *current);
 
-//Status handling
+// Status handling
 bool must_relay_status(command_t *command);
 
 // Signals
@@ -48,7 +50,7 @@ void handle_quit(int sig);
 void init_signals(void);
 
 // Prompt
-void display_prompt(void);
+void prompt(shell_t *shell);
 
 // Others
 void append_end(char **array, const char *input, size_t pattern, size_t index);

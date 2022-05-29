@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2022
 ** libmy
 ** File description:
-** my_list_size function
+** Operations on lists
 */
 
 #include <stdlib.h>

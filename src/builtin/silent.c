@@ -42,7 +42,6 @@ int silent_setenv(shell_t *shell, char *const *args)
 {
     size_t size = my_arraylen(args);
 
-    (void) shell;
     if (size > 3 || (size >= 2 && !isalpha(args[1][0])))
         return (1);
     if (size != 1) {
@@ -58,7 +57,6 @@ int silent_unsetenv(shell_t *shell, char *const *args)
 {
     size_t size = my_arraylen(args);
 
-    (void) shell;
     if (size == 1)
         return (1);
     if (size == 2 && strcmp(args[1], "*") == 0) {

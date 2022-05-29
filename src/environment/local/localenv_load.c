@@ -33,6 +33,7 @@ static void add_user_variables(shell_t *shell)
         add_id_var(pw->pw_gid, "gid", shell);
         add_localvar(&shell->localenv, "group", group->gr_name, false);
         add_localvar(&shell->localenv, "home", pw->pw_dir, false);
+        add_localvar(&shell->localenv, "owd", "", false);
         add_id_var(uid, "uid", shell);
         add_localvar(&shell->localenv, "user", pw->pw_name, false);
     }
