@@ -91,7 +91,7 @@ void execute_commands(command_t *command, env_t **env, shell_t *shell)
     while (current != NULL) {
         if (job_command_case(current->input)) {
             current->args = remove_incorrect_char(current->args);
-            new = malloc(sizeof(sizeof(job_t)));
+            new = malloc(sizeof(job_t));
             new->command = strdup(current->input);
             shell->nb_job++;
             new->nb_job = shell->nb_job;
