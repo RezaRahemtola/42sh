@@ -32,6 +32,7 @@ static void add_user_variables(shell_t *shell)
         group = getgrgid(pw->pw_gid);
         add_id_var(pw->pw_gid, "gid", shell);
         add_localvar(&shell->localenv, "group", group->gr_name, false);
+        add_localvar(&shell->localenv, "history", "100", false);
         add_localvar(&shell->localenv, "home", pw->pw_dir, false);
         add_localvar(&shell->localenv, "owd", "", false);
         add_id_var(uid, "uid", shell);
@@ -55,7 +56,7 @@ void load_localenv(shell_t *shell)
 }
 
 void add_localvar(localenv_t **env, const char *key, const char *value,
-                  bool readonly)
+bool readonly)
 {
     const localenv_t *var = get_localenv_value(*env, key);
 

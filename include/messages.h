@@ -27,6 +27,7 @@ static msg_t NO_HOME_VARIABLE = "No $home variable set.";
 static msg_t NO_HOME_DIR = "No home directory.";
 static msg_t HOME_DIR_ERROR = "Can't change to home directory.";
 static msg_t NO_EVENT = "Event not found.";
+static msg_t HISTORY_USAGE = "Usage: history [-chrSLMT] [# number of events].";
 
 // Redirections
 static msg_t AMBIGUOUS_INPUT = "Ambiguous input redirect.";
