@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "graphics.h"
+#include "my.h"
 
 void move_cursor(int delta, line_t *line)
 {
@@ -41,6 +42,20 @@ void suppr(line_t *line)
         strncpy(&line->str[line->pos], &line->str[line->pos + 1], gap);
         line->length -= 1;
     }
+}
+
+void set_line(line_t *line, char const *new_line)
+{
+    int len = strlen(new_line);
+
+    while (len > line->size) {
+        line->size *= 2;
+        line->str = realloc(line->str, line->size);
+    }
+    strcpy(line->str, new_line);
+    line->length = len;
+    line->pos = MIN(line->pos, len);
+    print_line(line);
 }
 
 void print_line(line_t *line)
