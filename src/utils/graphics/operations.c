@@ -13,6 +13,7 @@
 void move_cursor(int delta, line_t *line)
 {
     int new = line->pos + delta;
+
     if (new >= 0 && new <= line->length)
         line->pos = new;
 }
