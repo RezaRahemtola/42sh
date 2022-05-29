@@ -7,10 +7,14 @@
 
 #include <signal.h>
 #include <stdio.h>
+#include "graphics.h"
 
 void handle_quit(__attribute__ ((unused)) int sig)
 {
-    printf("\n$> ");
+    char *prompt = get_prompt();
+
+    if (prompt)
+        printf("\n%s", prompt);
 }
 
 void init_signals(void)
