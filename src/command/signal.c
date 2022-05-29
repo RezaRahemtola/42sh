@@ -11,8 +11,11 @@
 
 static void handler(int sig)
 {
-    (void)sig;
-    printf("\n%s", get_prompt());
+    char *prompt = get_prompt();
+
+    (void) sig;
+    if (prompt)
+        printf("\n%s", prompt);
 }
 
 void init_signals(void)

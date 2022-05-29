@@ -49,7 +49,7 @@ static bool error_case_fg(shell_t *shell, char *const *args)
         fprintf(stderr, "fg: No current job.\n");
         return (false);
     }
-    if (my_arraylen(args) != 2) {
+    if (my_arraylen(args) > 2) {
         fprintf(stderr, "fg: No current job.\n");
         return (false);
     }
@@ -64,10 +64,11 @@ int silent_fg(shell_t *shell, char *const *args)
     if (!error_case_fg(shell, args))
         return (1);
     job = shell->job->data;
-    nb_job = atoi(args[1]);
+    if (my_arraylen(args) == 2)
+        nb_job = atoi(args[1]);
     while (shell->job != NULL) {
         job = shell->job->data;
-        if (nb_job == job->nb_job) {
+        if (nb_job == job->nb_job || nb_job == 0) {
             return (wait_fg(job->pid));
         }
         shell->job = shell->job->next;
