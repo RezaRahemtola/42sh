@@ -2,14 +2,14 @@
 
 from argparse import ArgumentParser
 from enum import Enum
-from json import load
+from json import load as load_json
 from os import path, access, X_OK
 from re import match
+from glob import glob
 from subprocess import run
 
 from termcolor import colored
 
-CONFIG_FILE_NAME = 'config.json'
 BINARY_FILE_NAME = '42sh'
 VALGRIND_DEFAULT_ARGUMENTS = ['--child-silent-after-fork=yes', '--leak-check=full', '--show-leak-kinds=all', '--track-origins=yes']
 VALGRIND_COMMAND_NAME = 'valgrind'
@@ -66,9 +66,14 @@ class MemoryCheckResult:
         self.allocation_delta = self.allocs - self.frees
 
 
-def get_tests(filepath: str) -> any:
-    with open(filepath) as json_file:
-        return load(json_file)["tests"]
+def get_tests() -> any:
+    folder = path.dirname(path.realpath(__file__))
+    data = []
+
+    for file in glob(folder + '/functional/src/**/*.json', recursive=True):
+        with open(file) as json_file:
+            data += load_json(json_file)["tests"]
+    return data
 
 
 def get_valgrind_logs(command: str, binary_path: str) -> any:
@@ -135,7 +140,7 @@ def print_result(result: MemoryCheckResult, test: any, colorize: bool, show_valg
 
 def run_memory_checker() -> int:
     args = PARSER.parse_args()
-    tests = get_tests(path.dirname(path.realpath(__file__)) + path.sep + CONFIG_FILE_NAME)
+    tests = get_tests()
     binary_name = f'{BINARY_FILE_NAME}.debug' if args.debug_binary else BINARY_FILE_NAME
     if not access(binary_name, X_OK):
         print_colored_or_not(f'Error: Cannot execute {binary_name}', 'yellow', args.color)

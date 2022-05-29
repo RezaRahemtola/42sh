@@ -1,0 +1,24 @@
+{
+    "tests": [
+        {
+            "name": "errors - Unknown command",
+            "command": "nocommand"
+        },
+        {
+            "name": "errors - Permission denied",
+            "command": "tests/samples/perms_denied"
+        },
+        {
+            "name": "errors - Segfault (core dumped)",
+            "command": "tests/samples/segfault_coredumped"
+        },
+        {
+            "name": "errors - Division by 0",
+            "command": "tests/samples/div_zero"
+        },
+        {
+            "name": "errors - Corrupted file",
+            "command": "tests/samples/corrupted"
+        }
+    ]
+}

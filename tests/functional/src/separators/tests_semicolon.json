@@ -1,0 +1,24 @@
+{
+    "tests": [
+        {
+            "name": "semicolon - simple",
+            "command": "ls -la; cat Makefile"
+        },
+        {
+            "name": "semicolon - exit in the middle",
+            "command": "ls -la; exit 42; cat Makefile"
+        },
+        {
+            "name": "semicolon - without first",
+            "command": "; cat Makefile"
+        },
+        {
+            "name": "semicolon - without last",
+            "command": "ls -la; "
+        },
+        {
+            "name": "semicolon - empty",
+            "command": ";; ;    ; \t ;"
+        }
+    ]
+}

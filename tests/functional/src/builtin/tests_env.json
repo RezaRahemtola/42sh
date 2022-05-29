@@ -1,0 +1,52 @@
+{
+    "tests": [
+        {
+            "name": "env - simple",
+            "command": "env | grep PATH"
+        },
+        {
+            "name": "setenv - simple",
+            "command": "setenv var val"
+        },
+        {
+            "name": "setenv - No argument",
+            "command": "setenv | grep HOME"
+        },
+        {
+            "name": "setenv - Too many arguments",
+            "command": "setenv too many arguments"
+        },
+        {
+            "name": "setenv - Var starting with non-letter char",
+            "command": "setenv 1var val"
+        },
+        {
+            "name": "setenv - Var with non alphanumeric char",
+            "command": "setenv var-var val"
+        },
+        {
+            "name": "unsetenv - simple",
+            "command": "unsetenv PATH"
+        },
+        {
+            "name": "unsetenv - simple with checks",
+            "command": "env | grep PATH ; unsetenv PATH ; env | grep PATH"
+        },
+        {
+            "name": "unsetenv - No argument",
+            "command": "unsetenv"
+        },
+        {
+            "name": "unsetenv - simple all",
+            "command": "unsetenv *"
+        },
+        {
+            "name": "unsetenv - simple all with checks",
+            "command": "env | grep PATH ; unsetenv * ; env"
+        },
+        {
+            "name": "unsetenv - complex all",
+            "command": "unsetenv PATH * notAvar"
+        }
+    ]
+}
