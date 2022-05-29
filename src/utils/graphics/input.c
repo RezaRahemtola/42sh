@@ -35,71 +35,12 @@ void insert_key(char key, line_t *line, line_t *buffer)
         printf("\033[%dD", line->length - line->pos);
 }
 
-static void move_cursor(int delta, line_t *line)
-{
-    int new = line->pos + delta;
-    if (new >= 0 && new <= line->length)
-        line->pos = new;
-}
-
-static void backspace(line_t *line) {
-    if (line->length == 0)
-        return;
-    if (line->pos != 0) {
-        strncpy(&line->str[line->pos - 1], &line->str[line->pos], line->length - line->pos);
-        line->pos -= 1;
-        line->length -= 1;
-        line->str[line->length] = '\0';
-    }
-    printf("\33[2K\r");
-    printf("$> %s", line->str);
-    if (line->pos < line->length)
-        printf("\033[%dD", line->length - line->pos);
-}
-
-static void suppr(line_t *line) {
-    if (line->pos != line->length) {
-        strncpy(&line->str[line->pos], &line->str[line->pos + 1], line->length - line->pos);
-        line->length -= 1;
-    }
-}
-
 static void reevaluate_size(line_t *line, line_t *buffer)
 {
     if (line->length + 2 == line->size) {
         line->size *= 2;
         line->str = realloc(line->str, line->size);
         buffer->str = realloc(buffer->str, line->size);
-    }
-}
-
-static void handle_special_key(line_t *line)
-{
-    int second = getchar();
-    int third = 0;
-
-    if (second != 91)
-        return;
-    third = getchar();
-    switch (third) {
-        case 65:
-            printf("up arrow key pressed\n");
-            break;
-        case 66:
-            printf("down arrow key pressed\n");
-            break;
-        case 67:
-            if (line->pos == line->length)
-                break;
-            printf("\033[1C");
-            move_cursor(1, line);
-            break;
-        case 68:
-            if (line->pos == 0)
-                break;
-            printf("\033[1D");
-            move_cursor(-1, line);
-            break;
     }
 }
 

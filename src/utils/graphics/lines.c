@@ -23,6 +23,7 @@ ssize_t get_line_content(char **line, size_t *size, shell_t *shell)
     new = old;
     new.c_lflag &= ~(ICANON | ECHO);
     tcsetattr(STDIN_FILENO, TCSANOW, &new);
+    printf("$> ");
     *line = get_user_input();
     tcsetattr(STDIN_FILENO, TCSANOW, &old);
     if (*line == NULL)

@@ -44,9 +44,11 @@ UTILS_SRC	=	home.c \
 				tests.c \
 				variables.c \
 				status.c \
+				graphics/arrows.c \
 				graphics/init.c \
 				graphics/input.c \
 				graphics/lines.c \
+				graphics/operations.c \
 				history/history.c \
 				history/interact.c \
 				history/substitutions.c \

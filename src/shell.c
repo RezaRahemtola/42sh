@@ -82,7 +82,7 @@ void do_heartbeat(shell_t *shell, const char *const *env)
 
     init_shell(shell, env);
     while (!shell->exit) {
-        prompt(shell);
+        exec_special_alias("precmd", shell);
         read_size = get_line_content(&line, &size, shell);
         nb_eof = (read_size == -1 ? nb_eof + 1 : 0);
         if (read_size == -1)

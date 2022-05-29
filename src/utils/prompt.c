@@ -6,9 +6,10 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
-#include "shell.h"
 #include "environment.h"
+#include "shell.h"
 
 void exec_special_alias(const char *key, shell_t *shell)
 {
@@ -18,9 +19,10 @@ void exec_special_alias(const char *key, shell_t *shell)
         execute_line(alias->value, shell);
 }
 
-void prompt(shell_t *shell)
+char *get_prompt(void)
 {
-    exec_special_alias("precmd", shell);
-    if (shell->graphical)
-        printf("$> ");
+    char *prompt = malloc(sizeof(char) * 4);
+
+    sprintf(prompt, "$> ");
+    return (prompt);
 }
