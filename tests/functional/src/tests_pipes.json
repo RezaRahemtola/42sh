@@ -1,0 +1,36 @@
+{
+    "tests": [
+        {
+            "name": "pipes - no left",
+            "command": "| grep test"
+        },
+        {
+            "name": "pipes - no commands",
+            "command": "|"
+        },
+        {
+            "name": "pipes - simple",
+            "command": "cat Makefile | grep test"
+        },
+        {
+            "name": "pipes - unknown left",
+            "command": "unknowncommand | ls"
+        },
+        {
+            "name": "pipes - unknown right",
+            "command": "ls | unknowncommand"
+        },
+        {
+            "name": "pipes - simple with builtin",
+            "command": "env | grep HOME"
+        },
+        {
+            "name": "pipes - complex",
+            "command": "cat Makefile | grep test | wc -l"
+        },
+        {
+            "name": "pipes - complex with builtin",
+            "command": "env | grep HOME | wc -l"
+        }
+    ]
+}

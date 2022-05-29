@@ -17,28 +17,27 @@
 #include "redirections.h"
 #include "shell.h"
 
-static bool init_command(command_t *command, const env_t *env,
-const char *input)
+static bool init_command(command_t *cmd, const env_t *env, const char *input)
 {
-    command->separator_in = NO_IN;
-    command->separator_out = NO_OUT;
-    command->separator_next = NO_NEXT;
-    command->state = IDLE;
-    command->pid = 0;
-    command->ret = -1;
-    command->fd_in = 0;
-    command->fd_out = 0;
-    command->info_in = NULL;
-    command->info_out = NULL;
-    command->input = strdup(input);
-    command->args = my_strsplit_many(input, " \t");
-    if (command->args == NULL) {
-        my_free(2, command->input, command);
+    cmd->separator_in = NO_IN;
+    cmd->separator_out = NO_OUT;
+    cmd->separator_next = NO_NEXT;
+    cmd->state = IDLE;
+    cmd->pid = 0;
+    cmd->ret = -1;
+    cmd->fd_in = 0;
+    cmd->fd_out = 0;
+    cmd->info_in = NULL;
+    cmd->info_out = NULL;
+    cmd->input = strdup(input);
+    cmd->args = my_strsplit_many(input, " \t");
+    if (cmd->args == NULL) {
+        my_free(2, cmd->input, cmd);
         return (false);
     }
-    command->path = find_command(env, command->args[0]);
-    command->prev = NULL;
-    command->next = NULL;
+    cmd->path = find_command(env, cmd->args[0]);
+    cmd->prev = NULL;
+    cmd->next = NULL;
     return (true);
 }
 
@@ -88,13 +87,14 @@ const char *separator)
 
 static void pipe_and_exec(command_t *cmd, shell_t *shell)
 {
+    for (command_t *tmp = cmd; tmp != NULL; tmp = tmp->next)
+        tmp->job_check = false;
     if (!check_logicals(cmd, shell))
         return;
-    if (!check_redirections(cmd, shell) || !open_pipe_redirections(cmd)) {
+    if (!check_redirections(cmd, shell) || !open_pipe_redirections(cmd))
         shell->ret = 1;
-    } else {
+    else
         execute_commands(cmd, shell);
-    }
 }
 
 void handle_input(const char *input, shell_t *shell)

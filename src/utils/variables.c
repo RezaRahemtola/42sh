@@ -15,27 +15,24 @@
 #include "my_string.h"
 #include "my.h"
 
-char *env_value(shell_t *shell, char *name)
+char *env_value(const shell_t *shell, const char *name)
 {
     const localenv_t *localenv = get_localenv_value(shell->localenv, name);
     const env_t *env = get_env_value(shell->env, name);
 
-    if (localenv != NULL) {
+    if (localenv != NULL)
         return (strdup(localenv->value));
-    } else if (env != NULL) {
+    else if (env != NULL)
         return (strdup(env->value));
-    } else {
+    else
         return (NULL);
-    }
 }
 
-char *get_variable_name(char const *str, size_t start, size_t len)
+char *get_variable_name(const char *str, size_t start, size_t len)
 {
-    for (size_t i = start; i < len; i++) {
-        if (!isalpha(str[i])) {
+    for (size_t i = start; i < len; i++)
+        if (!isalpha(str[i]))
             return (my_substr_size(str, start, i, len));
-        }
-    }
     return (len == start ? strdup("") : my_substr_size(str, start, len, len));
 }
 

@@ -11,7 +11,6 @@
 
 char **my_strsplit_many(const char *str, const char *list);
 
-char *my_revstr(const char *str);
 char *my_strrep(const char *str, const char *pattern, const char *new);
 char **my_strsplit(const char *str, char separator);
 char *my_substr(const char *str, int start, int end);

@@ -13,7 +13,7 @@
 Test(cd, basic)
 {
     char *const args[3] = {"cd", "/etc", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     builtin_cd(&shell, args);
     cr_assert_eq(silent_cd(&shell, args), 0);
@@ -27,7 +27,7 @@ Test(cd, basic)
 Test(cd, too_many_args, .init=cr_redirect_stderr)
 {
     char *args[4] = {"cd", "a", "b", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     builtin_cd(&shell, args);
     cr_assert_eq(silent_cd(&shell, args), 1);
@@ -37,7 +37,7 @@ Test(cd, too_many_args, .init=cr_redirect_stderr)
 Test(cd, fail_file, .init=cr_redirect_stderr)
 {
     char *const args[3] = {"cd", "/etc/passwd", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     builtin_cd(&shell, args);
     cr_assert_eq(silent_cd(&shell, args), 1);
@@ -47,7 +47,7 @@ Test(cd, fail_file, .init=cr_redirect_stderr)
 Test(cd, fail_unexisting, .init=cr_redirect_stderr)
 {
     char *const args[3] = {"cd", "/etcd", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     builtin_cd(&shell, args);
     cr_assert_eq(silent_cd(&shell, args), 1);
@@ -58,7 +58,7 @@ Test(cd, home_unexisting, .init=cr_redirect_stderr)
 {
     env_t *env = malloc(sizeof(env_t));
     char *const args[2] = {"cd", NULL};
-    shell_t shell = {0, 0, env, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, env, NULL, NULL, NULL, 0, NULL};
 
     shell.env->key = "YES";
     shell.env->value = "/";
@@ -74,7 +74,7 @@ Test(cd, prev)
     const env_t *oldpwd = NULL;
     char *const args[3] = {"cd", "/etc", NULL};
     char *const args2[3] = {"cd", "-", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     builtin_cd(&shell, args);
     cr_assert_eq(silent_cd(&shell, args), 0);
@@ -89,7 +89,7 @@ Test(cd, prev)
 Test(cd, prev_usage, .init=cr_redirect_stderr)
 {
     char *const args[3] = {"cd", "-a", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     builtin_cd(&shell, args);
     cr_assert_eq(silent_cd(&shell, args), 1);
@@ -99,7 +99,7 @@ Test(cd, prev_usage, .init=cr_redirect_stderr)
 Test(cd, prev_unexisting, .init=cr_redirect_stderr)
 {
     char *const args[3] = {"cd", "-", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     builtin_cd(&shell, args);
     cr_assert_eq(silent_cd(&shell, args), 1);
@@ -109,7 +109,7 @@ Test(cd, prev_unexisting, .init=cr_redirect_stderr)
 Test(cd, empty, .init=cr_redirect_stderr)
 {
     char *const args[3] = {"cd", "", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     builtin_cd(&shell, args);
     cr_assert_eq(silent_cd(&shell, args), 1);

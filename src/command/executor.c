@@ -15,7 +15,7 @@
 #include "redirections.h"
 #include "environment.h"
 
-static void execute_builtin(command_t *command, shell_t *shell)
+static void execute_builtin(const command_t *command, shell_t *shell)
 {
     for (size_t i = 0; BUILTIN[i].command != NULL; i++)
         if (strcmp(command->args[0], BUILTIN[i].command) == 0) {
@@ -24,7 +24,7 @@ static void execute_builtin(command_t *command, shell_t *shell)
         }
 }
 
-static void execute_binary(command_t *command, const env_t *env)
+static void execute_binary(const command_t *command, const env_t *env)
 {
     char *const *environment_array = get_array_from_env(env);
 

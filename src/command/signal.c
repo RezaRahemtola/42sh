@@ -1,5 +1,5 @@
 /*
-** EPITECH PROJECT, 2021
+** EPITECH PROJECT, 2022
 ** 42sh
 ** File description:
 ** Signals
@@ -7,13 +7,15 @@
 
 #include <signal.h>
 #include <stdio.h>
+#include "graphics.h"
 
-void handle_quit(__attribute__ ((unused)) int sig)
+static void handler(int sig)
 {
-    printf("\n$> ");
+    (void)sig;
+    printf("\n%s", get_prompt());
 }
 
 void init_signals(void)
 {
-    signal(SIGINT, &handle_quit);
+    signal(SIGINT, &handler);
 }

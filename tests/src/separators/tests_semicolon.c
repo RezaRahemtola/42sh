@@ -13,7 +13,7 @@ Test(semicolon, simple, .init=cr_redirect_stdout)
 {
     const char *input = "echo test1 ; echo test2 ; echo test3\n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, env, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, env, NULL, NULL, NULL, 0, NULL};
 
     env->key = "PATH";
     env->value = "/bin";
@@ -26,7 +26,7 @@ Test(semicolon, no_first, .init=cr_redirect_stdout)
 {
     const char *input = ";echo test\n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, env, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, env, NULL, NULL, NULL, 0, NULL};
 
     env->key = "PATH";
     env->value = "/bin";
@@ -39,7 +39,7 @@ Test(semicolon, no_last, .init=cr_redirect_stdout)
 {
     const char *input = "echo test ; \n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, env, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, env, NULL, NULL, NULL, 0, NULL};
 
     env->key = "PATH";
     env->value = "/bin";
@@ -52,7 +52,7 @@ Test(semicolon, middle_exit, .init=cr_redirect_stdout)
 {
     const char *input = "echo test1 ; exit 42 ; echo test2\n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, env, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, env, NULL, NULL, NULL, 0, NULL};
 
     env->key = "PATH";
     env->value = "/bin";

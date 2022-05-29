@@ -1,0 +1,64 @@
+{
+    "tests": [
+        {
+            "name": "set - Var starting with non-letter char",
+            "command": "set 1var = val"
+        },
+        {
+            "name": "set - Var with non alphanumeric char",
+            "command": "set var-var = val"
+        },
+        {
+            "name": "set - Multiple variables with non alphanumeric char",
+            "command": "set var1 var2 var3 wrong-var"
+        },
+        {
+            "name": "set - Display read-only",
+            "command": "set -r"
+        },
+        {
+            "name": "set - Set single read-only",
+            "command": "set -r myvar = val"
+        },
+        {
+            "name": "set - Set single read-only with checks",
+            "command": "set -r myvar = val ; set -r"
+        },
+        {
+            "name": "set - Multiple read-only",
+            "command": "set -r myvar myvar2 myvar3"
+        },
+        {
+            "name": "set - Multiple read-only with checks",
+            "command": "set -r myvar myvar2 myvar3 ; set -r"
+        },
+        {
+            "name": "set - Edit single read-only",
+            "command": "set -r myvar ; set myvar = val ; set -r"
+        },
+        {
+            "name": "set - Edit multiple read-only",
+            "command": "set -r myvar ; set -r myvar2 myvar ; set -r"
+        },
+        {
+            "name": "unset - No argument",
+            "command": "unset"
+        },
+        {
+            "name": "unset - Non existing var",
+            "command": "unset novar"
+        },
+        {
+            "name": "unset - Multiple non existing var",
+            "command": "unset novar novar2 novar3"
+        },
+        {
+            "name": "unset - Readonly var",
+            "command": "set -r myvar ; unset myvar"
+        },
+        {
+            "name": "unset - Multiple read-only",
+            "command": "set -r myvar ; set myvar2 ; unset myvar2 myvar ; set -r ; set | grep myvar2"
+        }
+    ]
+}

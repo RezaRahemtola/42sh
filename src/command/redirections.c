@@ -52,7 +52,7 @@ bool check_redirections(command_t *list, shell_t *shell)
 }
 
 static char *get_redirect_argument_sum(const char *str, const char *redirect,
-    const char *input)
+const char *input)
 {
     char *target = get_next_argument(str, 0);
     size_t total_len = 0;
@@ -62,7 +62,7 @@ static char *get_redirect_argument_sum(const char *str, const char *redirect,
     if (target == NULL)
         return (NULL);
     total_len = strlen(redirect) + strlen(target) + 1;
-    sum = malloc(sizeof(char) * (total_len));
+    sum = malloc(sizeof(char) * total_len);
     sprintf(sum, "%s%s", redirect, target);
     if (sum == NULL) {
         free(target);
@@ -74,7 +74,7 @@ static char *get_redirect_argument_sum(const char *str, const char *redirect,
 }
 
 void replace_args(command_t *command, const char *redir, const char *str,
-    const env_t *env)
+const env_t *env)
 {
     char *rep = get_redirect_argument_sum(str, redir, command->input);
 

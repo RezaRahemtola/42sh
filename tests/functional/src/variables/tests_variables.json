@@ -1,0 +1,32 @@
+{
+    "tests": [
+        {
+            "name": "variables - Printing home values",
+            "command": "echo $home $?home"
+        },
+        {
+            "name": "variables - $var existing",
+            "command": "echo $user"
+        },
+        {
+            "name": "variables - $?var existing",
+            "command": "echo $?user"
+        },
+        {
+            "name": "variables - $var not existing",
+            "command": "echo $bonsoir"
+        },
+        {
+            "name": "variables -$?var not existing",
+            "command": "echo $?bonsoir"
+        },
+        {
+            "name": "variables - Not executing next",
+            "command": "echo $bonsoir ; echo not executed"
+        },
+        {
+            "name": "variables - Concatenated variables",
+            "command": "set TEST = test; echo $TEST$TEST"
+        }
+    ]
+}

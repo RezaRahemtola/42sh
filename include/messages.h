@@ -27,12 +27,18 @@ static msg_t NO_HOME_VARIABLE = "No $home variable set.";
 static msg_t NO_HOME_DIR = "No home directory.";
 static msg_t HOME_DIR_ERROR = "Can't change to home directory.";
 static msg_t NO_EVENT = "Event not found.";
+static msg_t HISTORY_USAGE = "Usage: history [-chrSLMT] [# number of events].";
 
 // Redirections
 static msg_t AMBIGUOUS_INPUT = "Ambiguous input redirect.";
 static msg_t AMBIGUOUS_OUTPUT = "Ambiguous output redirect.";
 static msg_t MISSING_COMMAND = "Invalid null command.";
 static msg_t MISSING_NAME = "Missing name for redirect.";
+
+// Graphics
+static msg_t NO_TERM = "No terminal set.";
+static msg_t ERROR_TERM = "Cannot access terminal database.";
+static msg_t UNKNOWN_TERM = "Unknown terminal type.";
 
 // Error handling
 static msg_t FOLDER_ERROR = "Permission denied.";

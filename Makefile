@@ -44,6 +44,11 @@ UTILS_SRC	=	home.c \
 				tests.c \
 				variables.c \
 				status.c \
+				graphics/arrows.c \
+				graphics/init.c \
+				graphics/input.c \
+				graphics/lines.c \
+				graphics/operations.c \
 				history/history.c \
 				history/interact.c \
 				history/substitutions.c \
@@ -59,13 +64,20 @@ ENV_SRC	=	environment.c \
 			local/localset_checks.c \
 			local/localenv.c
 
+JOB_DIR	=	job_control
+JOB_SRC	=	handle_job.c \
+			remove_job.c \
+			builtin_job.c \
+			silent_job.c \
+
 BASE_DIR	= 	src
 BASE_SRC	=	shell.c \
 				$(addprefix $(BUILTIN_DIR)/, $(BUILTIN_SRC)) \
 				$(addprefix $(COMMAND_DIR)/, $(COMMAND_SRC)) \
 				$(addprefix $(REDIRECTION_DIR)/, $(REDIRECTION_SRC)) \
 				$(addprefix $(UTILS_DIR)/, $(UTILS_SRC)) \
-				$(addprefix $(ENV_DIR)/, $(ENV_SRC))
+				$(addprefix $(ENV_DIR)/, $(ENV_SRC)) \
+				$(addprefix $(JOB_DIR)/, $(JOB_SRC))
 
 TESTS_DIR	=	tests/src
 TESTS_SRC	=	test_shell.c \
@@ -104,7 +116,7 @@ HEADERS_DIRS 	=	include/ \
 
 CFLAGS		=	-Wall -Wextra
 CPPFLAGS	=	$(HEADERS_DIRS:%=-iquote %)
-LDLIBS		=	$(addprefix -l, $(LIBS))
+LDLIBS		=	$(addprefix -l, $(LIBS)) -lncurses
 LDFLAGS		=	$(addprefix -L, $(LIB_DIRS))
 
 VG_FLAGS	=	--leak-check=full --track-origins=yes --show-leak-kinds=all \
@@ -160,7 +172,7 @@ tests_run:
 func_tests:
 			@$(MAKE) re > /dev/null
 			@python3 -m pip install termcolor > /dev/null
-			python3 tests/tester.py -adc
+			python3 tests/functional/tester.py -adc
 
 mem_checks:
 			@$(MAKE) fclean > /dev/null

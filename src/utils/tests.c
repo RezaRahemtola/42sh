@@ -15,15 +15,16 @@
 void replace_argument(command_t *command, size_t index, char *new_arg)
 {
     char *replaced = my_strrep(command->input, command->args[index], new_arg);
-    if (replaced == NULL) {
+
+    if (replaced == NULL)
         return;
-    }
     my_free(2, command->input, command->args[index]);
     command->input = replaced;
     command->args[index] = new_arg;
 }
 
-static char *return_value(shell_t *shell)
+static char *return_value(const shell_t *shell)
+
 {
     size_t id_len = snprintf(NULL, 0, "%d", shell->ret) + 1;
     char *value = malloc(sizeof(char) * id_len);

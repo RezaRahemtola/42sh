@@ -19,11 +19,12 @@ static char *explore_path(const env_t *path, const char *bin)
     size_t size = my_arraylen(array);
     char *line = NULL;
     char *separator = NULL;
+    size_t len = 0;
 
     for (size_t i = 0; i < size; i++) {
         separator = (array[i][strlen(array[i]) - 1] == '/' ? "" : "/");
-        line = malloc(sizeof(char) * (strlen(array[i]) + strlen(bin)
-        + strlen(separator) + 1));
+        len = snprintf(NULL, 0, "%s%s%s", array[i], separator, bin) + 1;
+        line = malloc(sizeof(char) * len);
         sprintf(line, "%s%s%s", array[i], separator, bin);
         if (access(line, F_OK) == 0) {
             my_free_arrays(1, array);
