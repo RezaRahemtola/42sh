@@ -15,6 +15,7 @@
 #include "history.h"
 #include "messages.h"
 #include "shell.h"
+#include "jobs.h"
 
 static void init_shell(shell_t *shell, const char *const *env)
 {
@@ -26,28 +27,6 @@ static void init_shell(shell_t *shell, const char *const *env)
         init_graphics(shell);
         load_rc(shell);
     }
-}
-
-bool compare_pid(void *list_elem, void *compare)
-{
-    job_t *old = list_elem;
-    int status = 0;
-
-    (void)compare;
-    if (waitpid(old->pid, &status, WNOHANG)) {
-        printf("[%d] Done -> %s\n", old->nb_job, old->command);
-        return (true);
-    } else {
-        return (false);
-    }
-}
-
-void free_pid(void *elem)
-{
-    job_t *job = elem;
-
-    free(job->command);
-    free(job);
 }
 
 static void terminate_shell(shell_t *shell)
