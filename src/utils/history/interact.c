@@ -42,14 +42,16 @@ char *get_history_command(list_t *history, int index)
     return (NULL);
 }
 
-char *get_history_by_str(list_t *history, const char *str)
+char *get_history_by_str(list_t *history, const char *str, bool contains)
 {
     int len = my_list_size(history);
     char *cmd = NULL;
 
     for (int index = -1; len >= abs(index); index--) {
         cmd = get_history_command(history, index);
-        if (strncmp(cmd, str, strlen(str)) == 0)
+        if (!contains && strncmp(cmd, str, strlen(str)) == 0)
+            return (cmd);
+        if (contains && strstr(cmd, str) != NULL)
             return (cmd);
     }
     return (NULL);
