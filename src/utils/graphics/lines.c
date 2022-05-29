@@ -9,12 +9,14 @@
 #include <string.h>
 #include <termios.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "graphics.h"
 
 ssize_t get_line_content(char **line, size_t *size, shell_t *shell)
 {
     struct termios old;
     struct termios new;
+    char *prompt = get_prompt();
 
     if (!shell->graphical) {
         return getline(line, size, stdin);
@@ -23,7 +25,8 @@ ssize_t get_line_content(char **line, size_t *size, shell_t *shell)
     new = old;
     new.c_lflag &= ~(ICANON | ECHO);
     tcsetattr(STDIN_FILENO, TCSANOW, &new);
-    printf("$> ");
+    printf("%s", prompt);
+    free(prompt);
     *line = get_user_input();
     tcsetattr(STDIN_FILENO, TCSANOW, &old);
     if (*line == NULL)
