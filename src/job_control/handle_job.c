@@ -12,33 +12,23 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-bool job_command_case(char *command)
+bool job_command_case(char *str)
 {
-    for (int i = 0; command[i] != '\0'; i++) {
-        if (command[i] == '&' && command[i + 1] != '&') {
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] == '&' && str[i + 1] == '\0') {
             return (true);
+        } else if (str[i] == '&' && str[i + 1] == '&') {
+            return (false);
         }
     }
     return (false);
 }
 
-char **remove_incorrect_char(char **input)
-{
-    for (int i = 0; input[i] != NULL; i++) {
-        if (job_command_case(input[i])) {
-            input[i] = NULL;
-            return (input);
-        }
-    }
-    return (input);
-}
-
 job_t *add_new_job(job_t *command, char *input)
 {
     job_t *tmp = NULL;
-    job_t *new_elem = NULL;
+    job_t *new_elem = malloc(sizeof(job_t));
 
-    new_elem = malloc(sizeof(job_t));
     new_elem->command = strdup(input);;
     new_elem->nb_job = 1;
     new_elem->next = NULL;

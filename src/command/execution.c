@@ -87,17 +87,13 @@ void execute_commands(command_t *command, env_t **env, shell_t *shell)
     command_t *current = command;
 
     while (current != NULL) {
-        if (job_command_case(current->input) && !current->job_check) {
+        if (job_command_case(current->input)) {
             current->args = remove_incorrect_char(current->args);
-            current->input[strlen(current->input) - 1] = '\0';
             shell->job = add_new_job(shell->job, current->input);
             shell->nb_job++;
             current->job_check = true;
-            executed_number = execute_command_line(current, env, shell);
-        } else {
-            current->job_check = false;
-            executed_number = execute_command_line(current, env, shell);
         }
+        executed_number = execute_command_line(current, env, shell);
         for (size_t i = 0; i < executed_number && current != NULL; i++)
             current = current->next;
     }
