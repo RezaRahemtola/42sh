@@ -30,11 +30,9 @@ char *env_value(const shell_t *shell, const char *name)
 
 char *get_variable_name(const char *str, size_t start, size_t len)
 {
-    for (size_t i = start; i < len; i++) {
-        if (!isalpha(str[i])) {
+    for (size_t i = start; i < len; i++)
+        if (!isalpha(str[i]))
             return (my_substr_size(str, start, i, len));
-        }
-    }
     return (len == start ? strdup("") : my_substr_size(str, start, len, len));
 }
 
