@@ -79,7 +79,7 @@ void builtin_cd(shell_t *shell, char *const *args)
         return;
     }
     if (size == 1)
-        change_home(shell->env);
+        change_home(shell->env, shell->localenv);
     else if (size == 2)
         handle_cd(shell->env, args[1]);
     else

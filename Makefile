@@ -38,10 +38,12 @@ UTILS_SRC	=	home.c \
 				logical.c \
 				redirections.c \
 				replacements.c \
+				startup.c \
 				strings.c \
 				prompt.c \
 				tests.c \
 				variables.c \
+				status.c \
 				history/history.c \
 				history/interact.c \
 				history/substitutions.c \

@@ -59,6 +59,8 @@ char **split_logical(const char *input)
     logical_t logical = {NULL, NO_NEXT};
     char **array = malloc(sizeof(char *) * (count + 1));
 
+    if (!array)
+        return NULL;
     for (size_t i = 0; i < size; i++) {
         logical = get_logical(input, i);
         if (logical.type != NULL) {
@@ -69,6 +71,5 @@ char **split_logical(const char *input)
             i += strlen(logical.type) - 1;
         }
     }
-    append_end(array, input, pattern, index);
-    return (array);
+    return append_end(array, input, pattern, index), array;
 }

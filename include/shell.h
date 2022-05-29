@@ -14,6 +14,7 @@ static const int EXIT_USAGE = 84;
 // Core
 int start_shell(const char *const *env);
 void do_heartbeat(shell_t *shell, const char *const *env);
+void load_rc(shell_t *shell);
 
 // Command handling
 bool is_directory(const char *path);
@@ -34,10 +35,13 @@ void list_free(command_t *list);
 // Directories
 void handle_cd(const env_t *env, const char *path);
 void change_current_path(const char *dir);
-void change_home(const env_t *env);
+void change_home(const env_t *env, const localenv_t *localenv);
 int handle_cd_silently(shell_t *shell, const char *path, const char *current);
 int change_dir_silently(shell_t *shell, const char *dir, const char *current);
 int change_home_silently(shell_t *shell, const char *current);
+
+//Status handling
+bool must_relay_status(command_t *command);
 
 // Signals
 void handle_quit(int sig);

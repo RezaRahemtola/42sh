@@ -65,10 +65,11 @@ static bool replace_home_user(command_t *command, char *user, size_t i)
 
 static bool replace_home_value(command_t *command, shell_t *shell, size_t i)
 {
-    const localenv_t *home = get_localenv_value(shell->localenv, "home");
+    const env_t *home = get_env_value(shell->env, "HOME");
+    const localenv_t *localhome = get_localenv_value(shell->localenv, "home");
     char *replaced = NULL;
 
-    if (home == NULL) {
+    if (home == NULL || localhome == NULL) {
         fprintf(stderr, "%s\n", NO_HOME_VARIABLE);
         return (false);
     }

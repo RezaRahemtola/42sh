@@ -1,5 +1,5 @@
 {
-    "tests" : [
+    "tests": [
         {
             "name": "errors - Unknown command",
             "command": "nocommand"
@@ -373,6 +373,10 @@
             "command": "cat Makefile | grep test"
         },
         {
+            "name": "pipes - unknown left",
+            "command": "unknowncommand | ls"
+        },
+        {
             "name": "pipes - unknown right",
             "command": "ls | unknowncommand"
         },
@@ -423,6 +427,46 @@
         {
             "name": "unalias - all",
             "command": "unalias * ; alias"
+        },
+        {
+            "name": "tilde - Printing",
+            "command": "echo ~ ; echo $home"
+        },
+        {
+            "name": "tilde - Basic",
+            "command": "echo ~ ; ls ~"
+        },
+        {
+            "name": "tilde - Continued",
+            "command": "ls ~/Downloads"
+        },
+        {
+            "name": "tilde - No tilde",
+            "command": "unset home ; ls ~/Downloads"
+        },
+        {
+            "name": "tilde - Executing next",
+            "command": "unset home ; ls ~ ; echo still done"
+        },
+        {
+            "name": "variables - Printing values",
+            "command": "echo $home $?home"
+        },
+        {
+            "name": "variables - Not existing",
+            "command": "echo $bonsoir"
+        },
+        {
+            "name": "variables - Test variable not existing",
+            "command": "echo $?bonsoir"
+        },
+        {
+            "name": "variables - Not executing next",
+            "command": "echo $bonsoir ; echo not executed"
+        },
+        {
+            "name": "variables - Concatenated variables",
+            "command": "set TEST = test; echo $TEST$TEST"
         },
         {
             "name": "mysh2 - subject example",
