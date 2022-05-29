@@ -35,6 +35,16 @@
 </details>
 
 <details>
+  <summary>Line editing</summary>
+  <br>
+  <ul>
+    <li><code>↑</code> and <code>↓</code> to select a command from the history to edit/execute</li>
+    <li><code>←</code> and <code>→</code> to move in the input and edit it</li>
+    <li><code>CTRL</code> + <code>L</code> to clear the screen</li>
+  </ul>
+</details>
+
+<details>
   <summary>Local environment</summary>
   <br>
   <p>Variables specific to the current shell:</p>
