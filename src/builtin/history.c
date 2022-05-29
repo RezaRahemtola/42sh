@@ -20,6 +20,11 @@ static bool is_history_error(char *const *args, bool print)
             fprintf(stderr, "history: %s\n", NUMBER_ERROR);
         return (true);
     }
+    if (size >= 2 && atoi(args[1]) < 0) {
+        if (print)
+            fprintf(stderr, "%s\n", HISTORY_USAGE);
+        return (true);
+    }
     return (false);
 }
 
