@@ -11,18 +11,18 @@
 #include "my_arrays.h"
 #include "shell.h"
 
-int silent_jobs(env_t **env, char *const *args, shell_t *shell)
+int silent_jobs(shell_t *shell, char *const *args)
 {
     job_t *job = NULL;
     size_t size = my_arraylen(args);
 
-    (void)env;
     if (size != 1) {
         fprintf(stderr, "jobs: Too many arguments.\n");
         return (1);
     }
     while (shell->job != NULL) {
         job = shell->job->data;
+        printf("afin\n");
         printf("[%d]\tRunning\t%s\n", job->nb_job, job->command);
         shell->job = shell->job->next;
     }
@@ -46,31 +46,31 @@ int wait_fg(pid_t pid)
 static bool error_case_fg(shell_t *shell, char *const *args)
 {
     if (shell->job == NULL || shell->job->data == NULL) {
-        fprintf(stderr, "fg No current job.\n");
+        fprintf(stderr, "fg: No current job.\n");
         return (false);
     }
     if (my_arraylen(args) != 2) {
-        fprintf(stderr, "fg No current job.\n");
+        fprintf(stderr, "fg: No current job.\n");
         return (false);
     }
     return (true);
 }
 
-int silent_fg(env_t **env, char *const *args, shell_t *shell)
+int silent_fg(shell_t *shell, char *const *args)
 {
     job_t *job = NULL;
     int nb_job = 0;
 
-    (void)env;
     if (!error_case_fg(shell, args))
         return (1);
     job = shell->job->data;
     nb_job = atoi(args[1]);
-    while (job != NULL) {
+    while (shell->job != NULL) {
+        job = shell->job->data;
         if (nb_job == job->nb_job) {
             return (wait_fg(job->pid));
         }
-        job = job->next;
+        shell->job = shell->job->next;
     }
     fprintf(stderr, "fg: No such job.\n");
     return (1);

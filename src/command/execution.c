@@ -105,6 +105,7 @@ void execute_commands(command_t *command, shell_t *shell)
             new->nb_job = shell->nb_job;
             my_list_add(&shell->job, new);
             current->job_check = true;
+            printf("add");
         }
         executed_number = execute_command_line(current, shell);
         for (size_t i = 0; i < executed_number && current != NULL; i++)
