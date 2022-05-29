@@ -16,7 +16,6 @@ int start_shell(const char *const *env)
     shell_t shell = {0, 0, 0, NULL};
     env_t *list = NULL;
 
-    printf("OriPID:%d\n", getpid());
     setbuf(stdout, NULL);
     setbuf(stderr, NULL);
     if (env == NULL) {
