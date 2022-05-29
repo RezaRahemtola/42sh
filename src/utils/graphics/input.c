@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <term.h>
 #include "graphics.h"
 #include "my.h"
 
@@ -44,14 +45,19 @@ static void reevaluate_size(line_t *line, line_t *buffer)
 
 static bool handle_key_pressed(int key, line_t *line, line_t *buffer)
 {
+    char *cap = NULL;
+
     if (key == '\r' || key == '\n') {
         line->str[line->length] = '\n';
         line->str[line->length + 1] = '\0';
         putchar(key);
         return true;
     }
-    if (key == 12)
-        system("clear");
+    if (key == 12) {
+        cap = tgetstr("cl", NULL);
+        tputs(cap, 1, putchar);
+        print_line(line);
+    }
     if (key == 27)
         handle_special_key(line);
     if (key >= 32 && key <= 126)
