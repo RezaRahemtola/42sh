@@ -28,17 +28,6 @@ static void init_shell(shell_t *shell, const char *const *env)
     }
 }
 
-static void terminate_shell(shell_t *shell)
-{
-    if (shell->graphical)
-        printf("exit\n");
-    save_history(shell->history, shell->env);
-    my_list_free(shell->history, free_history);
-    destroy_env(shell->aliases);
-    destroy_env(shell->env);
-    destroy_localenv(shell->localenv);
-}
-
 bool compare_pid(void *list_elem, void *compare)
 {
     job_t *old = list_elem;
@@ -46,6 +35,7 @@ bool compare_pid(void *list_elem, void *compare)
 
     (void)compare;
     if (waitpid(old->pid, &status, WNOHANG)) {
+        printf("[%d] Done -> %s\n", old->nb_job, old->command);
         return (true);
     } else {
         return (false);
@@ -56,9 +46,20 @@ void free_pid(void *elem)
 {
     job_t *job = elem;
 
-    printf("[%d] Done -> %s\n", job->nb_job, job->command);
     free(job->command);
     free(job);
+}
+
+static void terminate_shell(shell_t *shell)
+{
+    if (shell->graphical)
+        printf("exit\n");
+    save_history(shell->history, shell->env);
+    my_list_free(shell->history, free_history);
+    my_list_free(shell->job, free_pid);
+    destroy_env(shell->aliases);
+    destroy_env(shell->env);
+    destroy_localenv(shell->localenv);
 }
 
 int start_shell(const char *const *env)
