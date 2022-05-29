@@ -34,6 +34,11 @@ static msg_t AMBIGUOUS_OUTPUT = "Ambiguous output redirect.";
 static msg_t MISSING_COMMAND = "Invalid null command.";
 static msg_t MISSING_NAME = "Missing name for redirect.";
 
+// Graphics
+static msg_t NO_TERM = "No terminal set.";
+static msg_t ERROR_TERM = "Cannot access terminal database.";
+static msg_t UNKNOWN_TERM = "Unknown terminal type.";
+
 // Error handling
 static msg_t FOLDER_ERROR = "Permission denied.";
 static msg_t NOT_DIRECTORY = "Not a directory.";

@@ -11,6 +11,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "environment.h"
+#include "graphics.h"
 #include "history.h"
 #include "messages.h"
 #include "shell.h"
@@ -21,13 +22,15 @@ static void init_shell(shell_t *shell, const char *const *env)
     load_history(shell);
     load_localenv(shell);
     remove_env_property(&shell->env, "OLDPWD");
-    if (isatty(0))
+    if (shell->graphical) {
+        init_graphics(shell);
         load_rc(shell);
+    }
 }
 
 static void terminate_shell(shell_t *shell)
 {
-    if (isatty(0))
+    if (shell->graphical)
         printf("exit\n");
     save_history(shell->history, shell->env);
     my_list_free(shell->history, free_history);
@@ -38,7 +41,7 @@ static void terminate_shell(shell_t *shell)
 
 int start_shell(const char *const *env)
 {
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, isatty(0), NULL, NULL, NULL, NULL};
 
     setbuf(stdout, NULL);
     setbuf(stderr, NULL);

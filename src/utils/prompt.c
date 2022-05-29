@@ -21,6 +21,6 @@ void exec_special_alias(const char *key, shell_t *shell)
 void prompt(shell_t *shell)
 {
     exec_special_alias("precmd", shell);
-    if (isatty(0))
+    if (shell->graphical)
         printf("$> ");
 }

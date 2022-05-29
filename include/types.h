@@ -61,6 +61,7 @@ typedef struct local_environment {
 typedef struct shell {
     bool exit;
     int ret;
+    bool graphical;
     env_t *env;
     localenv_t *localenv;
     list_t *history;
