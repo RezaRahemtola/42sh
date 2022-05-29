@@ -21,7 +21,6 @@ void free_history(void *elem)
 char *get_history_command(list_t *history, int index)
 {
     history_t *elem = NULL;
-    bool backward = (index < 0);
 
     if (history == NULL)
         return (NULL);
@@ -33,7 +32,7 @@ char *get_history_command(list_t *history, int index)
             break;
         history = history->next;
     }
-    while (backward && history != NULL) {
+    while (index < 0 && history != NULL) {
         elem = history->data;
         index += 1;
         if (index == 0)
