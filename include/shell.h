@@ -40,6 +40,9 @@ int handle_cd_silently(shell_t *shell, const char *path, const char *current);
 int change_dir_silently(shell_t *shell, const char *dir, const char *current);
 int change_home_silently(shell_t *shell, const char *current);
 
+//Status handling
+bool must_relay_status(command_t *command);
+
 // Signals
 void handle_quit(int sig);
 void init_signals(void);
