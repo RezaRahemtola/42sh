@@ -16,4 +16,5 @@ void handle_quit(__attribute__ ((unused)) int sig)
 void init_signals(void)
 {
     signal(SIGINT, &handle_quit);
+    signal(SIGCHLD, SIG_DFL);
 }

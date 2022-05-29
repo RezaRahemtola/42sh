@@ -16,6 +16,7 @@ int start_shell(const char *const *env)
     shell_t shell = {0, 0, 0, NULL};
     env_t *list = NULL;
 
+    printf("OriPID:%d\n", getpid());
     setbuf(stdout, NULL);
     setbuf(stderr, NULL);
     if (env == NULL) {
@@ -42,8 +43,8 @@ void do_heartbeat(env_t **env, shell_t *shell)
         read_size = getline(&line, &size, stdin);
         if (read_size == -1)
             shell->exit = true;
+        check_children(shell->job);
         if (read_size > 1) {
-            check_zombie(shell->job);
             handle_input(line, env, shell);
         }
         free(line);

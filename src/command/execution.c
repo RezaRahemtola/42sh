@@ -34,7 +34,7 @@ static void wait_commands(command_t *command, shell_t *shell)
     int status = 0;
     command_t *current = command;
 
-    while (current != NULL && current->state == RUNNING) {
+    while (current != NULL && current->state == RUNNING && !command->job_check) {
         waitpid(current->pid, &status, WUNTRACED | WCONTINUED);
         handle_errors(status);
         current->ret = (status > 255 ? status / 256 : status);

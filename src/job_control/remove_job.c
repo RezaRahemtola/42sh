@@ -7,6 +7,7 @@
 
 #include "types.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 job_t *remove_job(job_t *command, char *input)
 {
@@ -29,12 +30,12 @@ job_t *remove_job(job_t *command, char *input)
     return (command);
 }
 
-job_t *check_zombie(job_t *job)
+job_t *check_children(job_t *job)
 {
     job_t *tmp = job;
 
     while (tmp != NULL) {
-        if (kill(tmp->pid, 0) <= -1)
+        if (kill(tmp->pid, SIGCHLD) <= 0)
             printf("[%d] Done -> %s\n", tmp->nb_job, tmp->command);
         tmp = tmp->next;
     }
