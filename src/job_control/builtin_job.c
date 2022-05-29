@@ -24,13 +24,17 @@ int silent_job(env_t **env, char *const *args, shell_t *shell)
     return (0);
 }
 
-int wait_fg(shell_t *shell, pid_t pid)
+int wait_fg(pid_t pid)
 {
     int status = 0;
 
     tcsetpgrp(0, pid);
-    waitpid(pid, &status, WUNTRACED | WCONTINUED);
+    if (isatty(0))
+        waitpid(pid, &status, WUNTRACED | WCONTINUED);
     handle_errors(status);
+    signal(SIGTTOU, SIG_IGN);
+    tcsetpgrp(0, getpid());
+    signal(SIGTTOU, SIG_DFL);
     return (status > 255 ? status / 256 : status);
 }
 
@@ -52,7 +56,7 @@ int silent_fg(env_t **env, char *const *args, shell_t *shell)
         job = job->next;
     }
     if (found)
-        return (wait_fg(shell, pid));
+        return (wait_fg(pid));
     fprintf(stderr, "fg: job not found: %d.\n", pid);
     return (1);
 }
