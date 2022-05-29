@@ -97,7 +97,6 @@ void execute_commands(command_t *command, shell_t *shell)
     job_t *new = NULL;
 
     while (current != NULL) {
-        executed_number = execute_command_line(current, shell);
         if (job_command_case(current->input)) {
             current->args = remove_incorrect_char(current->args);
             new = malloc(sizeof(job_t));

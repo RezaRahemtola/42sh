@@ -7,12 +7,12 @@
 
 #include <signal.h>
 #include <stdio.h>
-#include "types.h"
+#include "graphics.h"
 
 static void handler(int sig)
 {
     if (sig == SIGINT) {
-        printf("\n$> ");
+        printf("\n%s", get_prompt());
     }
 }
 
