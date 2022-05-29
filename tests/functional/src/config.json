@@ -1,0 +1,192 @@
+{
+    "tests": [
+        {
+            "name": "ls - simple",
+            "command": "ls"
+        },
+        {
+            "name": "ls - with option",
+            "command": "ls -la"
+        },
+        {
+            "name": "ls - complicated",
+            "command": "ls -la /dev"
+        },
+        {
+            "name": "ls - with spaces",
+            "command": "   ls   -la    /dev            "
+        },
+        {
+            "name": "ls - with spaces and tabs",
+            "command": "\t   ls  \t -la  \t  /dev      \t      "
+        },
+        {
+            "name": "ls - Inexistant file",
+            "command": "ls nofile"
+        },
+        {
+            "name": "recursion - 42sh in 42sh",
+            "command": "42sh"
+        },
+        {
+            "name": "semicolon - simple",
+            "command": "ls -la; cat Makefile"
+        },
+        {
+            "name": "semicolon - exit in the middle",
+            "command": "ls -la; exit 42; cat Makefile"
+        },
+        {
+            "name": "semicolon - without first",
+            "command": "; cat Makefile"
+        },
+        {
+            "name": "semicolon - without last",
+            "command": "ls -la; "
+        },
+        {
+            "name": "semicolon - empty",
+            "command": ";; ;    ; \t ;"
+        },
+        {
+            "name": "redir - (>) simple",
+            "command": "ls -la > output.txt ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>) options after",
+            "command": "ls > output.txt -la ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>) beginning of str",
+            "command": "> output.txt ls -la ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>) no filename",
+            "command": "ls -la >"
+        },
+        {
+            "name": "redir - (>) permission denied",
+            "command": "echo test > /etc/sudoers"
+        },
+        {
+            "name": "redir - (>>) simple",
+            "command": "echo lol > output.txt ; ls -la >> output.txt ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>>) options after",
+            "command": "echo test > output.txt ; ls -a >> output.txt --list ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>>) beginning of str",
+            "command": "> output.txt echo test ; >> output.txt ls -la ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>>) no filename",
+            "command": "echo test >>  \t "
+        },
+        {
+            "name": "redir - (>>) permission denied",
+            "command": "echo test >> /etc/sudoers"
+        },
+        {
+            "name": "redir - (<) simple",
+            "command": "grep my < Makefile"
+        },
+        {
+            "name": "redir - (<) options after",
+            "command": "grep my < Makefile -i"
+        },
+        {
+            "name": "redir - (<) beginning of str",
+            "command": "< Makefile grep my -i"
+        },
+        {
+            "name": "redir - (<) no filename",
+            "command": "grep test < \t "
+        },
+        {
+            "name": "redir - (<) permission denied",
+            "command": "grep root < /etc/sudoers"
+        },
+        {
+            "name": "redir - (<<) no string",
+            "command": "grep test <<  \t "
+        },
+        {
+            "name": "operators - Mixed && and ||",
+            "command": "echo One || echo Two && echo Three || echo Four"
+        },
+        {
+            "name": "operators - Mixed &&, || and |",
+            "command": "echo One && echo Two || echo Three | echo Four"
+        },
+        {
+            "name": "pipes - no right",
+            "command": "cat -e Makefile |"
+        },
+        {
+            "name": "! - no command without history",
+            "command": "! command"
+        },
+        {
+            "name": "! - no command with history",
+            "command": "ls \n ! ls"
+        },
+        {
+            "name": "unalias - all",
+            "command": "unalias * ; alias"
+        },
+        {
+            "name": "tilde - Printing",
+            "command": "echo ~ ; echo $home"
+        },
+        {
+            "name": "tilde - Basic",
+            "command": "echo ~ ; ls ~"
+        },
+        {
+            "name": "tilde - Continued",
+            "command": "ls ~/Downloads"
+        },
+        {
+            "name": "tilde - No tilde",
+            "command": "unset home ; ls ~/Downloads"
+        },
+        {
+            "name": "tilde - Executing next",
+            "command": "unset home ; ls ~ ; echo still done"
+        },
+        {
+            "name": "variables - Printing values",
+            "command": "echo $home $?home"
+        },
+        {
+            "name": "variables - Not existing",
+            "command": "echo $bonsoir"
+        },
+        {
+            "name": "variables - Test variable not existing",
+            "command": "echo $?bonsoir"
+        },
+        {
+            "name": "variables - Not executing next",
+            "command": "echo $bonsoir ; echo not executed"
+        },
+        {
+            "name": "variables - Concatenated variables",
+            "command": "set TEST = test; echo $TEST$TEST"
+        },
+        {
+            "name": "mysh2 - subject example",
+            "command": "ls -l; ls -l | wc -l"
+        },
+        {
+            "name": "mysh2 - subject example complex",
+            "command": "mkdir folder ; cd folder ; ls -a ; ls | cat | wc -c ; cd .. ; rm -r folder"
+        },
+        {
+            "name": "42sh - subject example",
+            "command": "cd ; </etc/hosts od -c | grep xx | wc >> /tmp/z -l ; cd - && echo OK"
+        }
+    ]
+}

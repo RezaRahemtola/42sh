@@ -160,7 +160,7 @@ tests_run:
 func_tests:
 			@$(MAKE) re > /dev/null
 			@python3 -m pip install termcolor > /dev/null
-			python3 tests/tester.py -adc
+			python3 tests/functional/tester.py -adc
 
 mem_checks:
 			@$(MAKE) fclean > /dev/null

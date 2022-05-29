@@ -1,0 +1,28 @@
+{
+    "tests": [
+        {
+            "name": "alias - Invalid name 'alias'",
+            "command": "alias alias value"
+        },
+        {
+            "name": "alias - Invalid name 'unalias'",
+            "command": "alias unalias value"
+        },
+        {
+            "name": "alias - Multiple values",
+            "command": "alias myalias value1 value2 value3"
+        },
+        {
+            "name": "alias - Multiple values with checks",
+            "command": "alias myalias value1 value2 value3 ; alias | grep myalias"
+        },
+        {
+            "name": "unalias - simple",
+            "command": "alias myalias value ; unalias myalias"
+        },
+        {
+            "name": "unalias - Non existing alias",
+            "command": "unalias notanalias"
+        }
+    ]
+}
