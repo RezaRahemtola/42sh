@@ -33,6 +33,35 @@
   A <code>.42sh_history</code> file is also stored in the user's home folder to have a persistent history between sessions.
 </details>
 
+<details>
+  <summary>Local environment</summary>
+  <br>
+  <p>Variables specific to the current shell:</p>
+  <ul>
+    <li><code>set var = val</code> creates/updates <code>var</code> with <code>val</code></li>
+    <li><code>set var1 var2 ...</code> creates/updates several variables with empty values</li>
+    <li><code>-r</code> is an option that can be used with <code>set</code> for a read-only variable, which means that you won't be able to use <code>set</code> or <code>unset</code> on it again.</li>
+    <li><code>unset var1 var2 ...</code> removes the given variables</li>
+  </ul>
+  <p>Preloaded variables:</p>
+  <ul>
+    <li><code>cwd</code> for the current working directory (will be updated when you change directory)</li>
+    <li><code>euid</code> for the effective user id</li>
+    <li><code>euser</code> for the effective username</li>
+    <li><code>gid</code> for the user's group id</li>
+    <li><code>group</code> for the user's group name</li>
+    <li><code>home</code> for the user's home directory</li>
+    <li><code>owd</code> for the old working directory (will be updated when you change directory)</li>
+    <li><code>uid</code> for the user id</li>
+    <li><code>user</code> for the username</li>
+  </ul>
+  <p>Special variables supported:</p>
+  <ul>
+    <li><code>ignoreeof</code> to disable EOF shell exit if set to <code>0</code> or empty. If set to a number <code>n</code>, the shell will exit on the nth consecutive EOF.</li>
+  </ul>
+</details>
+
+
 ## Developers
 | [<img src="https://github.com/EdenComp.png?size=85" width=85><br><sub>Florian Lauch</sub>](https://github.com/EdenComp) | [<img src="https://github.com/Steci.png?size=85" width=85><br><sub>Léa Guillemard</sub>](https://github.com/Steci) | [<img src="https://github.com/Croos3r.png?size=85" width=85><br><sub>Dorian Moy</sub>](https://github.com/Croos3r) | [<img src="https://github.com/RezaRahemtola.png?size=85" width=85><br><sub>Reza Rahemtola</sub>](https://github.com/RezaRahemtola)
 | :---: | :---: | :---: | :---:
