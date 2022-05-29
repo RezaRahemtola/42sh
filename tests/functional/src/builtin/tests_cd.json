@@ -1,0 +1,24 @@
+{
+    "tests": [
+        {
+            "name": "cd - simple",
+            "command": "cd /"
+        },
+        {
+            "name": "cd - Too many arguments",
+            "command": "cd / / / / /"
+        },
+        {
+            "name": "cd - Inexistant directory",
+            "command": "cd /nothing"
+        },
+        {
+            "name": "cd - Not a directory",
+            "command": "cd config.json"
+        },
+        {
+            "name": "cd - Previous with too many arguments",
+            "command": "cd -args"
+        }
+    ]
+}
