@@ -9,11 +9,6 @@
 #include <stdio.h>
 #include "types.h"
 
-void catch_bg_signal(int sig)
-{
-    
-}
-
 static void handler(int sig)
 {
     if (sig == SIGINT) {
