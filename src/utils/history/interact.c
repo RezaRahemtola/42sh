@@ -18,7 +18,7 @@ void free_history(void *elem)
     free(history);
 }
 
-char *get_history_command(list_t *history, int index)
+history_t *get_history(list_t *history, int index)
 {
     history_t *elem = NULL;
 
@@ -27,7 +27,7 @@ char *get_history_command(list_t *history, int index)
     while (true) {
         elem = history->data;
         if (elem->index == (size_t)index)
-            return (elem->command);
+            return (elem);
         if (history->next == NULL)
             break;
         history = history->next;
@@ -36,7 +36,7 @@ char *get_history_command(list_t *history, int index)
         elem = history->data;
         index += 1;
         if (index == 0)
-            return (elem->command);
+            return (elem);
         history = history->prev;
     }
     return (NULL);
@@ -45,14 +45,14 @@ char *get_history_command(list_t *history, int index)
 char *get_history_by_str(list_t *history, const char *str, bool contains)
 {
     int len = my_list_size(history);
-    char *cmd = NULL;
+    history_t *hist = NULL;
 
     for (int index = -1; len >= abs(index); index--) {
-        cmd = get_history_command(history, index);
-        if (!contains && strncmp(cmd, str, strlen(str)) == 0)
-            return (cmd);
-        if (contains && strstr(cmd, str) != NULL)
-            return (cmd);
+        hist = get_history(history, index);
+        if (!contains && strncmp(hist->command, str, strlen(str)) == 0)
+            return (hist->command);
+        if (contains && strstr(hist->command, str) != NULL)
+            return (hist->command);
     }
     return (NULL);
 }

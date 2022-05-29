@@ -17,13 +17,15 @@
 void handle_last_substitution(char **input, list_t *history)
 {
     char *new = NULL;
+    history_t *elem = NULL;
 
     if (my_list_size(history) == 0) {
         fprintf(stderr, "0: %s\n", NO_EVENT);
         free(*input);
         *input = NULL;
     } else {
-        new = my_strrep(*input, "!!", get_history_command(history, -1));
+        elem = get_history(history, -1);
+        new = my_strrep(*input, "!!", elem->command);
         free(*input);
         *input = new;
     }
@@ -32,12 +34,12 @@ void handle_last_substitution(char **input, list_t *history)
 void handle_nb_substitution(char **input, char *current, list_t *history)
 {
     int nb = atoi(current);
-    const char *cmd = get_history_command(history, nb);
+    history_t *elem = get_history(history, nb);
     char *pattern = NULL;
     char *new = NULL;
     size_t len = 0;
 
-    if (cmd == NULL) {
+    if (elem == NULL) {
         fprintf(stderr, "%d: %s\n", nb, NO_EVENT);
         free(*input);
         *input = NULL;
@@ -45,7 +47,7 @@ void handle_nb_substitution(char **input, char *current, list_t *history)
         len = snprintf(NULL, 0, "!%d", nb) + 1;
         pattern = malloc(sizeof(char) * len);
         sprintf(pattern, "!%d", nb);
-        new = my_strrep(*input, pattern, cmd);
+        new = my_strrep(*input, pattern, elem->command);
         free(*input);
         *input = new;
         free(pattern);
