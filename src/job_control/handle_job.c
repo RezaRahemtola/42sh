@@ -53,9 +53,8 @@ list_t *add_job_pid(list_t *job, char *wanted, pid_t pid, int nb_job)
         tmp = job->data;
         new = job->data;
     }
-    while (tmp != NULL && tmp->command != NULL) {
-        printf("[%d] %s\n", tmp->nb_job, tmp->command);
-        if (!strcmp(wanted, tmp->command)) {
+    while (tmp != NULL) {
+        if (!strcmp(wanted, tmp->command) && nb_job == tmp->nb_job) {
             tmp->pid = pid;
             printf("[%d] %d\n", tmp->nb_job, tmp->pid);
             return (job);
