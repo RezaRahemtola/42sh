@@ -50,13 +50,14 @@ list_t *add_job_pid(list_t *job, char *wanted, pid_t pid, int nb_job)
 
     if (job != NULL && job->data != NULL)
         tmp = job->data;
-    while (tmp != NULL) {
+    while (job != NULL) {
+        tmp = job->data;
         if (!strcmp(wanted, tmp->command) && nb_job == tmp->nb_job) {
             tmp->pid = pid;
             printf("[%d] %d\n", tmp->nb_job, tmp->pid);
             return (job);
         }
-        tmp = tmp->next;
+        job = job->next;
     }
     return (job);
 }
