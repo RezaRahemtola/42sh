@@ -1,5 +1,5 @@
 {
-    "tests" : [
+    "tests": [
         {
             "name": "errors - Unknown command",
             "command": "nocommand"
@@ -371,6 +371,10 @@
         {
             "name": "pipes - simple",
             "command": "cat Makefile | grep test"
+        },
+        {
+            "name": "pipes - unknown left",
+            "command": "unknowncommand | ls"
         },
         {
             "name": "pipes - unknown right",
