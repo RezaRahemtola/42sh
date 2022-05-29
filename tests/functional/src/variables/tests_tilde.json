@@ -17,10 +17,6 @@
             "command": "unset home ; ls ~/Downloads"
         },
         {
-            "name": "tilde - No tilde env",
-            "command": "unsetenv HOME ; ls ~/Downloads"
-        },
-        {
             "name": "tilde - Executing next",
             "command": "unset home ; ls ~ ; echo still done"
         }

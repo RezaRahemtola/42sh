@@ -1,0 +1,40 @@
+{
+    "tests": [
+        {
+            "name": "variables preload - cwd",
+            "command": "echo $cwd"
+        },
+        {
+            "name": "variables preload - euid",
+            "command": "echo $euid"
+        },
+        {
+            "name": "variables preload - euser",
+            "command": "echo $euser"
+        },
+        {
+            "name": "variables preload - gid",
+            "command": "echo $gid"
+        },
+        {
+            "name": "variables preload - group",
+            "command": "echo $group"
+        },
+        {
+            "name": "variables preload - home",
+            "command": "echo $home"
+        },
+        {
+            "name": "variables preload - owd",
+            "command": "echo $owd"
+        },
+        {
+            "name": "variables preload - uid",
+            "command": "echo $uid"
+        },
+        {
+            "name": "variables preload - user",
+            "command": "echo $user"
+        }
+    ]
+}
