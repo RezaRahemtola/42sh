@@ -22,7 +22,5 @@ void init_signals(void)
 
     sigemptyset(&sa.sa_mask);
     sa.sa_handler = handler;
-    sa.sa_flags = SA_RESTART | SA_NOCLDWAIT;
-    //sigaction(SIGCHLD, &sa, NULL);
     sigaction(SIGINT, &sa, NULL);
 }

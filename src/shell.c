@@ -42,9 +42,10 @@ static void terminate_shell(shell_t *shell)
 bool compare_pid(void *list_elem, void *compare)
 {
     job_t *old = list_elem;
+    int status = 0;
 
     (void)compare;
-    if (kill(old->pid, SIGCHLD) < 0) {
+    if (waitpid(old->pid, &status, WNOHANG)) {
         return (true);
     } else {
         return (false);
