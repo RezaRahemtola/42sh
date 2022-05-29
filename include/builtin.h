@@ -9,11 +9,13 @@
 
 #include "types.h"
 
+void builtin_fg(env_t **env, char *const *args);
 void builtin_cd(env_t **env, char *const *args);
 void builtin_env(env_t **env, char *const *args);
 void builtin_exit(env_t **env, char *const *args);
 void builtin_setenv(env_t **env, char *const *args);
 void builtin_unsetenv(env_t **env, char *const *args);
+void builtin_jobs(env_t **env, char *const *args);
 
 int silent_cd(env_t **env, char *const *args, shell_t *shell);
 int silent_fg(env_t **env, char *const *args, shell_t *shell);
@@ -31,7 +33,7 @@ static const builtin_t BUILTIN[8] = {
         { "setenv", &builtin_setenv, &silent_setenv },
         { "unsetenv", &builtin_unsetenv, &silent_unsetenv },
         { "cd", &builtin_cd, &silent_cd },
-        { "jobs", 0, &silent_job },
-        { "fg", 0, &silent_fg },
+        { "jobs", &builtin_jobs, &silent_job },
+        { "fg", &builtin_fg, &silent_fg },
         { 0, 0, 0 }
 };

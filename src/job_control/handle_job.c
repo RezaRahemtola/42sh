@@ -47,12 +47,9 @@ job_t *add_new_job(job_t *command, char *input)
 list_t *add_job_pid(list_t *job, char *wanted, pid_t pid, int nb_job)
 {
     job_t *tmp = NULL;
-    job_t *new = NULL;
 
-    if (job != NULL && job->data != NULL) {
+    if (job != NULL && job->data != NULL)
         tmp = job->data;
-        new = job->data;
-    }
     while (tmp != NULL) {
         if (!strcmp(wanted, tmp->command) && nb_job == tmp->nb_job) {
             tmp->pid = pid;

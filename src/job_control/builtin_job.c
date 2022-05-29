@@ -8,7 +8,6 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "types.h"
 #include "my_arrays.h"
 #include "shell.h"
 
@@ -18,15 +17,14 @@ int silent_job(env_t **env, char *const *args, shell_t *shell)
     size_t size = my_arraylen(args);
 
     (void)env;
-    if (shell->job != NULL)
-        job = shell->job->data;
     if (size != 1) {
         fprintf(stderr, "jobs: Too many arguments.\n");
         return (1);
     }
-    while (job != NULL) {
-        printf("[%d]\tRunnig\t%s\n", job->nb_job, job->command);
-        job = job->next;
+    while (shell->job != NULL) {
+        job = shell->job->data;
+        printf("[%d]\tRunning\t%s\n", job->nb_job, job->command);
+        shell->job = shell->job->next;
     }
     return (0);
 }
@@ -45,26 +43,35 @@ int wait_fg(pid_t pid)
     return (status > 255 ? status / 256 : status);
 }
 
+static bool error_case_fg(shell_t *shell, char *const *args)
+{
+    if (shell->job == NULL || shell->job->data == NULL) {
+        fprintf(stderr, "fg No current job.\n");
+        return (false);
+    }
+    if (my_arraylen(args) != 2) {
+        fprintf(stderr, "fg No current job.\n");
+        return (false);
+    }
+    return (true);
+}
+
 int silent_fg(env_t **env, char *const *args, shell_t *shell)
 {
-    job_t *job = shell->job->data;
-    size_t size = my_arraylen(args);
-    bool found = false;
-    int pid = 0;
+    job_t *job = NULL;
+    int nb_job = 0;
 
     (void)env;
-    if (size != 2) {
-        fprintf(stderr, "fg No current job.\n");
+    if (!error_case_fg(shell, args))
         return (1);
-    }
-    pid = atoi(args[1]);
+    job = shell->job->data;
+    nb_job = atoi(args[1]);
     while (job != NULL) {
-        if (pid == job->pid)
-            found = true;
+        if (nb_job == job->nb_job) {
+            return (wait_fg(job->pid));
+        }
         job = job->next;
     }
-    if (found)
-        return (wait_fg(pid));
     fprintf(stderr, "fg: No such job.\n");
     return (1);
 }
