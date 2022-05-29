@@ -22,15 +22,14 @@ void exec_special_alias(const char *key, shell_t *shell)
 }
 
 static char *allocate_prompt(const char *login, const char *hostname,
-    const char *pwd)
+const char *pwd)
 {
     return malloc(sizeof(char) * (strlen("[@ ]$ ") +
                                   strlen(login) + strlen(hostname) +
                                   strlen(pwd) + 1));
 }
 
-static void destoy_prompt_elements(char *error_prompt,
-    char *pwd)
+static void destoy_prompt_elements(char *error_prompt, char *pwd)
 {
     free(error_prompt);
     free(pwd);
@@ -41,7 +40,7 @@ static char *get_pwd(char *login)
     char *cwd = getcwd(NULL, 0);
     char *home_dir = malloc(sizeof(char) *
                             (strlen("/home/") + strlen(login) + 1));
-    char *result;
+    char *result = NULL;
 
     sprintf(home_dir, "/home/%s", login);
     if (strcmp(home_dir, cwd) != 0)
@@ -57,9 +56,9 @@ char *get_prompt(void)
 {
     char hostname[HOST_NAME_MAX + 1];
     char *error_prompt = strdup("? $ ");
-    char *prompt;
+    char *prompt = NULL;
     char *login = getlogin();
-    char *pwd;
+    char *pwd = NULL;
 
     if (!login || gethostname(hostname, HOST_NAME_MAX + 1) < 0)
         return error_prompt;
