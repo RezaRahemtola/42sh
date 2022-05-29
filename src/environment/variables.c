@@ -42,14 +42,15 @@ env_t *get_env_from_array(const char *const *env)
 char *const *get_array_from_env(const env_t *env)
 {
     size_t size = get_env_size(env);
-    int index = 0;
+    size_t index = 0;
     char **array = malloc(sizeof(char *) * (size + 1));
+    size_t len = 0;
 
     if (array == NULL)
         return NULL;
     for (; env != NULL; index++) {
-        array[index] = malloc(sizeof(char) * (strlen(env->key) +
-        strlen(env->value) + 2));
+        len = snprintf(NULL, 0, "%s=%s", env->key, env->value) + 1;
+        array[index] = malloc(sizeof(char) * len);
         sprintf(array[index], "%s=%s", env->key, env->value);
         env = env->next;
     }

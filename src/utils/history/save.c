@@ -18,11 +18,12 @@ static char *get_history_file_path(env_t *env)
 {
     char *path = NULL;
     const env_t *home = get_env_value(env, "HOME");
+    size_t len = 0;
 
     if (home == NULL)
         return (NULL);
-    path = malloc(sizeof(char) * (strlen(home->value) + strlen(HISTORY_FILE)
-    + 2));
+    len = snprintf(NULL, 0, "%s/%s", home->value, HISTORY_FILE) + 1;
+    path = malloc(sizeof(char) * len);
     sprintf(path, "%s/%s", home->value, HISTORY_FILE);
     return (path);
 }

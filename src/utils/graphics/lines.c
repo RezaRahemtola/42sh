@@ -16,15 +16,14 @@ ssize_t get_line_content(char **line, size_t *size, shell_t *shell)
     struct termios old;
     struct termios new;
 
-    if (!shell->graphical) {
+    if (!shell->graphical)
         return getline(line, size, stdin);
-    }
     tcgetattr(STDIN_FILENO, &old);
     new = old;
     new.c_lflag &= ~(ICANON | ECHO);
     tcsetattr(STDIN_FILENO, TCSANOW, &new);
     printf("$> ");
-    *line = get_user_input();
+    *line = get_user_input(shell);
     tcsetattr(STDIN_FILENO, TCSANOW, &old);
     if (*line == NULL)
         return -1;

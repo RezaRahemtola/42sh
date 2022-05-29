@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <term.h>
 #include "graphics.h"
 #include "my.h"
 
@@ -42,18 +43,24 @@ static void reevaluate_size(line_t *line, line_t *buffer)
     }
 }
 
-static bool handle_key_pressed(int key, line_t *line, line_t *buffer)
+static bool handle_key(line_t *line, line_t *buffer, int *count, shell_t *shell)
 {
+    int key = buffer->size;
+    char *cap = NULL;
+
     if (key == '\r' || key == '\n') {
         line->str[line->length] = '\n';
         line->str[line->length + 1] = '\0';
         putchar(key);
         return true;
     }
-    if (key == 12)
-        system("clear");
+    if (key == 12) {
+        cap = tgetstr("cl", NULL);
+        tputs(cap, 1, putchar);
+        print_line(line);
+    }
     if (key == 27)
-        handle_special_key(line);
+        handle_special_key(line, count, shell);
     if (key >= 32 && key <= 126)
         insert_key(key, line, buffer);
     if (key == 127)
@@ -61,10 +68,11 @@ static bool handle_key_pressed(int key, line_t *line, line_t *buffer)
     return (false);
 }
 
-char *get_user_input(void)
+char *get_user_input(shell_t *shell)
 {
     bool end = false;
     int pressed = 0;
+    int count = 0;
     line_t line = { NULL, BUFFER_SIZE, 0, 0 };
     line_t buffer = { NULL, BUFFER_SIZE, 0, 0 };
 
@@ -79,7 +87,8 @@ char *get_user_input(void)
             my_free(2, line.str, buffer.str);
             return (NULL);
         }
-        end = handle_key_pressed(pressed, &line, &buffer);
+        buffer.size = pressed;
+        end = handle_key(&line, &buffer, &count, shell);
     }
     free(buffer.str);
     return (line.str);

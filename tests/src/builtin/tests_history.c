@@ -21,6 +21,26 @@ Test(history, simple, .init=cr_redirect_stdout)
     cr_assert_eq(silent_history(&shell, args), 0);
 }
 
+Test(history, not_a_number, .init=cr_redirect_stderr)
+{
+    char *const args[3] = {"history", "NaN", NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
+
+    builtin_history(&shell, args);
+    cr_assert_eq(silent_history(&shell, args), 1);
+    cr_assert_stderr_eq_str("history: Badly formed number.\n");
+}
+
+Test(history, badly_formed_number, .init=cr_redirect_stderr)
+{
+    char *const args[3] = {"history", "42NaN", NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
+
+    builtin_history(&shell, args);
+    cr_assert_eq(silent_history(&shell, args), 1);
+    cr_assert_stderr_eq_str("history: Badly formed number.\n");
+}
+
 Test(history, last_empty, .init=cr_redirect_stderr)
 {
     char *input = strdup("!!\n");

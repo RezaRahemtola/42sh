@@ -19,9 +19,9 @@ void change_home(const env_t *env, const localenv_t *localenv)
 {
     const env_t *home = get_env_value(env, "HOME");
     const localenv_t *localhome = get_localenv_value(localenv, "home");
-    struct stat stats;
-    int stat_status = stat((home == NULL ? "" : home->value), &stats);
-    bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);
+    struct stat sb;
+    int stat_status = stat((home == NULL ? "" : home->value), &sb);
+    bool file = stat_status != -1 && !S_ISDIR(sb.st_mode);
 
     if (home == NULL || localhome == NULL)
         fprintf(stderr, "cd: %s\n", NO_HOME_DIR);
@@ -33,9 +33,9 @@ int change_home_silently(shell_t *shell, const char *current)
 {
     const env_t *home = get_env_value(shell->env, "HOME");
     const localenv_t *localhome = get_localenv_value(shell->localenv, "home");
-    struct stat stats;
-    int stat_status = stat((home == NULL ? "" : home->value), &stats);
-    bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);
+    struct stat sb;
+    int stat_status = stat((home == NULL ? "" : home->value), &sb);
+    bool file = stat_status != -1 && !S_ISDIR(sb.st_mode);
 
     if (home == NULL || localhome == NULL || chdir(home->value) == -1 || file)
         return (1);

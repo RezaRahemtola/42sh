@@ -91,11 +91,10 @@ static void pipe_and_exec(command_t *cmd, shell_t *shell)
         tmp->job_check = false;
     if (!check_logicals(cmd, shell))
         return;
-    if (!check_redirections(cmd, shell) || !open_pipe_redirections(cmd)) {
+    if (!check_redirections(cmd, shell) || !open_pipe_redirections(cmd))
         shell->ret = 1;
-    } else {
+    else
         execute_commands(cmd, shell);
-    }
 }
 
 void handle_input(const char *input, shell_t *shell)
