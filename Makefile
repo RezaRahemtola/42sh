@@ -45,6 +45,7 @@ UTILS_SRC	=	home.c \
 				variables.c \
 				status.c \
 				graphics/init.c \
+				graphics/lines.c \
 				history/history.c \
 				history/interact.c \
 				history/substitutions.c \
