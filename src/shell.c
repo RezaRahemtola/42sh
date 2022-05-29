@@ -12,6 +12,27 @@
 #include "environment.h"
 #include "jobs.h"
 
+bool compare_pid(void *list_elem, void *compare)
+{
+    job_t *old = list_elem;
+
+    (void)compare;
+    if (kill(old->pid, SIGCHLD) < 0) {
+        return (true);
+    } else {
+        return (false);
+    }
+}
+
+void free_pid(void *elem)
+{
+    job_t *job = elem;
+
+    printf("[%d] Done -> %s\n", job->nb_job, job->command);
+    free(job->command);
+    free(job);
+}
+
 int start_shell(const char *const *env)
 {
     shell_t shell = {0, 0, 0, NULL};
@@ -43,7 +64,7 @@ void do_heartbeat(env_t **env, shell_t *shell)
         read_size = getline(&line, &size, stdin);
         if (read_size == -1)
             shell->exit = true;
-        shell->job = check_children(shell->job);
+        my_list_remove(&shell->job, NULL, compare_pid, free_pid);
         if (read_size > 1) {
             handle_input(line, env, shell);
         }
