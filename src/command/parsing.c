@@ -8,40 +8,41 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include "builtin.h"
 #include "logical.h"
 #include "messages.h"
 #include "my_arrays.h"
 #include "my_string.h"
 #include "my.h"
-#include "shell.h"
 #include "redirections.h"
+#include "shell.h"
 
-static bool init_command(command_t *command, env_t *env, const char *input)
+static bool init_command(command_t *cmd, const env_t *env, const char *input)
 {
-    command->separator_in = NO_IN;
-    command->separator_out = NO_OUT;
-    command->separator_next = NO_NEXT;
-    command->state = IDLE;
-    command->pid = 0;
-    command->ret = -1;
-    command->fd_in = 0;
-    command->fd_out = 0;
-    command->info_in = NULL;
-    command->info_out = NULL;
-    command->input = strdup(input);
-    command->args = my_strsplit_many(input, " \t");
-    if (command->args == NULL) {
-        my_free(2, command->input, command);
+    cmd->separator_in = NO_IN;
+    cmd->separator_out = NO_OUT;
+    cmd->separator_next = NO_NEXT;
+    cmd->state = IDLE;
+    cmd->pid = 0;
+    cmd->ret = -1;
+    cmd->fd_in = 0;
+    cmd->fd_out = 0;
+    cmd->info_in = NULL;
+    cmd->info_out = NULL;
+    cmd->input = strdup(input);
+    cmd->args = my_strsplit_many(input, " \t");
+    if (cmd->args == NULL) {
+        my_free(2, cmd->input, cmd);
         return (false);
     }
-    command->path = find_command(env, command->args[0]);
-    command->prev = NULL;
-    command->next = NULL;
+    cmd->path = find_command(env, cmd->args[0]);
+    cmd->prev = NULL;
+    cmd->next = NULL;
     return (true);
 }
 
-static command_t *get_command(command_t **list, env_t *env, const char *str,
-    size_t i)
+static command_t *get_command(command_t **list, const env_t *env,
+const char *str, size_t i)
 {
     command_t *command = malloc(sizeof(command_t));
 
@@ -59,7 +60,7 @@ static command_t *get_command(command_t **list, env_t *env, const char *str,
     return (command);
 }
 
-static bool parse_command(command_t **list, env_t *env, const char *input,
+static bool parse_command(command_t **list, const env_t *env, const char *input,
 const char *separator)
 {
     int size = strlen(input);
@@ -68,7 +69,7 @@ const char *separator)
 
     if (array == NULL)
         return (false);
-    else if (input[MAX(0, size - 1)] == '|' || input[0] == '|') {
+    if (input[MAX(0, size - 1)] == '|' || input[0] == '|') {
         fprintf(stderr, "%s\n", MISSING_COMMAND);
         my_free_arrays(1, array);
         return (false);
@@ -84,19 +85,20 @@ const char *separator)
     return (command != NULL);
 }
 
-static void pipe_and_exec(command_t *cmd, env_t **env, shell_t *shell)
+static void pipe_and_exec(command_t *cmd, shell_t *shell)
 {
     for (command_t *tmp = cmd; tmp != NULL; tmp = tmp->next)
         tmp->job_check = false;
     if (!check_logicals(cmd, shell))
         return;
-    if (!check_redirections(cmd, shell, *env) || !open_pipe_redirections(cmd))
+    if (!check_redirections(cmd, shell) || !open_pipe_redirections(cmd)) {
         shell->ret = 1;
-    else
-        execute_commands(cmd, env, shell);
+    } else {
+        execute_commands(cmd, shell);
+    }
 }
 
-void handle_input(const char *input, env_t **env, shell_t *shell)
+void handle_input(const char *input, shell_t *shell)
 {
     command_t *list = NULL;
     size_t size = strlen(input);
@@ -104,7 +106,7 @@ void handle_input(const char *input, env_t **env, shell_t *shell)
     char *const *array = split_logical(line);
 
     for (size_t i = 0; array[i] != NULL; i++) {
-        if (!parse_command(&list, *env, array[i], array[i + 1])) {
+        if (!parse_command(&list, shell->env, array[i], array[i + 1])) {
             free(line);
             my_free_arrays(1, array);
             list_free(list);
@@ -113,7 +115,7 @@ void handle_input(const char *input, env_t **env, shell_t *shell)
         }
         i += (array[i + 1] != NULL);
     }
-    pipe_and_exec(list, env, shell);
+    pipe_and_exec(list, shell);
     free(line);
     my_free_arrays(1, array);
     list_free(list);

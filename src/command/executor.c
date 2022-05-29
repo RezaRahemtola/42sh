@@ -15,18 +15,18 @@
 #include "redirections.h"
 #include "environment.h"
 
-static void execute_builtin(command_t *command, env_t **env)
+static void execute_builtin(const command_t *command, shell_t *shell)
 {
     for (size_t i = 0; BUILTIN[i].command != NULL; i++)
         if (strcmp(command->args[0], BUILTIN[i].command) == 0) {
-            BUILTIN[i].function(env, command->args);
+            BUILTIN[i].function(shell, command->args);
             return;
         }
 }
 
-static void execute_binary(command_t *command, env_t *const *env)
+static void execute_binary(const command_t *command, const env_t *env)
 {
-    char *const *environment_array = get_array_from_env(*env);
+    char *const *environment_array = get_array_from_env(env);
 
     if (environment_array == NULL)
         return;
@@ -37,22 +37,24 @@ static void execute_binary(command_t *command, env_t *const *env)
         fprintf(stderr, "%s: %s.\n", command->args[0], strerror(errno));
 }
 
-void execute_forked(command_t *cmd, env_t **env)
+void execute_forked(command_t *cmd, shell_t *shell)
 {
     bool builtin = is_builtin(cmd->args[0]);
 
     init_signals();
     handle_pipe_redirections(cmd);
     if (!open_input_redirection(cmd) || !open_output_redirection(cmd) ||
-        is_command_empty(cmd) || is_directory(cmd->path))
+        is_command_empty(cmd) || is_directory(cmd->path) ||
+        cmd->state == SKIPPED) {
         return;
+    }
     if (cmd->path == NULL && !builtin) {
-        fprintf(stderr, "%s: Command not found.\n", cmd->args[0]);
+        fprintf(stderr, "%s: %s\n", cmd->args[0], UNKNOWN_COMMAND);
         return;
     }
     if (builtin)
-        execute_builtin(cmd, env);
+        execute_builtin(cmd, shell);
     else
-        execute_binary(cmd, env);
+        execute_binary(cmd, shell->env);
     close_redirections(cmd);
 }

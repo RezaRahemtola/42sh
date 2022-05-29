@@ -7,15 +7,19 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "shell.h"
 #include "my_string.h"
 #include "redirections.h"
+#include "shell.h"
 
 redirection_t get_redirection(const char *str, size_t index)
 {
-    for (size_t i = 0; REDIRECTIONS[i].type != NULL; i++)
-        if (my_str_starts(&str[index], REDIRECTIONS[i].type) == 0)
+    size_t len = 0;
+
+    for (size_t i = 0; REDIRECTIONS[i].type != NULL; i++) {
+        len = strlen(REDIRECTIONS[i].type);
+        if (strncmp(&str[index], REDIRECTIONS[i].type, len) == 0)
             return (REDIRECTIONS[i]);
+    }
     return (redirection_t) {NULL, NULL};
 }
 

@@ -5,72 +5,45 @@
 ** Home alias functions
 */
 
-#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <string.h>
-#include <stdio.h>
 #include "builtin.h"
-#include "shell.h"
 #include "environment.h"
+#include "messages.h"
 #include "my_string.h"
+#include "shell.h"
 
-void handle_home(env_t **env, const char *path)
+void change_home(const env_t *env, const localenv_t *localenv)
 {
-    char *result = NULL;
-    const env_t *home = get_env_value(*env, "HOME");
-
-    if (home == NULL) {
-        fprintf(stderr, "No $home variable set.\n");
-    } else if (strlen(path) == 1) {
-        change_home(env);
-    } else {
-        result = my_strrep(path, "~", home->value);
-        change_current_path(result);
-        free(result);
-    }
-}
-
-void change_home(env_t **env)
-{
-    const env_t *home = get_env_value(*env, "HOME");
+    const env_t *home = get_env_value(env, "HOME");
+    const localenv_t *localhome = get_localenv_value(localenv, "home");
     struct stat stats;
     int stat_status = stat((home == NULL ? "" : home->value), &stats);
     bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);
 
-    if (home == NULL)
-        fprintf(stderr, "cd: No home directory.\n");
+    if (home == NULL || localhome == NULL)
+        fprintf(stderr, "cd: %s\n", NO_HOME_DIR);
     else if (chdir(home->value) == -1 || file)
-        fprintf(stderr, "cd: Can't change to home directory.\n");
+        fprintf(stderr, "cd: %s\n", HOME_DIR_ERROR);
 }
 
-int handle_home_silently(env_t **env, const char *path, const char *current)
+int change_home_silently(shell_t *shell, const char *current)
 {
-    int return_value;
-    char *result = NULL;
-    const env_t *home = get_env_value(*env, "HOME");
-
-    if (home == NULL)
-        return (1);
-    if (strlen(path) == 1)
-        return (change_home_silently(env, current));
-    result = my_strrep(path, "~", home->value);
-    return_value = change_dir_silently(env, result, current);
-    free(result);
-    return (return_value);
-}
-
-int change_home_silently(env_t **env, const char *current)
-{
-    const env_t *home = get_env_value(*env, "HOME");
+    const env_t *home = get_env_value(shell->env, "HOME");
+    const localenv_t *localhome = get_localenv_value(shell->localenv, "home");
     struct stat stats;
     int stat_status = stat((home == NULL ? "" : home->value), &stats);
     bool file = stat_status != -1 && !S_ISDIR(stats.st_mode);
 
-    if (home == NULL || chdir(home->value) == -1 || file)
+    if (home == NULL || localhome == NULL || chdir(home->value) == -1 || file)
         return (1);
-    add_variable(env, "PWD", home->value);
-    add_variable(env, "OLDPWD", current);
+    add_variable(&shell->env, "PWD", home->value);
+    add_localvar(&shell->localenv, "cwd", home->value, false);
+    add_variable(&shell->env, "OLDPWD", current);
+    add_localvar(&shell->localenv, "owd", current, false);
+    exec_special_alias("cwdcmd", shell);
     return (0);
 }
 

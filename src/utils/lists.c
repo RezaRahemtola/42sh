@@ -6,8 +6,8 @@
 */
 
 #include <stdlib.h>
-#include "types.h"
 #include "my_arrays.h"
+#include "types.h"
 
 void list_append(command_t **list, command_t *node)
 {
@@ -33,14 +33,25 @@ static void free_command(command_t *command)
     free(command);
 }
 
-void list_free(command_t *list)
+size_t list_size(command_t *list)
 {
     command_t *current = list;
+    size_t size = 0;
+
+    if (list == NULL)
+        return (0);
+    for (; current != NULL; size++)
+        current = current->next;
+    return (size);
+}
+
+void list_free(command_t *list)
+{
     command_t *tmp = NULL;
 
-    while (current != NULL) {
-        tmp = current->next;
-        free_command(current);
-        current = tmp;
+    while (list != NULL) {
+        tmp = list->next;
+        free_command(list);
+        list = tmp;
     }
 }

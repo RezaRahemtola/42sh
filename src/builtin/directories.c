@@ -1,16 +1,17 @@
 /*
-** EPITECH PROJECT, 2021
+** EPITECH PROJECT, 2022
 ** 42sh
 ** File description:
 ** Directory manipulations
 */
 
+#include <stdio.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <string.h>
-#include <stdio.h>
-#include "shell.h"
 #include "environment.h"
+#include "messages.h"
+#include "shell.h"
 
 bool is_directory(const char *path)
 {
@@ -18,32 +19,30 @@ bool is_directory(const char *path)
     int st = stat(path, &stats);
 
     if (st != -1 && S_ISDIR(stats.st_mode)) {
-        fprintf(stderr, "%s: Permission denied.\n", path);
+        fprintf(stderr, "%s: %s\n", path, FOLDER_ERROR);
         return true;
     }
     return false;
 }
 
-static void handle_prev(env_t **env, const char *path)
+static void handle_prev(const env_t *env, const char *path)
 {
-    const env_t *oldpwd = get_env_value(*env, "OLDPWD");
+    const env_t *oldpwd = get_env_value(env, "OLDPWD");
 
     if (strlen(path) > 1)
-        fprintf(stderr, "Usage: cd [-plvn][-|<dir>].\n");
+        fprintf(stderr, "%s\n", CD_USAGE);
     else if (oldpwd == NULL)
-        fprintf(stderr, ": No such file or directory.\n");
+        fprintf(stderr, ": %s\n", NO_FILE);
     else
         change_current_path(oldpwd->value);
 }
 
-void handle_cd(env_t **env, const char *path)
+void handle_cd(const env_t *env, const char *path)
 {
     size_t size = strlen(path);
 
     if (size > 0 && path[0] == '-')
         handle_prev(env, path);
-    else if (size > 0 && path[0] == '~')
-        handle_home(env, path);
     else
         change_current_path(path);
 }
@@ -54,7 +53,7 @@ void change_current_path(const char *dir)
     int st = stat(dir, &stats);
 
     if (st != -1 && !S_ISDIR(stats.st_mode))
-        fprintf(stderr, "%s: Not a directory.\n", dir);
+        fprintf(stderr, "%s: %s\n", dir, NOT_DIRECTORY);
     else if (chdir(dir) == -1)
-        fprintf(stderr, "%s: No such file or directory.\n", dir);
+        fprintf(stderr, "%s: %s\n", dir, NO_FILE);
 }

@@ -6,11 +6,15 @@
 ##
 
 BUILTIN_DIR	=	builtin
-BUILTIN_SRC	=	builtin.c \
+BUILTIN_SRC	=	alias.c \
+				builtin.c \
 				directories.c \
+				history.c \
 				home.c \
+				localenv.c \
 				silent.c \
-				silent_dirs.c
+				silent_dirs.c \
+				unalias.c
 
 COMMAND_DIR	=	command
 COMMAND_SRC	=	errors.c \
@@ -29,15 +33,31 @@ REDIRECTION_SRC	=	files.c \
 					pipes.c
 
 UTILS_DIR	=	utils
-UTILS_SRC	=	lists.c \
+UTILS_SRC	=	home.c \
+				lists.c \
 				logical.c \
 				redirections.c \
-				strings.c
+				replacements.c \
+				startup.c \
+				strings.c \
+				prompt.c \
+				tests.c \
+				variables.c \
+				status.c \
+				history/history.c \
+				history/interact.c \
+				history/substitutions.c \
+				history/add.c \
+				history/save.c
 
 ENV_DIR	=	environment
 ENV_SRC	=	environment.c \
 			environment_utils.c \
-			variables.c
+			variables.c \
+			local/localenv_utils.c \
+			local/localenv_load.c \
+			local/localset_checks.c \
+			local/localenv.c
 
 JOB_DIR	=	job_control
 JOB_SRC	=	handle_job.c \
@@ -56,6 +76,15 @@ BASE_SRC	=	shell.c \
 
 TESTS_DIR	=	tests/src
 TESTS_SRC	=	test_shell.c \
+				builtin/tests_alias.c \
+				builtin/tests_cd.c \
+				builtin/tests_env.c \
+				builtin/tests_exit.c \
+				builtin/tests_history.c \
+				builtin/tests_localenv.c \
+				separators/tests_and.c \
+				separators/tests_or.c \
+				separators/tests_semicolon.c \
 				test_builtin.c \
 				test_redirections.c
 
@@ -86,7 +115,7 @@ LDLIBS		=	$(addprefix -l, $(LIBS))
 LDFLAGS		=	$(addprefix -L, $(LIB_DIRS))
 
 VG_FLAGS	=	--leak-check=full --track-origins=yes --show-leak-kinds=all \
-				--error-limit=no
+				--error-limit=no --trace-children=no
 
 CC			=	gcc
 VG			=	valgrind $(VG_FLAGS)
@@ -125,12 +154,12 @@ re:	fclean all
 debug_run:	fclean $(DEBUG_BINARY)
 			$(VG) ./$(DEBUG_BINARY) $(ARGS)
 
-tests_run:
+tests_all:
 			$(MAKE) func_tests
-			$(MAKE) unit_tests
+			$(MAKE) tests_run
 			$(MAKE) mem_checks
 
-unit_tests:
+tests_run:
 			@$(MAKE) clean_coverage > /dev/null
 			@$(MAKE) $(TEST_BINARY) > /dev/null
 			./$(TEST_BINARY)
@@ -138,8 +167,7 @@ unit_tests:
 func_tests:
 			@$(MAKE) re > /dev/null
 			@python3 -m pip install termcolor > /dev/null
-			python3 tests/tester.py -adc
-			./tests/subject/tester.sh
+			python3 tests/functional/tester.py -adc
 
 mem_checks:
 			@$(MAKE) fclean > /dev/null
@@ -147,5 +175,10 @@ mem_checks:
 			@python3 -m pip install termcolor > /dev/null
 			python3 tests/memory_checker.py -pcd
 
-.PHONY:	all	clean fclean clean_coverage re debug_run tests_run unit_tests \
-		func_tests
+norm_checks:
+			@$(MAKE) fclean > /dev/null
+			@python3 -m pip install termcolor > /dev/null
+			python3 tests/norm/style.py ./$(BASE_DIR)
+
+.PHONY:	all	clean fclean clean_coverage re debug_run tests_all tests_run \
+		func_tests mem_checks norm_checks

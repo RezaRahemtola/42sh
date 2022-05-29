@@ -5,11 +5,10 @@
 ** String checks
 */
 
-#include <stdbool.h>
-#include <stddef.h>
+#include <stdlib.h>
 #include <string.h>
-#include "shell.h"
 #include "my_string.h"
+#include "shell.h"
 
 char *get_next_argument(const char *str, size_t index)
 {
@@ -31,4 +30,26 @@ bool is_command_empty(const command_t *command)
     const char *first = command->args[0];
 
     return (strlen(command->input) == 0 || first == NULL || strlen(first) == 0);
+}
+
+char *join_array(char *const *array, size_t start, size_t end)
+{
+    char *str = NULL;
+    size_t size = 0;
+    size_t i = 0;
+
+    for (size_t j = 0; j < end; j++)
+        size += strlen(array[j + start]) + 1;
+    str = malloc(sizeof(char) * size);
+    if (str == NULL)
+        return (NULL);
+    for (size_t j = 0; j < end; j++) {
+        if (j > 0)
+            str[i++] = ' ';
+        for (size_t k = 0; array[j + start][k] != '\0'; k++) {
+            str[i++] = array[j + start][k];
+        }
+    }
+    str[i] = '\0';
+    return (str);
 }

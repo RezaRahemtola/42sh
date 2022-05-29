@@ -1,15 +1,15 @@
 /*
-** EPITECH PROJECT, 2021
+** EPITECH PROJECT, 2022
 ** 42sh
 ** File description:
 ** Environment variables
 */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
-#include "shell.h"
 #include "my_string.h"
+#include "shell.h"
 
 char *extract_env_key(const char *var)
 {
@@ -33,24 +33,21 @@ char *extract_env_value(const char *var)
 
 void print_env(const env_t *env)
 {
-    const env_t *current = env;
-
-    while (current != NULL) {
-        printf("%s=%s\n", current->key, current->value);
-        current = current->next;
+    while (env != NULL) {
+        printf("%s=%s\n", env->key, env->value);
+        env = env->next;
     }
 }
 
 void destroy_env(env_t *env)
 {
-    env_t *current = env;
     env_t *tmp = NULL;
 
-    while (current != NULL) {
-        tmp = current->next;
-        free(current->key);
-        free(current->value);
-        free(current);
-        current = tmp;
+    while (env != NULL) {
+        tmp = env->next;
+        free(env->key);
+        free(env->value);
+        free(env);
+        env = tmp;
     }
 }

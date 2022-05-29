@@ -11,7 +11,7 @@
 #include "messages.h"
 #include "shell.h"
 
-static bool check_logical(command_t *command, bool empty)
+static bool check_logical(const command_t *command, bool empty)
 {
     command_t *prev = command->prev;
     bool prev_empty = (prev == NULL ? false : is_command_empty(prev));
@@ -34,20 +34,19 @@ static bool check_logical(command_t *command, bool empty)
 bool check_logicals(command_t *list, shell_t *shell)
 {
     bool empty = false;
-    command_t *current = list;
 
-    while (current != NULL) {
-        empty = is_command_empty(current);
-        if (!check_logical(current, empty)) {
+    while (list != NULL) {
+        empty = is_command_empty(list);
+        if (!check_logical(list, empty)) {
             shell->ret = 1;
             return (false);
         }
-        current = current->next;
+        list = list->next;
     }
     return (true);
 }
 
-bool should_ignore(command_t *command)
+bool should_ignore(const command_t *command)
 {
     if (command->prev == NULL)
         return (false);
@@ -58,10 +57,9 @@ bool should_ignore(command_t *command)
     return (false);
 }
 
-size_t ignore_command(command_t *command)
+size_t ignore_command(command_t *node)
 {
     size_t total = 0;
-    command_t *node = command;
 
     for (total = 0; node != NULL; total++) {
         if (node->next != NULL && node->next->separator_next == SEMICOLON)
@@ -71,7 +69,7 @@ size_t ignore_command(command_t *command)
     return (total);
 }
 
-void apply_logical(command_t *command, char const *separator)
+void apply_logical(command_t *command, const char *separator)
 {
     logical_t logical = get_logical(separator, 0);
 

@@ -9,13 +9,16 @@
 #include <string.h>
 #include "logical.h"
 #include "my_string.h"
-#include "my.h"
 
 logical_t get_logical(const char *str, size_t index)
 {
-    for (size_t i = 0; LOGICAL[i].type != NULL; i++)
-        if (my_str_starts(&str[index], LOGICAL[i].type) == 0)
+    size_t len = 0;
+
+    for (size_t i = 0; LOGICAL[i].type != NULL; i++) {
+        len = strlen(LOGICAL[i].type);
+        if (strncmp(&str[index], LOGICAL[i].type, len) == 0)
             return (LOGICAL[i]);
+    }
     return (logical_t) {NULL, NO_NEXT};
 }
 
@@ -56,6 +59,8 @@ char **split_logical(const char *input)
     logical_t logical = {NULL, NO_NEXT};
     char **array = malloc(sizeof(char *) * (count + 1));
 
+    if (!array)
+        return NULL;
     for (size_t i = 0; i < size; i++) {
         logical = get_logical(input, i);
         if (logical.type != NULL) {
@@ -66,6 +71,5 @@ char **split_logical(const char *input)
             i += strlen(logical.type) - 1;
         }
     }
-    append_end(array, input, pattern, index);
-    return (array);
+    return append_end(array, input, pattern, index), array;
 }

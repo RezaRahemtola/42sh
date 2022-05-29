@@ -1,0 +1,24 @@
+{
+    "tests": [
+        {
+            "name": "tilde - Printing",
+            "command": "echo ~ ; echo $home"
+        },
+        {
+            "name": "tilde - Basic",
+            "command": "echo ~ ; ls ~"
+        },
+        {
+            "name": "tilde - Continued",
+            "command": "ls ~/Downloads"
+        },
+        {
+            "name": "tilde - No tilde local",
+            "command": "unset home ; ls ~/Downloads"
+        },
+        {
+            "name": "tilde - Executing next",
+            "command": "unset home ; ls ~ ; echo still done"
+        }
+    ]
+}

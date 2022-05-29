@@ -1,0 +1,52 @@
+{
+    "tests": [
+        {
+            "name": "ls - simple",
+            "command": "ls"
+        },
+        {
+            "name": "ls - with option",
+            "command": "ls -la"
+        },
+        {
+            "name": "ls - complicated",
+            "command": "ls -la /dev"
+        },
+        {
+            "name": "ls - with spaces",
+            "command": "   ls   -la    /dev            "
+        },
+        {
+            "name": "ls - with spaces and tabs",
+            "command": "\t   ls  \t -la  \t  /dev      \t      "
+        },
+        {
+            "name": "ls - Inexistant file",
+            "command": "ls nofile"
+        },
+        {
+            "name": "recursion - 42sh in 42sh",
+            "command": "42sh"
+        },
+        {
+            "name": "operators - Mixed && and ||",
+            "command": "echo One || echo Two && echo Three || echo Four"
+        },
+        {
+            "name": "operators - Mixed &&, || and |",
+            "command": "echo One && echo Two || echo Three | echo Four"
+        },
+        {
+            "name": "pipes - no right",
+            "command": "cat -e Makefile |"
+        },
+        {
+            "name": "! - no command without history",
+            "command": "! command"
+        },
+        {
+            "name": "! - no command with history",
+            "command": "ls \n ! ls"
+        }
+    ]
+}

@@ -1,23 +1,21 @@
 /*
-** EPITECH PROJECT, 2021
+** EPITECH PROJECT, 2022
 ** 42sh
 ** File description:
-** Map management
+** General environment functions
 */
 
 #include <stdlib.h>
 #include <string.h>
-#include "shell.h"
 #include "my.h"
+#include "shell.h"
 
 const env_t *get_env_value(const env_t *list, const char *key)
 {
-    const env_t *current = list;
-
-    while (current != NULL) {
-        if (strcmp(current->key, key) == 0)
-            return (current);
-        current = current->next;
+    while (list != NULL) {
+        if (strcmp(list->key, key) == 0)
+            return (list);
+        list = list->next;
     }
     return (NULL);
 }
@@ -43,15 +41,13 @@ void put_env_property(env_t **list, const char *key, const char *value)
 
 void replace_env_value(env_t *list, const char *key, const char *value)
 {
-    env_t *current = list;
-
-    while (current != NULL) {
-        if (strcmp(current->key, key) == 0) {
-            free(current->value);
-            current->value = strdup(value);
+    while (list != NULL) {
+        if (strcmp(list->key, key) == 0) {
+            free(list->value);
+            list->value = strdup(value);
             return;
         }
-        current = current->next;
+        list = list->next;
     }
 }
 
@@ -60,7 +56,7 @@ void remove_env_property(env_t **list, const char *key)
     env_t *current = *list;
     env_t *prev = *list;
 
-    if (strcmp(current->key, key) == 0) {
+    if (current != NULL && strcmp(current->key, key) == 0) {
         *list = current->next;
         my_free(3, current->key, current->value, current);
         return;
@@ -78,12 +74,9 @@ void remove_env_property(env_t **list, const char *key)
 
 size_t get_env_size(const env_t *list)
 {
-    const env_t *current = list;
     size_t size = 0;
 
-    while (current != NULL) {
-        size++;
-        current = current->next;
-    }
+    for (; list != NULL; size++)
+        list = list->next;
     return (size);
 }

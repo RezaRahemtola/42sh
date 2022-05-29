@@ -6,12 +6,12 @@
 */
 
 #include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include "environment.h"
 #include "my_arrays.h"
 #include "my_string.h"
-#include "environment.h"
 
 static char *explore_path(const env_t *path, const char *bin)
 {
@@ -42,7 +42,7 @@ char *find_command(const env_t *env, const char *bin)
 
     if (bin == NULL)
         return (NULL);
-    if (my_str_contains(bin, "/") == 0)
+    if (strchr(bin, '/') != NULL)
         return (access(bin, F_OK) == -1 ? NULL : strdup(bin));
     if (path == NULL)
         return NULL;

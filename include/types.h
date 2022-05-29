@@ -35,7 +35,8 @@ typedef enum separator_next_type {
 typedef enum state {
     IDLE,
     RUNNING,
-    IGNORED
+    SKIPPED,
+    ABORTED
 } state_t;
 
 typedef struct job {
@@ -45,9 +46,32 @@ typedef struct job {
     int nb_job;
 } job_t;
 
+typedef struct history {
+    size_t index;
+    char *command;
+    char *time;
+} history_t;
+
+typedef struct environment {
+    char *key;
+    char *value;
+    struct environment *next;
+} env_t;
+
+typedef struct local_environment {
+    char *key;
+    char *value;
+    bool readonly;
+    struct local_environment *next;
+} localenv_t;
+
 typedef struct shell {
     bool exit;
     int ret;
+    env_t *env;
+    localenv_t *localenv;
+    list_t *history;
+    env_t *aliases;
     int nb_job;
     list_t *job;
 } shell_t;
@@ -71,17 +95,10 @@ typedef struct command {
     bool job_check;
 } command_t;
 
-typedef struct environment {
-    char *key;
-    char *value;
-    struct environment *next;
-} env_t;
-
 typedef bool redirection_checker_t(command_t *cmd, char *const *array,
     const env_t *env);
-typedef void redirection_function_t(env_t **env, char *const *args);
-typedef int redirection_silent_function_t(env_t **env,
-    char *const *args, shell_t *shell);
+typedef void redirection_function_t(shell_t *shell, char *const *args);
+typedef int redirection_silent_function_t(shell_t *shell, char *const *args);
 
 typedef struct redirection {
     char *type;
