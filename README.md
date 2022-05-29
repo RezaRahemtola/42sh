@@ -26,8 +26,9 @@
   <ul>
     <li><code>!!</code> executes the previous command</li>
     <li><code>!n</code> executes the nth command that was previously executed</li>
-    <li><code>!-n</code> executes the command that was executed n commands ago</li>
-    <li><code>!string</code> executes the most recently executed command that starts with string</li>
+    <li><code>!-n</code> executes the command that was executed <code>n</code> commands ago</li>
+    <li><code>!string</code> executes the most recently executed command that starts with <code>string</code></li>
+    <li><code>!?string</code> executes the most recently executed command that contains <code>string</code></li>
     <li><code>history</code> displays the previous commands with their index and time of execution (<code>hh:mm</code>)
   </ul>
   A <code>.42sh_history</code> file is also stored in the user's home folder to have a persistent history between sessions.
