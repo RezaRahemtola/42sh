@@ -13,7 +13,7 @@
 Test(alias, no_arg)
 {
     char *const args[2] = {"alias", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
 
     builtin_alias(&shell, args);
     cr_assert_eq(silent_alias(&shell, args), 0);
@@ -22,7 +22,7 @@ Test(alias, no_arg)
 Test(alias, set_forbidden_alias, .init=cr_redirect_stderr)
 {
     char *const args[4] = {"alias", "alias", "value", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
 
     builtin_alias(&shell, args);
     cr_assert_eq(silent_alias(&shell, args), 1);
@@ -32,7 +32,7 @@ Test(alias, set_forbidden_alias, .init=cr_redirect_stderr)
 Test(alias, set_forbidden_unalias, .init=cr_redirect_stderr)
 {
     char *const args[4] = {"alias", "unalias", "value", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
 
     builtin_alias(&shell, args);
     cr_assert_eq(silent_alias(&shell, args), 1);
@@ -43,7 +43,7 @@ Test(alias, set_simple, .init=cr_redirect_stdout)
 {
     const char *input = "alias myalias value ; alias | grep myalias\n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, env, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, env, NULL, NULL, NULL};
 
     env->key = "PATH";
     env->value = "/bin";
@@ -56,7 +56,7 @@ Test(alias, set_multiple, .init=cr_redirect_stdout)
 {
     const char *input = "alias myalias val1 val2 val3 ; alias | grep myalias\n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, env, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, env, NULL, NULL, NULL};
 
     env->key = "PATH";
     env->value = "/bin";
@@ -68,7 +68,7 @@ Test(alias, set_multiple, .init=cr_redirect_stdout)
 Test(unalias, no_arg, .init=cr_redirect_stderr)
 {
     char *const args[2] = {"unalias", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
 
     builtin_unalias(&shell, args);
     cr_assert_eq(silent_unalias(&shell, args), 1);
@@ -78,7 +78,7 @@ Test(unalias, no_arg, .init=cr_redirect_stderr)
 Test(unalias, non_existing_alias)
 {
     char *const args[3] = {"unalias", "notanalias", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
 
     builtin_unalias(&shell, args);
     cr_assert_eq(silent_unalias(&shell, args), 0);
@@ -87,7 +87,7 @@ Test(unalias, non_existing_alias)
 Test(unalias, multiple_non_existing)
 {
     char *const args[4] = {"unalias", "notanalias", "notanalias2", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
 
     builtin_unalias(&shell, args);
     cr_assert_eq(silent_unalias(&shell, args), 0);
@@ -97,7 +97,7 @@ Test(unalias, all, .init=cr_redirect_stderr)
 {
     char *const args[4] = {"alias", "myalias", "value", NULL};
     char *const args2[3] = {"unalias", "*", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
 
     builtin_alias(&shell, args);
     cr_assert_eq(silent_alias(&shell, args), 0);
@@ -110,7 +110,7 @@ Test(unalias, all, .init=cr_redirect_stderr)
 Test(unalias, all_non_existing, .init=cr_redirect_stderr)
 {
     char *const args[3] = {"unalias", "*", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
 
     builtin_unalias(&shell, args);
     cr_assert_eq(silent_unalias(&shell, args), 0);
