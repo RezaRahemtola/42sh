@@ -13,6 +13,7 @@
 
 int silent_jobs(shell_t *shell, char *const *args)
 {
+    list_t *cp = shell->job;
     job_t *job = NULL;
     size_t size = my_arraylen(args);
 
@@ -20,11 +21,10 @@ int silent_jobs(shell_t *shell, char *const *args)
         fprintf(stderr, "jobs: Too many arguments.\n");
         return (1);
     }
-    while (shell->job != NULL) {
-        job = shell->job->data;
-        printf("afin\n");
+    while (cp != NULL) {
+        job = cp->data;
         printf("[%d]\tRunning\t%s\n", job->nb_job, job->command);
-        shell->job = shell->job->next;
+        cp = cp->next;
     }
     return (0);
 }
