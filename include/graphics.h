@@ -28,6 +28,7 @@ void handle_special_key(line_t *line);
 void move_cursor(int delta, line_t *line);
 void backspace(line_t *line);
 char *get_prompt(void);
+void print_line(line_t *line);
 
 void arrow_up(line_t *line);
 void arrow_down(line_t *line);

@@ -13,6 +13,7 @@
 
 void insert_key(char key, line_t *line, line_t *buffer)
 {
+    int gap = line->length - line->pos;
     char *temp = NULL;
 
     line->length += 1;
@@ -21,7 +22,7 @@ void insert_key(char key, line_t *line, line_t *buffer)
         line->pos += 1;
     } else {
         strncpy(buffer->str, line->str, line->pos);
-        strncpy(&buffer->str[line->pos + 1], &line->str[line->pos], line->length - line->pos);
+        strncpy(&buffer->str[line->pos + 1], &line->str[line->pos], gap);
         buffer->str[line->pos] = key;
         buffer->str[line->length] = '\0';
         line->pos += 1;
@@ -29,10 +30,7 @@ void insert_key(char key, line_t *line, line_t *buffer)
         buffer->str = line->str;
         line->str = temp;
     }
-    printf("\33[2K\r");
-    printf("$> %s", line->str);
-    if (line->pos < line->length)
-        printf("\033[%dD", line->length - line->pos);
+    print_line(line);
 }
 
 static void reevaluate_size(line_t *line, line_t *buffer)

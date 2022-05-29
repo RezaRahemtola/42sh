@@ -6,6 +6,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "graphics.h"
 
@@ -28,10 +29,7 @@ void backspace(line_t *line)
         line->length -= 1;
         line->str[line->length] = '\0';
     }
-    printf("\33[2K\r");
-    printf("$> %s", line->str);
-    if (line->pos < line->length)
-        printf("\033[%dD", line->length - line->pos);
+    print_line(line);
 }
 
 void suppr(line_t *line)
@@ -42,4 +40,15 @@ void suppr(line_t *line)
         strncpy(&line->str[line->pos], &line->str[line->pos + 1], gap);
         line->length -= 1;
     }
+}
+
+void print_line(line_t *line)
+{
+    char *prompt = get_prompt();
+
+    printf("\33[2K\r");
+    printf("%s%s", prompt, line->str);
+    if (line->pos < line->length)
+        printf("\033[%dD", line->length - line->pos);
+    free(prompt);
 }
