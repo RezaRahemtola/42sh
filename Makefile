@@ -44,6 +44,11 @@ UTILS_SRC	=	home.c \
 				tests.c \
 				variables.c \
 				status.c \
+				graphics/arrows.c \
+				graphics/init.c \
+				graphics/input.c \
+				graphics/lines.c \
+				graphics/operations.c \
 				history/history.c \
 				history/interact.c \
 				history/substitutions.c \
@@ -104,7 +109,7 @@ HEADERS_DIRS 	=	include/ \
 
 CFLAGS		=	-Wall -Wextra
 CPPFLAGS	=	$(HEADERS_DIRS:%=-iquote %)
-LDLIBS		=	$(addprefix -l, $(LIBS))
+LDLIBS		=	$(addprefix -l, $(LIBS)) -lncurses
 LDFLAGS		=	$(addprefix -L, $(LIB_DIRS))
 
 VG_FLAGS	=	--leak-check=full --track-origins=yes --show-leak-kinds=all \

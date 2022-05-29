@@ -12,7 +12,7 @@
 Test(exit, simple)
 {
     char *const args[2] = {"exit", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
 
     builtin_exit(&shell, args);
     silent_exit(&shell, args);
@@ -23,7 +23,7 @@ Test(exit, simple)
 Test(exit, modulo)
 {
     char *const args[3] = {"exit", "258", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
 
     cr_assert_eq(silent_exit(&shell, args), 2);
     cr_assert_eq(shell.exit, 1);
@@ -32,7 +32,7 @@ Test(exit, modulo)
 Test(exit, wrong_arg, .init=cr_redirect_stderr)
 {
     char *const args[3] = {"exit", "salut", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
 
     builtin_exit(&shell, args);
     cr_assert_eq(silent_exit(&shell, args), 1);
@@ -43,7 +43,7 @@ Test(exit, wrong_arg, .init=cr_redirect_stderr)
 Test(exit, wrong_arg_2, .init=cr_redirect_stderr)
 {
     char *const args[3] = {"exit", "!17", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
 
     builtin_exit(&shell, args);
     cr_assert_eq(silent_exit(&shell, args), 1);
@@ -54,7 +54,7 @@ Test(exit, wrong_arg_2, .init=cr_redirect_stderr)
 Test(exit, not_a_number, .init=cr_redirect_stderr)
 {
     char *const args[3] = {"exit", "1a"};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
 
     builtin_exit(&shell, args);
     cr_assert_eq(silent_exit(&shell, args), 1);
@@ -65,7 +65,7 @@ Test(exit, not_a_number, .init=cr_redirect_stderr)
 Test(exit, too_many_args, .init=cr_redirect_stderr)
 {
     char *const args[4] = {"exit", "salut", "bonsoir", NULL};
-    shell_t shell = {0, 0, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
 
     builtin_exit(&shell, args);
     cr_assert_eq(silent_exit(&shell, args), 1);
