@@ -23,6 +23,10 @@
         {
             "name": "unalias - Non existing alias",
             "command": "unalias notanalias"
+        },
+        {
+            "name": "unalias - all",
+            "command": "unalias * ; alias"
         }
     ]
 }

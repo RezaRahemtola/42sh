@@ -1,0 +1,68 @@
+{
+    "tests": [
+        {
+            "name": "redir - (>) simple",
+            "command": "ls -la > output.txt ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>) options after",
+            "command": "ls > output.txt -la ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>) beginning of str",
+            "command": "> output.txt ls -la ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>) no filename",
+            "command": "ls -la >"
+        },
+        {
+            "name": "redir - (>) permission denied",
+            "command": "echo test > /etc/sudoers"
+        },
+        {
+            "name": "redir - (>>) simple",
+            "command": "echo lol > output.txt ; ls -la >> output.txt ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>>) options after",
+            "command": "echo test > output.txt ; ls -a >> output.txt --list ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>>) beginning of str",
+            "command": "> output.txt echo test ; >> output.txt ls -la ; cat output.txt ; rm output.txt"
+        },
+        {
+            "name": "redir - (>>) no filename",
+            "command": "echo test >>  \t "
+        },
+        {
+            "name": "redir - (>>) permission denied",
+            "command": "echo test >> /etc/sudoers"
+        },
+        {
+            "name": "redir - (<) simple",
+            "command": "grep my < Makefile"
+        },
+        {
+            "name": "redir - (<) options after",
+            "command": "grep my < Makefile -i"
+        },
+        {
+            "name": "redir - (<) beginning of str",
+            "command": "< Makefile grep my -i"
+        },
+        {
+            "name": "redir - (<) no filename",
+            "command": "grep test < \t "
+        },
+        {
+            "name": "redir - (<) permission denied",
+            "command": "grep root < /etc/sudoers"
+        },
+        {
+            "name": "redir - (<<) no string",
+            "command": "grep test <<  \t "
+        }
+    ]
+}
