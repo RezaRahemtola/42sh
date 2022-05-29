@@ -16,6 +16,7 @@
 #include "logical.h"
 #include "shell.h"
 #include "redirections.h"
+#include "jobs.h"
 
 static void execute_silent(command_t *command, env_t **env, shell_t *shell)
 {

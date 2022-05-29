@@ -29,7 +29,7 @@ job_t *add_new_job(job_t *command, char *input)
     job_t *tmp = NULL;
     job_t *new_elem = malloc(sizeof(job_t));
 
-    new_elem->command = strdup(input);;
+    new_elem->command = strdup(input);
     new_elem->nb_job = 1;
     new_elem->next = NULL;
     if (command == NULL) {

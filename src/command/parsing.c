@@ -86,8 +86,6 @@ const char *separator)
 
 static void pipe_and_exec(command_t *cmd, env_t **env, shell_t *shell)
 {
-    command_t *tmp = cmd;
-
     for (command_t *tmp = cmd; tmp != NULL; tmp = tmp->next)
         tmp->job_check = false;
     if (!check_logicals(cmd, shell))

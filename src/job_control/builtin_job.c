@@ -5,14 +5,19 @@
 ** Handle background and forwardground
 */
 
-#include "types.h"
+#include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include "types.h"
+#include "my_arrays.h"
+#include "shell.h"
 
 int silent_job(env_t **env, char *const *args, shell_t *shell)
 {
     job_t *job = shell->job;
     size_t size = my_arraylen(args);
 
+    (void)env;
     if (size != 1) {
         fprintf(stderr, "jobs: Too many arguments.\n");
         return (1);
@@ -45,8 +50,9 @@ int silent_fg(env_t **env, char *const *args, shell_t *shell)
     bool found = false;
     int pid = 0;
 
+    (void)env;
     if (size != 2) {
-        fprintf(stderr, "fg [PID].\n");
+        fprintf(stderr, "fg No current job.\n");
         return (1);
     }
     pid = atoi(args[1]);
@@ -57,6 +63,6 @@ int silent_fg(env_t **env, char *const *args, shell_t *shell)
     }
     if (found)
         return (wait_fg(pid));
-    fprintf(stderr, "fg: job not found: %d.\n", pid);
+    fprintf(stderr, "fg: No such job.\n");
     return (1);
 }

@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include "shell.h"
 #include "environment.h"
+#include "jobs.h"
 
 int start_shell(const char *const *env)
 {

@@ -1,0 +1,18 @@
+/*
+** EPITECH PROJECT, 2022
+** 42sh
+** File description:
+** Jobs Header
+*/
+
+#pragma once
+
+#include "types.h"
+
+job_t *check_children(job_t *job);
+
+job_t *add_new_job(job_t *command, char *input);
+job_t *add_job_pid(job_t *job, char *wanted, pid_t pid, int nb_job);
+bool job_command_case(char *str);
+
+char **remove_incorrect_char(char **input);

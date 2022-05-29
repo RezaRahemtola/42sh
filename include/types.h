@@ -9,6 +9,7 @@
 
 #include <stdbool.h>
 #include <sys/wait.h>
+#include "my_list.h"
 
 typedef enum separator_in_type {
     NO_IN,
@@ -64,7 +65,7 @@ typedef struct command {
     char *info_out;
     char *input;
     char *path;
-    char *const *args;
+    char **args;
     struct command *prev;
     struct command *next;
     bool job_check;
