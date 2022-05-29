@@ -7,14 +7,22 @@
 
 #include <signal.h>
 #include <stdio.h>
+#include "types.h"
 
-void handle_quit(__attribute__ ((unused)) int sig)
+static void handler(int sig)
 {
-    printf("\n$> ");
+    if (sig == SIGINT) {
+        printf("\n$> ");
+    }
 }
 
 void init_signals(void)
 {
-    signal(SIGINT, &handle_quit);
-    signal(SIGCHLD, SIG_DFL);
+    struct sigaction sa;
+
+    sigemptyset(&sa.sa_mask);
+    sa.sa_handler = handler;
+    sa.sa_flags = SA_RESTART | SA_NOCLDWAIT;
+    sigaction(SIGCHLD, &sa, NULL);
+    sigaction(SIGINT, &sa, NULL);
 }
