@@ -10,17 +10,17 @@
 #include "shell.h"
 #include "environment.h"
 
-static void exec_precmd_alias(shell_t *shell)
+void exec_special_alias(const char *key, shell_t *shell)
 {
-    const env_t *precmd = get_env_value(shell->aliases, "precmd");
+    const env_t *alias = get_env_value(shell->aliases, key);
 
-    if (precmd != NULL)
-        execute_line(precmd->value, shell);
+    if (alias != NULL)
+        execute_line(alias->value, shell);
 }
 
 void prompt(shell_t *shell)
 {
-    exec_precmd_alias(shell);
+    exec_special_alias("precmd", shell);
     if (isatty(0))
         printf("$> ");
 }

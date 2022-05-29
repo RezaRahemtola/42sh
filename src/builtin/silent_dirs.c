@@ -43,6 +43,7 @@ int change_dir_silently(shell_t *shell, const char *dir, const char *current)
     add_localvar(&shell->localenv, "cwd", path, false);
     add_variable(&shell->env, "OLDPWD", current);
     add_localvar(&shell->localenv, "owd", current, false);
+    exec_special_alias("cwdcmd", shell);
     free(path);
     return (0);
 }

@@ -43,6 +43,7 @@ int change_home_silently(shell_t *shell, const char *current)
     add_localvar(&shell->localenv, "cwd", home->value, false);
     add_variable(&shell->env, "OLDPWD", current);
     add_localvar(&shell->localenv, "owd", current, false);
+    exec_special_alias("cwdcmd", shell);
     return (0);
 }
 
