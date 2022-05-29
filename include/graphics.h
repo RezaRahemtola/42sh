@@ -18,7 +18,7 @@ typedef struct line {
 
 typedef void (*arrow_handler_t)(line_t *line, int *count, shell_t *shell);
 
-static const int BUFFER_SIZE = 16;
+static const int BUFFER_SIZE = 128;
 
 void init_graphics(shell_t *shell);
 
