@@ -30,22 +30,27 @@ static bool is_history_error(char *const *args, bool print)
     return (false);
 }
 
+static void display_nb_history(list_t *history, char *const *args)
+{
+    size_t nb = atoi(args[1]) == 0 ? 1 : atoi(args[1]);
+    history_t *elem = get_history(history, -nb);
+
+    for (; nb > 0 && elem != NULL; nb--) {
+        elem = get_history(history, -nb);
+        printf("    %ld  %s  %s\n", elem->index, elem->time, elem->command);
+    }
+}
+
 void builtin_history(shell_t *shell, char *const *args)
 {
     list_t *history = shell->history;
     history_t *elem = NULL;
     size_t size = my_arraylen(args);
-    size_t nb = 0;
 
     if (is_history_error(args, true))
         return;
     if (size == 2) {
-        nb = atoi(args[1]) == 0 ? 1 : atoi(args[1]);
-        for (; nb > 0 && history != NULL; nb--) {
-            elem = get_history(history, -nb);
-            printf("    %ld  %s  %s\n", elem->index, elem->time, elem->command);
-            history = history->next;
-        }
+        display_nb_history(history, args);
         return;
     }
     while (history != NULL) {
