@@ -39,6 +39,13 @@ typedef enum state {
     ABORTED
 } state_t;
 
+typedef struct job {
+    struct job *next;
+    char *command;
+    pid_t pid;
+    int nb_job;
+} job_t;
+
 typedef struct history {
     size_t index;
     char *command;
@@ -66,6 +73,8 @@ typedef struct shell {
     localenv_t *localenv;
     list_t *history;
     env_t *aliases;
+    int nb_job;
+    list_t *job;
 } shell_t;
 
 typedef struct command {
@@ -84,6 +93,7 @@ typedef struct command {
     char **args;
     struct command *prev;
     struct command *next;
+    bool job_check;
 } command_t;
 
 typedef bool redirection_checker_t(command_t *cmd, char *const *array,

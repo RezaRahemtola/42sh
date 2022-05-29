@@ -87,6 +87,8 @@ const char *separator)
 
 static void pipe_and_exec(command_t *cmd, shell_t *shell)
 {
+    for (command_t *tmp = cmd; tmp != NULL; tmp = tmp->next)
+        tmp->job_check = false;
     if (!check_logicals(cmd, shell))
         return;
     if (!check_redirections(cmd, shell) || !open_pipe_redirections(cmd))
