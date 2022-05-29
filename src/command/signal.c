@@ -9,15 +9,16 @@
 #include <stdio.h>
 #include "graphics.h"
 
-void handle_quit(__attribute__ ((unused)) int sig)
+static void handler(int sig)
 {
     char *prompt = get_prompt();
 
+    (void) sig;
     if (prompt)
         printf("\n%s", prompt);
 }
 
 void init_signals(void)
 {
-    signal(SIGINT, &handle_quit);
+    signal(SIGINT, &handler);
 }

@@ -15,7 +15,7 @@
 Test(input, empty)
 {
     const char *input = " \t\t  \n";
-    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     handle_input(input, &shell);
     cr_assert_eq(shell.ret, 0);
@@ -25,7 +25,7 @@ Test(input, command, .init=cr_redirect_stderr)
 {
     const char *input = "ls\n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, false, env, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, env, NULL, NULL, NULL, 0, NULL};
 
     cr_redirect_stdout();
     env->key = "PATH";
@@ -39,7 +39,7 @@ Test(input, builtin, .init=cr_redirect_stdout)
 {
     const char *input = "env\n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, false, env, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, env, NULL, NULL, NULL, 0, NULL};
 
     env->key = "PATH";
     env->value = "/bin";
@@ -51,7 +51,7 @@ Test(input, builtin, .init=cr_redirect_stdout)
 Test(input, folder, .init=cr_redirect_stderr)
 {
     const char *input = "/etc\n";
-    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     handle_input(input, &shell);
     cr_assert_stderr_eq_str("/etc: Permission denied.\n");
@@ -61,7 +61,7 @@ Test(input, no_path, .init=cr_redirect_stderr)
 {
     const char *input = "ls\n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     env->key = "PATH";
     env->value = "/";
@@ -72,7 +72,7 @@ Test(input, no_path, .init=cr_redirect_stderr)
 Test(input, not_found, .init=cr_redirect_stderr)
 {
     const char *input = "lsa\n";
-    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     handle_input(input, &shell);
     cr_assert_stderr_eq_str("lsa: Command not found.\n");
@@ -80,7 +80,7 @@ Test(input, not_found, .init=cr_redirect_stderr)
 
 Test(error, no_env)
 {
-    shell_t shell = {1, 0, false, NULL, NULL, NULL, NULL};
+    shell_t shell = {1, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     do_heartbeat(&shell, NULL);
     cr_assert_eq(shell.ret, 0);
@@ -96,7 +96,7 @@ Test(error, segmentation_fault, .init=cr_redirect_stderr)
 {
     const char *input = "./tests/samples/segfault_coredumped\n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     env->key = "PATH";
     env->value = "/bin";
@@ -108,7 +108,7 @@ Test(error, floating_exception, .init=cr_redirect_stderr)
 {
     const char *input = "./tests/samples/div_zero\n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     env->key = "PATH";
     env->value = "/bin";
@@ -120,19 +120,12 @@ Test(error, corrupted, .init=cr_redirect_stderr)
 {
     const char *input = "./tests/samples/corrupted\n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     env->key = "PATH";
     env->value = "/bin";
     handle_input(input, &shell);
     cr_assert_stderr_eq_str("./tests/samples/corrupted: Exec format error. Wrong Architecture.\n");
-}
-
-Test(signal, sigquit, .init=cr_redirect_stdout)
-{
-    setbuf(stdout, NULL);
-    handle_quit(SIGINT);
-    cr_assert_stdout_eq_str("\n$> ");
 }
 
 Test(environment, convert)
@@ -181,7 +174,7 @@ Test(directories, unexisting_file)
 Test(variables, home_tilde_not_set, .init=cr_redirect_stderr)
 {
     const char *input = "ls ~ ; echo something\n";
-    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     handle_input(input, &shell);
     cr_assert_stderr_eq_str("No $home variable set.\necho: Command not found.\n");
@@ -190,7 +183,7 @@ Test(variables, home_tilde_not_set, .init=cr_redirect_stderr)
 Test(variables, other_not_set, .init=cr_redirect_stderr)
 {
     const char *input = "echo $myvar ; echo something\n";
-    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, NULL, NULL, NULL, NULL, 0, NULL};
 
     handle_input(input, &shell);
     cr_assert_stderr_eq_str("myvar: Undefined variable.\n");
@@ -200,7 +193,7 @@ Test(variables, other_set_local, .init=cr_redirect_stdout)
 {
     const char *input = "echo $myvar ; echo something\n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, false, env, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, env, NULL, NULL, NULL, 0, NULL};
 
     env->key = "PATH";
     env->value = "/bin";
@@ -216,7 +209,7 @@ Test(variables, other_set_env, .init=cr_redirect_stdout)
 {
     const char *input = "echo $myvar ; echo something\n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, false, env, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, env, NULL, NULL, NULL, 0, NULL};
 
     env->key = "PATH";
     env->value = "/bin";
@@ -232,7 +225,7 @@ Test(variables, other_set_both, .init=cr_redirect_stdout)
 {
     const char *input = "echo $myvar ; echo something\n";
     env_t *env = malloc(sizeof(env_t));
-    shell_t shell = {0, 0, false, env, NULL, NULL, NULL};
+    shell_t shell = {0, 0, false, env, NULL, NULL, NULL, 0, NULL};
 
     env->key = "PATH";
     env->value = "/bin";

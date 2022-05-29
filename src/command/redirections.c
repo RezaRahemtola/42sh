@@ -74,7 +74,7 @@ const char *input)
 }
 
 void replace_args(command_t *command, const char *redir, const char *str,
-    const env_t *env)
+const env_t *env)
 {
     char *rep = get_redirect_argument_sum(str, redir, command->input);
 

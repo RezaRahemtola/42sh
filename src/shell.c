@@ -15,6 +15,7 @@
 #include "history.h"
 #include "messages.h"
 #include "shell.h"
+#include "jobs.h"
 
 static void init_shell(shell_t *shell, const char *const *env)
 {
@@ -34,6 +35,7 @@ static void terminate_shell(shell_t *shell)
         printf("exit\n");
     save_history(shell->history, shell->env);
     my_list_free(shell->history, free_history);
+    my_list_free(shell->job, free_pid);
     destroy_env(shell->aliases);
     destroy_env(shell->env);
     destroy_localenv(shell->localenv);
@@ -41,7 +43,7 @@ static void terminate_shell(shell_t *shell)
 
 int start_shell(const char *const *env)
 {
-    shell_t shell = {0, 0, isatty(0), NULL, NULL, NULL, NULL};
+    shell_t shell = {0, 0, isatty(0), NULL, NULL, NULL, NULL, 0, NULL};
 
     setbuf(stdout, NULL);
     setbuf(stderr, NULL);
@@ -87,6 +89,7 @@ void do_heartbeat(shell_t *shell, const char *const *env)
         nb_eof = (read_size == -1 ? nb_eof + 1 : 0);
         if (read_size == -1)
             handle_eof(shell, nb_eof);
+        my_list_remove(&shell->job, NULL, compare_pid, free_pid);
         if (read_size > 1) {
             replace_history(&line, shell);
             handle_input(line, shell);
