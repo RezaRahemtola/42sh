@@ -35,6 +35,15 @@
 </details>
 
 <details>
+  <summary>Job control</summary>
+  <br>
+  <ul>
+    <li><code>fg id</code> brings the specified job into the foreground, where <code>id</code> is the job ID</li>
+    <li><code>jobs</code> lists all jobs</li>
+  </ul>
+</details>
+
+<details>
   <summary>Line editing</summary>
   <br>
   <ul>
