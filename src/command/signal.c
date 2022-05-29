@@ -11,16 +11,11 @@
 
 static void handler(int sig)
 {
-    if (sig == SIGINT) {
-        printf("\n%s", get_prompt());
-    }
+    (void)sig;
+    printf("\n%s", get_prompt());
 }
 
 void init_signals(void)
 {
-    struct sigaction sa;
-
-    sigemptyset(&sa.sa_mask);
-    sa.sa_handler = handler;
-    sigaction(SIGINT, &sa, NULL);
+    signal(SIGINT, &handler);
 }
