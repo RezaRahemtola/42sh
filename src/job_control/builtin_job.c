@@ -8,7 +8,7 @@
 #include "types.h"
 #include <stdio.h>
 
-int silent_job(env_t **env, char *const *args, shell_t *shell)
+void silent_job(env_t **env, char *const *args, shell_t *shell)
 {
     job_t *job = shell->job;
 
@@ -17,3 +17,4 @@ int silent_job(env_t **env, char *const *args, shell_t *shell)
         job = job->next;
     }
 }
+
