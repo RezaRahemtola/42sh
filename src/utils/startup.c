@@ -11,7 +11,7 @@
 #include "environment.h"
 #include "shell.h"
 
-static void execute_line(char *line, shell_t *shell)
+void execute_line(const char *line, shell_t *shell)
 {
     char *fixed = NULL;
     size_t size = strlen(line);
@@ -40,7 +40,7 @@ static void execute_rc(FILE *file, shell_t *shell)
     free(line);
 }
 
-static FILE *load_rc_file(char const *home_path)
+static FILE *load_rc_file(const char *home_path)
 {
     size_t home_len = strlen(home_path);
     char *rc_path = malloc(sizeof(char) * (home_len + 9));

@@ -79,7 +79,7 @@ void do_heartbeat(shell_t *shell, const char *const *env)
 
     init_shell(shell, env);
     while (!shell->exit) {
-        display_prompt();
+        prompt(shell);
         read_size = getline(&line, &size, stdin);
         nb_eof = (read_size == -1 ? nb_eof + 1 : 0);
         if (read_size == -1)
