@@ -3,6 +3,23 @@
 ## Features
 
 <details>
+  <summary>Aliases</summary>
+  <br>
+  <p>Making up new commands as abbreviations for longer, more complex commands:</p>
+  <ul>
+    <li><code>alias</code> lists all aliases</li>
+    <li><code>alias name</code> displays the value of this alias</li>
+    <li><code>alias name [word_list]</code> sets <code>word_list</code> as the value for <code>name</code></li>
+    <li><code>unalias [name1, name2...]</code> remove the given aliases. <code>*</code> is supported.</li>
+  </ul>
+  <p>Special aliases supported:</p>
+  <ul>
+    <li><code>precmd</code> runs just before each prompt is printed</li>
+    <li><code>cwdcmd</code> runs after every change of working directory</li>
+  </ul>
+</details>
+
+<details>
   <summary>History</summary>
   <br>
   <p>Invoking previous commands using command history:</p>
