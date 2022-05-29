@@ -32,16 +32,18 @@ void handle_last_substitution(char **input, list_t *history)
 void handle_nb_substitution(char **input, char *current, list_t *history)
 {
     int nb = atoi(current);
-    char *cmd = get_history_command(history, nb);
+    const char *cmd = get_history_command(history, nb);
     char *pattern = NULL;
     char *new = NULL;
+    size_t len = 0;
 
     if (cmd == NULL) {
         fprintf(stderr, "%d: %s\n", nb, NO_EVENT);
         free(*input);
         *input = NULL;
     } else {
-        pattern = malloc(sizeof(char) * (my_nbrlen(nb) + 2));
+        len = snprintf(NULL, 0, "!%d", nb) + 1;
+        pattern = malloc(sizeof(char) * len);
         sprintf(pattern, "!%d", nb);
         new = my_strrep(*input, pattern, cmd);
         free(*input);
