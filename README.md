@@ -29,7 +29,7 @@
     <li><code>!-n</code> executes the command that was executed <code>n</code> commands ago</li>
     <li><code>!string</code> executes the most recently executed command that starts with <code>string</code></li>
     <li><code>!?string</code> executes the most recently executed command that contains <code>string</code></li>
-    <li><code>history</code> displays the previous commands with their index and time of execution (<code>hh:mm</code>)
+    <li><code>history [nb]</code> displays the previous commands (up to <code>nb</code> if specified) with their index and time of execution (<code>hh:mm</code>)</li>
   </ul>
   A <code>.42sh_history</code> file is also stored in the user's home folder to have a persistent history between sessions.
 </details>
@@ -51,6 +51,7 @@
     <li><code>euser</code> for the effective username</li>
     <li><code>gid</code> for the user's group id</li>
     <li><code>group</code> for the user's group name</li>
+    <li><code>history</code> explained below, set to <code>100</code> by default</li>
     <li><code>home</code> for the user's home directory</li>
     <li><code>owd</code> for the old working directory (will be updated when you change directory)</li>
     <li><code>uid</code> for the user id</li>
@@ -59,6 +60,7 @@
   <p>Special variables supported:</p>
   <ul>
     <li><code>ignoreeof</code> to disable EOF shell exit if set to <code>0</code> or empty. If set to a number <code>n</code>, the shell will exit on the nth consecutive EOF.</li>
+    <li><code>history</code> to set a limit of commands display by the builtin of the same name.</li>
   </ul>
 </details>
 
