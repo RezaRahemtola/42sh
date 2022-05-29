@@ -16,7 +16,7 @@ ssize_t get_line_content(char **line, size_t *size, shell_t *shell)
 {
     struct termios old;
     struct termios new;
-    char *prompt = get_prompt();
+    char *prompt;
 
     if (!shell->graphical)
         return getline(line, size, stdin);
@@ -24,6 +24,7 @@ ssize_t get_line_content(char **line, size_t *size, shell_t *shell)
     new = old;
     new.c_lflag &= ~(ICANON | ECHO);
     tcsetattr(STDIN_FILENO, TCSANOW, &new);
+    prompt = get_prompt();
     printf("%s", prompt);
     free(prompt);
     *line = get_user_input(shell);
