@@ -24,7 +24,7 @@ void init_graphics(shell_t *shell);
 
 ssize_t get_line_content(char **line, size_t *size, shell_t *shell);
 char *get_user_input(shell_t *shell);
-void handle_special_key(line_t *line, int *count, shell_t *shell);
+void handle_special_key(line_t *line, shell_t *shell);
 void move_cursor(int delta, line_t *line);
 void backspace(line_t *line);
 char *get_prompt(void);

@@ -62,17 +62,16 @@ void arrow_right(line_t *line, int *count, shell_t *shell)
     }
 }
 
-void handle_special_key(line_t *line, int *count, shell_t *shell)
+void handle_special_key(line_t *line, shell_t *shell)
 {
     int second = getchar();
     int third = 0;
+    int count = 0;
 
     if (second != 91)
         return;
     third = getchar();
-    for (int i = 0; i < 4; i++) {
-        if (third == 65 + i) {
-            ARROW_HANDLERS[i](line, count, shell);
-        }
-    }
+    for (int i = 0; i < 4; i++)
+        if (third == 65 + i)
+            ARROW_HANDLERS[i](line, &count, shell);
 }
