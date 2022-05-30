@@ -24,9 +24,8 @@ void exec_special_alias(const char *key, shell_t *shell)
 static char *allocate_prompt(const char *login, const char *hostname,
 const char *pwd)
 {
-    return malloc(sizeof(char) * (strlen("[@ ]$ ") +
-                                  strlen(login) + strlen(hostname) +
-                                  strlen(pwd) + 1));
+    return malloc(sizeof(char) * (strlen("[@ ]$ ") + strlen(login) +
+    strlen(hostname) + strlen(pwd) + 1));
 }
 
 static void destoy_prompt_elements(char *error_prompt, char *pwd)
