@@ -68,9 +68,8 @@ int silent_fg(shell_t *shell, char *const *args)
         nb_job = atoi(args[1]);
     while (shell->job != NULL) {
         job = shell->job->data;
-        if (nb_job == job->nb_job || nb_job == 0) {
+        if (nb_job == job->nb_job || nb_job == 0)
             return (wait_fg(job->pid));
-        }
         shell->job = shell->job->next;
     }
     fprintf(stderr, "fg: No such job.\n");

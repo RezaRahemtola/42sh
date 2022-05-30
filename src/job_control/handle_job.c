@@ -15,11 +15,10 @@
 bool job_command_case(char *str)
 {
     for (int i = 0; str[i] != '\0'; i++) {
-        if (str[i] == '&' && str[i + 1] != '&') {
+        if (str[i] == '&' && str[i + 1] != '&')
             return (true);
-        } else if (str[i] == '&' && str[i + 1] == '&') {
+        if (str[i] == '&' && str[i + 1] == '&')
             return (false);
-        }
     }
     return (false);
 }
