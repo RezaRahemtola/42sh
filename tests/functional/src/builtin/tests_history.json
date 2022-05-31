@@ -1,0 +1,12 @@
+{
+    "tests": [
+        {
+            "name": "! - no command without history",
+            "command": "! command"
+        },
+        {
+            "name": "! - no command with history",
+            "command": "ls \n ! ls"
+        }
+    ]
+}

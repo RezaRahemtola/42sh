@@ -5,6 +5,10 @@
             "command": "| grep test"
         },
         {
+            "name": "pipes - no right",
+            "command": "cat -e Makefile |"
+        },
+        {
             "name": "pipes - no commands",
             "command": "|"
         },

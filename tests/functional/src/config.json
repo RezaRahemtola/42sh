@@ -35,18 +35,6 @@
         {
             "name": "operators - Mixed &&, || and |",
             "command": "echo One && echo Two || echo Three | echo Four"
-        },
-        {
-            "name": "pipes - no right",
-            "command": "cat -e Makefile |"
-        },
-        {
-            "name": "! - no command without history",
-            "command": "! command"
-        },
-        {
-            "name": "! - no command with history",
-            "command": "ls \n ! ls"
         }
     ]
 }
