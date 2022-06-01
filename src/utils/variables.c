@@ -45,8 +45,7 @@ static bool replace_value(command_t *command, char *name, char *value, size_t i)
         my_free(2, name, value);
         return (false);
     }
-    strcpy(input, "$");
-    strcat(input, name);
+    sprintf(input, "$%s", name);
     replaced = my_strrep(command->args[i], input, value);
     if (replaced == NULL) {
         my_free(3, name, value, input);

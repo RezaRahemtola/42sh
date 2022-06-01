@@ -36,8 +36,7 @@ char *path)
 
     if (usr == NULL)
         return (false);
-    strcpy(usr, "~");
-    strcat(usr, user);
+    sprintf(usr, "~%s", user);
     replaced = my_strrep(command->args[i], usr, path);
     free(usr);
     replace_argument(command, i, replaced);
@@ -56,8 +55,7 @@ static bool replace_home_user(command_t *command, char *user, size_t i)
     path = malloc(sizeof(char) * (strlen(user) + 7));
     if (path == NULL)
         return (false);
-    strcpy(path, "/home/");
-    strcat(path, user);
+    sprintf(path, "/home/%s", user);
     out = replace_user_in_argument(command, i, user, path);
     free(path);
     return (out);
