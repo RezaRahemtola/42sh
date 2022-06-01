@@ -39,5 +39,5 @@ static const redirection_t REDIRECTIONS[5] = {
         { ">", &check_out_write },
         { "<<", &check_in_input },
         { "<", &check_in_file },
-        {0, 0}
+        {NULL, NULL}
 };

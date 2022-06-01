@@ -37,7 +37,7 @@ int silent_fg(shell_t *shell, char *const *args);
 
 bool is_builtin(const char *command);
 
-void replace_aliases(command_t *commands, env_t *aliases, env_t *env);
+void replace_aliases(command_t *commands, env_t *aliases, const env_t *env);
 void replace_variables(command_t *command, shell_t *shell);
 bool replace_home(command_t *command, shell_t *shell, size_t size);
 bool replace_var(command_t *command, shell_t *shell, size_t index, size_t i);
@@ -60,5 +60,5 @@ static const builtin_t BUILTIN[13] = {
         { "unalias", &builtin_unalias, &silent_unalias },
         { "jobs", &builtin_jobs, &silent_jobs },
         { "fg", &builtin_fg, &silent_fg },
-        { 0, 0, 0 }
+        { NULL, NULL, NULL }
 };

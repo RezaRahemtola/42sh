@@ -14,7 +14,7 @@
 #include "my_string.h"
 #include "my.h"
 
-static char *get_history_file_path(env_t *env)
+static char *get_history_file_path(const env_t *env)
 {
     char *path = NULL;
     const env_t *home = get_env_value(env, "HOME");
@@ -31,7 +31,7 @@ static char *get_history_file_path(env_t *env)
 static void add_loaded_elem(char **metadata, char *cmd, shell_t *shell)
 {
     history_t *elem = malloc(sizeof(history_t));
-    char *index = metadata[0];
+    const char *index = metadata[0];
     char *time = metadata[1];
 
     elem->index = atoi(index);
@@ -67,7 +67,7 @@ void load_history(shell_t *shell)
     my_free(2, line, path);
 }
 
-void save_history(list_t *history, env_t *env)
+void save_history(list_t *history, const env_t *env)
 {
     char *path = get_history_file_path(env);
     FILE *file = NULL;

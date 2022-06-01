@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-bool job_command_case(char *str)
+bool job_command_case(const char *str)
 {
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] == '&' && str[i + 1] != '&')
@@ -23,7 +23,7 @@ bool job_command_case(char *str)
     return (false);
 }
 
-job_t *add_new_job(job_t *command, char *input)
+job_t *add_new_job(job_t *command, const char *input)
 {
     job_t *tmp = NULL;
     job_t *new_elem = malloc(sizeof(job_t));
@@ -43,21 +43,20 @@ job_t *add_new_job(job_t *command, char *input)
     return (command);
 }
 
-list_t *add_job_pid(list_t *job, char *wanted, pid_t pid, int nb_job)
+list_t *add_job_pid(list_t *job, const char *wanted, pid_t pid, int nb_job)
 {
-    list_t *cp = job;
     job_t *tmp = NULL;
 
     if (job != NULL && job->data != NULL)
         tmp = job->data;
-    while (cp != NULL) {
-        tmp = cp->data;
+    while (job != NULL) {
+        tmp = job->data;
         if (!strcmp(wanted, tmp->command) && nb_job == tmp->nb_job) {
             tmp->pid = pid;
             printf("[%d] %d\n", tmp->nb_job, tmp->pid);
             return (job);
         }
-        cp = cp->next;
+        job = job->next;
     }
     return (job);
 }

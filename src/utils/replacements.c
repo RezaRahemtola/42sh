@@ -22,7 +22,7 @@ static env_t *get_alias(const char *command, env_t *aliases)
     return (NULL);
 }
 
-void replace_aliases(command_t *commands, env_t *aliases, env_t *env)
+void replace_aliases(command_t *commands, env_t *aliases, const env_t *env)
 {
     char *first = NULL;
     char *input = NULL;
