@@ -159,12 +159,12 @@ re:	fclean all
 debug_run:	fclean $(DEBUG_BINARY)
 			$(VG) ./$(DEBUG_BINARY) $(ARGS)
 
-tests_all:
+tests_run:
 			$(MAKE) func_tests
-			$(MAKE) tests_run
+			$(MAKE) unit_tests
 			$(MAKE) mem_checks
 
-tests_run:
+unit_tests:
 			@$(MAKE) clean_coverage > /dev/null
 			@$(MAKE) $(TEST_BINARY) > /dev/null
 			./$(TEST_BINARY)
