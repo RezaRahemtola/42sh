@@ -32,7 +32,8 @@ static char *return_value(const shell_t *shell)
     return (value);
 }
 
-static void replace_value(command_t *command, char *name, char *value, size_t i)
+static void replace_value(command_t *command, const char *name,
+const char *value, size_t index)
 {
     char *input = malloc(sizeof(char) * (strlen(value) + 3));
     char *replaced = NULL;
@@ -40,12 +41,12 @@ static void replace_value(command_t *command, char *name, char *value, size_t i)
     if (input == NULL)
         return;
     sprintf(input, "$?%s", name);
-    replaced = my_strrep(command->args[i], input, value);
+    replaced = my_strrep(command->args[index], input, value);
     if (replaced == NULL) {
         free(input);
         return;
     }
-    replace_argument(command, i, replaced);
+    replace_argument(command, index, replaced);
     free(input);
 }
 

@@ -14,7 +14,7 @@
 #include "messages.h"
 #include "my_string.h"
 
-static char *get_user(char *argument)
+static char *get_user(const char *argument)
 {
     size_t size = strlen(argument);
 
@@ -28,8 +28,8 @@ static char *get_user(char *argument)
     return (my_substr_size(argument, 1, size, size));
 }
 
-static bool replace_user_in_argument(command_t *command, size_t i, char *user,
-char *path)
+static bool replace_user_in_argument(command_t *command, size_t index,
+const char *user, const char *path)
 {
     char *usr = malloc(sizeof(char) * (strlen(user) + 2));
     char *replaced = NULL;
@@ -37,13 +37,13 @@ char *path)
     if (usr == NULL)
         return (false);
     sprintf(usr, "~%s", user);
-    replaced = my_strrep(command->args[i], usr, path);
+    replaced = my_strrep(command->args[index], usr, path);
     free(usr);
-    replace_argument(command, i, replaced);
+    replace_argument(command, index, replaced);
     return (true);
 }
 
-static bool replace_home_user(command_t *command, char *user, size_t i)
+static bool replace_home_user(command_t *command, const char *user, size_t i)
 {
     bool out = false;
     char *path = NULL;

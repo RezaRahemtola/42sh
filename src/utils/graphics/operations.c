@@ -44,7 +44,7 @@ void suppr(line_t *line)
     }
 }
 
-void set_line(line_t *line, char const *new_line)
+void set_line(line_t *line, const char *new_line)
 {
     int len = strlen(new_line);
 

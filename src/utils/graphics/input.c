@@ -43,7 +43,7 @@ static void reevaluate_size(line_t *line, line_t *buffer)
     }
 }
 
-static bool handle_key(line_t *line, line_t *buffer, shell_t *shell)
+static bool handle_key(line_t *line, line_t *buffer, int *count, shell_t *shell)
 {
     int key = buffer->size;
 
@@ -58,7 +58,7 @@ static bool handle_key(line_t *line, line_t *buffer, shell_t *shell)
         print_line(line);
     }
     if (key == 27)
-        handle_special_key(line, shell);
+        handle_special_key(line, count, shell);
     if (key >= 32 && key <= 126)
         insert_key(key, line, buffer);
     if (key == 127)
@@ -72,6 +72,7 @@ char *get_user_input(shell_t *shell)
     int pressed = 0;
     line_t line = { NULL, BUFFER_SIZE, 0, 0 };
     line_t buffer = { NULL, BUFFER_SIZE, 0, 0 };
+    int count = 0;
 
     line.str = malloc(sizeof(char) * BUFFER_SIZE);
     buffer.str = malloc(sizeof(char) * BUFFER_SIZE);
@@ -85,7 +86,7 @@ char *get_user_input(shell_t *shell)
             return (NULL);
         }
         buffer.size = pressed;
-        end = handle_key(&line, &buffer, shell);
+        end = handle_key(&line, &buffer, &count, shell);
     }
     free(buffer.str);
     return (line.str);
